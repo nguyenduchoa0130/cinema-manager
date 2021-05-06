@@ -1,0 +1,13 @@
+{
+  "name": "cinema-manager",
+  "description": "- 18600060 - Hoang Phuc Duy - 18600064 - Pham Minh Duy - 18600089 - Nguyen Minh Hieu - 18600092 - Nguyen Duc Hoa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
