@@ -11,7 +11,6 @@
 		"undo-migrate-prod": "npx sequelize-cli db:migrate:undo:all --env production",
 		"seed-prod": "npx sequelize-cli db:seed:all --env production",
 		"undo-seed-prod": "npx sequelize-cli db:seed:undo:all --env production",
-
 		"dev": "nodemon --inspect server",
 		"start": "node server"
 	},
@@ -19,6 +18,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"bcrypt": "^5.0.1",
 		"cookie-parser": "^1.4.5",
 		"dotenv": "^9.0.0",
 		"ejs": "^3.1.6",
