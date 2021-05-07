@@ -2,7 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
 const methodOverride = require('method-override');
+const ejsLayouts = require('express-ejs-layouts');
 const routes = require('./routes/index');
+const appMid = require('./middlewares/app.middleware');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,7 +13,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
 
-routes(app);
+app.set('view engine', 'ejs');
+app.set('views', './views');
+app.use(ejsLayouts);
+
+appMid.index(app);// Mount Middlewares
+routes(app);// Mount Routes
 
 app.listen(PORT, () => {
     console.log('Server is running at ' + PORT);
