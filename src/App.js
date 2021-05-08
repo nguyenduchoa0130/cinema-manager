@@ -9,6 +9,8 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
+import Home from './pages/Home';
+import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 class App extends Component {
@@ -40,6 +42,9 @@ render() {
               <MDBNavLink to="/signup">Sign Up</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
+              <MDBNavLink to="/profile">Profile</MDBNavLink>
+            </MDBNavItem>
+            <MDBNavItem>
               <MDBDropdown>
                 <MDBDropdownToggle nav caret>
                   <span className="mr-2">Dropdown</span>
@@ -65,11 +70,17 @@ render() {
         </MDBCollapse>
       </MDBNavbar>
       <Switch>
-        <Route exact path="/signin">
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/signin">
           <SignIn />
         </Route>
         <Route path="/signup">
           <SignUp />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </Router>
