@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 class ApplicationMiddleware {
     index(app) {
         app.use(this.setLocals);
@@ -8,7 +9,9 @@ class ApplicationMiddleware {
         next();
     }
     logger(req, res, next) {
-        console.log(`${req.method} - ${req.ip} - ${req.originalUrl}`);
+        console.log(
+            chalk.green(`${req.method} - ${req.ip} - ${req.originalUrl}`)
+        );
         next();
     }
 }
