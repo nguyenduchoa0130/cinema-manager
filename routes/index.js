@@ -1,5 +1,5 @@
-const apiRoutes = require('./api.route');
-const pageRoutes = require('./page.route');
+const pageRoutes = require('./page.routes');
+const apiRoutes = require('./api.routes');
 function routes(app) {
     app.use('/api/v1', apiRoutes);
     app.use('/', pageRoutes);
