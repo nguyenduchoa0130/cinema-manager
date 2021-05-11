@@ -1,13 +1,6 @@
-function Noti(isSuccess = true, status, msg, data = null) {
-    this.isSucess = isSuccess;
-    this.status = status;
+function Noti(isSuccess = true, msg, data = null) {
+    this.isSuccess = isSuccess;
     this.msg = msg;
     this.data = data;
 }
-module.exports = {
-    signals: {
-        SUCCESSFULL: 'Successful',
-        FAILED: 'Failed',
-    },
-    Noti,
-};
+module.exports = Noti;
