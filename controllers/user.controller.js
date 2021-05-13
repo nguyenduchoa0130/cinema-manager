@@ -1,4 +1,4 @@
-const { signals, Noti } = require('../config/notification');
+const { Noti } = require('../config/lib');
 const { User: UserModel } = require('../models/index').sequelize.models;
 class UserController {
     isIdValid(req, res, next) {
@@ -6,9 +6,7 @@ class UserController {
         if (id) {
             return next();
         } else {
-            res.status(400).json(
-                new Noti(false, signals.FAILED, 'Id is not valid', null)
-            );
+            return res.status(400).json(new Noti(false, 'Id is not valid', null));
         }
     }
     async fetchAll(req, res, next) {
@@ -19,15 +17,13 @@ class UserController {
                 },
             });
             if (users.length) {
-                res.status(200).json(
-                    new Noti(true, signals.SUCCESSFULL, 'Fetch successfully', {
+                return res.status(200).json(
+                    new Noti(true, 'Fetch successfully', {
                         users,
                     })
                 );
             } else {
-                res.status(200).json(
-                    new Noti(true, signals.SUCCESSFULL, 'No data', null)
-                );
+                return res.status(200).json(new Noti(true, 'No data', null));
             }
         } catch (err) {
             next(err);
@@ -42,18 +38,16 @@ class UserController {
                 },
             });
             if (user) {
-                res.status(200).json(
-                    new Noti(true, signals.SUCCESSFULL, 'Fetch successfully', {
+                return res.status(200).json(
+                    new Noti(true, 'Fetch successfully', {
                         user,
                     })
                 );
             } else {
-                res.status(200).json(
-                    new Noti(true, signals.SUCCESSFULL, 'No data', null)
-                );
+                return res.status(200).json(new Noti(true, 'No data', null));
             }
         } catch (err) {
-            next(err);
+            return next(err);
         }
     }
     async update(req, res, next) {
@@ -67,21 +61,14 @@ class UserController {
             let user = await UserModel.findByPk(id);
             if (user) {
                 await user.destroy();
-                res.status(200).json(
-                    new Noti(
-                        true,
-                        signals.SUCCESSFULL,
-                        'Delete successfully',
-                        null
-                    )
+                return res.status(200).json(
+                    new Noti(true, 'Delete successfully', null)
                 );
             } else {
-                res.status(400).json(
-                    new Noti(false, signals.FAILED, 'Delete failed', null)
-                );
+                return res.status(400).json(new Noti(false, "User isn't exists", null));
             }
         } catch (err) {
-            next(err);
+            return next(err);
         }
     }
 }
