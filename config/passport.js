@@ -5,18 +5,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, HTTPS } = process.env;
 function configPassport(passport) {
-    passport.serializeUser(function (user, done) {
-        done(null, user.id);
-    });
-
-    passport.deserializeUser(async function (id, done) {
-        let user = await UserModel.findByPk(id);
-        if (user) {
-            done(null, user);
-        } else {
-            done(null, null);
-        }
-    });
     passport.use(
         new LocalStrategy(
             {
@@ -29,17 +17,20 @@ function configPassport(passport) {
                         where: {
                             email,
                         },
+                        attributes: {
+                            exclude: ['refreshToken', 'createdAt', 'updatedAt'],
+                        },
                     });
                     if (
                         user &&
                         (await bcrypt.compare(password, user.password)) == true
                     ) {
-                        return done(null, user);
+                        return done(null, user); // success
                     } else {
-                        return done(null, false);
+                        return done(null, false); // error: user or password is incorrect
                     }
                 } catch (err) {
-                    return done(err);
+                    return done(err); // Server error
                 }
             }
         )
@@ -57,5 +48,21 @@ function configPassport(passport) {
             }
         )
     );
+    passport.serializeUser(function (user, done) {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(async function (id, done) {
+        let user = await UserModel.findByPk(id, {
+            attributes: {
+                exclude: ['password', 'refreshToken', 'createdAt', 'updatedAt'],
+            },
+        });
+        if (user) {
+            done(null, user);
+        } else {
+            done(null, null);
+        }
+    });
 }
 module.exports = configPassport;

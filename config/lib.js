@@ -4,11 +4,11 @@ function Noti(isSuccess = true, msg, data = null) {
     this.msg = msg;
     this.data = data;
 }
-function responseData(user) {
+function createDataResponse(user) {
     let accessToken = jwt.sign(
         {
             userId: user.id,
-            roleId: user.roleId,
+            isAdmin: user.roleId == 1,
         },
         process.env.ACCESS_TOKEN_SERCET || 'accessToken',
         {
@@ -18,7 +18,7 @@ function responseData(user) {
     let refreshToken = jwt.sign(
         {
             userId: user.id,
-            roleId: user.roleId,
+			isAdmin: user.roleId == 1,
         },
         process.env.REFRESH_TOKEN_SERCET || 'refreshToken',
         {
@@ -26,13 +26,23 @@ function responseData(user) {
         }
     );
     return {
+        userId: user.id,
         fullName: user.fullName,
         phone: user.phone,
+        isAdmin: user.roleId == 1,
         accessToken,
-		refreshToken
+        refreshToken,
     };
+}
+function ignoreColumns(...columns) {
+    return columns;
+}
+async function updateRefreshToken(user, refreshToken) {
+    user.refreshToken = refreshToken;
+    await user.save();
 }
 module.exports = {
     Noti,
-    responseData,
+    createDataResponse,
+    updateRefreshToken,
 };
