@@ -1,9 +1,8 @@
 const { User: UserModel, OTP: OTPModel } =
     require('../models/index').sequelize.models;
 const { send } = require('../config/nodemailer');
-const { Noti, responseData } = require('../config/lib');
+const lib = require('../config/lib');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 class AuthController {
     async handleSignIn(req, res, next) {
@@ -14,16 +13,22 @@ class AuthController {
                     isSuccess: false,
                     msg: 'Email or password is incorrect',
                 });
-
-            return res
-                .status(200)
-                .json(
-                    new Noti(true, 'Sign in successfully', responseData(user))
-                );
+            // Login thành công
+            req.login(user, async (err) => {
+                if (err) {
+                    return next(err);
+                }
+                let dataResponse = lib.createDataResponse(user);
+                await lib.updateRefreshToken(user, dataResponse.refreshToken);
+                return res
+                    .status(200)
+                    .json(
+                        new lib.Noti(true, 'Login successfully', dataResponse)
+                    );
+            });
         })(req, res, next); // important!
     }
     async handleSignUp(req, res, next) {
-		
         let data = req.body;
         try {
             let user = await UserModel.findOne({
@@ -32,7 +37,9 @@ class AuthController {
                 },
             });
             if (user) {
-                return res.json(new Noti(false, 'Account was exists', null));
+                return res
+                    .status(403)
+                    .json(new lib.Noti(false, 'Account was exists', null));
             } else {
                 let otp = await OTPModel.findOne({
                     where: {
@@ -40,21 +47,21 @@ class AuthController {
                     },
                 });
                 if (otp.code == data.code) {
+                    data.password = await bcrypt.hash(data.password, 10);
                     let exec = await Promise.all([
                         UserModel.create(data),
                         otp.destroy(),
                     ]);
-                    user = exec[0];
                     res.status(200).json(
-                        new Noti(
+                        new lib.Noti(
                             true,
-                            'Account successfully created',
-                            responseData(user)
+                            'Account was created successfully',
+                            exec[0]
                         )
                     );
                 } else {
                     return res.json(
-                        new Noti(
+                        new lib.Noti(
                             false,
                             'OTP is incorrect. Please check your mail again!',
                             null
@@ -67,17 +74,31 @@ class AuthController {
         }
     }
     async sendOTP(req, res, next) {
-        let otp = Math.floor(100000 + Math.random() * 900000);
+        let code = Math.floor(100000 + Math.random() * 900000);
         try {
-            let execute = Promise.all(
-                send(req.body.email, 'Verify Account', `OTP: ${otp}`),
-                OTPModel.create({
+            let otp = await OTPModel.findOne({
+                where: {
                     email: req.body.email,
-                    code: otp,
-                })
-            );
+                },
+            });
+            if (otp) {
+                otp.code = code;
+                await Promise.all([
+                    otp.save(),
+                    send(req.body.email, 'Verify Account', `OTP: ${code}`),
+                ]);
+            } else {
+                await Promise.all([
+                    OTPModel.create({ email: req.body.email, code }),
+                    send(req.body.email, 'Verify Account', `OTP: ${code}`),
+                ]);
+            }
             res.status(200).json(
-                new Noti(true, 'An email was sent to ' + req.body.email, null)
+                new lib.Noti(
+                    true,
+                    'An email was sent to ' + req.body.email,
+                    null
+                )
             );
         } catch (err) {
             next(err);
@@ -102,11 +123,7 @@ class AuthController {
             });
         })(req, res, next);
     }
-	async refreshToken(req, res, next) {
-
-	}
-	async handleSignOut(req, res, next) {
-		
-	}
+    async refreshToken(req, res, next) {}
+    async handleSignOut(req, res, next) {}
 }
 module.exports = new AuthController();
