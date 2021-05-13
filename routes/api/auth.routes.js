@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const authMid = require('../../middlewares/auth.middleware');
 const authCon = require('../../controllers/auth.controller');
+const passport = require('passport');
+const passportConfig = require('../../config/passport');
+passportConfig(passport);
 router.post('/signin', authCon.handleSignIn);
 router.post('/signup', authCon.handleSignUp);
+router.post('/otp', authCon.sendOTP);
 module.exports = router;
