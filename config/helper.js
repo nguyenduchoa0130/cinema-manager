@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const emailExistence = require('email-existence');
 function Noti(isSuccess = true, msg, data = null) {
     this.isSuccess = isSuccess;
     this.msg = msg;
@@ -12,17 +13,7 @@ function createDataResponse(user) {
         },
         process.env.ACCESS_TOKEN_SERCET || 'accessToken',
         {
-            expiresIn: '1h',
-        }
-    );
-    let refreshToken = jwt.sign(
-        {
-            userId: user.id,
-			isAdmin: user.roleId == 1,
-        },
-        process.env.REFRESH_TOKEN_SERCET || 'refreshToken',
-        {
-            expiresIn: '1 day',
+            expiresIn: '3h',
         }
     );
     return {
@@ -30,19 +21,26 @@ function createDataResponse(user) {
         fullName: user.fullName,
         phone: user.phone,
         isAdmin: user.roleId == 1,
+        isActive: user.isActive ? true : false,
         accessToken,
-        refreshToken,
     };
 }
 function ignoreColumns(...columns) {
     return columns;
 }
-async function updateRefreshToken(user, refreshToken) {
-    user.refreshToken = refreshToken;
-    await user.save();
+function isValidEmail(email) {
+    return new Promise((res, rej) => {
+        emailExistence.check(email, function (error, response) {
+            if (error) {
+                rej(err);
+            }
+            res(response);
+        });
+    });
 }
 module.exports = {
     Noti,
     createDataResponse,
-    updateRefreshToken,
+    ignoreColumns,
+    isValidEmail,
 };
