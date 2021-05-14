@@ -3,6 +3,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         static associate(models) {
+            this.hasOne(models.OTP, {
+                foreignKey: 'userId',
+            });
             this.belongsTo(models.Role, {
                 foreignKey: 'roleId',
             });
@@ -15,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             fullName: DataTypes.STRING,
             phone: DataTypes.STRING,
             roleId: DataTypes.INTEGER,
-            refreshToken: DataTypes.STRING,
+            isActive: DataTypes.BOOLEAN,
         },
         {
             sequelize,

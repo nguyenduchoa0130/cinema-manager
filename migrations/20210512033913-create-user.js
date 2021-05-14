@@ -41,10 +41,10 @@ module.exports = {
                     key: 'id',
                 },
             },
-            refreshToken: {
-                type: Sequelize.STRING,
-                defaultValue: null,
-            },
+			isActive: {
+				type: Sequelize.BOOLEAN, 
+				defaultValue: false, 
+			},
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

@@ -1,24 +1,23 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class OTP extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+    class OTP extends Model {
+        static associate(models) {
+            this.belongsTo(models.User, {
+                foreignKey: 'userId',
+            });
+        }
     }
-  };
-  OTP.init({
-    email: DataTypes.STRING,
-    code: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'OTP',
-  });
-  return OTP;
+    OTP.init(
+        {
+            email: DataTypes.STRING,
+            code: DataTypes.STRING,
+            userId: DataTypes.INTEGER,
+        },
+        {
+            sequelize,
+            modelName: 'OTP',
+        }
+    );
+    return OTP;
 };
