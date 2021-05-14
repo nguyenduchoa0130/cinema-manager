@@ -30,7 +30,9 @@ class UserController {
                     )
                 );
             } else {
-                return res.status(200).json(new Noti(true, 'Không có dữ liệu', null));
+                return res
+                    .status(200)
+                    .json(new Noti(true, 'Không có dữ liệu', null));
             }
         } catch (err) {
             next(err);
@@ -54,7 +56,9 @@ class UserController {
                     })
                 );
             } else {
-                return res.status(200).json(new Noti(true, 'Không có dữ liệu', null));
+                return res
+                    .status(200)
+                    .json(new Noti(true, 'Không có dữ liệu', null));
             }
         } catch (err) {
             return next(err);
@@ -77,7 +81,15 @@ class UserController {
     async delete(req, res, next) {
         let id = req.params.id;
         if (req.dataToken.userId == id) {
-            return res.status(403).json(new Noti(false, 'Không thể xóa tài khoản của chính mình', null));
+            return res
+                .status(403)
+                .json(
+                    new Noti(
+                        false,
+                        'Không thể xóa tài khoản của chính mình',
+                        null
+                    )
+                );
         }
         try {
             let user = await UserModel.findByPk(id);
@@ -89,7 +101,7 @@ class UserController {
             } else {
                 return res
                     .status(400)
-                    .json(new Noti(false, "Người dùng không tồn tại", null));
+                    .json(new Noti(false, 'Người dùng không tồn tại', null));
             }
         } catch (err) {
             return next(err);
