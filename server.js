@@ -14,7 +14,6 @@ const passport = require('passport');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
@@ -31,6 +30,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
+;
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(ejsLayouts);
