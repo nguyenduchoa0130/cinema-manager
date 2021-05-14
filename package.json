@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"migrate": "npx sequelize-cli db:migrate --env development && npx sequelize-cli db:seed:all --env development",
-		"undo": "npx sequelize-cli db:seed:undo:all --env development && npx sequelize-cli db:migrate:undo:all --env development",
+		"migrate": "npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+		"undo": "npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:migrate:undo:all",
 		"migrate-prod": "npx sequelize-cli db:migrate --env production",
 		"undo-migrate-prod": "npx sequelize-cli db:migrate:undo:all --env production",
 		"seed-prod": "npx sequelize-cli db:seed:all --env production",
