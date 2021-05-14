@@ -1,4 +1,4 @@
-const { Noti } = require('../config/lib');
+const { Noti } = require('../config/helper');
 const { User: UserModel } = require('../models/index').sequelize.models;
 const { Op } = require('sequelize');
 class UserController {
@@ -9,7 +9,7 @@ class UserController {
         } else {
             return res
                 .status(400)
-                .json(new Noti(false, 'Id is not valid', null));
+                .json(new Noti(false, 'id không hợp lệ!!!', null));
         }
     }
     async fetchAll(req, res, next) {
@@ -21,12 +21,16 @@ class UserController {
             });
             if (users.length) {
                 return res.status(200).json(
-                    new Noti(true, `Execute successfully`, {
-                        users,
-                    })
+                    new Noti(
+                        true,
+                        `Lấy dữ liệu thành công. Tìm thấy ${users.length} người dùng`,
+                        {
+                            users,
+                        }
+                    )
                 );
             } else {
-                return res.status(200).json(new Noti(true, 'No data', null));
+                return res.status(200).json(new Noti(true, 'Không có dữ liệu', null));
             }
         } catch (err) {
             next(err);
@@ -45,12 +49,12 @@ class UserController {
             });
             if (user) {
                 return res.status(200).json(
-                    new Noti(true, '1 result was found', {
+                    new Noti(true, 'Lấy dữ liệu thành công', {
                         user,
                     })
                 );
             } else {
-                return res.status(200).json(new Noti(true, 'No data', null));
+                return res.status(200).json(new Noti(true, 'Không có dữ liệu', null));
             }
         } catch (err) {
             return next(err);
@@ -65,7 +69,7 @@ class UserController {
                 user[prop] = data[prop];
             }
             await user.save();
-            res.status(200).json(new Noti(true, 'Update successfully', null));
+            res.status(200).json(new Noti(true, 'Cập nhật thành cống', null));
         } catch (err) {
             next(err);
         }
@@ -73,7 +77,7 @@ class UserController {
     async delete(req, res, next) {
         let id = req.params.id;
         if (req.dataToken.userId == id) {
-            return res.sendStatus(403);
+            return res.status(403).json(new Noti(false, 'Không thể xóa tài khoản của chính mình', null));
         }
         try {
             let user = await UserModel.findByPk(id);
@@ -81,11 +85,11 @@ class UserController {
                 await user.destroy();
                 return res
                     .status(200)
-                    .json(new Noti(true, 'Delete successfully', null));
+                    .json(new Noti(true, 'Xóa dữ liệu thành công', null));
             } else {
                 return res
                     .status(400)
-                    .json(new Noti(false, "User isn't exists", null));
+                    .json(new Noti(false, "Người dùng không tồn tại", null));
             }
         } catch (err) {
             return next(err);

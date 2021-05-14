@@ -1,7 +1,7 @@
 const { User: UserModel, OTP: OTPModel } =
     require('../models/index').sequelize.models;
 const { send } = require('../config/nodemailer');
-const lib = require('../config/lib');
+const helper = require('../config/helper');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 class AuthController {
@@ -11,95 +11,106 @@ class AuthController {
             if (!user)
                 return res.status(403).json({
                     isSuccess: false,
-                    msg: 'Email or password is incorrect',
+                    msg: 'Email hoặc mật khẩu không chính xác',
                 });
             // Login thành công
             req.login(user, async (err) => {
                 if (err) {
                     return next(err);
                 }
-                let dataResponse = lib.createDataResponse(user);
-                await lib.updateRefreshToken(user, dataResponse.refreshToken);
+                let dataResponse = helper.createDataResponse(user);
                 return res
                     .status(200)
                     .json(
-                        new lib.Noti(true, 'Login successfully', dataResponse)
+                        new helper.Noti(
+                            true,
+                            'Đăng nhập thành công',
+                            dataResponse
+                        )
                     );
             });
         })(req, res, next); // important!
     }
     async handleSignUp(req, res, next) {
-        let data = req.body;
         try {
-            let user = await UserModel.findOne({
-                where: {
-                    email: data.email,
-                },
-            });
-            if (user) {
-                return res
-                    .status(403)
-                    .json(new lib.Noti(false, 'Account was exists', null));
-            } else {
-                let otp = await OTPModel.findOne({
+            let data = req.body;
+            if (
+                await UserModel.findOne({
                     where: {
                         email: data.email,
                     },
-                });
-                if (otp.code == data.code) {
-                    data.password = await bcrypt.hash(data.password, 10);
-                    let exec = await Promise.all([
-                        UserModel.create(data),
-                        otp.destroy(),
-                    ]);
-                    res.status(200).json(
-                        new lib.Noti(
-                            true,
-                            'Account was created successfully',
-                            exec[0]
-                        )
-                    );
-                } else {
-                    return res.json(
-                        new lib.Noti(
-                            false,
-                            'OTP is incorrect. Please check your mail again!',
-                            null
-                        )
-                    );
-                }
+                })
+            ) {
+                res.status(403).json(
+                    new helper.Noti(false, 'Tài khoản đã tồn tại', null)
+                );
+            } else {
+                let user = await UserModel.create(data);
+                let code = Math.floor(100000 + Math.random() * 900000);
+                Promise.all([
+                    OTPModel.create({
+                        userId: user.id,
+                        email: data.email,
+                        code,
+                    }),
+                    send(
+                        data.email,
+                        'Kích Hoạt Tài Khoản',
+                        `Mã kích hoạt: ${code}`
+                    ),
+                ]);
+
+                res.status(200).json(
+                    new helper.Noti(
+                        true,
+                        'Đăng ký thành công, 1 email đã được gửi tới ' +
+                            data.email,
+                        {
+                            userId: user.id,
+                        }
+                    )
+                );
             }
         } catch (err) {
-            return next(err);
+            next(err);
         }
     }
     async sendOTP(req, res, next) {
-        let code = Math.floor(100000 + Math.random() * 900000);
         try {
             let otp = await OTPModel.findOne({
                 where: {
-                    email: req.body.email,
+                    userId: req.params.userId,
                 },
             });
             if (otp) {
+                let code = Math.floor(100000 + Math.random() * 900000);
                 otp.code = code;
-                await Promise.all([
+                Promise.all([
                     otp.save(),
-                    send(req.body.email, 'Verify Account', `OTP: ${code}`),
+                    send(
+                        otp.email,
+                        'Kích Hoạt Tài Khoản',
+                        `Mã kích hoạt của bạn là: ${code}`
+                    ),
                 ]);
+                return res
+                    .status(200)
+                    .json(
+                        new helper.Noti(
+                            true,
+                            'Một mã kích hoạt đã được gửi tới ' + otp.email,
+                            null
+                        )
+                    );
             } else {
-                await Promise.all([
-                    OTPModel.create({ email: req.body.email, code }),
-                    send(req.body.email, 'Verify Account', `OTP: ${code}`),
-                ]);
+                res.status(403).json(
+                    new helper.Noti(
+                        false,
+                        'Yêu cầu kích hoạt không hợp lệ',
+                        null
+                    )
+                );
             }
-            res.status(200).json(
-                new lib.Noti(
-                    true,
-                    'An email was sent to ' + req.body.email,
-                    null
-                )
-            );
         } catch (err) {
             next(err);
         }
@@ -123,7 +134,53 @@ class AuthController {
             });
         })(req, res, next);
     }
-    async refreshToken(req, res, next) {}
-    async handleSignOut(req, res, next) {}
+    async activeAccount(req, res, next) {
+        try {
+            let { userId, code } = req.body;
+            let otp = await OTPModel.findOne({
+                where: {
+                    userId,
+                },
+            });
+            if (!otp) {
+                return res
+                    .status(403)
+                    .json(new helper.Noti(false, 'Không có dữ liệu', null));
+            } else {
+                if (code == otp.code) {
+                    Promise.all([
+                        otp.destroy(),
+                        UserModel.update(
+                            { isActive: true },
+                            {
+                                where: {
+                                    id: userId,
+                                },
+                            }
+                        ),
+                    ]);
+                    res.status(200).json(
+                        new helper.Noti(
+                            true,
+                            'Kích hoạt tài khoản thành công. Vui lòng đăng nhập lại',
+                            null
+                        )
+                    );
+                } else {
+                    res.status(403).json(
+                        new helper.Noti(false, 'Mã kích hoạt không đúng', null)
+                    );
+                }
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+    async handleSignOut(req, res, next) {
+        req.logout();
+        res.status(200).json(
+            new helper.Noti(true, 'Đăng xuất thành công', null)
+        );
+    }
 }
 module.exports = new AuthController();
