@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const { User: UserModel } = require('../models/index').sequelize.models;
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, HTTPS } = process.env;
+// const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, HTTPS } = process.env;
 function configPassport(passport) {
     passport.use(
         new LocalStrategy(
@@ -35,19 +35,19 @@ function configPassport(passport) {
             }
         )
     );
-    passport.use(
-        new FacebookStrategy(
-            {
-                clientID: FACEBOOK_APP_ID,
-                clientSecret: FACEBOOK_APP_SECRET,
-                callbackURL: `${HTTPS}/auth/fb/cb`,
-                profileFields: ['id', 'displayName', 'photos', 'email'],
-            },
-            async function (accessToken, refreshToken, profile, cb) {
-                cb(null, profile);
-            }
-        )
-    );
+    // passport.use(
+    //     new FacebookStrategy(
+    //         {
+    //             clientID: FACEBOOK_APP_ID,
+    //             clientSecret: FACEBOOK_APP_SECRET,
+    //             callbackURL: `${HTTPS}/auth/fb/cb`,
+    //             profileFields: ['id', 'displayName', 'photos', 'email'],
+    //         },
+    //         async function (accessToken, refreshToken, profile, cb) {
+    //             cb(null, profile);
+    //         }
+    //     )
+    // );
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
