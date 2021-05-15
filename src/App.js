@@ -13,7 +13,9 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
-class App extends Component {
+import ForgotPassword from './pages/ForgotPassword';
+import ChangePassword from './pages/ChangePassword';
+import Activated from './pages/Activated';class App extends Component {
 state = {
   isOpen: false
 };
@@ -33,31 +35,33 @@ render() {
         <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
           <MDBNavbarNav left>
             <MDBNavItem active>
-              <MDBNavLink to="/">Home</MDBNavLink>
+              <MDBNavLink to="/">Trang chủ</MDBNavLink>
             </MDBNavItem>
+            
             <MDBNavItem>
-              <MDBNavLink to="/signin">Sign In</MDBNavLink>
+              <MDBNavLink to="/dang-nhap">Đăng nhập</MDBNavLink>
             </MDBNavItem>
+
             <MDBNavItem>
-              <MDBNavLink to="/signup">Sign Up</MDBNavLink>
+              <MDBNavLink to="/dang-ky">Đăng ký</MDBNavLink>
             </MDBNavItem>
+
             <MDBNavItem>
-              <MDBNavLink to="/profile">Profile</MDBNavLink>
+              <MDBNavLink to="/trang-ca-nhan">Thông tin cá nhân</MDBNavLink>
             </MDBNavItem>
+            
             <MDBNavItem>
-              <MDBDropdown>
-                <MDBDropdownToggle nav caret>
-                  <span className="mr-2">Dropdown</span>
-                </MDBDropdownToggle>
-                <MDBDropdownMenu>
-                  <MDBDropdownItem href="#!">Action</MDBDropdownItem>
-                  <MDBDropdownItem href="#!">Another Action</MDBDropdownItem>
-                  <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                  <MDBDropdownItem href="#!">Something else here</MDBDropdownItem>
-                </MDBDropdownMenu>
-              </MDBDropdown>
+              <MDBNavLink to="/quen-mat-khau">Quên mật khẩu</MDBNavLink>
             </MDBNavItem>
-          </MDBNavbarNav>
+
+            <MDBNavItem>
+              <MDBNavLink to="/doi-mat-khau">Đổi mật khẩu</MDBNavLink>
+            </MDBNavItem>
+            
+            <MDBNavItem>
+              <MDBNavLink to="/kich-hoat">OTP</MDBNavLink>
+            </MDBNavItem>
+           </MDBNavbarNav>
           <MDBNavbarNav right>
             <MDBNavItem>
               <MDBFormInline waves>
@@ -73,14 +77,23 @@ render() {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/signin">
+        <Route path="/dang-nhap">
           <SignIn />
         </Route>
-        <Route path="/signup">
+        <Route path="/dang-ky">
           <SignUp />
         </Route>
-        <Route path="/profile">
+        <Route path="/trang-ca-nhan">
           <Profile />
+        </Route>
+        <Route path="/quen-mat-khau">
+          <ForgotPassword />
+        </Route>
+        <Route path="/doi-mat-khau">
+          <ChangePassword />
+        </Route>
+        <Route path="/kich-hoat">
+          <Activated />
         </Route>
       </Switch>
     </Router>

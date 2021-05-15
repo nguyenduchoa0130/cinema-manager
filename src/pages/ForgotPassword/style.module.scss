@@ -6,33 +6,22 @@
 .wrapper_content {
     min-height: 100vh;
     position: relative;
-    // overflow: hidden;
+    overflow: hidden;
     background-color: #ffff;
     .wrapper_header {
+        width: 390px;
         max-width: 100%;
         margin: 15px auto;
         .wrapper_header_logo {
-            height: 60px;
-            display: block;
             margin: 0 auto;
+            display: block;
+            height: 60px;
         }
     }
     .wrapper_form {
         max-width: 450px;
         margin: 0 auto;
         padding: 5px 30px;
-        .list_group {
-            width: 100%;
-            li {
-                border: none;
-                background-color: #ffff;
-                padding: 0;
-                margin: 0 0 10px 0;
-                button {
-                    width: 100%;
-                }
-            }
-        }
     }
 }
 
