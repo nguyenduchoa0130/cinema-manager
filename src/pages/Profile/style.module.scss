@@ -1,12 +1,10 @@
 .wrapper_template {
-    overflow: hidden;
     min-height: 100vh;
 }
 
 .wrapper_content {
     position: relative;
     min-height: 80vh;
-    overflow: hidden;
     background-color: #ffffff;
     text-align: center;
     .avatar_box {

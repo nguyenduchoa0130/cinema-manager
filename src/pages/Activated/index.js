@@ -8,14 +8,17 @@ import {Link} from "react-router-dom";
 import OtpInput from "react-otp-input";
 
 class Activated extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-          otp : ''
-        }
-      }
-   
-    handleChange = otp => this.setState({ otp });
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //       otp : ''
+    //     }
+    //   }
+    state = { otp: '' };
+    handleChange = otp => {
+        this.setState({ otp });
+        console.log('this.state.otp :>> ', this.state.otp);
+    }
     
     render() {
         return (
@@ -23,7 +26,7 @@ class Activated extends React.Component {
                 <div className={styles.wrapper_content}>
                     <MDBContainer>
                         <MDBRow className={styles.row_full_screen}>
-                            <MDBCol md="6">
+                            <MDBCol md="6" >
                                 <div className={styles.shape}></div>
                                 <div className={styles.bg_img}>
                                 </div>
@@ -44,9 +47,9 @@ class Activated extends React.Component {
                                         <form>
                                             <div className={cx(styles.otp_group,"grey-text")}>
                                             <OtpInput
-                                                value={this.state.otp}
-                                                onChange={this.handleChange}
-                                                numInputs={6}
+                                                 value={this.state.otp}
+                                                 onChange={this.handleChange}
+                                                 numInputs={6}
                                             />
                                             </div>
                                             <div className="text-center">
