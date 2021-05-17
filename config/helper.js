@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const emailExistence = require('email-existence');
-function Noti(isSuccess = true, msg, data = null) {
+function CustomNotication(isSuccess = true, err = null, msg, data = null) {
     this.isSuccess = isSuccess;
+    this.error = err;
     this.msg = msg;
     this.data = data;
 }
@@ -10,6 +11,7 @@ function createDataResponse(user) {
         {
             userId: user.id,
             isAdmin: user.roleId == 1,
+            isActive: user.isActive ? true : false,
         },
         process.env.ACCESS_TOKEN_SERCET || 'accessToken',
         {
@@ -39,7 +41,7 @@ function isValidEmail(email) {
     });
 }
 module.exports = {
-    Noti,
+    CustomNotication,
     createDataResponse,
     ignoreColumns,
     isValidEmail,
