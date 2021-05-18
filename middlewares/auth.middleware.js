@@ -102,7 +102,7 @@ class AuthenticationMiddleware {
     }
     async isValidEmail(req, res, next) {
         let email = req.body.email;
-        let response = await isValidEmail(email);
+        let response = await helper.isValidEmail(email);
         if (response) {
             return next();
         } else {
