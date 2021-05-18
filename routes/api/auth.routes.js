@@ -14,5 +14,5 @@ router.post(
     authCon.handleSignUp
 );
 router.post('/active', authCon.activeAccount);
-router.delete('/signout', authMid.authenticate,  authCon.handleSignOut);
+router.delete('/signout', authMid.isSignedIn,  authCon.handleSignOut);
 module.exports = router;
