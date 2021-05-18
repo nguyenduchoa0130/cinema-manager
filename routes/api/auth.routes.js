@@ -9,7 +9,6 @@ router.post('/signin', authMid.isNotSignedIn, authCon.handleSignIn);
 router.post(
     '/signup',
     authMid.isNotSignedIn,
-    authMid.filterInfo,
     authMid.isValidEmail,
     authCon.handleSignUp
 );
