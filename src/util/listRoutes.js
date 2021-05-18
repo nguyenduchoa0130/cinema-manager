@@ -53,7 +53,7 @@ const listRouters = [
   },
   {
     id: 4,
-    path: "/lien-he",
+    path: "/dang-ky",
     component: Contact,
     authorized: false,
     breadcrumb: false,
