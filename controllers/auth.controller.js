@@ -1,8 +1,8 @@
 const { User: UserModel, OTP: OTPModel } =
     require('../models/index').sequelize.models;
 const { send } = require('../config/nodemailer');
-const { CustomNotication, createDataResponse } = require('../config/helper');
-const ERROR = require('../config/errorDescription');
+const helper = require('../config/helper');
+const errorType = require('../config/errorType');
 // const bcrypt = require('bcrypt');
 const passport = require('passport');
 class AuthController {
@@ -10,31 +10,24 @@ class AuthController {
         passport.authenticate('local', (err, user) => {
             if (err) return next(err);
             if (!user)
-                return res
-                    .status(403)
-                    .json(
-                        new CustomNotication(
-                            false,
-                            ERROR.NOT_VALID_INFO,
-                            'Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại'
-                        )
-                    );
+                return res.json(
+                    helper.error(
+                        errorType.INFO_NOT_VALID,
+                        'Email hoặc mật khẩu không chính xác'
+                    )
+                ); // Thông tin hoặc mật khẩu không chính xác
             // Login thành công
             req.login(user, async (err) => {
                 if (err) {
                     return next(err);
                 }
-                let dataResponse = createDataResponse(user);
-                return res
-                    .status(200)
-                    .json(
-                        new CustomNotication(
-                            true,
-                            null,
-                            'Đăng nhập thành công',
-                            dataResponse
-                        )
-                    );
+                let accessToken = helper.createAccessToken(user);
+                return res.status(200).json({
+                    userId: user.id,
+                    isAdmin: user.roleId == 1 ? true : false,
+                    isActive: user.isActive ? true : false,
+                    accessToken,
+                });
             });
         })(req, res, next); // important!
     }
@@ -48,12 +41,10 @@ class AuthController {
                     },
                 })
             ) {
-                res.status(403).json(
-                    new CustomNotication(
-                        false,
-                        ERROR.EXIST,
-                        'Tài khoản đã tồn tại',
-                        null
+                res.json(
+                    helper.error(
+                        errorType.INFO_WAS_EXISTS,
+                        'Tài khoản đã tồn tại. Vui lòng nhập nhập 1 email khác 1'
                     )
                 );
             } else {
@@ -73,15 +64,7 @@ class AuthController {
                 ]);
 
                 res.status(200).json(
-                    new CustomNotication(
-                        true,
-                        null,
-                        'Đăng ký thành công, 1 email đã được gửi tới ' +
-                            data.email,
-                        {
-                            userId: user.id,
-                        }
-                    )
+                    helper.success('Đăng Ký Thành Công', { userId: user.id })
                 );
             }
         } catch (err) {
@@ -109,20 +92,16 @@ class AuthController {
                 return res
                     .status(200)
                     .json(
-                        new CustomNotication(
-                            true,
-                            null,
+                        helper.success(
                             'Một mã kích hoạt đã được gửi tới ' + otp.email,
                             null
                         )
                     );
             } else {
-                res.status(403).json(
-                    new CustomNotication(
-                        false,
-                        ERROR.NOT_VALID_INFO,
-                        'Yêu cầu kích hoạt không hợp lệ',
-                        null
+                res.status(400).json(
+                    helper.error(
+                        errorType.BAD_REQ,
+                        'Không thể xử lý yêu cầu của bạn'
                     )
                 );
             }
@@ -158,16 +137,9 @@ class AuthController {
                 },
             });
             if (!otp) {
-                return res
-                    .status(403)
-                    .json(
-                        new CustomNotication(
-                            false,
-                            ERROR.NO_DATA,
-                            'Không có dữ liệu',
-                            null
-                        )
-                    );
+                return res.json(
+                    helper.error(errorType.BAD_REQ, 'Không có dữ liệu')
+                );
             } else {
                 if (code == otp.code) {
                     Promise.all([
@@ -182,20 +154,13 @@ class AuthController {
                         ),
                     ]);
                     res.status(200).json(
-                        new CustomNotication(
-                            true,
-                            null,
-                            'Kích hoạt tài khoản thành công. Vui lòng đăng nhập lại',
-                            null
-                        )
+                        helper.success('Đăng ký thành công', null)
                     );
                 } else {
                     res.status(403).json(
-                        new CustomNotication(
-                            false,
-                            ERROR.NOT_VALID_INFO,
-                            'Mã kích hoạt không đúng',
-                            null
+                        helper.error(
+                            errorType.INFO_NOT_VALID,
+                            'Mã OTP không đúng'
                         )
                     );
                 }
@@ -206,9 +171,7 @@ class AuthController {
     }
     async handleSignOut(req, res, next) {
         req.logout();
-        res.status(200).json(
-            new CustomNotication(true, null, 'Đăng xuất thành công', null)
-        );
+        res.status(200).json(helper.success('Đăng xuất thành công', null));
     }
 }
 module.exports = new AuthController();

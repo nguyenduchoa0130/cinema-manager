@@ -1,39 +1,25 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { CustomNotication, isValidEmail } = require('../config/helper');
-const ERROR = require('../config/errorDescription');
+const helper = require('../config/helper');
+const errorType = require('../config/errorType');
 const { User: UserModel } = require('../models/index').sequelize.models;
 class AuthenticationMiddleware {
     isNotSignedIn(req, res, next) {
         if (!req.isAuthenticated()) {
             return next();
         } else {
-            return res
-                .status(403)
-                .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.SIGNED_IN,
-                        'Người dùng đã đăng nhập!',
-                        null
-                    )
-                );
+            return res.json(
+                helper.error(errorType.BAD_REQ, 'Người dùng đã đăng nhập')
+            );
         }
     }
     isSignedIn(req, res, next) {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            return res
-                .status(403)
-                .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.NOT_SIGNED_IN,
-                        'Người dùng chưa đăng nhập',
-                        null
-                    )
-                );
+            return res.json(
+                helper.error(errorType.BAD_REQ, 'Người dùng chưa đăng nhập')
+            );
         }
     }
     isAdmin(req, res, next) {
@@ -43,11 +29,11 @@ class AuthenticationMiddleware {
             return res
                 .status(401)
                 .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.NOT_AUTHORIZATED,
-                        'Chức năng chỉ dành cho quản trị viên',
-                        null
+                    res.json(
+                        helper.error(
+                            errorType.NOT_AUTHORIZATION,
+                            'Chức năng chỉ dành cho quản trị viên'
+                        )
                     )
                 );
     }
@@ -58,11 +44,9 @@ class AuthenticationMiddleware {
             return res
                 .status(401)
                 .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.NOT_AUTHORIZATED,
-                        'Bạn không đủ quyền để thực hiện chức năng này',
-                        null
+                    helper.error(
+                        errorType.NOT_AUTHORIZATION,
+                        'Bạn không thể thực hiện chức năng này!'
                     )
                 );
     }
@@ -70,16 +54,12 @@ class AuthenticationMiddleware {
         try {
             let token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
-                return res
-                    .status(401)
-                    .json(
-                        new CustomNotication(
-                            false,
-                            ERROR.NOT_SIGNED_IN,
-                            'Bạn chưa đăng nhập',
-                            null
-                        )
-                    );
+                return res.json(
+                    helper.error(
+                        errorType.NOT_AUTHORIZATION,
+                        'Vui lòng đăng nhập để thực hiện chức năng'
+                    )
+                );
             }
             jwt.verify(
                 token,
@@ -87,28 +67,20 @@ class AuthenticationMiddleware {
                 (err, data) => {
                     if (err) {
                         if (err.name == 'JsonWebTokenError') {
-                            return res
-                                .status(401)
-                                .json(
-                                    new CustomNotication(
-                                        false,
-                                        ERROR.TOKEN_KHONG_HOP_LE,
-                                        'Token không hợp lệ!',
-                                        null
-                                    )
-                                );
+                            return res.json(
+                                helper.error(
+                                    errorType.NOT_AUTHORIZATION,
+                                    'Token không hợp lệ'
+                                )
+                            );
                         }
                         if (err.name == 'TokenExpiredError') {
-                            return res
-                                .status(403)
-                                .json(
-                                    new CustomNotication(
-                                        false,
-                                        ERROR.TOKEN_HET_HAN,
-                                        'Phiên đã hết hạn vui lòng đăng nhập',
-                                        null
-                                    )
-                                );
+                            return res.json(
+                                helper.error(
+                                    errorType.NOT_AUTHORIZATION,
+                                    'Token đã hết hạn. Vui lòng đăng nhập lại'
+                                )
+                            );
                         }
                     } else {
                         req.dataToken = data;
@@ -134,16 +106,9 @@ class AuthenticationMiddleware {
         if (response) {
             return next();
         } else {
-            return res
-                .status(403)
-                .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.EMAIL_NOT_VALID,
-                        'Email không hợp lệ',
-                        null
-                    )
-                );
+            return res.json(
+                helper.error(errorType.INFO_NOT_VALID, 'Email không hợp lê')
+            );
         }
     }
     async isExists(req, res, next) {
@@ -154,16 +119,12 @@ class AuthenticationMiddleware {
                 },
             });
             if (account) {
-                return res
-                    .status(403)
-                    .json(
-                        new CustomNotication(
-                            false,
-                            ERROR.EXIST,
-                            'Tài khoản dã tồn tại, vui lòng nhập 1 email khác!',
-                            null
-                        )
-                    );
+                return res.json(
+                    helper.error(
+                        errorType.INFO_WAS_EXISTS,
+                        'Email đã được sử dụng, vui lòng nhập email khác'
+                    )
+                );
             } else {
                 return next();
             }
@@ -175,32 +136,24 @@ class AuthenticationMiddleware {
         if (req.dataToken.isActive) {
             return next();
         } else {
-            return res
-                .status(403)
-                .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.NOT_ACTIVE,
-                        'Tài khoản của chưa được kích hoạt, vui lòng kích hoạt tài khoản',
-                        null
-                    )
-                );
+            return res.json(
+                helper.error(
+                    errorType.BAD_REQ,
+                    'Tài khoản chưa được kích hoạt, vui lòng kích hoạt tài khoản để tiếp tực thực hiện chức năng'
+                )
+            );
         }
     }
     async isNotActive(req, res, next) {
         if (!req.dataToken.isActive) {
             return next();
         } else {
-            return res
-                .status(400)
-                .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.ACTIVED,
-                        'Bạn đã kích hoạt tài khoản',
-                        null
-                    )
-                );
+            return res.json(
+                helper.error(
+                    errorType.BAD_REQ,
+                    'Tài khoản không thể  kích hoạt lại !'
+                )
+            );
         }
     }
 }

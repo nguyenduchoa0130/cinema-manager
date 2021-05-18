@@ -1,54 +1,38 @@
-const { CustomNotication } = require('../config/helper');
 const { User: UserModel } = require('../models/index').sequelize.models;
 const { Op } = require('sequelize');
-const ERROR = require('../config/errorDescription');
+const helper = require('../config/helper');
+const errorType = require('../config/errorType');
 class UserController {
     isIdValid(req, res, next) {
         let id = +req.params.id;
         if (id) {
             return next();
         } else {
-            return res
-                .status(400)
-                .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.ID_NOT_VALID,
-                        'ID người dùng không hợp lệ',
-                        null
-                    )
-                );
+            return res.json(
+                helper.error(
+                    errorType.INFO_NOT_VALID,
+                    'Id truyền vào không hợp lệ !'
+                )
+            );
         }
     }
     async fetchAll(req, res, next) {
         try {
             let users = await UserModel.findAll({
                 attributes: {
-                    exclude: ['refreshToken', 'createdAt', 'updatedAt'],
+                    exclude: helper.ignoreColumns(
+                        'refreshToken',
+                        'createdAt',
+                        'updatedAt'
+                    ),
                 },
             });
             if (users.length) {
-                return res.status(200).json(
-                    new CustomNotication(
-                        true,
-                        null,
-                        `Lấy dữ liệu thành công. Tìm thấy ${users.length} người dùng`,
-                        {
-                            users,
-                        }
-                    )
+                return res.json(
+                    helper.success('Lấy dữ liệu thành công', users)
                 );
             } else {
-                return res
-                    .status(200)
-                    .json(
-                        new CustomNotication(
-                            true,
-                            null,
-                            'Không có dữ liệu',
-                            null
-                        )
-                    );
+                return res.json(helper.success('Không có dữ liệu', null));
             }
         } catch (err) {
             next(err);
@@ -66,22 +50,13 @@ class UserController {
                 },
             });
             if (user) {
-                return res.status(200).json(
-                    new CustomNotication(true, null, 'Lấy dữ liệu thành công', {
-                        user,
-                    })
-                );
+                return res
+                    .status(200)
+                    .json(helper.success('Lấy dữ liệu thành công', user));
             } else {
                 return res
                     .status(200)
-                    .json(
-                        new CustomNotication(
-                            true,
-                            null,
-                            'Không có dữ liệu',
-                            null
-                        )
-                    );
+                    .json(helper.success('Không có dữ liệu', null));
             }
         } catch (err) {
             return next(err);
@@ -96,9 +71,7 @@ class UserController {
                 user[prop] = data[prop];
             }
             await user.save();
-            res.status(200).json(
-                new CustomNotication(true, null, 'Cập nhật thành cống', null)
-            );
+            res.status(200).json(helper.success('Cập nhập thành công', null));
         } catch (err) {
             next(err);
         }
@@ -109,11 +82,9 @@ class UserController {
             return res
                 .status(401)
                 .json(
-                    new CustomNotication(
-                        false,
-                        ERROR.NOT_AUTHORIZATED,
-                        'Không thể xóa tài khoản của chính mình',
-                        null
+                    helper.error(
+                        errorType.BAD_REQ,
+                        'Không thể xóa tài khoản của chính mình'
                     )
                 );
         }
@@ -123,25 +94,11 @@ class UserController {
                 await user.destroy();
                 return res
                     .status(200)
-                    .json(
-                        new CustomNotication(
-                            true,
-                            null,
-                            'Xóa dữ liệu thành công',
-                            null
-                        )
-                    );
+                    .json(helper.success('Xóa thành công', null));
             } else {
-                return res
-                    .status(400)
-                    .json(
-                        new CustomNotication(
-                            false,
-                            ERROR.NO_DATA,
-                            'Người dùng không tồn tại',
-                            null
-                        )
-                    );
+                return res.json(
+                    helper.success('Người dùng không tồn tại', null)
+                );
             }
         } catch (err) {
             return next(err);
