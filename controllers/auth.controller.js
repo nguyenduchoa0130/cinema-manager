@@ -3,7 +3,7 @@ const { User: UserModel, OTP: OTPModel } =
 const { send } = require('../config/nodemailer');
 const helper = require('../config/helper');
 const errorType = require('../config/errorType');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const passport = require('passport');
 class AuthController {
     async handleSignIn(req, res, next) {
@@ -34,6 +34,7 @@ class AuthController {
     async handleSignUp(req, res, next) {
         try {
             let data = req.body;
+			data.password = await bcrypt.hash(data.password, 10);
             if (
                 await UserModel.findOne({
                     where: {
