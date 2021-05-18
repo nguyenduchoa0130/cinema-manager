@@ -130,7 +130,8 @@ class AuthController {
     // }
     async activeAccount(req, res, next) {
         try {
-            let { userId, code } = req.body;
+			let userId = req.params.id;
+            let { code } = req.body;
             let otp = await OTPModel.findOne({
                 where: {
                     userId,
