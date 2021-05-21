@@ -21,10 +21,7 @@ function configPassport(passport) {
                             exclude: ['refreshToken', 'createdAt', 'updatedAt'],
                         },
                     });
-                    if (
-                        user &&
-                        (await bcrypt.compare(password, user.password)) == true
-                    ) {
+                    if (user && (await bcrypt.compare(password, user.password)) == true) {
                         return done(null, user); // success
                     } else {
                         return done(null, false); // error: user or password is incorrect
@@ -35,19 +32,6 @@ function configPassport(passport) {
             }
         )
     );
-    // passport.use(
-    //     new FacebookStrategy(
-    //         {
-    //             clientID: FACEBOOK_APP_ID,
-    //             clientSecret: FACEBOOK_APP_SECRET,
-    //             callbackURL: `${HTTPS}/auth/fb/cb`,
-    //             profileFields: ['id', 'displayName', 'photos', 'email'],
-    //         },
-    //         async function (accessToken, refreshToken, profile, cb) {
-    //             cb(null, profile);
-    //         }
-    //     )
-    // );
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });

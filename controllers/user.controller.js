@@ -2,6 +2,7 @@ const { User: UserModel } = require('../models/index').sequelize.models;
 const { Op } = require('sequelize');
 const helper = require('../config/helper');
 const errorType = require('../config/errorType');
+const bcrypt = require('bcrypt');
 class UserController {
     isIdValid(req, res, next) {
         let id = +req.params.id;
@@ -50,6 +51,9 @@ class UserController {
     async update(req, res, next) {
         let id = req.params.id;
         let data = req.body;
+        if ('password' in data) {
+            data.password = await bcrypt.hash(data.password, 10);
+        }
         try {
             let user = await UserModel.findByPk(id);
             for (let prop in data) {

@@ -9,7 +9,7 @@ class AuthController {
         passport.authenticate('local', (err, user) => {
             if (err) return next(err); // lỗi server
             if (!user) {
-                return next(helper.error(errorType.INFO_NOT_VALID, 'Email hoặc mật khẩu không chính xác'));
+                return next(helper.error(errorType.INFO_NOT_VALID, 'Email hoặc mật khẩu không chính xác', 404));
             }
             req.login(user, async (err) => {
                 if (err) {
@@ -72,31 +72,12 @@ class AuthController {
                 Promise.all([otp.save(), send(otp.email, 'Kích Hoạt Tài Khoản', `Mã kích hoạt của bạn là: ${code}`)]);
                 return res.status(200).json(helper.success('Một mã kích hoạt đã được gửi tới ' + otp.email, null));
             } else {
-                return next(helper.error(errorType.BAD_REQ, 'Không thể xử lý yêu cầu của bạn'));
+                return next(helper.error(errorType.BAD_REQ, 'Không thể xử lý yêu cầu của bạn', 400));
             }
         } catch (err) {
             return next(err);
         }
     }
-    // async handleFacebook(req, res, next) {
-    //     passport.authenticate('facebook');
-    // }
-    // async handleFacebookCallBack(req, res, next) {
-    //     passport.authenticate('facebook', (err, user, info) => {
-    //         if (err) {
-    //             return next(err);
-    //         }
-    //         if (!user) {
-    //             return res
-    //                 .status(403)
-    //                 .json(new CustomNotication(false, 'Login failed', null));
-    //         }
-    //         return res.status(200).json({
-    //             user,
-    //             info,
-    //         });
-    //     })(req, res, next);
-    // }
     async activeAccount(req, res, next) {
         try {
             let userId = req.params.id;
