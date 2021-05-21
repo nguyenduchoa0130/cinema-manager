@@ -34,12 +34,11 @@ class Helper {
             data,
         };
     }
-    error(type, msg) {
-        return {
-            isSuccess: false,
-            errorType: type,
-            msg,
-        };
+    error(errorType, msg, code = 200) {
+        let err = new Error(msg);
+        err.status = code;
+        err.type = errorType;
+        return err;
     }
 }
 module.exports = new Helper();

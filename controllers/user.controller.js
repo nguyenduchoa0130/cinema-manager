@@ -8,8 +8,9 @@ class UserController {
         if (id) {
             return next();
         } else {
-            return res.json(
+            next(
                 helper.error(
+                    400,
                     errorType.INFO_NOT_VALID,
                     'Id truyền vào không hợp lệ !'
                 )
@@ -79,14 +80,13 @@ class UserController {
     async delete(req, res, next) {
         let id = req.params.id;
         if (req.dataToken.userId == id) {
-            return res
-                .status(401)
-                .json(
-                    helper.error(
-                        errorType.BAD_REQ,
-                        'Không thể xóa tài khoản của chính mình'
-                    )
-                );
+            next(
+                helper.error(
+                    401,
+                    errorType.BAD_REQ,
+                    'Không thể xóa tài khoản của chính mình'
+                )
+            );
         }
         try {
             let user = await UserModel.findByPk(id);

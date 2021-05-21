@@ -8,8 +8,8 @@ class AuthenticationMiddleware {
         if (!req.isAuthenticated()) {
             return next();
         } else {
-            return res.json(
-                helper.error(errorType.BAD_REQ, 'Người dùng đã đăng nhập')
+            return next(
+                helper.error(400, errorType.BAD_REQ, 'Người dùng đã đăng nhập')
             );
         }
     }
@@ -17,8 +17,12 @@ class AuthenticationMiddleware {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            return res.json(
-                helper.error(errorType.BAD_REQ, 'Người dùng chưa đăng nhập')
+            return next(
+                helper.error(
+                    400,
+                    errorType.BAD_REQ,
+                    'Người dùng chưa đăng nhập'
+                )
             );
         }
     }
@@ -26,36 +30,32 @@ class AuthenticationMiddleware {
         if (req.dataToken.isAdmin) {
             return next();
         } else
-            return res
-                .status(401)
-                .json(
-                    res.json(
-                        helper.error(
-                            errorType.NOT_AUTHORIZATION,
-                            'Chức năng chỉ dành cho quản trị viên'
-                        )
-                    )
-                );
+            return next(
+                helper.error(
+                    errorType.NOT_AUTHORIZATION,
+                    'Chức năng chỉ dành cho quản trị viên'
+                )
+            );
     }
     isOwnerOrAdmin(req, res, next) {
         if (req.dataToken.userId == req.params.id || req.dataToken.isAdmin) {
             return next();
         } else
-            return res
-                .status(401)
-                .json(
-                    helper.error(
-                        errorType.NOT_AUTHORIZATION,
-                        'Bạn không thể thực hiện chức năng này!'
-                    )
-                );
+            return next(
+                helper.error(
+                    401,
+                    errorType.NOT_AUTHORIZATION,
+                    'Bạn không thể thực hiện chức năng này!'
+                )
+            );
     }
     authenticate(req, res, next) {
         try {
             let token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
-                return res.json(
+                return next(
                     helper.error(
+                        400,
                         errorType.NOT_AUTHORIZATION,
                         'Vui lòng đăng nhập để thực hiện chức năng'
                     )
@@ -67,16 +67,18 @@ class AuthenticationMiddleware {
                 (err, data) => {
                     if (err) {
                         if (err.name == 'JsonWebTokenError') {
-                            return res.json(
+                            return next(
                                 helper.error(
+                                    401,
                                     errorType.NOT_AUTHORIZATION,
                                     'Token không hợp lệ'
                                 )
                             );
                         }
                         if (err.name == 'TokenExpiredError') {
-                            return res.json(
+                            return next(
                                 helper.error(
+                                    401,
                                     errorType.NOT_AUTHORIZATION,
                                     'Token đã hết hạn. Vui lòng đăng nhập lại'
                                 )
@@ -106,8 +108,12 @@ class AuthenticationMiddleware {
         if (response) {
             return next();
         } else {
-            return res.json(
-                helper.error(errorType.INFO_NOT_VALID, 'Email không hợp lê')
+            return next(
+                helper.error(
+                    401,
+                    errorType.INFO_NOT_VALID,
+                    'Email không hợp lê'
+                )
             );
         }
     }
@@ -119,8 +125,9 @@ class AuthenticationMiddleware {
                 },
             });
             if (account) {
-                return res.json(
+                return next(
                     helper.error(
+                        400,
                         errorType.INFO_WAS_EXISTS,
                         'Email đã được sử dụng, vui lòng nhập email khác'
                     )
@@ -136,8 +143,9 @@ class AuthenticationMiddleware {
         if (req.dataToken.isActive) {
             return next();
         } else {
-            return res.json(
+            return next(
                 helper.error(
+                    400,
                     errorType.BAD_REQ,
                     'Tài khoản chưa được kích hoạt, vui lòng kích hoạt tài khoản để tiếp tực thực hiện chức năng'
                 )
@@ -148,8 +156,9 @@ class AuthenticationMiddleware {
         if (!req.dataToken.isActive) {
             return next();
         } else {
-            return res.json(
+            return next(
                 helper.error(
+                    400,
                     errorType.BAD_REQ,
                     'Tài khoản không thể  kích hoạt lại !'
                 )
