@@ -29,7 +29,7 @@ class ForgotPassword extends React.Component {
                                         </Link>
                                         
                                     </div>
-                                        <img class={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" />
+                                        <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" />
                                         <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Quên mật khẩu</h2>
                                     </div>
                                     <div className={styles.wrapper_form}>

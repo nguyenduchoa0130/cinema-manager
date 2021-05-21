@@ -1,22 +1,22 @@
-import React  from 'react';
+import React, { useState } from 'react';
 import OtpInput from 'react-otp-input';
 
-class OptInput extends React.Component{
+export default function OptInput() {
 
-  state = { otp: '' };
- 
-  handleChange = otp => this.setState({ otp });
- 
-  render() {
-    return (
-      <OtpInput
-        value={this.state.otp}
-        onChange={this.handleChange}
-        numInputs={6}
-        separator={<span>-</span>}
-      />
-    );
-  }
+  const [state, setState] = useState({ otp: '' })
+
+  const handleChange = otp => setState({ otp });
+
+
+  return (
+    <OtpInput
+      value={state.otp}
+      onChange={handleChange}
+      numInputs={6}
+      separator={<span>-</span>}
+    />
+  );
 }
+
 
 export default OptInput;
