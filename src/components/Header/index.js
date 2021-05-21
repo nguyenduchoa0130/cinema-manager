@@ -47,6 +47,10 @@ toggleCollapse = () => {
                 <MDBNavItem>
                   <MDBNavLink to="/kich-hoat">OTP</MDBNavLink>
                 </MDBNavItem>
+
+                <MDBNavItem>
+                  <MDBNavLink to="/admin">Admin</MDBNavLink>
+                </MDBNavItem>
                </MDBNavbarNav>
               <MDBNavbarNav right>
                 <MDBNavItem>
