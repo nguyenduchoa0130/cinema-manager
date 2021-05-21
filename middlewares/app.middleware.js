@@ -9,9 +9,7 @@ class ApplicationMiddleware {
         next();
     }
     logger(req, res, next) {
-        console.log(
-            chalk.green(`${req.method} - ${req.ip} - ${req.originalUrl}`)
-        );
+        console.log(chalk.green(`${req.method} - ${req.ip} - ${req.originalUrl}`));
         next();
     }
 }

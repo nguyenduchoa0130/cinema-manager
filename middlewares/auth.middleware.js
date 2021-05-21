@@ -8,99 +8,48 @@ class AuthenticationMiddleware {
         if (!req.isAuthenticated()) {
             return next();
         } else {
-            return next(
-                helper.error(400, errorType.BAD_REQ, 'Người dùng đã đăng nhập')
-            );
+            return next(helper.error(errorType.BAD_REQ, 'Người dùng đã đăng nhập'));
         }
     }
     isSignedIn(req, res, next) {
         if (req.isAuthenticated()) {
             return next();
         } else {
-            return next(
-                helper.error(
-                    400,
-                    errorType.BAD_REQ,
-                    'Người dùng chưa đăng nhập'
-                )
-            );
+            return next(helper.error(errorType.BAD_REQ, 'Người dùng chưa đăng nhập'));
         }
     }
     isAdmin(req, res, next) {
         if (req.dataToken.isAdmin) {
             return next();
-        } else
-            return next(
-                helper.error(
-                    errorType.NOT_AUTHORIZATION,
-                    'Chức năng chỉ dành cho quản trị viên'
-                )
-            );
+        } else return next(helper.error(errorType.NOT_AUTHORIZATION, 'Chức năng chỉ dành cho quản trị viên', 401));
     }
     isOwnerOrAdmin(req, res, next) {
         if (req.dataToken.userId == req.params.id || req.dataToken.isAdmin) {
             return next();
-        } else
-            return next(
-                helper.error(
-                    401,
-                    errorType.NOT_AUTHORIZATION,
-                    'Bạn không thể thực hiện chức năng này!'
-                )
-            );
+        } else return next(helper.error(errorType.NOT_AUTHORIZATION, 'Bạn không thể thực hiện chức năng này do không có quyền!', 401));
     }
     authenticate(req, res, next) {
         try {
             let token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
-                return next(
-                    helper.error(
-                        400,
-                        errorType.NOT_AUTHORIZATION,
-                        'Vui lòng đăng nhập để thực hiện chức năng'
-                    )
-                );
+                return next(helper.error(errorType.NOT_AUTHORIZATION, 'Không thể chức năng này vì không xác thực được người dùng'));
             }
-            jwt.verify(
-                token,
-                process.env.ACCESS_TOKEN_SERCET || 'accessToken',
-                (err, data) => {
-                    if (err) {
-                        if (err.name == 'JsonWebTokenError') {
-                            return next(
-                                helper.error(
-                                    401,
-                                    errorType.NOT_AUTHORIZATION,
-                                    'Token không hợp lệ'
-                                )
-                            );
-                        }
-                        if (err.name == 'TokenExpiredError') {
-                            return next(
-                                helper.error(
-                                    401,
-                                    errorType.NOT_AUTHORIZATION,
-                                    'Token đã hết hạn. Vui lòng đăng nhập lại'
-                                )
-                            );
-                        }
-                    } else {
-                        req.dataToken = data;
-                        return next();
+            jwt.verify(token, process.env.ACCESS_TOKEN_SERCET || 'accessToken', (err, data) => {
+                if (err) {
+                    if (err.name == 'JsonWebTokenError') {
+                        return next(helper.error(errorType.NOT_AUTHORIZATION, 'Token không hợp lệ', 401));
                     }
+                    if (err.name == 'TokenExpiredError') {
+                        return next(helper.error(errorType.NOT_AUTHORIZATION, 'Token đã hết hạn. Vui lòng đăng nhập lại', 401));
+                    }
+                } else {
+                    req.dataToken = data;
+                    return next();
                 }
-            );
+            });
         } catch (err) {
             return next(err);
         }
-    }
-    async filterInfo(req, res, next) {
-        let user = req.body;
-        for (let key in user) {
-            user[key] = user[key].trim();
-        }
-        user.password = await bcrypt.hash(user.password, 10);
-        return next();
     }
     async isValidEmail(req, res, next) {
         let email = req.body.email;
@@ -108,13 +57,7 @@ class AuthenticationMiddleware {
         if (response) {
             return next();
         } else {
-            return next(
-                helper.error(
-                    401,
-                    errorType.INFO_NOT_VALID,
-                    'Email không hợp lê'
-                )
-            );
+            return next(helper.error(errorType.INFO_NOT_VALID, 'Email không hợp lệ'));
         }
     }
     async isExists(req, res, next) {
@@ -125,13 +68,7 @@ class AuthenticationMiddleware {
                 },
             });
             if (account) {
-                return next(
-                    helper.error(
-                        400,
-                        errorType.INFO_WAS_EXISTS,
-                        'Email đã được sử dụng, vui lòng nhập email khác'
-                    )
-                );
+                return next(helper.error(errorType.INFO_WAS_EXISTS, 'Email đã được sử dụng, vui lòng nhập email khác'));
             } else {
                 return next();
             }
@@ -145,7 +82,6 @@ class AuthenticationMiddleware {
         } else {
             return next(
                 helper.error(
-                    400,
                     errorType.BAD_REQ,
                     'Tài khoản chưa được kích hoạt, vui lòng kích hoạt tài khoản để tiếp tực thực hiện chức năng'
                 )
@@ -156,13 +92,7 @@ class AuthenticationMiddleware {
         if (!req.dataToken.isActive) {
             return next();
         } else {
-            return next(
-                helper.error(
-                    400,
-                    errorType.BAD_REQ,
-                    'Tài khoản không thể  kích hoạt lại !'
-                )
-            );
+            return next(helper.error(errorType.BAD_REQ, 'Tài khoản không thể  kích hoạt lại !'));
         }
     }
 }

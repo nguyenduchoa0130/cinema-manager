@@ -53,12 +53,7 @@ class Category {
                 },
             });
             if (categories.length) {
-                return res.json(
-                    helper.error(
-                        errorType.INFO_WAS_EXISTS,
-                        'Danh mục phim đã tồn tại!'
-                    )
-                );
+                return res.json(helper.error(errorType.INFO_WAS_EXISTS, 'Danh mục phim đã tồn tại!'));
             } else {
                 await Categories.create({ name });
                 return res.json(helper.success('Tạo thành công', null));
@@ -71,21 +66,11 @@ class Category {
         try {
             let categoryId = +req.params.id;
             if (!categoryId) {
-                return res.json(
-                    helper.error(
-                        errorType.INFO_NOT_VALID,
-                        'ID truyền vào không hợp lệ'
-                    )
-                );
+                return res.json(helper.error(errorType.INFO_NOT_VALID, 'ID truyền vào không hợp lệ'));
             }
             let category = await CategoryModel.findByPk(categoryId);
             if (!category) {
-                return res.json(
-                    helper.error(
-                        errorType.BAD_REQ,
-                        'Danh mục phim không tồn tại'
-                    )
-                );
+                return res.json(helper.error(errorType.BAD_REQ, 'Danh mục phim không tồn tại'));
             } else {
                 category.name = req.body.name;
                 await category.save();
@@ -99,21 +84,10 @@ class Category {
         try {
             let categoryId = +req.params.id;
             if (!categoryId) {
-                return res.json(
-                    helper.error(
-                        errorType.INFO_NOT_VALID,
-                        'ID truyền vào không hợp lệ'
-                    )
-                );
+                return res.json(helper.error(errorType.INFO_NOT_VALID, 'ID truyền vào không hợp lệ'));
             }
-            let category = await CategoryModel.findByPk(categoryId);
             if (!category) {
-                return res.json(
-                    helper.error(
-                        errorType.BAD_REQ,
-                        'Danh mục phim không tồn tại'
-                    )
-                );
+                return res.json(helper.error(errorType.BAD_REQ, 'Danh mục phim không tồn tại'));
             } else {
                 await category.destroy();
                 res.json(helper.success('Xóa thành công', null));

@@ -8,30 +8,18 @@ class UserController {
         if (id) {
             return next();
         } else {
-            next(
-                helper.error(
-                    400,
-                    errorType.INFO_NOT_VALID,
-                    'Id truyền vào không hợp lệ !'
-                )
-            );
+            next(helper.error(errorType.INFO_NOT_VALID, 'Id truyền vào không hợp lệ !'));
         }
     }
     async fetchAll(req, res, next) {
         try {
             let users = await UserModel.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns(
-                        'refreshToken',
-                        'createdAt',
-                        'updatedAt'
-                    ),
+                    exclude: helper.ignoreColumns('refreshToken', 'createdAt', 'updatedAt'),
                 },
             });
             if (users.length) {
-                return res.json(
-                    helper.success('Lấy dữ liệu thành công', users)
-                );
+                return res.json(helper.success('Lấy dữ liệu thành công', users));
             } else {
                 return res.json(helper.success('Không có dữ liệu', null));
             }
@@ -51,13 +39,9 @@ class UserController {
                 },
             });
             if (user) {
-                return res
-                    .status(200)
-                    .json(helper.success('Lấy dữ liệu thành công', user));
+                return res.status(200).json(helper.success('Lấy dữ liệu thành công', user));
             } else {
-                return res
-                    .status(200)
-                    .json(helper.success('Không có dữ liệu', null));
+                return res.status(200).json(helper.success('Không có dữ liệu', null));
             }
         } catch (err) {
             return next(err);
@@ -80,25 +64,15 @@ class UserController {
     async delete(req, res, next) {
         let id = req.params.id;
         if (req.dataToken.userId == id) {
-            next(
-                helper.error(
-                    401,
-                    errorType.BAD_REQ,
-                    'Không thể xóa tài khoản của chính mình'
-                )
-            );
+            next(helper.error(errorType.BAD_REQ, 'Không thể xóa tài khoản của chính mình'));
         }
         try {
             let user = await UserModel.findByPk(id);
             if (user) {
                 await user.destroy();
-                return res
-                    .status(200)
-                    .json(helper.success('Xóa thành công', null));
+                return res.status(200).json(helper.success('Xóa thành công', null));
             } else {
-                return res.json(
-                    helper.success('Người dùng không tồn tại', null)
-                );
+                return res.json(helper.success('Người dùng không tồn tại', null));
             }
         } catch (err) {
             return next(err);

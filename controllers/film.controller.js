@@ -21,20 +21,14 @@ class Film {
         }
     }
     async fetchById(req, res, next) {
-		try {
-		
-		} catch (err) {
-			
-		}
-	}
+        try {
+        } catch (err) {}
+    }
     async fetchByName(res, res, next) {}
     add(req, res, next) {
-		try {
-			
-		} catch (err) {
-			
-		}
-	}
+        try {
+        } catch (err) {}
+    }
     update(req, res, next) {}
     delete(req, res, next) {}
 }

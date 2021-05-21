@@ -6,12 +6,9 @@ const passportConfig = require('../../config/passport');
 passportConfig(passport);
 router.get('/otp/:userId', authCon.sendOTP);
 router.post('/signin', authMid.isNotSignedIn, authCon.handleSignIn);
-router.post(
-    '/signup',
-    authMid.isNotSignedIn,
-    authMid.isValidEmail,
-    authCon.handleSignUp
-);
+router.post('/signup', authMid.isNotSignedIn, authMid.isValidEmail, authCon.handleSignUp);
+router.post('/forget', authCon.forget);
+router.put('/reset/:id', authMid.authenticate, authCon.reset);
 router.put('/active/:id', authCon.activeAccount);
-router.delete('/signout', authMid.isSignedIn,  authCon.handleSignOut);
+router.delete('/signout', authMid.isSignedIn, authCon.handleSignOut);
 module.exports = router;
