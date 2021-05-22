@@ -11,6 +11,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
 import Activated from './pages/Activated';
+import ActiveForgetPassword  from './pages/ActiveForgetPassword';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
@@ -51,6 +52,9 @@ class App extends Component {
           </Route>
           <Route path="/kich-hoat">
             <Activated />
+          </Route>
+          <Route path="/xac-nhan-otp">
+            <ActiveForgetPassword />
           </Route>
         </Switch>
       </Router>

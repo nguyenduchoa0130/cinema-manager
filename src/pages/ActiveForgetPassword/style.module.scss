@@ -1,0 +1,61 @@
+.wrapper_template {
+    min-height: 100vh;
+}
+
+.wrapper_content {
+    min-height: 100vh;
+    position: relative;
+    background-color: #ffff;
+    .wrapper_header {
+        max-width: 100%;
+        width: 390px;
+        margin: 15px auto;
+        .wrapper_header_logo {
+            margin: 0 auto;
+            display: block;
+            height: 60px;
+        }
+    }
+    .wrapper_form {
+        max-width: 450px;
+        margin: 0 auto;
+        padding: 5px 30px;
+        .otp_group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            input {
+                margin-right: 10px;
+                padding: 5px 20px;
+            }
+        }
+    }
+}
+
+.row_full_screen {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.shape {
+    // background-color: #ffff;
+    // height: 100%;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // z-index: 0;
+    // width: 50px;
+    // -webkit-clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+    // clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
+}
+
+.bg_img {
+    background: url(https://images.cdn1.stockunlimited.net/preview1300/cinema-background-with-movie-objects_1823387.jpg);
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: 50%;
+}

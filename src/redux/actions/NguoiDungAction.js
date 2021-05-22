@@ -20,8 +20,8 @@ export const dangNhapAction = (userLogin) => {
             history.push('/');
 
         } catch (error) {
-            alert(error.response.msg);
-            console.log('error', error);
+            alert(error.response.data.response.msg);
+            console.log('error', error.response.data.response.msg);
         }
     }
 }
@@ -74,6 +74,86 @@ export const kichHoatAction = (code, userId) => {
         } catch (error) {
 
             console.log('error', error.response.error);
+        }
+    }
+}
+
+export const layThongTinNguoiDung = (id) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/user/${id}`,
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                }
+            })
+            // console.log('result', result.data);
+            dispatch({
+                type: 'GET_THONG_TIN_USER',
+                thongTinNguoiDung: result.data
+            })
+
+        } catch (error) {
+            console.log('error', error);
+        }
+    }
+}
+
+export const quenMatKhau = (email) => {
+    return async dispatch => {
+        try {
+            let result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/auth/forget`,
+                method: 'POST',
+                data: email
+            })
+
+            localStorage.setItem(TOKEN, result.data.data.accessToken);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data.data))
+            history.push('/xac-nhan-otp')
+        } catch (error) {
+            console.log('error', error.response);
+        }
+    }
+}
+
+export const xacNhanOtp = (code, userId) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/active/' + userId,
+                method: 'PUT',
+                data: code
+            })
+            alert('Xác nhận OTP thành công!');
+            history.push('/doi-mat-khau');
+        } catch (error) {
+
+            console.log('error', error.response.error);
+        }
+    }
+}
+
+
+export const matKhauMoi = (new_password, userId) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/reset/' + userId,
+                method: 'PUT',
+                data: new_password,
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                }
+            })
+
+            alert('Đổi mật khẩu thành công!');
+            localStorage.removeItem(USERLOGIN);
+            localStorage.removeItem(TOKEN);
+            history.push('/dang-nhap');
+        } catch (error) {
+            console.log('error', error.response);
         }
     }
 }

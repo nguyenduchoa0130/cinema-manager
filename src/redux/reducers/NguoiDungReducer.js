@@ -7,7 +7,8 @@ if (localStorage.getItem(USERLOGIN)) {
 }
 
 const stateDefault = {
-    taiKhoan: taiKhoanNguoiDung
+    taiKhoan: taiKhoanNguoiDung,
+    thongTinNguoiDung: {}
 }
 
 export const NguoiDungReducer = (state = stateDefault, action) => {
@@ -16,6 +17,10 @@ export const NguoiDungReducer = (state = stateDefault, action) => {
             state.taiKhoan = action.userLogin;
             // console.log('taikhoan',state.taiKhoan);
             return { ...state };
+        }
+        case 'GET_THONG_TIN_USER': {
+            state.thongTinNguoiDung = action.thongTinNguoiDung
+            return { ...state }
         }
         default:
             return { ...state }
