@@ -1,15 +1,15 @@
 const { User: UserModel, OTP: OTPModel } = require('../models/index').sequelize.models;
 const { send } = require('../config/nodemailer');
 const helper = require('../config/helper');
-const errorType = require('../config/errorType');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const apiError = require('../errors/apiError');
 class AuthController {
     async handleSignIn(req, res, next) {
         passport.authenticate('local', (err, user) => {
             if (err) return next(err); // lỗi server
             if (!user) {
-                return next(helper.error(errorType.INFO_NOT_VALID, 'Email hoặc mật khẩu không chính xác', 404));
+                return next(apiError.forbidden('Email hoặc mật khẩu không chính xác'));
             }
             req.login(user, async (err) => {
                 if (err) {
@@ -38,7 +38,7 @@ class AuthController {
                 },
             });
             if (account) {
-                return next(helper.error(errorType.INFO_WAS_EXISTS, 'Email đã được sử dụng cho 1 tài khoản khác'));
+                return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
             } else {
                 let user = await UserModel.create(data);
                 let code = Math.floor(100000 + Math.random() * 900000);
@@ -51,9 +51,10 @@ class AuthController {
                     send(data.email, 'Kích Hoạt Tài Khoản', `Mã kích hoạt: ${code}`),
                 ]);
 
-                return res
-                    .status(200)
-                    .json(helper.success('Đăng Ký Thành Công. Một OTP đã được gứi tới email ' + data.email, { userId: user.id }));
+                return res.status(200).json({
+                    msg: 'Đăng Ký Thành Công. Một OTP đã được gứi tới email ' + data.email,
+                    userId: user.id,
+                });
             }
         } catch (err) {
             return next(err);
@@ -70,9 +71,11 @@ class AuthController {
                 let code = Math.floor(100000 + Math.random() * 900000);
                 otp.code = code;
                 Promise.all([otp.save(), send(otp.email, 'Kích Hoạt Tài Khoản', `Mã kích hoạt của bạn là: ${code}`)]);
-                return res.status(200).json(helper.success('Một mã kích hoạt đã được gửi tới ' + otp.email, null));
+                return res.status(200).json({
+                    msg: 'Một mã kích hoạt đã được gửi tới ' + otp.email,
+                });
             } else {
-                return next(helper.error(errorType.BAD_REQ, 'Không thể xử lý yêu cầu của bạn', 400));
+                return next(apiError.notFound('Không tìm thấy dữ liệu'));
             }
         } catch (err) {
             return next(err);
@@ -101,9 +104,11 @@ class AuthController {
                             }
                         ),
                     ]);
-                    res.status(200).json(helper.success('Xác nhận OTP thành công', null));
+                    res.status(200).json({
+                        msg: 'Xác nhận OTP thành công',
+                    });
                 } else {
-                    next(helper.error(errorType.INFO_NOT_VALID, 'Mã OTP không đúng!'));
+                    return next(apiError.forbidden('Mã OTP không đúng'));
                 }
             }
         } catch (err) {
@@ -112,7 +117,9 @@ class AuthController {
     }
     async handleSignOut(req, res, next) {
         req.logout();
-        res.status(200).json(helper.success('Đăng xuất thành công', null));
+        res.status(200).json({
+            msg: 'Đăng xuất thành công',
+        });
     }
     async forget(req, res, next) {
         try {
@@ -138,9 +145,13 @@ class AuthController {
                     ]);
                 }
                 let accessToken = helper.createAccessToken(account);
-                return res.json(helper.success(`1 email đã được gửi tới ${account.email}`, { userId: account.id, accessToken }));
+                return res.status(200).json({
+                    msg: `1 email đã được gửi tới ${account.email}`,
+                    userId: account.id,
+                    accessToken,
+                });
             } else {
-                return next(helper.error(errorType.INFO_NOT_VALID, 'Không tìm thấy tài khoản'));
+                return next(apiError.notFound('Không tìm thấy tài khoản'));
             }
         } catch (err) {
             next(err);
@@ -161,13 +172,11 @@ class AuthController {
                         },
                     }
                 );
-                if (row[0] == 0) {
-                    return next(helper.error(errorType.INFO_NOT_VALID, 'Người dùng không tồn tại'));
-                } else {
-                    return res.json(helper.success('Cập nhật mật khẩu thành công', null));
-                }
+                return res.json({
+                    msg: 'Cập nhật mật khẩu thành công',
+                });
             } else {
-                return res.json(helper.error(errorType.NOT_AUTHORIZATION, 'Bạn không đủ quyền để thực hiện chức năng này'));
+                return next(apiError.notAuthorized('Bạn không có quyền thực hiện chức năng này'));
             }
         } catch (err) {
             return next(err);
