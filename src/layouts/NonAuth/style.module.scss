@@ -1,0 +1,14 @@
+.wrapper {
+    background-color: #ededee;
+    min-height: 100vh;
+}
+
+.wrapper_content {
+    margin-left: 250px;
+    ol {
+        margin: 0;
+    }
+    @media (max-width: 1199.98px) {
+        margin-left: 0;
+    }
+}

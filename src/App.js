@@ -22,6 +22,7 @@ import MainAdmin from "./layouts/Admin";
 import Breadcrumb from "./components/Breadcrumb";
 import FilmManager from "./pages/FilmManager";
 import ShowtimeManager from "./pages/ShowtimeManager";
+import NonAuth from "./layouts/NonAuth";
 
 
 export const history = createBrowserHistory();
@@ -32,28 +33,27 @@ class App extends Component {
   render() {
     return (
       <Router history={history}>
-        <Header />
         <Switch>
           <Route exact path="/">
-            <Home />
+             <NonAuth children={<Home />}/>   
           </Route>
           <Route path="/dang-nhap">
-            <SignIn />
+            <NonAuth children={<SignIn />}/>   
           </Route>
           <Route path="/dang-ky">
-            <SignUp />
+            <NonAuth children={<SignUp />}/>   
           </Route>
           <Route path="/trang-ca-nhan">
-            <Profile />
+            <NonAuth children={<Profile />}/>   
           </Route>
           <Route path="/quen-mat-khau">
-            <ForgotPassword />
+            <NonAuth children={<ForgotPassword />}/>   
           </Route>
           <Route path="/doi-mat-khau">
-            <ChangePassword />
+            <NonAuth children={<ChangePassword />}/>   
           </Route>
           <Route path="/kich-hoat">
-            <Activated />
+            <NonAuth children={<Activated />}/>   
           </Route>
           <Route path='/admin/:path?' exact>
             <MainAdmin>
