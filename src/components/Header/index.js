@@ -27,8 +27,6 @@ export default function Header() {
           <MDBNavItem active>
             <MDBNavLink to="/">Trang chủ</MDBNavLink>
           </MDBNavItem>
-
-
           <MDBNavItem>
             <MDBNavLink to="/dang-nhap">Đăng nhập</MDBNavLink>
           </MDBNavItem>
@@ -58,6 +56,10 @@ export default function Header() {
 
           <MDBNavItem>
             <MDBNavLink to="/kich-hoat">OTP</MDBNavLink>
+          </MDBNavItem>
+
+          <MDBNavItem>
+            <MDBNavLink to="/admin">Admin</MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
