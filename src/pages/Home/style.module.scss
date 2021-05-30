@@ -1,12 +1,10 @@
 .wrapper_template {
-    overflow: hidden;
     min-height: 100vh;
 }
 
 .wrapper_content {
     min-height: 100vh;
     position: relative;
-    overflow: hidden;
     background-color: #f1eff2;
     .wrapper_header {
         margin: 15px auto;
