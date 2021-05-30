@@ -1,8 +1,21 @@
-import { MDBBtn, MDBCol, MDBContainer, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow } from 'mdbreact';
-import React, { useState } from 'react';
+import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
+import React, { useState,useMemo} from 'react';
 import ReactDOM from 'react-dom';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import styles from './style.module.scss';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import Title from '../../../components/Tittle';
+import countryList from '~/util/constants/countryList';
 
-const AddFilmModal = ({ isShowing, hide }) => {
+
+const EditFilm = () => {
+
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  );
 
   const [info, setInfo] = useState(
     {
@@ -10,24 +23,35 @@ const AddFilmModal = ({ isShowing, hide }) => {
       country: "",
       releaseYear: "",
       duration: "",
-      director: "",
       actors: "",
       category: -1,
+      director: "",
+      thumbnail: null,
+      desc:"",
+      poster: null
     }
   );
 
+  const handleImageChange = (event) => {
+    setInfo(prevState => {
+      return { ...prevState, [event.target.name]: event.target.files[0] }
+    });
+  }
+
   const changeHandler = event => {
-    setInfo({ [event.target.name]: event.target.value });
+    setInfo({ ...info, [event.target.name]: event.target.value });
+    console.log('info ', info);
   };
 
 
-  return (isShowing ? ReactDOM.createPortal(
+  return (
     <React.Fragment>
-      <MDBModal size="lg" isOpen={isShowing} toggle={hide}>
-        <MDBModalHeader toggle={hide}>Thêm phim</MDBModalHeader>
-        <MDBModalBody>
+
+      <Title text={"Cập nhật thông tin phim"} />
+      <MDBCard className = "py-3">
+        <MDBCardBody>
           <MDBContainer>
-            <form>
+            <form action="/abc">
               <MDBRow className="mb-3">
                 <MDBCol md="2" className="mb-3">
                   <label
@@ -60,7 +84,7 @@ const AddFilmModal = ({ isShowing, hide }) => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                  <input
+                  {/* <input
                     value={info.country}
                     name="country"
                     onChange={changeHandler}
@@ -69,7 +93,17 @@ const AddFilmModal = ({ isShowing, hide }) => {
                     className="form-control"
                     placeholder="Quốc gia"
                     required
-                  />
+                  /> */}
+
+                  <select value={info.country}
+                    name="country"
+                    onChange={changeHandler}
+                    className="browser-default custom-select">
+                    <option>Chọn quốc gia</option>
+                    {countryList.map(country=>{
+                      return  <option value="country">{country}</option>
+                    })}
+                  </select>
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -178,7 +212,26 @@ const AddFilmModal = ({ isShowing, hide }) => {
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Mô tả
+                  </label>
+                </MDBCol>
+                <MDBCol md="10" >
+                  <div className="border">
+                    <Editor
+                      editorState={editorState}
+                      wrapperClassName="demo-wrapper"
+                      editorClassName="px-3"
+                      onEditorStateChange={setEditorState}
+                    />
+
+                  </div>
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2" >
+                  <label
                     className="grey-text"
                   >
                     Thumbnail
@@ -186,21 +239,16 @@ const AddFilmModal = ({ isShowing, hide }) => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="inputGroupFileAddon01">
-                      Thumbnail
-    </span>
-                    </div>
                     <div className="custom-file">
                       <input
                         type="file"
                         className="custom-file-input"
-                        id="inputGroupFile01"
-                        aria-describedby="inputGroupFileAddon01"
+                        onChange={handleImageChange}
+                        name="thumbnail"
                       />
-                      <label className="custom-file-label" htmlFor="inputGroupFile01">
-                        Choose file
-    </label>
+                      <label className="custom-file-label" >
+                        {info.thumbnail ? info.thumbnail.name : "Chọn ảnh thumbnail"}
+                      </label>
                     </div>
                   </div>
                 </MDBCol>
@@ -208,47 +256,43 @@ const AddFilmModal = ({ isShowing, hide }) => {
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
                     Poster
                   </label>
                 </MDBCol>
-                <MDBCol md="10" >
+                <MDBCol md="10">
                   <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="inputGroupFileAddon01">
-                      Poster
-                      </span>
-                    </div>
+
                     <div className="custom-file">
                       <input
                         type="file"
                         className="custom-file-input"
-                        id="inputGroupFile01"
-                        aria-describedby="inputGroupFileAddon01"
+                        onChange={handleImageChange}
+                        name="poster"
                       />
-                      <label className="custom-file-label" htmlFor="inputGroupFile01">
-                        Choose file
-    </label>
+                      <label className="custom-file-label" >
+                        {info.poster ? info.poster.name : "Chọn ảnh poster"}
+                      </label>
                     </div>
                   </div>
                 </MDBCol>
               </MDBRow>
-              <hr/>
+
+              <hr />
               <MDBRow className="justify-content-center">
-                
+
                 <MDBBtn color="primary" type="submit" >
-                Submit Form
+                  Submit Form
               </MDBBtn>
               </MDBRow>
-              
-            </form>
-          </MDBContainer>
-        </MDBModalBody >
 
-      </MDBModal >
-    </React.Fragment >, document.body
-  ) : null)
+            </form>
+            <a onClick={() => { console.log('editorState :>> ', draftToHtml(convertToRaw(editorState.getCurrentContent()))) }} className="btn btn-primary">Test lấy value trong editor</a>
+          </MDBContainer>
+        </MDBCardBody>
+      </MDBCard>
+    </React.Fragment>
+  )
 }
-export default AddFilmModal;
+export default EditFilm;

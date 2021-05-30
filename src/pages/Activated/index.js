@@ -10,7 +10,6 @@ import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
 import { kichHoatAction } from "../../redux/actions/NguoiDungAction";
-// import OtpInput from "react-otp-input";
 
 export default function Activated() {
     const dispatch = useDispatch();

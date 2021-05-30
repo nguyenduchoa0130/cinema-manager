@@ -15,5 +15,9 @@ tr {
             display: flex;
             flex-direction: column;
         }
+        button {
+            padding: .3rem .3rem .3rem .3rem !important;
+            width: 90%;
+        }
     }
 }

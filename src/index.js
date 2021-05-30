@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -6,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux'
 import store from './redux/configStore';
+import { MDBSideNavCat, MDBSideNavNav, MDBSideNav, MDBSideNavLink, MDBContainer, MDBIcon, MDBBtn } from "mdbreact";
 
 ReactDOM.render(
   <Provider store={store}>

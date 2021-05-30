@@ -5,9 +5,6 @@ import SideNav from '~/components/SideNav'
 
 
 export default ({ children }) => {
-
-    console.log('render Main Admin')
-
     return (
         <MDBContainer fluid className={styles.wrapper}>
             <MDBRow >

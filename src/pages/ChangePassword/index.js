@@ -5,9 +5,8 @@ import styles from "./style.module.scss";
 import cx from 'classnames';
 import { render } from "@testing-library/react";
 import {Link} from "react-router-dom";
-import otp from "react-otp-input";
 
-class OtpInput extends React.Component {
+class ChangePassword extends React.Component {
     render() {
         return (
             <div className={styles.wrapper_template}>
@@ -56,4 +55,4 @@ class OtpInput extends React.Component {
     };
 }
 
-export default OtpInput;
+export default ChangePassword;

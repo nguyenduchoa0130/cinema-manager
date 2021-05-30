@@ -20,9 +20,11 @@ import ChangePassword from './pages/ChangePassword';
 import Header from './components/Header';
 import MainAdmin from "./layouts/Admin";
 import Breadcrumb from "./components/Breadcrumb";
-import FilmManager from "./pages/FilmManager";
+import FilmManager from "./pages/Film/FilmManager";
 import ShowtimeManager from "./pages/ShowtimeManager";
 import NonAuth from "./layouts/NonAuth";
+import AddFilm from "./pages/Film/AddFilm";
+import EditFilm from "./pages/Film/EditFilm";
 
 
 export const history = createBrowserHistory();
@@ -59,8 +61,10 @@ class App extends Component {
             <MainAdmin>
               <Switch>
                 <Route path='/admin' exact component={Breadcrumb}/>
-                <Route path='/admin/danh-sach-phim' exact component={FilmManager} />
-                <Route path='/admin/quan-ly-suat-chieu' exact component={ShowtimeManager} />
+                <Route path='/admin/danh-sach-phim'  component={FilmManager} />
+                <Route path='/admin/quan-ly-suat-chieu'  component={ShowtimeManager} />
+                <Route path='/admin/them-phim'  component={AddFilm} />
+                <Route path='/admin/cap-nhat-phim'  component={EditFilm} />
               </Switch>
             </MainAdmin>
           </Route>

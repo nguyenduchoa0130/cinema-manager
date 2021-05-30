@@ -5,7 +5,6 @@ import styles from "./style.module.scss";
 import cx from 'classnames';
 import { render } from "@testing-library/react";
 import {Link} from "react-router-dom";
-import OtpInput from "react-otp-input";
 
 class ForgotPassword extends React.Component {
     render() {
