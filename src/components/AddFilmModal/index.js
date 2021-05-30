@@ -15,7 +15,6 @@ const AddFilmModal = ({ isShowing, hide }) => {
       category: -1,
     }
   );
-
   const changeHandler = event => {
     setInfo({ [event.target.name]: event.target.value });
   };

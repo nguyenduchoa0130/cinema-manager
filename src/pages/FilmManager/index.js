@@ -2,8 +2,8 @@ import React, { Fragment, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import Title from "../../components/Tittle";
 import { data } from "../../util/dataTemplate";
-// import AddFilmModal from "../../components/AddFilmModal";
-import AddFilmModal from "~/components/AddFilmModal";
+import AddFilmModal from "../../components/AddFilmModal";
+// import AddFilmModal from "~/components/AddFilmModal";
 import useModal from "../../util/useModal";
 import styles from "./style.module.scss";
 

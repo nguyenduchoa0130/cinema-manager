@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import styles from "./style.module.scss";
-import SideNav from '~/components/SideNav'
+import SideNav from '../../components/SideNav'
 
 
 export default ({ children }) => {
