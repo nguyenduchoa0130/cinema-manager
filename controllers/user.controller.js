@@ -37,7 +37,7 @@ class UserController {
             if (user) {
                 return res.json({
                     msg: 'Lấy dữ liệu thành công',
-                    users,
+                    user,
                 });
             } else {
                 return next(apiError.notFound('Không tìm thầy người dùng!'));
