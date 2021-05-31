@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const helper = require('../config/helper');
-const { Category: CategoryModel } = require('../models/index').sequelize.models;
+const models = require('../models/index').sequelize.models;
 const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
 class Category {
@@ -21,13 +21,13 @@ class Category {
             let category;
             let params = req.params.id;
             if (+params > 0) {
-                category = await CategoryModel.findByPk(params, {
+                category = await models.Category.findByPk(params, {
                     attributes: {
                         exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                     },
                 });
             } else {
-                category = await CategoryModel.findAll({
+                category = await models.Category.findAll({
                     where: {
                         categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${params}%`),
                     },
@@ -37,11 +37,12 @@ class Category {
                 });
             }
             if (category?.length || category) {
-                res.json(category);
-            } else {
-                res.json({
-                    msg: 'Không tìm thấy danh mục trên',
+                return res.json({
+                    msg: 'Tìm thành công',
+                    category,
                 });
+            } else {
+                return next(apiError.notFound('Không tìm thấy danh mục nào'));
             }
         } catch (err) {
             next(err);
@@ -50,15 +51,15 @@ class Category {
     async add(req, res, next) {
         try {
             let categoryName = req.body.categoryName.toLowerCase();
-            let categories = await CategoryModel.findAll({
+            let categories = await models.Category.findAll({
                 where: {
                     categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${categoryName}%`),
                 },
             });
             if (categories.length) {
-                return next(apiError.conflict('Danh mục phim đã tồn tại'))
+                return next(apiError.conflict('Danh mục phim đã tồn tại'));
             } else {
-                await CategoryModel.create({ categoryName });
+                await models.Category.create({ categoryName });
                 return res.json({
                     msg: 'Tạo danh mục thành công',
                 });
@@ -74,7 +75,7 @@ class Category {
                 return next(apiError.badRequest('ID không hợp lệ'));
             }
             let response = await Promise.all([
-                CategoryModel.findByPk(categoryId),
+                models.Category.findByPk(categoryId),
                 helper.isNameExist(CategoryModel, 'categoryName', req.body.categoryName),
             ]);
             if (!response[0]) {
@@ -98,7 +99,7 @@ class Category {
             if (!categoryId) {
                 return next(apiError.badRequest('ID truyền vào không hợp lệ'));
             }
-            let category = await CategoryModel.findByPk(categoryId);
+            let category = await models.Category.findByPk(categoryId);
             if (!category) {
                 return next(apiError.notFound('Không tìm thất danh mục phim'));
             } else {
