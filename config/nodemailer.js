@@ -5,13 +5,13 @@ exports.send = async function (to, subject, content) {
         port: 587,
         secure: false,
         auth: {
-            user: process.env.EMAIL || 'ltweb222021@gmail.com',
-            pass: process.env.EMAIL_PASSWORD || 'ABCxyz123~',
+            user: process.env.EMAIL || 'cinejun0130@gmail.com',
+            pass: process.env.EMAIL_PASSWORD || 'nguyenduchoa0130',
         },
     });
 
     const info = await transporter.sendMail({
-        from: process.env.EMAIL || 'ltweb222021@gmail.com',
+        from: process.env.EMAIL || 'cinejun0130@gmail.com',
         to,
         subject,
         text: content,

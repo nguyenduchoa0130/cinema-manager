@@ -28,31 +28,18 @@ class Helper {
             }
         );
     }
-    success(msg, data) {
-        return {
-            isSuccess: true,
-            msg,
-            data,
-        };
-    }
-    error(errorType, msg, code = 200) {
-        let err = new Error(msg);
-        err.status = code;
-        err.type = errorType;
-        return err;
-    }
-    createSrc(filmId) {
+    createSrc(filmId, img) {
         let localhost = 'http://localhost:3000';
         return {
-            poster: `${process.env.HOST || localhost}/img/poster/${filmId}`,
-            thumbnail: `${process.env.HOST || localhost}/img/thumb/${filmId}`,
+            poster: img.poster ? `${process.env.HOST || localhost}/img/poster/${filmId}` : null,
+            thumbnail: img.thumbnail ? `${process.env.HOST || localhost}/img/thumb/${filmId}` : null,
         };
     }
     isValidID(id) {
         return Math.abs(parseInt(id)) >= 0;
     }
     async isNameExist(models, field, value) {
-		value = value.toLowerCase();
+        value = value.toLowerCase();
         try {
             let rows = await models.findAll({
                 where: {
@@ -63,6 +50,13 @@ class Helper {
         } catch (err) {
             return false;
         }
+    }
+    removeAccents(str) {
+        return str
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .replace(/Đ/g, 'D');
     }
 }
 module.exports = new Helper();
