@@ -6,7 +6,7 @@ const apiError = require('../errors/apiError');
 class Category {
     async fetchAll(req, res, next) {
         try {
-            let categories = await CategoryModel.findAll({
+            let categories = await models.Category.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
@@ -76,7 +76,7 @@ class Category {
             }
             let response = await Promise.all([
                 models.Category.findByPk(categoryId),
-                helper.isNameExist(CategoryModel, 'categoryName', req.body.categoryName),
+                helper.isNameExist(models.Category, 'categoryName', req.body.categoryName),
             ]);
             if (!response[0]) {
                 return next(apiError.notFound('Danh mục phim không có tồn tại'));
