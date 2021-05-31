@@ -1,36 +1,30 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('OTPs', {
+        await queryInterface.createTable('Images', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            userId: {
+            filmId: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
-                onDelete: 'CASCADE',
-                onUpdate: 'CASCADE',
+                allowNull: true,
                 references: {
-                    model: 'Users',
+                    model: 'Films',
                     key: 'id',
                 },
+                onDelete: 'CASCADE',
+                onUpDate: 'CASCADE',
             },
-            email: {
-                type: Sequelize.STRING,
-                allowNull: false,
-                validate: {
-                    isEmail: true,
-                },
+            poster: {
+                type: Sequelize.BLOB,
+                defaultValud: null,
             },
-            code: {
-                type: Sequelize.STRING,
-                allowNull: false,
-                validate: {
-                    isNumeric: true,
-                },
+            thumbnail: {
+                type: Sequelize.BLOB,
+                defaultValud: null,
             },
             createdAt: {
                 allowNull: false,
@@ -43,6 +37,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('OTPs');
+        await queryInterface.dropTable('Images');
     },
 };

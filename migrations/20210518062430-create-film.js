@@ -1,51 +1,51 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('Users', {
+        await queryInterface.createTable('Films', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            email: {
+            filmName: {
                 type: Sequelize.STRING,
-                allowNull: false,
-                validate: {
-                    isEmail: true,
-                },
             },
-            password: {
+            country: {
                 type: Sequelize.STRING,
-                allowNull: false,
-                validate: {
-                    len: {
-                        args: [6, 50],
-                        msg: 'The password must have at least 6 characters',
-                    },
-                },
             },
-            fullName: {
+            releaseYear: {
                 type: Sequelize.STRING,
-                allowNull: false,
             },
-            phone: {
+            duration: {
                 type: Sequelize.STRING,
-                allowNull: true,
             },
-            roleId: {
+            director: {
+                type: Sequelize.STRING,
+            },
+            actors: {
+                type: Sequelize.STRING,
+            },
+            thumbnail: {
+                type: Sequelize.STRING,
+                defaulValue: null,
+            },
+            poster: {
+                type: Sequelize.STRING,
+                defaulValue: null,
+            },
+            categoryId: {
                 type: Sequelize.INTEGER,
-                defaultValue: 2,
-                onDelete: 'SET NULL',
-                onUpdate: 'CASCADE',
                 references: {
-                    model: 'Roles',
+                    model: 'Categories',
                     key: 'id',
                 },
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
             },
-            isActive: {
-                type: Sequelize.BOOLEAN,
-                defaultValue: false,
+            desc: {
+                type: Sequelize.STRING,
+                defaultValue: null,
             },
             createdAt: {
                 allowNull: false,
@@ -58,6 +58,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Users');
+        await queryInterface.dropTable('Films');
     },
 };
