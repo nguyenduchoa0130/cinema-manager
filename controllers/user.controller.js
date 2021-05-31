@@ -1,17 +1,9 @@
 const { User: UserModel } = require('../models/index').sequelize.models;
 const { Op } = require('sequelize');
 const helper = require('../config/helper');
-const errorType = require('../config/errorType');
 const bcrypt = require('bcrypt');
+const apiError = require('../errors/apiError');
 class UserController {
-    isIdValid(req, res, next) {
-        let id = +req.params.id;
-        if (id) {
-            return next();
-        } else {
-            next(helper.error(errorType.INFO_NOT_VALID, 'Id truyền vào không hợp lệ !'));
-        }
-    }
     async fetchAll(req, res, next) {
         try {
             let users = await UserModel.findAll({
@@ -20,9 +12,12 @@ class UserController {
                 },
             });
             if (users.length) {
-                return res.json(helper.success('Lấy dữ liệu thành công', users));
+                return res.json({
+                    msg: 'Lấy dữ liệu thành công',
+                    users,
+                });
             } else {
-                return res.json(helper.success('Không có dữ liệu', null));
+                return next(apiError.notFound('Không tìm thầy người dùng nào'));
             }
         } catch (err) {
             next(err);
@@ -40,9 +35,12 @@ class UserController {
                 },
             });
             if (user) {
-                return res.status(200).json(helper.success('Lấy dữ liệu thành công', user));
+                return res.json({
+                    msg: 'Lấy dữ liệu thành công',
+                    users,
+                });
             } else {
-                return res.status(200).json(helper.success('Không có dữ liệu', null));
+                return next(apiError.notFound('Không tìm thầy người dùng!'));
             }
         } catch (err) {
             return next(err);
@@ -50,6 +48,7 @@ class UserController {
     }
     async update(req, res, next) {
         let id = req.params.id;
+        if (!helper.isValidID(id)) return next(apiError.badRequest('ID truyền vào không hợp lệ!!'));
         let data = req.body;
         if ('password' in data) {
             data.password = await bcrypt.hash(data.password, 10);
@@ -60,23 +59,24 @@ class UserController {
                 user[prop] = data[prop];
             }
             await user.save();
-            res.status(200).json(helper.success('Cập nhập thành công', null));
+            return res.status(200).json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);
         }
     }
     async delete(req, res, next) {
         let id = req.params.id;
+        if (!helper.isValidID) return next(apiError.badRequest('ID không hợp lệ'));
         if (req.dataToken.userId == id) {
-            next(helper.error(errorType.BAD_REQ, 'Không thể xóa tài khoản của chính mình'));
+            return next(apiError.notAuthorized('Không thể xóa tài khoản của chính mình'));
         }
         try {
             let user = await UserModel.findByPk(id);
             if (user) {
                 await user.destroy();
-                return res.status(200).json(helper.success('Xóa thành công', null));
+                return res.status(200).json({ msg: 'Xóa thành công' });
             } else {
-                return res.json(helper.success('Người dùng không tồn tại', null));
+                return next(apiError.notFound('Người dùng không tồn tại'));
             }
         } catch (err) {
             return next(err);

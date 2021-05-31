@@ -1,4 +1,5 @@
-const { User: UserModel, OTP: OTPModel } = require('../models/index').sequelize.models;
+const models = require('../models/index').sequelize.models;
+const db = require('../config/db');
 const { send } = require('../config/nodemailer');
 const helper = require('../config/helper');
 const bcrypt = require('bcrypt');
@@ -9,7 +10,7 @@ class AuthController {
         passport.authenticate('local', (err, user) => {
             if (err) return next(err); // lỗi server
             if (!user) {
-                return next(apiError.forbidden('Email hoặc mật khẩu không chính xác'));
+                return next(apiError.forbidden('Lỗi: Email hoặc mật khẩu không chính xác'));
             }
             req.login(user, async (err) => {
                 if (err) {
@@ -32,29 +33,21 @@ class AuthController {
         try {
             let data = req.body;
             data.password = await bcrypt.hash(data.password, 10);
-            let account = await UserModel.findOne({
-                where: {
-                    email: data.email,
-                },
-            });
+            let account = await models.User.findOne({ where: { email: data.email } });
             if (account) {
-                return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
+                return next(apiError.conflict('Lỗi: Email đã được sử dụng cho 1 tài khoản khác'));
             } else {
-                let user = await UserModel.create(data);
+                let user = await models.User.create(data);
                 let code = Math.floor(100000 + Math.random() * 900000);
                 Promise.all([
-                    OTPModel.create({
+                    models.OTP.create({
                         userId: user.id,
                         email: data.email,
                         code,
                     }),
                     send(data.email, 'Kích Hoạt Tài Khoản', `Mã kích hoạt: ${code}`),
                 ]);
-
-                return res.status(200).json({
-                    msg: 'Đăng Ký Thành Công. Một OTP đã được gứi tới email ' + data.email,
-                    userId: user.id,
-                });
+                return res.status(200).json({ msg: 'Đăng Ký Thành Công. Một OTP đã được gứi tới email ' + data.email, userId: user.id });
             }
         } catch (err) {
             return next(err);
@@ -62,7 +55,7 @@ class AuthController {
     }
     async sendOTP(req, res, next) {
         try {
-            let otp = await OTPModel.findOne({
+            let otp = await models.OTP.findOne({
                 where: {
                     userId: req.params.userId,
                 },
@@ -85,17 +78,13 @@ class AuthController {
         try {
             let userId = req.params.id;
             let { code } = req.body;
-            let otp = await OTPModel.findOne({
-                where: {
-                    userId,
-                },
-            });
+            let otp = await models.OTP.findOne({ where: { userId } });
             if (!otp) {
             } else {
                 if (code == otp.code) {
                     Promise.all([
                         otp.destroy(),
-                        UserModel.update(
+                        models.User.update(
                             { isActive: true },
                             {
                                 where: {
@@ -117,31 +106,25 @@ class AuthController {
     }
     async handleSignOut(req, res, next) {
         req.logout();
-        res.status(200).json({
-            msg: 'Đăng xuất thành công',
-        });
+        res.status(200).json({ msg: 'Đăng xuất thành công' });
     }
     async forget(req, res, next) {
         try {
-            let account = await UserModel.findOne({
-                where: {
-                    email: req.body.email,
-                },
-            });
+            let account = await models.User.findOne({ where: { email: req.body.email } });
             if (account) {
                 let code = Math.floor(100000 + Math.random() * 999999);
-                let otp = await OTPModel.findOne({
+                let otp = await models.OTP.findOne({
                     where: {
                         email: account.email,
                     },
                 });
                 if (otp) {
                     otp.code = code;
-                    Promise.all([otp.save(), send(account.email, 'Reset Password', `OTP: ${code}`)]);
+                    Promise.all([otp.save(), send(account.email, 'Lấy lại mật khẩu', `OTP: ${code}`)]);
                 } else {
                     Promise.all([
-                        OTPModel.create({ userId: account.id, email: account.email, code }),
-                        send(account.email, 'Reset Password', `OTP: ${code}`),
+                        models.OTP.create({ userId: account.id, email: account.email, code }),
+                        send(account.email, 'Lấy lại mật khẩu', `OTP: ${code}`),
                     ]);
                 }
                 let accessToken = helper.createAccessToken(account);
@@ -151,7 +134,7 @@ class AuthController {
                     accessToken,
                 });
             } else {
-                return next(apiError.notFound('Không tìm thấy tài khoản'));
+                return next(apiError.notFound('Lỗi: Không tìm thấy tài khoản'));
             }
         } catch (err) {
             next(err);
@@ -162,7 +145,7 @@ class AuthController {
             let id = req.params.id;
             if (id == req.dataToken.userId) {
                 let data = req.body;
-                let row = await UserModel.update(
+                let row = await models.User.update(
                     {
                         password: await bcrypt.hash(data.new_password, 10),
                     },
@@ -172,11 +155,9 @@ class AuthController {
                         },
                     }
                 );
-                return res.json({
-                    msg: 'Cập nhật mật khẩu thành công',
-                });
+                return res.json({ msg: 'Cập nhật mật khẩu thành công' });
             } else {
-                return next(apiError.notAuthorized('Bạn không có quyền thực hiện chức năng này'));
+                return next(apiError.notAuthorized('Lỗi: Bạn không có quyền thực hiện chức năng này'));
             }
         } catch (err) {
             return next(err);
