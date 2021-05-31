@@ -8,7 +8,7 @@ import htmlToDraft from 'html-to-draftjs';
 import styles from './style.module.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
-import countryList from '~/util/constants/countryList';
+import countryList from '../../../util/constants/countryList';
 
 
 const EditFilm = () => {

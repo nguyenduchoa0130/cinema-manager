@@ -8,7 +8,7 @@ import htmlToDraft from 'html-to-draftjs';
 import styles from './style.module.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
-import countryList from '~/util/constants/countryList';
+import countryList from '../../../util/constants/countryList';
 
 
 
@@ -32,8 +32,6 @@ const AddFilm = () => {
       poster: null
     }
   );
-<<<<<<< HEAD:src/components/AddFilmModal/index.js
-=======
 
   const handleImageChange = (event) => {
     setInfo(prevState => {
@@ -41,7 +39,6 @@ const AddFilm = () => {
     });
   }
 
->>>>>>> 9cdf68cad986416ac005bd3293e8029c943e2cda:src/pages/Film/AddFilm/index.js
   const changeHandler = event => {
     setInfo({ ...info, [event.target.name]: event.target.value });
     console.log('info ', info);

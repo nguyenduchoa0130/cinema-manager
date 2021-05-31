@@ -4,16 +4,11 @@ import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBIcon } from 'mdbreac
 import styles from "./style.module.scss";
 import cx from 'classnames';
 import { render } from "@testing-library/react";
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import OtpInput from "react-otp-input";
 import { quenMatKhau } from "../../redux/actions/NguoiDungAction";
 import { useDispatch } from "react-redux";
-=======
-import {Link} from "react-router-dom";
->>>>>>> 9cdf68cad986416ac005bd3293e8029c943e2cda
 
 export default function ForgotPassword() {
     const dispatch = useDispatch()

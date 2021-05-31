@@ -95,7 +95,7 @@ export const layThongTinNguoiDung = (id) => {
             })
 
         } catch (error) {
-            console.log('error', error);
+            console.log('error', error.response.data.msg);
         }
     }
 }
