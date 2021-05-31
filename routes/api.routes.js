@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const userRoutes = require('./api/user.routes');
 const authRoutes = require('./api/auth.routes');
+const categoryRoutes = require('./api/category.routes');
+const filmRoutes = require('./api/film.routes');
+router.use('/film', filmRoutes);
+router.use('/cate', categoryRoutes);
 router.use('/auth', authRoutes);
 router.use('/user', userRoutes);
 module.exports = router;

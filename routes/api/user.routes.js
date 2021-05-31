@@ -5,7 +5,7 @@ router.use(authMid.authenticate);
 router
     .route('/:id')
     .get(authMid.isActive, authMid.isOwnerOrAdmin, userCon.fetchByIdOrEmail)
-    .put(authMid.isActive, authMid.isOwnerOrAdmin, userCon.isIdValid, userCon.update)
-    .delete(authMid.isAdmin, userCon.isIdValid, userCon.delete);
+    .put(authMid.isActive, authMid.isOwnerOrAdmin, userCon.update)
+    .delete(authMid.isAdmin, userCon.delete);
 router.get('/', authMid.isAdmin, userCon.fetchAll);
 module.exports = router;
