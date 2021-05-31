@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             this.hasOne(models.OTP, {
                 foreignKey: 'userId',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             });
             this.belongsTo(models.Role, {
                 foreignKey: 'roleId',
