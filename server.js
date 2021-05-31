@@ -15,6 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
 app.use(cors()); // accept all origin
@@ -30,14 +31,14 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
+
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(ejsLayouts);
 
 appMid.index(app); // Mount Middlewares
 routes(app); // Mount Routes
-app.use(errorHandler); // Mount Error Handlers
+// app.use(errorHandler); // Mount Error Handlers
 
 app.listen(PORT, () => {
     console.log('Server is running at ' + PORT);
