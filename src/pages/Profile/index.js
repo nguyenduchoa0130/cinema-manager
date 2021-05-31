@@ -36,13 +36,13 @@ export default function Profile() {
                 <div className={styles.info}>
                     <ul className={styles.info_list}>
                         <li className={styles.info_item}>
-                            <span className={styles.key}>Fullname: <strong className={styles.value}>{thongTinNguoiDung.data?.fullName}</strong></span>
+                            <span className={styles.key}>Fullname: <strong className={styles.value}>{thongTinNguoiDung.user?.fullName}</strong></span>
                         </li>
                         <li className={styles.info_item}>
-                            <span className={styles.key}>Email: <strong className={styles.value}>{thongTinNguoiDung.data?.email}</strong></span>
+                            <span className={styles.key}>Email: <strong className={styles.value}>{thongTinNguoiDung.user?.email}</strong></span>
                         </li>
                         <li className={styles.info_item}>
-                            <span className={styles.key}>Phone: <strong className={styles.value}>{thongTinNguoiDung.data?.phone}</strong></span>
+                            <span className={styles.key}>Phone: <strong className={styles.value}>{thongTinNguoiDung.user?.phone}</strong></span>
                         </li>
                         <li className={styles.info_item}>
                             <span className={styles.key}>Address: <strong className={styles.value}>123 Hồ Chí Minh</strong></span>
