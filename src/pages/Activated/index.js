@@ -29,7 +29,7 @@ export default function Activated() {
     let userId = '';
     if (localStorage.getItem(USERLOGIN)) {
         let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
-        userId = userLogin.data.userId;
+        userId = userLogin.userId;
     }
     // console.log('userId', userId);
 

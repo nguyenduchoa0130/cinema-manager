@@ -1,5 +1,5 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -9,64 +9,86 @@ import styles from './style.module.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
 import countryList from '../../../util/constants/countryList';
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
+import { useDispatch, useSelector } from 'react-redux';
+import { layTheLoaiPhim, themPhim } from '../../../redux/actions/QuanLyPhimAction';
 
 
 
 const AddFilm = () => {
 
+  const { listCategory } = useSelector(state => state.QuanLyPhimReducer)
+  console.log('listCategory', listCategory);
+  useEffect(() => {
+    dispatch(layTheLoaiPhim());
+  }, [])
+
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
 
-  const [info, setInfo] = useState(
-    {
-      name: "",
+  const dispatch = useDispatch();
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      filmName: "",
       country: "",
       releaseYear: "",
       duration: "",
       actors: "",
-      category: -1,
+      categoryId: 1,
       director: "",
-      thumbnail: null,
-      desc:"",
-      poster: null
-    }
-  );
+      thumbnail: {},
+      desc: "",
+      poster: {}
+    },
+    validationSchema: Yup.object().shape({
+      filmName: Yup.string().required("Required!"),
+      country: Yup.string().required("Required!"),
+      releaseYear: Yup.string().required("Required!"),
+      duration: Yup.string().required("Required!"),
+      actors: Yup.string().required("Required!"),
+      director: Yup.string().required("Required!"),
+      desc: Yup.string().required("Required!"),
+    }),
+    onSubmit: values => {
+      let form_data = new FormData();
+      for (var key in values) {
+        form_data.append(key, values[key])
+      }
+      console.log('value', values);
 
-  const handleImageChange = (event) => {
-    setInfo(prevState => {
-      return { ...prevState, [event.target.name]: event.target.files[0] }
-    });
+      dispatch(themPhim(form_data))
+
+    },
+  });
+  const renderTheLoaiPhim = () => {
+    return listCategory.map((theLoai, index) => {
+      return <option key={index} value={theLoai.id}>{theLoai.categoryName}</option>
+    })
   }
 
-  const changeHandler = event => {
-    setInfo({ ...info, [event.target.name]: event.target.value });
-    console.log('info ', info);
-  };
 
 
   return (
     <React.Fragment>
 
       <Title text={"Thêm phim"} />
-      <MDBCard className = "py-3">
+      <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form action="/abc">
+            <form onSubmit={formik.handleSubmit}>
               <MDBRow className="mb-3">
                 <MDBCol md="2" className="mb-3">
-                  <label
-                    htmlFor="defaultFormRegisterNameEx"
-                    className="grey-text"
-                  >
+                  <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
                     Tên phim
                   </label>
                 </MDBCol>
                 <MDBCol md="10" className="mb-3">
                   <input
-                    value={info.name}
-                    name="name"
-                    onChange={changeHandler}
+                    name="filmName"
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -85,14 +107,16 @@ const AddFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <select value={info.country}
+                  <select
                     name="country"
-                    onChange={changeHandler}
+                    onChange={formik.handleChange}
+                    value={formik.values['country']}
                     className="browser-default custom-select">
                     <option value="">Chọn quốc gia</option>
-                    {countryList.map(country=>{
-                      return  <option value="country">{country}</option>
+                    {countryList.map((country, index) => {
+                      return <option key={index} value={country}>{country}</option>
                     })}
+
                   </select>
                 </MDBCol>
               </MDBRow>
@@ -106,8 +130,7 @@ const AddFilm = () => {
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.releaseYear}
-                    onChange={changeHandler}
+                    onChange={formik.handleChange}
                     type="releaseYear"
                     id="defaultFormRegisterConfirmEx3"
                     className="form-control"
@@ -127,8 +150,7 @@ const AddFilm = () => {
                 </MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.duration}
-                    onChange={changeHandler}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -144,12 +166,11 @@ const AddFilm = () => {
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Đạo diển
+                    Đạo diễn
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.director}
-                    onChange={changeHandler}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -169,8 +190,7 @@ const AddFilm = () => {
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.actors}
-                    onChange={changeHandler}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -191,11 +211,9 @@ const AddFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select className="browser-default custom-select">
+                  <select name="categoryId" className="browser-default custom-select" value={formik.values['categoryId']} onChange={formik.handleChange}>
                     <option>Chọn thể loại phim</option>
-                    <option value="1">Hài kịch</option>
-                    <option value="2">Hành động</option>
-                    <option value="3">Kinh dị</option>
+                    {renderTheLoaiPhim()}
                   </select>
                 </MDBCol>
               </MDBRow>
@@ -208,15 +226,7 @@ const AddFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <div className="border">
-                    <Editor
-                      editorState={editorState}
-                      wrapperClassName="demo-wrapper"
-                      editorClassName="px-3"
-                      onEditorStateChange={setEditorState}
-                    />
-
-                  </div>
+                  <textarea className="form-control" rows={4} id="desc" name="desc" onChange={formik.handleChange} />
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -233,11 +243,13 @@ const AddFilm = () => {
                       <input
                         type="file"
                         className="custom-file-input"
-                        onChange={handleImageChange}
+                        onChange={(event) => {
+                          formik.setFieldValue("thumbnail", event.currentTarget.files[0]);
+                        }}
                         name="thumbnail"
                       />
                       <label className="custom-file-label" >
-                        {info.thumbnail ? info.thumbnail.name : "Chọn ảnh thumbnail"}
+                        Chọn ảnh thumbnail
                       </label>
                     </div>
                   </div>
@@ -258,11 +270,13 @@ const AddFilm = () => {
                       <input
                         type="file"
                         className="custom-file-input"
-                        onChange={handleImageChange}
+                        onChange={(event) => {
+                          formik.setFieldValue("poster", event.currentTarget.files[0]);
+                        }}
                         name="poster"
                       />
                       <label className="custom-file-label" >
-                        {info.poster ? info.poster.name : "Chọn ảnh poster"}
+                        Chọn ảnh poster
                       </label>
                     </div>
                   </div>

@@ -28,7 +28,6 @@ export default function SingIn() {
         },
     });
     if (localStorage.getItem(USERLOGIN)) {
-        alert('Đăng nhập thành công !')
         return <Redirect to="/" />
     }
 

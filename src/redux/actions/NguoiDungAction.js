@@ -17,11 +17,12 @@ export const dangNhapAction = (userLogin) => {
             // console.log('data',result.data);
             localStorage.setItem(TOKEN, result.data.accessToken);
             localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+            alert('Đăng nhập thành công')
             history.push('/');
 
         } catch (error) {
-            alert(error.response.data.response.msg);
-            console.log('error', error.response.data.response.msg);
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
         }
     }
 }
@@ -35,7 +36,8 @@ export const dangXuatAction = () => {
             })
             alert('Đăng xuất thành công')
         } catch (error) {
-            console.log('error', error.response.data);
+            alert(error.response.data.msg)
+            console.log('error', error.response.data.msg);
         }
     }
 }
@@ -54,7 +56,8 @@ export const dangKyAction = (userRegister) => {
             // console.log(result.data.userId);
             history.push('/kich-hoat');
         } catch (error) {
-            console.log('error', error.response.error);
+            alert(error.response.data.msg)
+            console.log('error', error.response.data.msg);
         }
     }
 }
@@ -72,8 +75,8 @@ export const kichHoatAction = (code, userId) => {
             localStorage.removeItem(TOKEN);
             history.push('/dang-nhap');
         } catch (error) {
-
-            console.log('error', error.response.error);
+            alert(error.response.data.msg)
+            console.log('error', error.response.data.msg);
         }
     }
 }
@@ -93,7 +96,6 @@ export const layThongTinNguoiDung = (id) => {
                 type: 'GET_THONG_TIN_USER',
                 thongTinNguoiDung: result.data
             })
-
         } catch (error) {
             console.log('error', error.response.data.msg);
         }
@@ -109,11 +111,12 @@ export const quenMatKhau = (email) => {
                 data: email
             })
 
-            localStorage.setItem(TOKEN, result.data.data.accessToken);
-            localStorage.setItem(USERLOGIN, JSON.stringify(result.data.data))
+            localStorage.setItem(TOKEN, result.data.accessToken);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
             history.push('/xac-nhan-otp')
         } catch (error) {
-            console.log('error', error.response);
+            alert(error.response.data.msg)
+            console.log('error', error.response.data.msg);
         }
     }
 }
@@ -129,12 +132,11 @@ export const xacNhanOtp = (code, userId) => {
             alert('Xác nhận OTP thành công!');
             history.push('/doi-mat-khau');
         } catch (error) {
-
-            console.log('error', error.response.error);
+            alert(error.response.data.msg)
+            console.log('error', error.response.data.msg);
         }
     }
 }
-
 
 export const matKhauMoi = (new_password, userId) => {
     return async dispatch => {
@@ -153,7 +155,8 @@ export const matKhauMoi = (new_password, userId) => {
             localStorage.removeItem(TOKEN);
             history.push('/dang-nhap');
         } catch (error) {
-            console.log('error', error.response);
+            alert(error.response.data.msg)
+            console.log('error', error.response.data.msg);
         }
     }
 }

@@ -6,9 +6,12 @@ import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
+import { useSelector } from "react-redux";
 
 
 const FilmManager = () => {
+
+  const {listFilm} = useSelector(state => state.QuanLyPhimReducer)
   const { isShowing, toggle } = useModal();
   const [film, setFilm] = useState({ 
     name: "",
@@ -16,7 +19,7 @@ const FilmManager = () => {
     releaseYear: "",
     duration: "",
     actors: "",
-    category: -1,
+    categoryId: 1,
     director: "",
     thumbnail: null,
     desc:"",
