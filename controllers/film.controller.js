@@ -124,7 +124,7 @@ class FilmController {
             let [film, img] = await Promise.all([models.Film.findByPk(id), models.Image.findOne({ where: { filmId: id } })]);
             if (!film) return next(apiError.notFound('Không tìm thấy film'));
             let dataFilm = req.body; // lấy dữ liệu từ
-            let dataImg = null;
+            let dataImg = {};
             if (Object.keys(req.files).length) {
                 dataImg.thumbnail = req.files.thumbnail?.[0].buffer ?? null;
                 dataImg.poster = req.files.poster?.[0].buffer ?? null;
