@@ -1,6 +1,8 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState,useMemo} from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup'
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
@@ -9,69 +11,105 @@ import styles from './style.module.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
 import countryList from '../../../util/constants/countryList';
+import { useDispatch, useSelector } from 'react-redux';
+import { layTheLoaiPhim, suaPhim } from '../../../redux/actions/QuanLyPhimAction';
 
 
 const EditFilm = () => {
+  const { listCategory, dataFilmEdit } = useSelector(state => state.QuanLyPhimReducer)
+  const dispatch = useDispatch();
+  const [dataFilm, setDataFilm] = useState()
+  console.log('dataFilmEdit', dataFilmEdit);
+  // console.log('dataFilm', dataFilm); 
 
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
   );
 
-  const [info, setInfo] = useState(
-    {
-      name: "",
-      country: "",
-      releaseYear: "",
-      duration: "",
-      actors: "",
-      category: -1,
-      director: "",
-      thumbnail: null,
-      desc:"",
-      poster: null
-    }
-  );
+  useEffect(() => {
+    setDataFilm({
+      ...dataFilmEdit,
+      dataFilm: dataFilmEdit
+    })
+  }, [dataFilmEdit])
 
-  const handleImageChange = (event) => {
-    setInfo(prevState => {
-      return { ...prevState, [event.target.name]: event.target.files[0] }
-    });
+  useEffect(() => {
+    dispatch(layTheLoaiPhim());
+  }, [])
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      filmName: dataFilmEdit?.filmName,
+      country: dataFilmEdit?.country,
+      releaseYear: dataFilmEdit?.releaseYear,
+      duration: dataFilmEdit?.duration,
+      actors: dataFilmEdit?.actors,
+      categoryId: dataFilmEdit?.Category?.id,
+      director: dataFilmEdit?.director,
+      thumbnail: dataFilmEdit?.thumbnail,
+      desc: dataFilmEdit?.desc,
+      poster: dataFilmEdit?.poster
+    },
+    validationSchema: Yup.object().shape({
+      filmName: Yup.string().required("Required!"),
+      country: Yup.string().required("Required!"),
+      releaseYear: Yup.string().required("Required!"),
+      duration: Yup.string().required("Required!"),
+      actors: Yup.string().required("Required!"),
+      director: Yup.string().required("Required!"),
+      desc: Yup.string().required("Required!"),
+    }),
+    onSubmit: values => {
+      let form_data = new FormData();
+      for (var key in values) {
+        form_data.append(key, values[key])
+      }
+      dispatch(suaPhim(form_data, dataFilmEdit.id))
+
+    },
+  });
+
+  useEffect(() => {
+    setDataFilm({
+      dataFilm: formik.values
+    })
+  }, [formik.values])
+
+  const renderTheLoaiPhim = () => {
+    return listCategory.map((theLoai, index) => {
+      return <option key={index} value={theLoai.id}>{theLoai.categoryName}</option>
+    })
   }
-
-  const changeHandler = event => {
-    setInfo({ ...info, [event.target.name]: event.target.value });
-    console.log('info ', info);
-  };
 
 
   return (
     <React.Fragment>
-
       <Title text={"Cập nhật thông tin phim"} />
-      <MDBCard className = "py-3">
+      <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form action="/abc">
+            <form onSubmit={formik.handleSubmit}>
               <MDBRow className="mb-3">
                 <MDBCol md="2" className="mb-3">
-                  <label
-                    htmlFor="defaultFormRegisterNameEx"
-                    className="grey-text"
-                  >
+                  <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
                     Tên phim
                   </label>
                 </MDBCol>
                 <MDBCol md="10" className="mb-3">
                   <input
-                    value={info.name}
-                    name="name"
-                    onChange={changeHandler}
+                    value={dataFilm?.dataFilm.filmName}
+                    name="filmName"
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên phim"
                     required
                   />
+                  {formik.errors.filmName && formik.touched.filmName && (
+                    <p className="text-danger">{formik.errors.filmName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -84,26 +122,19 @@ const EditFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                  {/* <input
-                    value={info.country}
+                  <select
                     name="country"
-                    onChange={changeHandler}
-                    type="text"
-                    id="defaultFormRegisterreleaseYearEx2"
-                    className="form-control"
-                    placeholder="Quốc gia"
-                    required
-                  /> */}
-
-                  <select value={info.country}
-                    name="country"
-                    onChange={changeHandler}
+                    onChange={formik.handleChange}
+                    value={formik.values['country']}
                     className="browser-default custom-select">
-                    <option>Chọn quốc gia</option>
-                    {countryList.map(country=>{
-                      return  <option value="country">{country}</option>
+                    <option selected={dataFilmEdit.country}>{dataFilmEdit.country}</option>
+                    {countryList.map((country, index) => {
+                      return <option key={index} value={country}>{country}</option>
                     })}
                   </select>
+                  {formik.errors.country && formik.touched.country && (
+                    <p className="text-danger">{formik.errors.country} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -116,14 +147,17 @@ const EditFilm = () => {
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.releaseYear}
-                    onChange={changeHandler}
+                    value={dataFilm?.dataFilm.releaseYear}
+                    onChange={formik.handleChange}
                     type="releaseYear"
                     id="defaultFormRegisterConfirmEx3"
                     className="form-control"
                     name="releaseYear"
                     placeholder="Năm sản xuất"
                   />
+                  {formik.errors.releaseYear && formik.touched.releaseYear && (
+                    <p className="text-danger">{formik.errors.releaseYear} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -137,8 +171,8 @@ const EditFilm = () => {
                 </MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.duration}
-                    onChange={changeHandler}
+                    value={dataFilm?.dataFilm.duration}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -146,6 +180,9 @@ const EditFilm = () => {
                     placeholder="Thời lượng"
                     required
                   />
+                  {formik.errors.duration && formik.touched.duration && (
+                    <p className="text-danger">{formik.errors.duration} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -154,12 +191,12 @@ const EditFilm = () => {
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Đạo diển
+                    Đạo diễn
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.director}
-                    onChange={changeHandler}
+                    value={dataFilm?.dataFilm.director}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -167,6 +204,9 @@ const EditFilm = () => {
                     placeholder="Đạo diển"
                     required
                   />
+                  {formik.errors.director && formik.touched.director && (
+                    <p className="text-danger">{formik.errors.director} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -179,8 +219,8 @@ const EditFilm = () => {
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={info.actors}
-                    onChange={changeHandler}
+                    value={dataFilm?.dataFilm.actors}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -188,7 +228,9 @@ const EditFilm = () => {
                     placeholder="Diển viên"
                     required
                   />
-
+                  {formik.errors.actors && formik.touched.actors && (
+                    <p className="text-danger">{formik.errors.actors} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -201,12 +243,13 @@ const EditFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select className="browser-default custom-select">
-                    <option>Chọn thể loại phim</option>
-                    <option value="1">Hài kịch</option>
-                    <option value="2">Hành động</option>
-                    <option value="3">Kinh dị</option>
+                  <select name="categoryId" className="browser-default custom-select" value={formik.values['categoryId']} onChange={formik.handleChange}>
+                  <option selected={dataFilmEdit.Category.id}>{dataFilmEdit.Category.categoryName}</option>
+                    {renderTheLoaiPhim()}
                   </select>
+                  {formik.errors.categoryId && formik.touched.categoryId && (
+                    <p className="text-danger">{formik.errors.categoryId} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -218,15 +261,16 @@ const EditFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <div className="border">
-                    <Editor
-                      editorState={editorState}
-                      wrapperClassName="demo-wrapper"
-                      editorClassName="px-3"
-                      onEditorStateChange={setEditorState}
-                    />
-
-                  </div>
+                  {/* <Editor
+                    editorState={editorState}
+                    wrapperClassName="demo-wrapper"
+                    editorClassName="px-3"
+                    onEditorStateChange={setEditorState}
+                  /> */}
+                  <textarea value={dataFilm?.dataFilm.desc} className="form-control" rows={4} id="desc" name="desc" onChange={formik.handleChange} />
+                  {formik.errors.desc && formik.touched.desc && (
+                    <p className="text-danger">{formik.errors.desc} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -243,11 +287,13 @@ const EditFilm = () => {
                       <input
                         type="file"
                         className="custom-file-input"
-                        onChange={handleImageChange}
+                        onChange={(event) => {
+                          formik.setFieldValue("thumbnail", event.currentTarget.files[0]);
+                        }}
                         name="thumbnail"
                       />
                       <label className="custom-file-label" >
-                        {info.thumbnail ? info.thumbnail.name : "Chọn ảnh thumbnail"}
+                        Chọn ảnh thumbnail
                       </label>
                     </div>
                   </div>
@@ -268,11 +314,13 @@ const EditFilm = () => {
                       <input
                         type="file"
                         className="custom-file-input"
-                        onChange={handleImageChange}
+                        onChange={(event) => {
+                          formik.setFieldValue("poster", event.currentTarget.files[0]);
+                        }}
                         name="poster"
                       />
                       <label className="custom-file-label" >
-                        {info.poster ? info.poster.name : "Chọn ảnh poster"}
+                        Chọn ảnh poster
                       </label>
                     </div>
                   </div>
@@ -286,7 +334,6 @@ const EditFilm = () => {
                   Submit Form
               </MDBBtn>
               </MDBRow>
-
             </form>
             <a onClick={() => { console.log('editorState :>> ', draftToHtml(convertToRaw(editorState.getCurrentContent()))) }} className="btn btn-primary">Test lấy value trong editor</a>
           </MDBContainer>

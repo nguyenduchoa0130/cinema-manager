@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import Title from "../../../components/Tittle";
 import { data } from "../../../util/dataTemplate";
@@ -6,63 +6,85 @@ import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimAction";
 
 
 const FilmManager = () => {
 
-  const {listFilm} = useSelector(state => state.QuanLyPhimReducer)
+  const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
+  console.log('listFilm', listFilm);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(layDanhSachPhim())
+  }, [])
   const { isShowing, toggle } = useModal();
-  const [film, setFilm] = useState({ 
-    name: "",
+  const [film, setFilm] = useState({
+    filmName: "",
     country: "",
     releaseYear: "",
     duration: "",
     actors: "",
     categoryId: 1,
     director: "",
-    thumbnail: null,
-    desc:"",
-    poster: null
+    thumbnail: {},
+    desc: "",
+    poster: {}
   });
-  const removeToggle = (film) =>{
+  const removeToggle = (film) => {
     toggle();
     setFilm(film);
   }
+  console.log('film', film);
 
   const renderRowData = () => {
-    return (
-      data.map(item => {
-        return (
-          <tr>
-            {Object.keys(item).slice(0,-2).map(keyName => {
+    listFilm.films?.sort((a, b) => {
+      return a.id - b.id;
+    })
+    return listFilm.films?.map((film, index) => {
+      return (
+        <tr key={index}>
+          {/* {Object.keys(item).slice(0,-2).map(keyName => {
               return (
                 keyName === "thumbnail"
                   ? <td>
                         <img className={styles.thumbnail} src={item[keyName]} />
                     </td>
                   : <td> {item[keyName]}</td>)
-            })}
-            <td>
-              <MDBBtn  color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(item.id) }} >
-                <MDBIcon far icon="eye" />
-              </MDBBtn>
+            })} */}
+          <td>{film.id}</td>
+          <td>{film.filmName}</td>
+          <td>{film.country}</td>
+          <td>{film.releaseYear}</td>
+          <td>{film.duration}</td>
+          <td>{film.director}</td>
+          <td>{film.actors}</td>
+          <td>{film.Category.categoryName}</td>
+          <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
+          <td>
+            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(film.id) }} >
+              <MDBIcon far icon="eye" />
+            </MDBBtn>
 
-              <Link to='/admin/cap-nhat-phim'>
-                <MDBBtn color="success" size="sm" title="Chỉnh sửa"  >
-                  <MDBIcon icon="pencil-ruler" />
-                </MDBBtn>
-              </Link>
-              
-              <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(item)}} className>
-                <MDBIcon far icon="trash-alt" />
+            <Link to='/admin/cap-nhat-phim'>
+              <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
+                dispatch({
+                  type: 'DATA_FILM_EDIT',
+                  dataFilm: film
+                })
+              }} >
+                <MDBIcon icon="pencil-ruler" />
               </MDBBtn>
+            </Link>
 
-            </td>
-          </tr>
-        )
-      }
+            <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(film) }} className>
+              <MDBIcon far icon="trash-alt" />
+            </MDBBtn>
+
+          </td>
+        </tr>
       )
+    }
     )
   }
 
@@ -72,7 +94,7 @@ const FilmManager = () => {
       <Title text={"Quản lý phim"} />
       <MDBCard>
         <MDBCardBody>
-            <div className="text-right">
+          <div className="text-right">
             <Link to="/admin/them-phim">
               <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
             </Link>
@@ -102,11 +124,13 @@ const FilmManager = () => {
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-          Bạn có muốn xóa phim  <strong>{film.name}</strong> có mã số là <strong>{film.id}</strong>?
+          Bạn có muốn xóa phim  <strong>{film.filmName}</strong> có mã số là <strong>{film.id}</strong>?
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
-          <MDBBtn color="danger">Xóa</MDBBtn>
+          <MDBBtn color="danger" onClick={() => {
+            dispatch(xoaPhim(film.id))
+          }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 

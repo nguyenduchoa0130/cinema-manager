@@ -19,7 +19,7 @@ import { layTheLoaiPhim, themPhim } from '../../../redux/actions/QuanLyPhimActio
 const AddFilm = () => {
 
   const { listCategory } = useSelector(state => state.QuanLyPhimReducer)
-  console.log('listCategory', listCategory);
+  // console.log('listCategory', listCategory);
   useEffect(() => {
     dispatch(layTheLoaiPhim());
   }, [])

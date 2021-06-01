@@ -1,6 +1,7 @@
 const initialState = {
     listCategory: [],
-    listFilm: []
+    listFilm: [],
+    dataFilmEdit:{}
 }
 
 export default (state = initialState, action) => {
@@ -12,6 +13,10 @@ export default (state = initialState, action) => {
         }
         case 'GET_FILM': {
             state.listFilm = action.listFilm
+            return { ...state }
+        }
+        case 'DATA_FILM_EDIT': {
+            state.dataFilmEdit = action.dataFilm
             return { ...state }
         }
         default:
