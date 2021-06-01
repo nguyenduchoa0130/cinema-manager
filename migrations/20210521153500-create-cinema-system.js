@@ -1,29 +1,24 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('CinemaClusters', {
+        await queryInterface.createTable('CinemaSystems', {
             id: {
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
                 type: Sequelize.INTEGER,
             },
-            clusterName: {
-                type: Sequelize.STRING,
-            },
-            address: {
+            systemName: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            systemId: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                onDelete: 'SET NULL',
-                onUpdate: 'CASCADE',
-                references: {
-                    model: 'CinemaSystems',
-                    key: 'id',
-                },
+            logoSrc: {
+                type: Sequelize.STRING,
+                defaultValue: null,
+            },
+            logo: {
+                type: Sequelize.BLOB,
+                defaultValue: null,
             },
             createdAt: {
                 allowNull: false,
@@ -36,6 +31,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('CinemaClusters');
+        await queryInterface.dropTable('CinemaSystems');
     },
 };

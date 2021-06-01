@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             });
+
         }
     }
     Film.init(
@@ -25,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
             actors: DataTypes.STRING,
             thumbnail: DataTypes.STRING,
             poster: DataTypes.STRING,
+            trailer: DataTypes.STRING,
+            premiere: DataTypes.DATE,
             categoryId: DataTypes.INTEGER,
             desc: DataTypes.STRING,
         },

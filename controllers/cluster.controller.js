@@ -12,7 +12,7 @@ class ClusterController {
                 },
                 include: [
                     {
-                        model: models.CinemaClusterCluster,
+                        model: models.CinemaSystem,
                     },
                 ],
             });
@@ -32,7 +32,7 @@ class ClusterController {
                 },
                 include: [
                     {
-                        model: models.CinemaClusterCluster,
+                        model: models.CinemaSystem,
                     },
                 ],
             });
@@ -62,19 +62,23 @@ class ClusterController {
     }
     async update(req, res, next) {
         let id = req.params.id;
+        let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
-            let rows = await models.CinemaCluster.update(
-                {
-                    ...req.body,
-                },
-                {
+            let clusterData = await Promise.all([
+                models.CinemaCluster.findAll({
                     where: {
-                        id,
+                        clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('clusterName')), 'LIKE', `%${data.clusterName}%`),
                     },
-                }
-            );
-            if (!rows[0]) return next(apiError.badRequest('Cập nhật không thành công, vì không tồn tại film'));
+                }),
+                models.CinemaCluster.findByPk(id),
+            ]);
+            if (clusterData[0].length) return next(apiError.conflict('Tên cụm rạp đã tồn tại!'));
+            if (!clusterData[1]) return next(apiError.notFound('Không tìm thầy cụm rạp trên'));
+            for (let prop in data) {
+                clusterData[1][prop] = data[prop];
+            }
+            await clusterData[1].save();
             return res.json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);
@@ -92,4 +96,4 @@ class ClusterController {
         }
     }
 }
-module.exports = new CinemaController();
+module.exports = new ClusterController();

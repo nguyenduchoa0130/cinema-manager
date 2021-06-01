@@ -1,24 +1,28 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class CinemaCluster extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+    class CinemaCluster extends Model {
+        static associate(models) {
+            this.hasMany(models.Cinema, {
+                foreignKey: 'clusterId',
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCASE',
+            });
+            this.belongsTo(models.CinemaSystem, {
+                foreignKey: 'systemId',
+            });
+        }
     }
-  };
-  CinemaCluster.init({
-    clusterName: DataTypes.STRING,
-    address: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'CinemaCluster',
-  });
-  return CinemaCluster;
+    CinemaCluster.init(
+        {
+            clusterName: DataTypes.STRING,
+            address: DataTypes.STRING,
+            systemId: DataTypes.STRING,
+        },
+        {
+            sequelize,
+            modelName: 'CinemaCluster',
+        }
+    );
+    return CinemaCluster;
 };

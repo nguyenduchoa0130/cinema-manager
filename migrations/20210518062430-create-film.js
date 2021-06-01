@@ -34,6 +34,15 @@ module.exports = {
                 type: Sequelize.STRING,
                 defaulValue: null,
             },
+            trailer: {
+                type: Sequelize.STRING,
+                defaultValue: null,
+            },
+            premiere: {
+                type: Sequelize.DATE,
+                allowNull: false,
+                defaultValue: Sequelize.NOW,
+            },
             categoryId: {
                 type: Sequelize.INTEGER,
                 references: {

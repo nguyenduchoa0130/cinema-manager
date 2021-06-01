@@ -1,29 +1,31 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('CinemaClusters', {
+        await queryInterface.createTable('Seats', {
             id: {
                 allowNull: false,
-                primaryKey: true,
                 autoIncrement: true,
+                primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            clusterName: {
-                type: Sequelize.STRING,
-            },
-            address: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            systemId: {
+            col: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
-                onDelete: 'SET NULL',
-                onUpdate: 'CASCADE',
+            },
+            row: {
+                type: Sequelize.INTEGER,
+            },
+            isOrder: {
+                type: Sequelize.BOOLEAN,
+                defaultValue: false,
+            },
+            cinemaId: {
+                type: Sequelize.INTEGER,
                 references: {
-                    model: 'CinemaSystems',
+                    model: 'Cinemas',
                     key: 'id',
                 },
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
             },
             createdAt: {
                 allowNull: false,
@@ -36,6 +38,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('CinemaClusters');
+        await queryInterface.dropTable('Seats');
     },
 };

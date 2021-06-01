@@ -42,11 +42,23 @@ class CinemaController {
             next(err);
         }
     }
-	fetchByClusterId(req, res, next) {
-		let clusterId = req.params.id;
-	}
+    fetchByClusterId(req, res, next) {
+        let clusterId = req.params.id;
+        if (!helper.isValidID(clusterId)) return next(apiError.badRequest('ID truyền vào không hợp lệ'));
+        try {
+            let cinemas = await models.Cinema.findAll({
+                include: [{ model: models.CinemaCluster }],
+                where: { clusterId },
+                attributes: { exclude: helper.ignoreColumns('createdAt, updatedAt') },
+            });
+            if (!cinemas.length) return next(apiError.notFound('Không tìm thầy kết quả nào'));
+            return res.json(cinemas);
+        } catch (err) {
+            next(err);
+        }
+    }
 
-    async add(req, res, next) {
+    async insert(req, res, next) {
         let data = req.body;
         try {
             let cinemas = await models.Cinema.findAll({
@@ -65,19 +77,23 @@ class CinemaController {
     }
     async update(req, res, next) {
         let id = req.params.id;
+        let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
-            let rows = await models.Cinema.update(
-                {
-                    ...req.body,
-                },
-                {
+            let cinemaData = await Promise.all([
+                models.Cinema.findAll({
                     where: {
-                        id,
+                        cinemaName: sequelize.where(sequelize.fn('LOWER', sequelize.col('cinemaName'), 'LIKE', `%${data.cinemaName}%`)),
                     },
-                }
-            );
-            if (!rows[0]) return next(apiError.badRequest('Cập nhật không thành công, vì không tồn tại film'));
+                }),
+                models.Cinema.findByPk(id),
+            ]);
+            if (cinemaData[0].length) return next(apiError.conflict('Tên cụm rạp đã tồn tại!'));
+            for (let prop in data) {
+                cinemaData[1][prop] = data[prop];
+            }
+            await cinemaData[1].save();
+            return res.json({ msg: 'Cập nhật thành công' });
             return res.json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);

@@ -10,5 +10,5 @@ router.post('/signup', authMid.isNotSignedIn, authMid.isValidEmail, authCon.hand
 router.post('/forget', authCon.forget);
 router.put('/reset/:id', authMid.authenticate, authCon.reset);
 router.put('/active/:id', authCon.activeAccount);
-router.delete('/signout', authCon.handleSignOut);
+router.delete('/signout', authMid.isSignedIn, authCon.handleSignOut);
 module.exports = router;
