@@ -175,7 +175,7 @@ const AddFilm = () => {
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
                     name="director"
-                    placeholder="Đạo diển"
+                    placeholder="Đạo diễn"
                     required
                   />
                 </MDBCol>
@@ -186,7 +186,7 @@ const AddFilm = () => {
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Diển viên
+                    Diễn viên
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
@@ -195,7 +195,7 @@ const AddFilm = () => {
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
                     name="actors"
-                    placeholder="Diển viên"
+                    placeholder="Diễn viên"
                     required
                   />
 
@@ -227,6 +227,24 @@ const AddFilm = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <textarea className="form-control" rows={4} id="desc" name="desc" onChange={formik.handleChange} />
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Link Trailer
+                  </label></MDBCol>
+                <MDBCol md="10">
+                  <input
+                    onChange={formik.handleChange}
+                    type="text"
+                    id="defaultFormRegisterPasswordEx4"
+                    className="form-control"
+                    name="trailer"
+                    placeholder="Link trailer" />
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
