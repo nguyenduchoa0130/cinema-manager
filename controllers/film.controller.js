@@ -131,7 +131,7 @@ class FilmController {
             }
             if (dataImg) {
                 for (let prop in dataImg) {
-                    img[pop] = dataImg[prop];
+                    img[prop] = dataImg[prop];
                 }
             }
             for (let prop in dataFilm) {

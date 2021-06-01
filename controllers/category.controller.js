@@ -3,7 +3,7 @@ const helper = require('../config/helper');
 const models = require('../models/index').sequelize.models;
 const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
-class Category {
+class CategoryController {
     async fetchAll(req, res, next) {
         try {
             let categories = await models.Category.findAll({
@@ -11,7 +11,8 @@ class Category {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
             });
-            res.json(categories);
+            if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục nào'));
+            return res.json(categories);
         } catch (err) {
             next(err);
         }
@@ -50,7 +51,7 @@ class Category {
     }
     async add(req, res, next) {
         try {
-            let categoryName = req.body.categoryName.toLowerCase();
+            let categoryName = req.body.categoryName.trim().toLowerCase();
             let categories = await models.Category.findAll({
                 where: {
                     categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${categoryName}%`),
@@ -95,8 +96,7 @@ class Category {
     }
     async delete(req, res, next) {
         try {
-            let categoryId = +req.params.id;
-            if (!categoryId) {
+            if (!helper.isValidID(categoryId)) {
                 return next(apiError.badRequest('ID truyền vào không hợp lệ'));
             }
             let category = await models.Category.findByPk(categoryId);
@@ -113,4 +113,4 @@ class Category {
         }
     }
 }
-module.exports = new Category();
+module.exports = new CategoryController();
