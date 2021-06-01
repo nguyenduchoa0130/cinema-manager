@@ -121,7 +121,7 @@ class FilmController {
         let id = req.params.id;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
-            let [film, img] = await Promise.all([models.Film.findByPk(id), models.Film.findOne({ where: { id } })]);
+            let [film, img] = await Promise.all([models.Film.findByPk(id), models.Image.findOne({ where: { filmId: id } })]);
             if (!film) return next(apiError.notFound('Không tìm thấy film'));
             let dataFilm = req.body; // lấy dữ liệu từ
             let dataImg = null;
