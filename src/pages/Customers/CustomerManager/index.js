@@ -6,7 +6,7 @@ import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import {listCustomer} from "~/util/constants/customerTemplate"
+import {listCustomer} from "../../../util/constants/customerTemplate"
 
 const CustomerManager = () => {
 
@@ -118,6 +118,11 @@ const CustomerManager = () => {
       <Title text={"Quản lý khách hàng"} />
       <MDBCard>
         <MDBCardBody>
+        <div className="text-right">
+            <Link to="/admin/them-khach-hang">
+              <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
+            </Link>
+          </div>
           <MDBTable hover>
             <MDBTableHead color="primary-color" textWhite>
               <tr>

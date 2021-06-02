@@ -28,6 +28,7 @@ import AddFilm from "./pages/Film/AddFilm";
 import EditFilm from "./pages/Film/EditFilm";
 import CustomerManager from "./pages/Customers/CustomerManager";
 import EditCustomer from "./pages/Customers/EditCustomer";
+import AddCustomer from "./pages/Customers/AddCustomer";
 
 
 export const history = createBrowserHistory();
@@ -72,6 +73,7 @@ class App extends Component {
                 {/* User */}
                 <Route path='/admin/quan-ly-khach-hang'  component={CustomerManager} />
                 <Route path='/admin/cap-nhat-khach-hang'  component={EditCustomer} />
+                <Route path='/admin/them-khach-hang'  component={AddCustomer} />
                 
               </Switch>
             </MainAdmin>

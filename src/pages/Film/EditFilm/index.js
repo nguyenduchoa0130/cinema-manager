@@ -45,12 +45,12 @@ const EditFilm = () => {
       releaseYear: dataFilmEdit?.releaseYear,
       duration: dataFilmEdit?.duration,
       actors: dataFilmEdit?.actors,
-      categoryId: dataFilmEdit?.Category?.id,
+      categoryId: dataFilmEdit?.categoryId,
       director: dataFilmEdit?.director,
       thumbnail: dataFilmEdit?.thumbnail,
       desc: dataFilmEdit?.desc,
       poster: dataFilmEdit?.poster,
-      premiere:dataFilmEdit?.premiere,
+      premiere: dataFilmEdit?.premiere,
       statusId: dataFilmEdit?.statusId
     },
     validationSchema: Yup.object().shape({
@@ -246,7 +246,7 @@ const EditFilm = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <select name="categoryId" className="browser-default custom-select" value={formik.values['categoryId']} onChange={formik.handleChange}>
-                  <option selected={dataFilmEdit.Category.id}>{dataFilmEdit.Category.categoryName}</option>
+                    <option selected={dataFilmEdit['Category.name']}>{dataFilmEdit['Category.name']}</option>
                     {renderTheLoaiPhim()}
                   </select>
                   {formik.errors.categoryId && formik.touched.categoryId && (
@@ -264,11 +264,7 @@ const EditFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="categoryId" className="browser-default custom-select" value={formik.values['statusId']} onChange={formik.handleChange}>
-                    <option>Chọn trạng thái phim</option>
-                    <option>Đang công chiếu</option>
-                    <option>Sắp công chiếu</option>
-                  </select>
+                  <input  className="form-control" readOnly={true} value={dataFilmEdit['StatusFilm.name']} />
                 </MDBCol>
               </MDBRow>
 
@@ -278,11 +274,11 @@ const EditFilm = () => {
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Trạng thái
+                    Ngày công chiếu
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <input type="date"  name="premiere" value={formik.values['premiere']} onChange={formik.handleChange}/>
+                  <input type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
                 </MDBCol>
               </MDBRow>
 
