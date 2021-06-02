@@ -20,6 +20,12 @@ const SideNav = () => {
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
+          <MDBNavLink to="/admin/quan-ly-khach-hang">
+            <MDBIcon icon="user" className="mr-3" />
+            Quản lý khách hàng
+          </MDBNavLink>
+        </MDBListGroupItem>
+        <MDBListGroupItem>
           <MDBNavLink to="/admin/danh-sach-phim">
             <MDBIcon icon="film" className="mr-3" />
             Quản lý phim
@@ -31,6 +37,13 @@ const SideNav = () => {
             Quản lý suất chiếu
           </MDBNavLink>
         </MDBListGroupItem>
+        <MDBListGroupItem>
+          <MDBNavLink to="/admin/quan-ly-suat-chieu">
+          <MDBIcon icon="gopuram"  className="mr-3" />
+            Quản lý rạp
+          </MDBNavLink>
+        </MDBListGroupItem>
+        
         <MDBListGroupItem>
           <MDBNavLink to="/admin/cau-hinh-ghe">
             <MDBIcon icon="couch" className="mr-3" />

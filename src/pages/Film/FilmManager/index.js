@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import Title from "../../../components/Tittle";
-import { data } from "../../../util/dataTemplate";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
@@ -60,6 +59,8 @@ const FilmManager = () => {
           <td>{film.director}</td>
           <td>{film.actors}</td>
           <td>{film.Category.categoryName}</td>
+          <td>{film.statusId}</td>
+          <td>{film.premiere}</td>
           <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(film.id) }} >
@@ -107,9 +108,9 @@ const FilmManager = () => {
                 <th>Quốc gia sản xuất</th>
                 <th>Năm phát hành</th>
                 <th>Thời lượng</th>
-                <th>Đạo diển</th>
-                <th>Diển viên</th>
                 <th>Thể loại</th>
+                <th>Trạng thái</th>
+                <th>Ngày công chiếu</th>
                 <th>Hình ảnh</th>
                 <th>Thao tác</th>
               </tr>

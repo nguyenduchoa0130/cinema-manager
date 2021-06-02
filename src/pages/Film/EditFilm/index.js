@@ -49,7 +49,9 @@ const EditFilm = () => {
       director: dataFilmEdit?.director,
       thumbnail: dataFilmEdit?.thumbnail,
       desc: dataFilmEdit?.desc,
-      poster: dataFilmEdit?.poster
+      poster: dataFilmEdit?.poster,
+      premiere:dataFilmEdit?.premiere,
+      statusId: dataFilmEdit?.statusId
     },
     validationSchema: Yup.object().shape({
       filmName: Yup.string().required("Required!"),
@@ -252,6 +254,38 @@ const EditFilm = () => {
                   )}
                 </MDBCol>
               </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2" >
+                  <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Trạng thái
+                  </label>
+                </MDBCol>
+                <MDBCol md="10" >
+                  <select name="categoryId" className="browser-default custom-select" value={formik.values['statusId']} onChange={formik.handleChange}>
+                    <option>Chọn trạng thái phim</option>
+                    <option>Đang công chiếu</option>
+                    <option>Sắp công chiếu</option>
+                  </select>
+                </MDBCol>
+              </MDBRow>
+
+              <MDBRow className="mb-3">
+                <MDBCol md="2" >
+                  <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Trạng thái
+                  </label>
+                </MDBCol>
+                <MDBCol md="10" >
+                  <input type="date"  name="premiere" value={formik.values['premiere']} onChange={formik.handleChange}/>
+                </MDBCol>
+              </MDBRow>
+
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label

@@ -38,10 +38,13 @@ const AddFilm = () => {
       duration: "",
       actors: "",
       categoryId: 1,
+      statusId:"",
       director: "",
-      thumbnail: {},
+      thumbnail: null,
+      trailer:"",
+      premiere:null,
       desc: "",
-      poster: {}
+      poster: null
     },
     validationSchema: Yup.object().shape({
       filmName: Yup.string().required("Required!"),
@@ -50,6 +53,7 @@ const AddFilm = () => {
       duration: Yup.string().required("Required!"),
       actors: Yup.string().required("Required!"),
       director: Yup.string().required("Required!"),
+      trailer: Yup.string().required("Required!"),
       desc: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
@@ -220,6 +224,37 @@ const AddFilm = () => {
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Trạng thái
+                  </label>
+                </MDBCol>
+                <MDBCol md="10" >
+                  <select name="categoryId" className="browser-default custom-select" value={formik.values['statusId']} onChange={formik.handleChange}>
+                    <option>Chọn trạng thái phim</option>
+                    <option>Đang công chiếu</option>
+                    <option>Sắp công chiếu</option>
+                  </select>
+                </MDBCol>
+              </MDBRow>
+
+              <MDBRow className="mb-3">
+                <MDBCol md="2" >
+                  <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Trạng thái
+                  </label>
+                </MDBCol>
+                <MDBCol md="10" >
+                  <input type="date"  name="premiere" value={formik.values['premiere']} onChange={formik.handleChange}/>
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2" >
+                  <label
                     className="grey-text"
                   >
                     Mô tả
@@ -267,7 +302,7 @@ const AddFilm = () => {
                         name="thumbnail"
                       />
                       <label className="custom-file-label" >
-                        Chọn ảnh thumbnail
+                        {formik.values.thumbnail?formik.values.thumbnail.name : "Chọn ảnh thumbnail"}
                       </label>
                     </div>
                   </div>
@@ -294,7 +329,7 @@ const AddFilm = () => {
                         name="poster"
                       />
                       <label className="custom-file-label" >
-                        Chọn ảnh poster
+                        {formik.values.poster?formik.values.poster.name : "Chọn ảnh poster"}
                       </label>
                     </div>
                   </div>
