@@ -8,7 +8,7 @@ class FilmController {
         try {
             let films = await models.Film.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
@@ -39,7 +39,7 @@ class FilmController {
         try {
             let data = await models.Film.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
@@ -76,7 +76,7 @@ class FilmController {
             if (helper.isValidID(id)) {
                 let film = await models.Film.findByPk(id, {
                     attributes: {
-                        exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId'),
+                        exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                     },
                     include: [
                         {
@@ -109,7 +109,7 @@ class FilmController {
         try {
             let films = await models.Film.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
@@ -143,14 +143,14 @@ class FilmController {
         try {
             let films = await models.Film.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
                         model: models.StatusFilm,
                         require: true,
                         attributes: [['statusName', 'name']],
-						where: {
+                        where: {
                             [Op.or]: [
                                 { id: status },
                                 { statusName: sequelize.where(sequelize.fn('LOWER', sequelize.col('statusName')), 'LIKE', `%${status}%`) },
