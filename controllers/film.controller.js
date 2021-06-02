@@ -35,16 +35,11 @@ class FilmController {
                 include: [
                     {
                         model: models.Category,
-                        require: true,
-                        attributes: ['categoryName'],
                     },
                     {
                         model: models.StatusFilm,
-                        require: true,
-                        attributes: ['statusName'],
                     },
                 ],
-                raw: true,
             });
             let films = data.filter((film) => {
                 let {
