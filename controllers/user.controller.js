@@ -47,6 +47,15 @@ class UserController {
         }
     }
     async add(req, res, next) {
+        let data = req.body;
+        try {
+            let users = await UserModel.findAll({ where: { email: data.email } });
+            if (users.length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
+            let user = await UserModel.create(data);
+            return res.json({ msg: 'Tạo người dùng thành công', user });
+        } catch (err) {
+            next(err);
+        }
     }
     async update(req, res, next) {
         let id = req.params.id;

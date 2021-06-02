@@ -59,9 +59,21 @@ class FilmController {
             if (helper.isValidID(id)) {
                 let film = await models.Film.findByPk(id, {
                     attributes: {
-                        exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                        exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId'),
                     },
-                    include: models.Category,
+                    include: [
+                        {
+                            model: models.Category,
+                            require: true,
+                            attributes: ['categoryName'],
+                        },
+                        {
+                            model: models.StatusFilm,
+                            require: true,
+                            attributes: ['statusName'],
+                        },
+                    ],
+                    raw: true,
                 });
                 if (!film) {
                     return next(apiError.notFound('Không tìm thấy kết quả nào'));

@@ -34,6 +34,7 @@ class CinemaController {
                         model: models.CinemaCluster,
                     },
                 ],
+                raw: true,
             });
             if (!cinema) return next(apiError.notFound('Không tìm thấy rạp nào'));
             return res.json(cinema);
