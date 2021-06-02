@@ -27,37 +27,37 @@ class FilmController {
             if (!films.length) {
                 return next(apiError.notFound('Không tìm thấy kết quả nào'));
             } else {
-                return res.json({
-                    msg: `Tìm thầy ${films.length} kết quả`,
-                    films,
-                });
+                return res.json({ films });
             }
         } catch (err) {
             next(err);
         }
     }
     async fetchFilmByKey(req, res, next) {
-        let key = req.query.key ?? null;
+        let key = req.query.key;
+        if (!key) return next();
         try {
             let data = await models.Film.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
+                },
                 include: [
                     {
                         model: models.StatusFilm,
+                        require: true,
+                        attributes: [['statusName', 'name']],
                     },
                     {
                         model: models.Category,
+                        require: true,
+                        attributes: [['categoryName', 'name']],
                     },
                 ],
+                raw: true,
             });
             let films = data.filter((film) => {
-                let {
-                    filmName,
-                    country,
-                    director,
-                    actors,
-                    Category: { categoryName },
-                } = film;
-                let dataTMP = [filmName, country, director, actors, categoryName];
+                let { filmName, country, director, actors } = film;
+                let dataTMP = [filmName, country, director, actors];
                 for (let i = 0; i < dataTMP.length; i++) {
                     dataTMP[i] = helper.removeAccents(dataTMP[i]).trim().toLowerCase();
                 }
@@ -65,7 +65,7 @@ class FilmController {
                 return joinStr.includes(key);
             });
             if (!films.length) return next(apiError.notFound('Không tìm thấy kết quả nào phù hợp'));
-            return res.json({ msg: `Tìm thầy ${films.length} kết quả`, films });
+            return res.json({ films });
         } catch (err) {
             return next(err);
         }
@@ -80,14 +80,14 @@ class FilmController {
                     },
                     include: [
                         {
-                            model: models.Category,
-                            require: true,
-                            attributes: ['categoryName'],
-                        },
-                        {
                             model: models.StatusFilm,
                             require: true,
-                            attributes: ['statusName'],
+                            attributes: [['statusName', 'name']],
+                        },
+                        {
+                            model: models.Category,
+                            require: true,
+                            attributes: [['categoryName', 'name']],
                         },
                     ],
                     raw: true,
@@ -95,28 +95,78 @@ class FilmController {
                 if (!film) {
                     return next(apiError.notFound('Không tìm thấy kết quả nào'));
                 } else {
-                    return res.json({
-                        msg: `Tìm thầy kết quả`,
-                        film,
-                    });
+                    return res.json({ film });
                 }
             } else return next(apiError.badRequest('Lỗi: ID truyền vào không hợp lệ'));
         } catch (err) {
             return next(err);
         }
     }
-    async fetchByCategoryId(req, res, next) {
-        let id = req.params.id;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID truyền vào không hợp lệ'));
+    async fetchByCategory(req, res, next) {
+        let cate = req.query.cate;
+        if (!cate) return next();
+        let id = Math.abs(Math.floor(parseInt(cate))) ? Math.abs(Math.floor(parseInt(cate))) : -1;
         try {
             let films = await models.Film.findAll({
-                where: {
-                    categoryId: id,
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
                 },
-                include: models.Category,
+                include: [
+                    {
+                        model: models.StatusFilm,
+                        require: true,
+                        attributes: [['statusName', 'name']],
+                    },
+                    {
+                        model: models.Category,
+                        require: true,
+                        attributes: [['categoryName', 'name']],
+                        where: {
+                            [Op.or]: [
+                                { id },
+                                { categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${cate}%`) },
+                            ],
+                        },
+                    },
+                ],
+                raw: true,
             });
             if (!films.length) return next(apiError.notFound('Không tìm thấy kết quả nào phù hợp'));
-            return res.json({ msg: `Tìm thầy ${films.length} kết quả`, films });
+            return res.json(films);
+        } catch (err) {
+            next(err);
+        }
+    }
+    async fetchByStatus(req, res, next) {
+        let status = req.query.status;
+        if (!status) return next();
+        try {
+            let films = await models.Film.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
+                },
+                include: [
+                    {
+                        model: models.StatusFilm,
+                        require: true,
+                        attributes: [['statusName', 'name']],
+						where: {
+                            [Op.or]: [
+                                { id: status },
+                                { statusName: sequelize.where(sequelize.fn('LOWER', sequelize.col('statusName')), 'LIKE', `%${status}%`) },
+                            ],
+                        },
+                    },
+                    {
+                        model: models.Category,
+                        require: true,
+                        attributes: [['categoryName', 'name']],
+                    },
+                ],
+                raw: true,
+            });
+            if (!films.length) return next(apiError.notFound('Không tìm thấy kết quả nào phù hợp'));
+            return res.json({ films });
         } catch (err) {
             next(err);
         }
@@ -169,6 +219,13 @@ class FilmController {
             let src = helper.createSrc(film.id, img);
             film.poster = src.poster;
             film.thumbnail = src.thumbnail;
+            if ('premiere' in dataFilm) {
+                if (helper.compareNow(dataFilm.premiere)) {
+                    film.statusId = 'SAP_CONG_CHIEU';
+                } else {
+                    film.statusId = 'DANG_CONG_CHIEU';
+                }
+            }
             await Promise.all([img.save(), film.save()]);
             res.json({ msg: 'Cập nhật thành công' });
         } catch (err) {

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const authMid = require('../../middlewares/auth.middleware');
 const uploads = require('../../config/multer');
 const filmCon = require('../../controllers/film.controller');
-router.get('/search', filmCon.fetchFilmByKey);	
+router.get('/search', filmCon.fetchFilmByKey, filmCon.fetchByCategory, filmCon.fetchByStatus);
 router
     .route('/:id')
     .get(filmCon.fetchById)

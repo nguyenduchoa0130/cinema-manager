@@ -51,7 +51,11 @@ class UserController {
         try {
             let users = await UserModel.findAll({ where: { email: data.email } });
             if (users.length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
-            let user = await UserModel.create(data);
+            data.password = await bcrypt.hash(data.password, 10);
+            let user = await UserModel.create({
+                ...data,
+                isActive: true,
+            });
             return res.json({ msg: 'Tạo người dùng thành công', user });
         } catch (err) {
             next(err);

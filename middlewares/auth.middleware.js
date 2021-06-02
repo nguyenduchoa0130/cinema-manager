@@ -32,12 +32,12 @@ class AuthenticationMiddleware {
         try {
             let token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
-                return next(apiError.notAuthorized('Không thể chức năng này vì không xác thực được người dùng'));
+                return next(apiError.notAuthorized('Vui lòng đăng nhập để thực hiện chức năng này'));
             }
             jwt.verify(token, process.env.ACCESS_TOKEN_SERCET || 'accessToken', (err, data) => {
                 if (err) {
                     if (err.name == 'JsonWebTokenError') {
-                        return next(apiError.badRequest('Token không hợp lệ'));
+                        return next(apiError.badRequest('Token không hợp lệ. Vui lòng đăng nhập để xác thực người dùng'));
                     }
                     if (err.name == 'TokenExpiredError') {
                         return next(apiError.badRequest('Token đã hết hạn. Vui lòng đăng nhập lại'));

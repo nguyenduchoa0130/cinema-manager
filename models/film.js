@@ -50,10 +50,10 @@ module.exports = (sequelize, DataTypes) => {
                 beforeCreate(film, options) {
                     let now = new Date();
                     let premiere = new Date(film.premiere);
-                    if (now.getTime() <= premiere.getTime()) {
-                        film.statusId = 'DANG_CONG_CHIEU';
-                    } else {
+                    if (now.getTime() < premiere.getTime()) {
                         film.statusId = 'SAP_CONG_CHIEU';
+                    } else {
+                        film.statusId = 'DANG_CONG_CHIEU';
                     }
                 },
             },

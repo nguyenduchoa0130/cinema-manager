@@ -58,5 +58,10 @@ class Helper {
             .replace(/đ/g, 'd')
             .replace(/Đ/g, 'D');
     }
+    compareNow(date) {
+        let now = new Date();
+        let compareDate = new Date(date);
+        return now.getTime() < compareDate.getTime();
+    }
 }
 module.exports = new Helper();
