@@ -39,9 +39,8 @@ module.exports = {
                 defaultValue: null,
             },
             premiere: {
-                type: Sequelize.DATE,
-                allowNull: false,
-                defaultValue: Sequelize.NOW,
+                type: Sequelize.STRING,
+                defaulValue: null,
             },
             desc: {
                 type: Sequelize.STRING,
