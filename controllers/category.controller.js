@@ -17,97 +17,72 @@ class CategoryController {
             next(err);
         }
     }
-    async fetchByIdOrName(req, res, next) {
+    async fetchById(req, res, next) {
+        let id = req.query.id;
+        if (!id) return next();
+        if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
-            let category;
-            let params = req.params.id;
-            if (+params > 0) {
-                category = await models.Category.findByPk(params, {
-                    attributes: {
-                        exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
-                    },
-                });
-            } else {
-                category = await models.Category.findAll({
-                    where: {
-                        categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${params}%`),
-                    },
-                    attributes: {
-                        exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
-                    },
-                });
-            }
-            if (category?.length || category) {
-                return res.json({
-                    msg: 'Tìm thành công',
-                    category,
-                });
-            } else {
-                return next(apiError.notFound('Không tìm thấy danh mục nào'));
-            }
+            let category = await models.Category.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
+            if (!category) return next(apiError.notFound('Không tìm thấy danh mục'));
+            return res.json(category);
+        } catch (err) {
+            next(err);
+        }
+    }
+    async fetchByName(req, res, next) {
+        let name = req.query.name;
+        if (!name) return next();
+        if (!name.length) return next(apiError.badRequest('Tên danh mục không hợp lệ'));
+        try {
+            let rows = await models.Category.findAll({ attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
+            let categories = rows.filter((category) => {
+                let nameTmp = helper.removeAccents(category.categoryName);
+                let key = helper.removeAccents(name);
+                return nameTmp.includes(key);
+            });
+            if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục phim có liên quân tới ' + name));
+            return res.json(categories);
         } catch (err) {
             next(err);
         }
     }
     async add(req, res, next) {
         try {
-            let categoryName = req.body.categoryName.trim().toLowerCase();
+            let data = req.body.categoryName;
             let categories = await models.Category.findAll({
                 where: {
-                    categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${categoryName}%`),
+                    categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${data.categoryName}%`),
                 },
             });
             if (categories.length) {
                 return next(apiError.conflict('Danh mục phim đã tồn tại'));
             } else {
-                await models.Category.create({ categoryName });
-                return res.json({
-                    msg: 'Tạo danh mục thành công',
-                });
+                let category = await models.Category.create({ categoryName });
+                return res.json({ msg: 'Tạo danh mục thành công', category });
             }
         } catch (err) {
             next(err);
         }
     }
     async update(req, res, next) {
+        let id = req.params.id;
+        let data = req.body;
+        if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
-            let categoryId = +req.params.id;
-            if (!helper.isValidID(categoryId)) {
-                return next(apiError.badRequest('ID không hợp lệ'));
-            }
-            let response = await Promise.all([
-                models.Category.findByPk(categoryId),
-                helper.isNameExist(models.Category, 'categoryName', req.body.categoryName),
-            ]);
-            if (!response[0]) {
-                return next(apiError.notFound('Danh mục phim không có tồn tại'));
-            } else if (response[1]) {
-                return next(apiError.conflict('Tên danh mục đã tồn tại'));
-            } else {
-                response[0].categoryName = req.body.categoryName;
-                await response[0].save();
-                res.json({
-                    msg: 'Cập nhập thành công',
-                });
-            }
+            let rows = await models.Category.update({ ...data }, { where: { id } });
+            if (!rows[0]) return next(apiError.notFound('Cập nhật không thành công. Không tìm thấy danh mục phim trên'));
+            return res.json({ msg: 'Cập nhật danh mục phim thành công' });
         } catch (err) {
             next(err);
         }
     }
     async delete(req, res, next) {
+        let id = req.params.id;
+        if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
-            if (!helper.isValidID(categoryId)) {
-                return next(apiError.badRequest('ID truyền vào không hợp lệ'));
-            }
-            let category = await models.Category.findByPk(categoryId);
-            if (!category) {
-                return next(apiError.notFound('Không tìm thất danh mục phim'));
-            } else {
-                await category.destroy();
-                res.json({
-                    msg: 'Xóa thành công',
-                });
-            }
+            let rows = await models.Category.destroy({ where: { id } });
+            if (!rows[0]) return next(apiError.notFound('Xóa không thành công. Không tìm thấy danh mục phim trên'));
+            return res.json({ msg: 'Xóa danh mục phim thành công' });
         } catch (err) {
             next(err);
         }

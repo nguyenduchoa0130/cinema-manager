@@ -56,7 +56,9 @@ class Helper {
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '')
             .replace(/đ/g, 'd')
-            .replace(/Đ/g, 'D');
+            .replace(/Đ/g, 'D')
+            .trim()
+            .toLowerCase();
     }
     compareNow(date) {
         let now = new Date();
