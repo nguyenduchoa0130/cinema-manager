@@ -25,6 +25,7 @@ class SystemCinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo'),
                 },
+                include: models.CinemaCluster,
             });
             if (!system) return next(apiError.notFound('Không tìm thấy hệ thống rạp nào'));
             return res.json(system);
@@ -37,7 +38,7 @@ class SystemCinemaController {
         try {
             let systems = await models.CinemaSystem.findAll({
                 where: {
-                    systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `%${data.systemName}%`),
+                    systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `%${data.systemNames}%`),
                 },
             });
             if (systems.length) return next(apiError.conflict('Hệ thống rạp đã tồn tại. Vui lòng tên hệ thống rạp khác'));
@@ -58,14 +59,14 @@ class SystemCinemaController {
         if (!helper.isValidID(id)) return next(apiError.badRequest('Cập nhật thất bại: ID không hợp lệ'));
         try {
             let system = await models.CinemaSystem.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
-            if (!system) return next(apiError.notFound('Lỗi: Không tìm thấy hệ thống rạp'));
+            if (!system) return next(apiError.notFound(' Không tìm thấy hệ thống rạp'));
             if ('systemName' in data) {
                 let systems = await models.CinemaSystem.findAll({
                     where: {
                         systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `%${data.systemName}%`),
                     },
                 });
-                if (systems.length) return next(apiError.conflict('Lỗi: Tên hệ thống rạp đã tồn tại'));
+                if (systems.length) return next(apiError.conflict(' Tên hệ thống rạp đã tồn tại'));
                 system.systemName = data.systemName;
             }
             if (Object.keys(req.file).length) {
@@ -81,7 +82,7 @@ class SystemCinemaController {
         let id = req.params.id;
         if (!helper.isValidID(id)) return next(apiError.badRequest('Lôi: ID không hợp lệ'));
         let row = await models.CinemaSystem.destroy({ where: { id } });
-        if (!row) return next(apiError.badRequest('Lỗi: Không tồn tại hệ thống rạp trên'));
+        if (!row) return next(apiError.badRequest(' Không tồn tại hệ thống rạp trên'));
         return res.json({ msg: 'Xóa thành công' });
     }
 }
