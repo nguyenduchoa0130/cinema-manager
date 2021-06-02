@@ -31,7 +31,21 @@ class FilmController {
     async fetchFilmByKey(req, res, next) {
         let key = req.query.key ?? null;
         try {
-            let data = await models.Film.findAll({ include: models.Category });
+            let data = await models.Film.findAll({
+                include: [
+                    {
+                        model: models.Category,
+                        require: true,
+                        attributes: ['categoryName'],
+                    },
+                    {
+                        model: models.StatusFilm,
+                        require: true,
+                        attributes: ['statusName'],
+                    },
+                ],
+                raw: true,
+            });
             let films = data.filter((film) => {
                 let {
                     filmName,
@@ -64,9 +78,13 @@ class FilmController {
                     include: [
                         {
                             model: models.Category,
+                            require: true,
+                            attributes: ['categoryName'],
                         },
                         {
                             model: models.StatusFilm,
+                            require: true,
+                            attributes: ['statusName'],
                         },
                     ],
                     raw: true,
