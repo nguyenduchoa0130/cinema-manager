@@ -38,7 +38,7 @@ const SideNav = () => {
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
-          <MDBNavLink to="/admin/quan-ly-suat-chieu">
+          <MDBNavLink to="quan-ly-he-thong-rap">
           <MDBIcon icon="gopuram"  className="mr-3" />
             Quản lý rạp
           </MDBNavLink>
@@ -51,6 +51,7 @@ const SideNav = () => {
           </MDBNavLink>
         </MDBListGroupItem>
       </MDBListGroup>
+      
     </div>
   );
 };

@@ -56,8 +56,6 @@ const FilmManager = () => {
           <td>{film.country}</td>
           <td>{film.releaseYear}</td>
           <td>{film.duration}</td>
-          <td>{film.director}</td>
-          <td>{film.actors}</td>
           <td>{film.Category.categoryName}</td>
           <td>{film.statusId}</td>
           <td>{film.premiere}</td>
