@@ -51,7 +51,7 @@ const EditFilm = () => {
       desc: dataFilmEdit?.desc,
       poster: dataFilmEdit?.poster,
       premiere: dataFilmEdit?.premiere,
-      statusId: dataFilmEdit?.statusId
+      statusId: dataFilmEdit?.status.Id
     },
     validationSchema: Yup.object().shape({
       filmName: Yup.string().required("Required!"),
