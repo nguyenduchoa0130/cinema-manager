@@ -46,6 +46,9 @@ class UserController {
             return next(err);
         }
     }
+    async add(req, res, next) {
+		res.json(req.body);
+	}
     async update(req, res, next) {
         let id = req.params.id;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID truyền vào không hợp lệ!!'));

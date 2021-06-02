@@ -2,6 +2,7 @@ const router = require('express').Router();
 const userCon = require('../../controllers/user.controller');
 const authMid = require('../../middlewares/auth.middleware');
 router.use(authMid.authenticate);
+router.post('/add', authMid.isAdmin, userCon.add);
 router
     .route('/:id')
     .get(authMid.isActive, authMid.isOwnerOrAdmin, userCon.fetchByIdOrEmail)

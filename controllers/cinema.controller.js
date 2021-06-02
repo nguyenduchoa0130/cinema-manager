@@ -2,7 +2,6 @@ const helper = require('../config/helper');
 const models = require('../models/index').sequelize.models;
 const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
-
 class CinemaController {
     async fetchAll(req, res, next) {
         try {
@@ -89,11 +88,11 @@ class CinemaController {
                 models.Cinema.findByPk(id),
             ]);
             if (cinemaData[0].length) return next(apiError.conflict('Tên cụm rạp đã tồn tại!'));
+            if (!cinemaData[1]) return next(apiError.notFound('Không tìm thấy rạp'));
             for (let prop in data) {
                 cinemaData[1][prop] = data[prop];
             }
             await cinemaData[1].save();
-            return res.json({ msg: 'Cập nhật thành công' });
             return res.json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);

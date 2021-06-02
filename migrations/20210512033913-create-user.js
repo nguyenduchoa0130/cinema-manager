@@ -8,6 +8,11 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
+            facebookId: {
+                type: Sequelize.STRING,
+                allowNull: true,
+                defaultValue: null,
+            },
             email: {
                 type: Sequelize.STRING,
                 allowNull: false,

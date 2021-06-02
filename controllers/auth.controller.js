@@ -10,7 +10,7 @@ class AuthController {
         passport.authenticate('local', (err, user) => {
             if (err) return next(err); // lỗi server
             if (!user) {
-                return next(apiError.forbidden('Lỗi: Email hoặc mật khẩu không chính xác'));
+                return next(apiError.forbidden('Email hoặc mật khẩu không chính xác'));
             }
             req.login(user, async (err) => {
                 if (err) {
@@ -35,7 +35,7 @@ class AuthController {
             data.password = await bcrypt.hash(data.password, 10);
             let account = await models.User.findOne({ where: { email: data.email } });
             if (account) {
-                return next(apiError.conflict('Lỗi: Email đã được sử dụng cho 1 tài khoản khác'));
+                return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
             } else {
                 let user = await models.User.create(data);
                 let code = Math.floor(100000 + Math.random() * 900000);
@@ -134,7 +134,7 @@ class AuthController {
                     accessToken,
                 });
             } else {
-                return next(apiError.notFound('Lỗi: Không tìm thấy tài khoản'));
+                return next(apiError.notFound('Không tìm thấy tài khoản'));
             }
         } catch (err) {
             next(err);
@@ -157,7 +157,7 @@ class AuthController {
                 );
                 return res.json({ msg: 'Cập nhật mật khẩu thành công' });
             } else {
-                return next(apiError.notAuthorized('Lỗi: Bạn không có quyền thực hiện chức năng này'));
+                return next(apiError.notAuthorized('Bạn không có quyền thực hiện chức năng này'));
             }
         } catch (err) {
             return next(err);

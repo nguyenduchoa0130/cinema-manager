@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Film extends Model {
@@ -13,12 +14,22 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             });
-
+            this.belongsTo(models.StatusFilm, {
+                foreignKey: 'statusKey',
+            });
         }
     }
     Film.init(
         {
-            filmName: DataTypes.STRING,
+            filmName: {
+                type: DataTypes.STRING,
+                get() {
+                    return _.capitalize(this.getDataValue('filmName'));
+                },
+                set(value) {
+                    this.setDataValue('filmName', value.toLowerCase());
+                },
+            },
             country: DataTypes.STRING,
             releaseYear: DataTypes.STRING,
             duration: DataTypes.STRING,
@@ -28,12 +39,24 @@ module.exports = (sequelize, DataTypes) => {
             poster: DataTypes.STRING,
             trailer: DataTypes.STRING,
             premiere: DataTypes.DATE,
-            categoryId: DataTypes.INTEGER,
             desc: DataTypes.STRING,
+            categoryId: DataTypes.INTEGER,
+            statusKey: DataTypes.STRING,
         },
         {
             sequelize,
             modelName: 'Film',
+            hooks: {
+                beforeCreate(film, options) {
+                    let now = new Date();
+                    let premiere = new Date(film.premiere);
+                    if (now.getTime() <= premiere.getTime()) {
+                        film.statusKey = 'SAP_CONG_CHIEU';
+                    } else {
+                        film.statusKey = 'DANG_CONG_CHIEU';
+                    }
+                },
+            },
         }
     );
     return Film;

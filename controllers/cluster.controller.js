@@ -2,13 +2,12 @@ const helper = require('../config/helper');
 const models = require('../models/index').sequelize.models;
 const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
-
 class ClusterController {
     async fetchAll(req, res, next) {
         try {
             let cluster = await models.CinemaCluster.findAll({
                 attributes: {
-                    exlude: helper.ignoreColumns('createdAt', 'updatedAt', 'clusterId'),
+                    exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
@@ -28,7 +27,7 @@ class ClusterController {
         try {
             let cinema = await models.CinemaCluster.findByPk(id, {
                 attributes: {
-                    exlude: helper.ignoreColumns('createdAt', 'updatedAt', 'clusterId'),
+                    exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {

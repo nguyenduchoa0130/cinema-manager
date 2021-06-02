@@ -43,6 +43,10 @@ module.exports = {
                 allowNull: false,
                 defaultValue: Sequelize.NOW,
             },
+            desc: {
+                type: Sequelize.STRING,
+                defaultValue: null,
+            },
             categoryId: {
                 type: Sequelize.INTEGER,
                 references: {
@@ -52,9 +56,14 @@ module.exports = {
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             },
-            desc: {
+            statusKey: {
                 type: Sequelize.STRING,
-                defaultValue: null,
+                references: {
+                    model: 'StatusFilms',
+                    key: 'key',
+                },
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
             },
             createdAt: {
                 allowNull: false,
