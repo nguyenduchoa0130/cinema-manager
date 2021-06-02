@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 onUpdate: 'CASCADE',
             });
             this.belongsTo(models.StatusFilm, {
-                foreignKey: 'statusKey',
+                foreignKey: 'statusId',
             });
         }
     }
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
             premiere: DataTypes.DATE,
             desc: DataTypes.STRING,
             categoryId: DataTypes.INTEGER,
-            statusKey: DataTypes.STRING,
+            statusId: DataTypes.STRING,
         },
         {
             sequelize,
@@ -51,9 +51,9 @@ module.exports = (sequelize, DataTypes) => {
                     let now = new Date();
                     let premiere = new Date(film.premiere);
                     if (now.getTime() <= premiere.getTime()) {
-                        film.statusKey = 'SAP_CONG_CHIEU';
+                        film.statusId = 'DANG_CONG_CHIEU';
                     } else {
-                        film.statusKey = 'DANG_CONG_CHIEU';
+                        film.statusId = 'SAP_CONG_CHIEU';
                     }
                 },
             },

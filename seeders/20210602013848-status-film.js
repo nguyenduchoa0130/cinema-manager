@@ -4,14 +4,14 @@ module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('StatusFilms', [
             {
-                key: 'DANG_CONG_CHIEU',
-                statusName: 'Đang Công Chiếu',
+                id: 'SAP_CONG_CHIEU',
+                statusName: 'Sắp Công Chiếu',
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                key: 'SAP_CONG_CHIEU',
-                statusName: 'Sắp Công Chiếu',
+                id: 'DANG_CONG_CHIEU',
+                statusName: 'Đang Công Chiếu',
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },

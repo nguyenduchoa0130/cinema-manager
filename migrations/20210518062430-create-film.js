@@ -55,11 +55,11 @@ module.exports = {
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             },
-            statusKey: {
+            statusId: {
                 type: Sequelize.STRING,
                 references: {
                     model: 'StatusFilms',
-                    key: 'key',
+                    key: 'id',
                 },
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',

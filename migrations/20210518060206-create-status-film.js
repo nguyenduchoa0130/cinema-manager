@@ -2,7 +2,7 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('StatusFilms', {
-            key: {
+            id: {
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.STRING,

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     class StatusFilm extends Model {
         static associate(models) {
             this.hasMany(models.Film, {
-                foreignKey: 'statusKey',
+                foreignKey: 'statusId',
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             });
@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     }
     StatusFilm.init(
         {
-            key: DataTypes.STRING,
             statusName: DataTypes.STRING,
         },
         {

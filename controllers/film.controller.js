@@ -8,13 +8,21 @@ class FilmController {
         try {
             let films = await models.Film.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'categoryId', 'statusId'),
                 },
                 include: [
                     {
+                        model: models.StatusFilm,
+                        require: true,
+                        attributes: [['statusName', 'name']],
+                    },
+                    {
                         model: models.Category,
+                        require: true,
+                        attributes: [['categoryName', 'name']],
                     },
                 ],
+                raw: true,
             });
             if (!films.length) {
                 return next(apiError.notFound('Không tìm thấy kết quả nào'));
@@ -34,10 +42,10 @@ class FilmController {
             let data = await models.Film.findAll({
                 include: [
                     {
-                        model: models.Category,
+                        model: models.StatusFilm,
                     },
                     {
-                        model: models.StatusFilm,
+                        model: models.Category,
                     },
                 ],
             });
