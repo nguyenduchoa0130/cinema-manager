@@ -128,19 +128,22 @@ class CinemaController {
         let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID rạp không hợp lệ'));
         try {
+            let cinema = await models.Cinema.findByPk(id);
+            if (!cinema) return next(apiError.notFound('Không tìm thấy rạp'));
             if ('cinemaName' in data) {
                 let name = data.cinemaName.trim().toLowerCase();
                 let rows = await models.Cinema.findAll({
                     where: {
                         cinemaName: sequelize.where(sequelize.fn('LOWER', sequelize.col('cinemaName')), 'LIKE', `${name}`),
-                        clusterId: data.clusterId,
+                        clusterId: 'clusterId' in data ? data.clusterId : cinema.clusterId,
                     },
                 });
                 if (rows.length) return next(apiError.conflict('Tên rạp đã tồn tại. Vui lòng chọn tên rạp khác'));
-            }
-            let row = await models.Cinema.update({ ...data }, { where: { id } });
-            if (!row[0]) return next(apiError.notFound('Cập nhật không thành công vì không tìm thấy rạp'));
-            else return res.json({ msg: 'Cập nhật rạp thành công' });
+                for (let prop in data) {
+                    cinema[prop] = data[prop];
+                }
+				await cinema.save();
+            } else return res.json({ msg: 'Cập nhật rạp thành công' });
         } catch (err) {
             next(err);
         }

@@ -8,8 +8,16 @@ class UserController {
         try {
             let users = await models.User.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
+                include: [
+                    {
+                        model: models.Role,
+                        require: true,
+                        attributes: [['roleName', 'name']],
+                    },
+                ],
+                raw: true,
             });
             if (users.length) {
                 return res.json({ users });
@@ -30,6 +38,14 @@ class UserController {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt'],
                 },
+                include: [
+                    {
+                        model: models.Role,
+                        require: true,
+                        attributes: [['roleName', 'name']],
+                    },
+                ],
+                raw: true,
             });
             if (user) {
                 return res.json({ user });
@@ -38,6 +54,37 @@ class UserController {
             }
         } catch (err) {
             return next(err);
+        }
+    }
+    async fetchByRole(req, res, next) {
+        let roleId = req.query.roleId;
+        if (!roleId) {
+            return next();
+        }
+        if (!helper.isValidID(roleId)) {
+            return next(apiError.badRequest('Id vai trò không hợp lệ'));
+        }
+        try {
+            let users = await models.User.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
+                },
+                include: [
+                    {
+                        model: models.Role,
+                        require: true,
+                        attributes: [['roleName', 'name']],
+                        where: {
+                            id: roleId,
+                        },
+                    },
+                ],
+                raw: true,
+            });
+            if (!users.length) return next(apiError.notFound('Không tìm thấy người dùng'));
+            return res.json({ users });
+        } catch (err) {
+            next(err);
         }
     }
     async fetchByKey(req, res, next) {
@@ -51,10 +98,19 @@ class UserController {
         try {
             let rows = await models.User.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('createdAt', 'updatedAAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
+                include: [
+                    {
+                        model: models.Role,
+                        require: true,
+                        attributes: [['roleName', 'name']],
+                    },
+                ],
+                raw: true,
             });
             let users = rows.filter((user) => {
+                delete user['Role.name'];
                 let str = helper.removeAccents(JSON.stringify(user));
                 return str.includes(helper.removeAccents(key));
             });
@@ -87,16 +143,12 @@ class UserController {
         let id = req.params.id;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID truyền vào không hợp lệ!!'));
         let data = req.body;
-        if ('password' in data) {
-            data.password = await bcrypt.hash(data.password, 10);
-        }
         try {
             let user = await models.User.findByPk(id);
-            for (let prop in data) {
-                user[prop] = data[prop];
+            if (!user) return next(apiError('Không tìm thấy người dùng'));
+            if ('password' in data) {
+				user.password = awai
             }
-            await user.save();
-            return res.status(200).json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);
         }

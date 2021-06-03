@@ -106,6 +106,7 @@ class FilmController {
         let cate = req.query.cate;
         if (!cate) return next();
         let id = Math.abs(Math.floor(parseInt(cate))) ? Math.abs(Math.floor(parseInt(cate))) : -1;
+        cate = cate.trim().toLowerCase();
         try {
             let films = await models.Film.findAll({
                 attributes: {

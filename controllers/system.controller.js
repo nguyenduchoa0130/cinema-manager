@@ -63,20 +63,21 @@ class SystemCinemaController {
     }
     async insert(req, res, next) {
         let data = req.body;
+        let name = data.systemName.trim().toLowerCase();
         try {
             let systems = await models.CinemaSystem.findAll({
                 where: {
-                    systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `%${data.systemNames}%`),
+                    systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `${name}`),
                 },
             });
             if (systems.length) return next(apiError.conflict('Hệ thống rạp đã tồn tại. Vui lòng tên hệ thống rạp khác'));
             let system = await models.CinemaSystem.create(data);
-            if (Object.keys(req.file).length) {
+            if (req.file) {
                 system.logo = req.file.buffer;
                 system.logoSrc = `${process.env.HOST || localhost}/img/logo/${system.id}`;
             }
             await system.save();
-            return res.json({ msg: 'Tạo hệ thống rạp thành công', system });
+            return res.json({ msg: 'Tạo hệ thống rạp thành công' });
         } catch (err) {
             next(err);
         }
@@ -89,15 +90,16 @@ class SystemCinemaController {
             let system = await models.CinemaSystem.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
             if (!system) return next(apiError.notFound(' Không tìm thấy hệ thống rạp'));
             if ('systemName' in data) {
+                let name = data.systemName.trim().toLowerCase();
                 let systems = await models.CinemaSystem.findAll({
                     where: {
-                        systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `%${data.systemName}%`),
+                        systemName: sequelize.where(sequelize.fn('LOWER', sequelize.col('systemName')), 'LIKE', `${name}`),
                     },
                 });
                 if (systems.length) return next(apiError.conflict(' Tên hệ thống rạp đã tồn tại'));
                 system.systemName = data.systemName;
             }
-            if (Object.keys(req.file).length) {
+            if (req.file) {
                 system.logo = req.file.buffer;
             }
             await system.save();

@@ -6,12 +6,12 @@ module.exports = {
             'Roles',
             [
                 {
-                    name: 'Admin',
+                    name: 'Quản Trị Viên',
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 },
                 {
-                    name: 'Customer',
+                    name: 'Khách Hàng',
                     createdAt: new Date(),
                     updatedAt: new Date(),
                 },

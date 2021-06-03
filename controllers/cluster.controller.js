@@ -12,11 +12,11 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['cinemaName', 'name']],
+                        attributes: [['id', 'id'], ['cinemaName', 'name']],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['systemName', 'name']],
+                        attributes: [['id', 'id'], ['systemName', 'name']],
                     },
                 ],
             });
@@ -38,11 +38,11 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['cinemaName', 'name']],
+                        attributes: [['id', 'id'], ['cinemaName', 'name']],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['systemName', 'name']],
+                        attributes: [['id', 'id'], ['systemName', 'name']],
                     },
                 ],
             });
@@ -62,11 +62,11 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['cinemaName', 'name']],
+                        attributes: [['id', 'id'], ['cinemaName', 'name']],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['systemName', 'name']],
+                        attributes: [['id', 'id'], ['systemName', 'name']],
                     },
                 ],
             });
@@ -82,7 +82,8 @@ class ClusterController {
         }
     }
     async fetchBySystemId(req, res, next) {
-        let systemId = req.query.sysId;
+        let systemId = req.query.systemId;
+		console.log(systemId);
         if (!systemId) {
             return next();
         }
@@ -97,12 +98,14 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['cinemaName', 'name']],
+                        attributes: [['id', 'id'], ['cinemaName', 'name']],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['systemName', 'name']],
-                        where: { id: systemId },
+                        attributes: [['id', 'id'], ['systemName', 'name']],
+						where: {
+							id: systemId
+						}
                     },
                 ],
             });
@@ -118,11 +121,11 @@ class ClusterController {
     async insert(req, res, next) {
         let data = req.body;
         try {
-            let name = data.cinemaName.trim().toLowerCase();
+            let name = data.clusterName.trim().toLowerCase();
             let rows = await models.CinemaCluster.findAll({
                 where: {
-                    clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('cinemaName')), 'LIKE', `${name}`),
-                    cinemaId: data.cinemaId,
+                    clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('clusterName')), 'LIKE', `${name}`),
+                    systemId: data.systemId,
                 },
             });
             if (rows.length) {
@@ -139,24 +142,27 @@ class ClusterController {
         let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
+            let cluster = await models.CinemaCluster.findByPk(id);
+            if (!cluster) {
+                return next(apiError.notFound('Không tìm thấy cụm rạp'));
+            }
             if ('clusterName' in data) {
                 let name = data.clusterName.trim().toLowerCase();
                 let rows = await models.CinemaCluster.findAll({
                     where: {
                         clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('clusterName')), 'LIKE', `${name}`),
-                        cinemaId: data.cinemaId,
+                        systemId: 'systemId' in data ? data.systemId : cluster.systemId,
                     },
                 });
                 if (rows.length) {
                     return next(apiError.conflict('Tên cụm rạp đã tồn tại'));
                 }
             }
-            let row = await models.CinemaCluster.update({ ...data }, { where: id });
-            if (!row[0]) {
-                return next(apiError.notFound('Cập nhật không thành công do không tìm thấy cụm rạp'));
-            } else {
-                return res.json({ msg: 'Cập nhật cụm rạp thành công' });
+            for (let prop in data) {
+                cluster[prop] = data[prop];
             }
+            await cluster.save();
+            return res.json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);
         }
@@ -165,7 +171,7 @@ class ClusterController {
         let id = req.params.id;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lê!'));
         try {
-            let row = await models.destroy({ where: { id } });
+            let row = await models.CinemaCluster.destroy({ where: { id } });
             if (!row) return next(apiError.badRequest('Xóa không thành công, vì không tồn tại rạp trên'));
             return res.json({ msg: 'Xóa rạp thành công' });
         } catch (err) {
