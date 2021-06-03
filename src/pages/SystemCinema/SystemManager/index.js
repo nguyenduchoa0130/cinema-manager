@@ -7,19 +7,21 @@ import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
 import { systemTemplate } from "../../../util/dataTemplate/systemTemplate"
+import { layHeThongRap, xoaHeThongRap } from "../../../redux/actions/QuanLyHeThongRapAction";
 
 const SystemManager = () => {
-
-  // const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
-
+  const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
+  console.log('listHeThongRap', listHeThongRap);
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(layHeThongRap())
+  }, [])
 
   const { isShowing, toggle } = useModal();
   const [system, setSystem] = useState({
-    id: "",
     systemName: "",
-    logoSrc: "",
-    logo: false
+    logoSrc: {}
   });
   const removeToggle = (system) => {
     toggle();
@@ -28,10 +30,12 @@ const SystemManager = () => {
 
 
   const renderRowData = () => {
-    return systemTemplate.map((system, index) => {
+    listHeThongRap?.systems?.sort((a, b) => {
+      return a.id - b.id;
+    })
+    return listHeThongRap.systems?.map((system, index) => {
       return (
         <tr key={index}>
-
           <td>{system.id}</td>
           <td>{system.systemName}</td>
           <td>
@@ -44,7 +48,10 @@ const SystemManager = () => {
 
             <Link to='/admin/cap-nhat-he-thong-rap'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
-
+                dispatch({
+                  type: 'DATA_EDIT_SYSTEM',
+                  dataSystemEdit: system
+                })
               }} >
                 <MDBIcon icon="pencil-ruler" />
               </MDBBtn>
@@ -65,7 +72,7 @@ const SystemManager = () => {
     <Fragment>
       <Title text={"Quản lý hệ thống rạp"} />
       <MDBRow>
-       <MDBCol>
+        <MDBCol>
           <MDBCard>
             <MDBCardBody>
               <div className="text-right">
@@ -98,7 +105,9 @@ const SystemManager = () => {
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
-          <MDBBtn color="danger" >Xóa</MDBBtn>
+          <MDBBtn color="danger" onClick={() => {
+            dispatch(xoaHeThongRap(system.id))
+          }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 

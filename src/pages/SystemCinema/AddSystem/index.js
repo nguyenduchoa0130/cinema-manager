@@ -6,32 +6,29 @@ import * as Yup from 'yup'
 import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
+import { themHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 
 
 const AddSystem = () => {
-  const [system, setSystem] = useState({
-    id: "",
-    systemName: "",
-    logoSrc: null,
-    logo:false
-  });
+  const dispatch = useDispatch()
+  const formik = useFormik({
+    initialValues: {
+      systemName: '',
+      logo: {}
+    },
+    validationSchema: Yup.object().shape({
+      systemName: Yup.string().required("Required!"),
+    }),
+    onSubmit: values => {
+      let form_data = new FormData();
+      for (var key in values) {
+        form_data.append(key, values[key])
+      }
+      console.log('value', values);
 
-  const handleChange =(event)=>{
-    setSystem(prevState => {
-      return {...prevState, [event.target.name]: event.target.value}
-    });
-  }
-
-  const handleSubmit = ()=>{
-    console.log('system :>> ', system);
-  }
-
-  const handleImageChange = (event)=>{
-    setSystem(prevState=>{
-      return {...prevState,logoSrc : event.currentTarget.files[0]}
-    })
-    console.log('system.logoSrc :>> ', system.logoSrc);
-  }
+      dispatch(themHeThongRap(form_data))
+    }
+  })
 
   return (
     <React.Fragment>
@@ -39,26 +36,7 @@ const AddSystem = () => {
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form onSubmit={handleSubmit}>
-              <MDBRow className="mb-3">
-                <MDBCol md="2" className="mb-3">
-                  <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
-                    Mã hệ thống rạp
-                  </label>
-                </MDBCol>
-                <MDBCol md="10" className="mb-3">
-                  <input
-                    value={system.id}
-                    name="id"
-                    onChange={handleChange}
-                    type="text"
-                    id="defaultFormRegisterNameEx"
-                    className="form-control"
-                    placeholder="Mã hệ thống rạp"
-                    required
-                  />
-                </MDBCol>
-              </MDBRow>
+            <form onSubmit={formik.handleSubmit}>
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
@@ -69,10 +47,9 @@ const AddSystem = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
-                    value={system.systemName}
+                  <input
                     name="systemName"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -90,16 +67,18 @@ const AddSystem = () => {
                     Logo
                   </label></MDBCol>
                 <MDBCol md="10">
-                <div className="input-group">
+                  <div className="input-group">
                     <div className="custom-file">
                       <input
                         type="file"
                         className="custom-file-input"
-                        onChange={handleImageChange}
-                        name="logoSrc"
+                        onChange={(event) => {
+                          formik.setFieldValue("logo", event.currentTarget.files[0]);
+                        }}
+                        name="logo"
                       />
                       <label className="custom-file-label" >
-                        {system.logoSrc?system.logoSrc.name: "Chọn logo hệ thống rạp"}
+                        Chọn logo hệ thống rạp
                       </label>
                     </div>
                   </div>
@@ -109,11 +88,11 @@ const AddSystem = () => {
               <MDBRow className="justify-content-center">
 
                 <MDBBtn color="primary" type="submit" >
-                  Cập nhật
+                  Thêm
               </MDBBtn>
               </MDBRow>
             </form>
-           
+
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>

@@ -3,6 +3,7 @@ import reduxThunk from 'redux-thunk'
 import { NguoiDungReducer } from '../redux/reducers/NguoiDungReducer'
 import QuanLyPhimReducer from '../redux/reducers/QuanLyPhimReducer'
 import QuanLyNguoiDungReducer from '../redux/reducers/QuanLyNguoiDungReducer'
+import QuanLyHeThongRapReducer from '../redux/reducers/QuanLyHeThongRapReducer'
 
 
 
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     // Reducer khai báo tại đây
     NguoiDungReducer,
     QuanLyPhimReducer,
-    QuanLyNguoiDungReducer
+    QuanLyNguoiDungReducer,
+    QuanLyHeThongRapReducer
 
 })
 
