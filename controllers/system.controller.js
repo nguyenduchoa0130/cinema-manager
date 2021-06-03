@@ -89,7 +89,7 @@ class SystemCinemaController {
         try {
             let system = await models.CinemaSystem.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
             if (!system) return next(apiError.notFound(' Không tìm thấy hệ thống rạp'));
-            if ('systemName' in data) {
+            if ('systemName' in data && data.systemName != system.systemName) {
                 let name = data.systemName.trim().toLowerCase();
                 let systems = await models.CinemaSystem.findAll({
                     where: {
