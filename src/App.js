@@ -31,6 +31,10 @@ import EditCustomer from "./pages/Customers/EditCustomer";
 import SystemManager from "./pages/SystemCinema/SystemManager";
 import EditSystem from "./pages/SystemCinema/EditSystem";
 import AddSystem from "./pages/SystemCinema/AddSystem";
+import AddCustomer from "./pages/Customers/AddCustomer";
+import AddCluster from "./pages/Cluster/AddCluster";
+import EditCluster from "./pages/Cluster/EditCluster";
+import ClusterManager from "./pages/Cluster/ClusterManager";
 
 
 export const history = createBrowserHistory();
@@ -75,10 +79,20 @@ class App extends Component {
                 {/* User */}
                 <Route path='/admin/quan-ly-khach-hang'  component={CustomerManager} />
                 <Route path='/admin/cap-nhat-khach-hang'  component={EditCustomer} />
+                <Route path='/admin/them-khach-hang'  component={AddCustomer} />
                 {/* System */}
                 <Route path='/admin/quan-ly-he-thong-rap'  component={SystemManager} />
                 <Route path='/admin/them-he-thong-rap'  component={AddSystem} />
                 <Route path='/admin/cap-nhat-he-thong-rap'  component={EditSystem} />
+                {/* Cluter */}
+                <Route path='/admin/quan-ly-cum-rap'  component={ClusterManager} /> 
+                <Route path='/admin/them-cum-rap'  component={AddCluster} />
+                <Route path='/admin/cap-nhat-cum-rap'  component={EditCluster} />
+                 {/* Cinema */}
+                 <Route path='/admin/quan-ly-rap'  component={CinemaManager} /> 
+                <Route path='/admin/them-rap'  component={AddCinema} />
+                <Route path='/admin/cap-nhat-rap'  component={EditCinema} />
+
 
               </Switch>
             </MainAdmin>

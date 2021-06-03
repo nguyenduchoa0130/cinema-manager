@@ -6,43 +6,40 @@ import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import { systemTemplate } from "../../../util/dataTemplate/systemTemplate"
+import { clusterTemplate } from "../../../util/dataTemplate/clusterTemplate"
 
-const SystemManager = () => {
+const ClusterManager = () => {
 
-  // const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
 
-  const dispatch = useDispatch()
 
   const { isShowing, toggle } = useModal();
-  const [system, setSystem] = useState({
+  const [cluster, setCluster] = useState({
     id: "",
-    systemName: "",
-    logoSrc: "",
-    logo: false
+    clusterName: "",
+    address: "",
+    systemId:0
   });
-  const removeToggle = (system) => {
+  const removeToggle = (cluster) => {
     toggle();
-    setSystem(system);
+    setCluster(cluster);
   }
 
 
   const renderRowData = () => {
-    return systemTemplate.map((system, index) => {
+    return clusterTemplate.map((cluster, index) => {
       return (
         <tr key={index}>
 
-          <td>{system.id}</td>
-          <td>{system.systemName}</td>
+          <td>{cluster.id}</td>
+          <td>{cluster.clusterName}</td>
+          <td>{cluster.address}</td>
+          <td>{cluster.clusterName}</td>
           <td>
-            <img className={styles.thumbnail} src={system.logoSrc} />
-          </td>
-          <td>
-            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(system.id) }} >
+            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(cluster.id) }} >
               <MDBIcon far icon="eye" />
             </MDBBtn>
 
-            <Link to='/admin/cap-nhat-he-thong-rap'>
+            <Link to='/admin/cap-nhat-cum-rap'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
 
               }} >
@@ -50,7 +47,7 @@ const SystemManager = () => {
               </MDBBtn>
             </Link>
 
-            <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(system) }} >
+            <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(cluster) }} >
               <MDBIcon far icon="trash-alt" />
             </MDBBtn>
 
@@ -76,9 +73,10 @@ const SystemManager = () => {
               <MDBTable hover>
                 <MDBTableHead color="primary-color" textWhite>
                   <tr>
-                    <th>Mã hệ thống</th>
-                    <th>Tên hệ thống</th>
-                    <th>Logo</th>
+                    <th>Mã cụm</th>
+                    <th>Tên cụm</th>
+                    <th>Hệ thống</th>
+                    <th>Địa chỉ</th>
                     <th>Thao tác</th>
                   </tr>
                 </MDBTableHead>
@@ -94,7 +92,7 @@ const SystemManager = () => {
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-          Bạn có muốn xóa hệ thống này  <strong>{system.systemName}</strong> có mã số là <strong>{system.id}</strong>?
+          Bạn có muốn xóa hệ thống này  <strong>{cluster.clusterName}</strong> có mã số là <strong>{cluster.id}</strong>?
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
@@ -106,4 +104,4 @@ const SystemManager = () => {
   );
 }
 
-export default SystemManager;
+export default ClusterManager;

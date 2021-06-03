@@ -50,6 +50,7 @@ export const layDanhSachPhim = () => {
                 }
             )
         } catch (error) {
+            console.clear();
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
         }

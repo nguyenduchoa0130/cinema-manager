@@ -38,12 +38,11 @@ const AddFilm = () => {
       duration: "",
       actors: "",
       categoryId: 1,
-      statusId:"",
       director: "",
       thumbnail: null,
-      trailer:"",
-      premiere:null,
-      desc: "",
+      trailer: "",
+      premiere: "",
+      desc: "", 
       poster: null
     },
     validationSchema: Yup.object().shape({
@@ -227,29 +226,11 @@ const AddFilm = () => {
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Trạng thái
+                    Ngày công chiếu
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="categoryId" className="browser-default custom-select" value={formik.values['statusId']} onChange={formik.handleChange}>
-                    <option>Chọn trạng thái phim</option>
-                    <option>Đang công chiếu</option>
-                    <option>Sắp công chiếu</option>
-                  </select>
-                </MDBCol>
-              </MDBRow>
-
-              <MDBRow className="mb-3">
-                <MDBCol md="2" >
-                  <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
-                    className="grey-text"
-                  >
-                    Trạng thái
-                  </label>
-                </MDBCol>
-                <MDBCol md="10" >
-                  <input type="date"  name="premiere" value={formik.values['premiere']} onChange={formik.handleChange}/>
+                  <input type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -302,7 +283,7 @@ const AddFilm = () => {
                         name="thumbnail"
                       />
                       <label className="custom-file-label" >
-                        {formik.values.thumbnail?formik.values.thumbnail.name : "Chọn ảnh thumbnail"}
+                        {formik.values.thumbnail ? formik.values.thumbnail.name : "Chọn ảnh thumbnail"}
                       </label>
                     </div>
                   </div>
@@ -329,7 +310,7 @@ const AddFilm = () => {
                         name="poster"
                       />
                       <label className="custom-file-label" >
-                        {formik.values.poster?formik.values.poster.name : "Chọn ảnh poster"}
+                        {formik.values.poster ? formik.values.poster.name : "Chọn ảnh poster"}
                       </label>
                     </div>
                   </div>

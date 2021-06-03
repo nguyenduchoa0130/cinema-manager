@@ -34,7 +34,7 @@ const FilmManager = () => {
     toggle();
     setFilm(film);
   }
-  console.log('film', film);
+  // console.log('film', film);
 
   const renderRowData = () => {
     listFilm.films?.sort((a, b) => {
@@ -56,9 +56,9 @@ const FilmManager = () => {
           <td>{film.country}</td>
           <td>{film.releaseYear}</td>
           <td>{film.duration}</td>
-          <td>{film.Category.categoryName}</td>
-          <td>{film.statusId}</td>
-          <td>{film.premiere}</td>
+          <td>{film['Category.name']}</td>
+          <td>{film[['StatusFilm.name']]}</td>
+          <td>{film.premiere.slice(0,10)}</td>
           <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(film.id) }} >

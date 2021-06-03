@@ -6,164 +6,141 @@ import * as Yup from 'yup'
 import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
-import { layTheLoaiPhim, suaPhim } from '../../../redux/actions/QuanLyPhimAction';
 
 
-const EditCustomer = () => {
-  const [customer, setCustomer] = useState({
+const AddCinema = () => {
+  const [cinema, setCinema] = useState({
     id: "",
-    fullName: "",
-    phone: "",
-    email: "",
-    address: "",
-    password:"",
-    typeUser:null
+    cinemaName: "",
+    address:  "",
+    col: -1,
+    row: -1,
+    clusterId:"",
   });
 
   const handleChange =(event)=>{
-    setCustomer(prevState => {
+    setCinema(prevState => {
       return {...prevState, [event.target.name]: event.target.value}
     });
   }
 
   const handleSubmit = ()=>{
-    console.log('customer :>> ', customer);
+    console.log('cinema :>> ', cinema);
   }
-
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhật thông tin khách hàng"} />
+      <Title text={"Thêm rạp"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
             <form onSubmit={handleSubmit}>
-            <MDBRow className="mb-3">
+             <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    className="grey-text"
+                  >
+                    Tên  rạp
+                  </label>
+                </MDBCol>
+                <MDBCol md="10">
+                <input
+                    value={cinema.cinemaName}
+                    name="cinemaName"
+                    onChange={handleChange}
+                    type="text"
+                    id="defaultFormRegisterNameEx"
+                    className="form-control"
+                    placeholder="Tên cụm rạp"
+                    required
+                  />
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    className="grey-text"
+                  >
+                    Địa chỉ
+                  </label>
+                </MDBCol>
+                <MDBCol md="10">
+                <input
+                    value={cinema.address}
+                    name="address"
+                    onChange={handleChange}
+                    type="text"
+                    id="defaultFormRegisterNameEx"
+                    className="form-control"
+                    placeholder="Địa chỉ"
+                    required
+                  />
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    className="grey-text"
+                  >
+                    Số dòng ghế
+                  </label>
+                </MDBCol>
+                <MDBCol md="10">
+                <input
+                    value={cinema.row}
+                    name="row"
+                    onChange={handleChange}
+                    type="text"
+                    className="form-control"
+                    placeholder="Số dòng ghế"
+                    required
+                  />
+                </MDBCol>
+              </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    className="grey-text"
+                  >
+                    Số cột ghế
+                  </label>
+                </MDBCol>
+                <MDBCol md="10">
+                <input
+                    value={cinema.col}
+                    name="col"
+                    onChange={handleChange}
+                    type="text"
+                    id="defaultFormRegisterNameEx"
+                    className="form-control"
+                    placeholder="Số cột ghế"
+                    required
+                  />
+                </MDBCol>
+              </MDBRow>
+              
+              
+              <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Loại người dùng
+                    Cụm rạp
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="typeUser" className="browser-default custom-select"  onChange={handleChange}>
-                    <option>Quản trị viên</option>
-                    <option>Khách hàng</option>
+                  <select name="clusterId" className="browser-default custom-select" onChange={handleChange}>
+                    <option value={1}>CGV Sư Vạn Hạnh</option>
+                    <option value={2}>Lotte - Nowzone</option>
                   </select>
                 </MDBCol>
               </MDBRow>
-              <MDBRow className="mb-3">
-                <MDBCol md="2" className="mb-3">
-                  <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
-                    Mã khách hàng
-                  </label>
-                </MDBCol>
-                <MDBCol md="10" className="mb-3">
-                  <input
-                    value={customer.id}
-                    name="id"
-                    onChange={handleChange}
-                    type="text"
-                    id="defaultFormRegisterNameEx"
-                    className="form-control"
-                    placeholder="Mã khách hàng"
-                    required
-                  />
-                </MDBCol>
-              </MDBRow>
-              <MDBRow className="mb-3">
-                <MDBCol md="2">
-                  <label
-                    htmlFor="defaultFormRegisterreleaseYearEx2"
-                    className="grey-text"
-                  >
-                    Tên khách hàng
-                  </label>
-                </MDBCol>
-                <MDBCol md="10">
-                <input
-                    value={customer.fullName}
-                    name="fullName"
-                    onChange={handleChange}
-                    type="text"
-                    id="defaultFormRegisterNameEx"
-                    className="form-control"
-                    placeholder="Tên khách hàng"
-                    required
-                  />
-                </MDBCol>
-              </MDBRow>
-              <MDBRow className="mb-3">
-                <MDBCol md="2">
-                  <label
-                    htmlFor="defaultFormRegisterConfirmEx3"
-                    className="grey-text"
-                  >
-                    Số điện thoại
-                  </label></MDBCol>
-                <MDBCol md="10">
-                  <input
-                    value={customer.phone}
-                    onChange={handleChange}
-                    type="text"
-                    id="defaultFormRegisterConfirmEx3"
-                    className="form-control"
-                    name="phone"
-                    placeholder="Số điện thoại"
-                  />
-                </MDBCol>
-              </MDBRow>
-              <MDBRow className="mb-3">
-                <MDBCol md="2">
-                  <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
-                    className="grey-text"
-                  >
-                    Email
-                  </label>
-                </MDBCol>
-                <MDBCol md="10">
-                  <input
-                    value={customer.email}
-                    onChange={handleChange}
-                    type="email"
-                    id="defaultFormRegisterPasswordEx4"
-                    className="form-control"
-                    name="email"
-                    placeholder="Email"
-                    required
-                  />
-                </MDBCol>
-              </MDBRow>
-              <MDBRow className="mb-3">
-                <MDBCol md="2">
-                  <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
-                    className="grey-text"
-                  >
-                    Mật khẩu
-                  </label></MDBCol>
-                <MDBCol md="10">
-                  <input
-                    value={customer.password}
-                    onChange={handleChange}
-                    type="password"
-                    id="defaultFormRegisterPasswordEx4"
-                    className="form-control"
-                    name="password"
-                    placeholder="Mật khẩu"
-                    required
-                  />
-                </MDBCol>
-              </MDBRow>
-
               <hr />
               <MDBRow className="justify-content-center">
 
                 <MDBBtn color="primary" type="submit" >
-                  Submit Form
+                  Cập nhật
               </MDBBtn>
               </MDBRow>
             </form>
@@ -174,4 +151,4 @@ const EditCustomer = () => {
     </React.Fragment>
   )
 }
-export default EditCustomer;
+export default AddCinema;

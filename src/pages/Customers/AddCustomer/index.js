@@ -9,36 +9,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { layTheLoaiPhim, suaPhim } from '../../../redux/actions/QuanLyPhimAction';
 
 
-const EditCustomer = () => {
+const AddCustomer = () => {
   const [customer, setCustomer] = useState({
-    id: "",
     fullName: "",
     phone: "",
     email: "",
-    address: "",
-    password:"",
-    typeUser:null
+    password: "",
+    roleId: null
   });
 
-  const handleChange =(event)=>{
+  const handleChange = (event) => {
     setCustomer(prevState => {
-      return {...prevState, [event.target.name]: event.target.value}
+      return { ...prevState, [event.target.name]: event.target.value }
     });
   }
 
-  const handleSubmit = ()=>{
+  const handleSubmit = () => {
     console.log('customer :>> ', customer);
   }
 
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhật thông tin khách hàng"} />
+      <Title text={"Thêm khách hàng"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
             <form onSubmit={handleSubmit}>
-            <MDBRow className="mb-3">
+              <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
                     htmlFor="defaultFormRegisterPasswordEx4"
@@ -48,31 +46,13 @@ const EditCustomer = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="typeUser" className="browser-default custom-select"  onChange={handleChange}>
-                    <option>Quản trị viên</option>
-                    <option>Khách hàng</option>
+                  <select name="roleId" className="browser-default custom-select" onChange={handleChange}>
+                    <option value={1}>Quản trị viên</option>
+                    <option value={2}>Khách hàng</option>
                   </select>
                 </MDBCol>
               </MDBRow>
-              <MDBRow className="mb-3">
-                <MDBCol md="2" className="mb-3">
-                  <label htmlFor="defaultFormRegisterNameEx" className="grey-text">
-                    Mã khách hàng
-                  </label>
-                </MDBCol>
-                <MDBCol md="10" className="mb-3">
-                  <input
-                    value={customer.id}
-                    name="id"
-                    onChange={handleChange}
-                    type="text"
-                    id="defaultFormRegisterNameEx"
-                    className="form-control"
-                    placeholder="Mã khách hàng"
-                    required
-                  />
-                </MDBCol>
-              </MDBRow>
+
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
@@ -83,7 +63,7 @@ const EditCustomer = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
+                  <input
                     value={customer.fullName}
                     name="fullName"
                     onChange={handleChange}
@@ -137,6 +117,7 @@ const EditCustomer = () => {
                   />
                 </MDBCol>
               </MDBRow>
+
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
@@ -158,7 +139,6 @@ const EditCustomer = () => {
                   />
                 </MDBCol>
               </MDBRow>
-
               <hr />
               <MDBRow className="justify-content-center">
 
@@ -167,11 +147,11 @@ const EditCustomer = () => {
               </MDBBtn>
               </MDBRow>
             </form>
-           
+
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>
     </React.Fragment>
   )
 }
-export default EditCustomer;
+export default AddCustomer;

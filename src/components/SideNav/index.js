@@ -1,7 +1,7 @@
-import { MDBListGroup, MDBListGroupItem, MDBBadge, MDBNavLink, MDBIcon, MDBBreadcrumb, MDBBreadcrumbItem, MDBCard, MDBCardBody } from 'mdbreact';
+import { MDBListGroup, MDBListGroupItem, MDBBadge, MDBNavLink, MDBIcon, MDBBreadcrumb, MDBBreadcrumbItem, MDBCard, MDBCardBody, MDBBtn } from 'mdbreact';
 import styles from "./style.module.scss";
-
 const SideNav = () => {
+
   return (
     <div className={styles.sidebar}>
       <MDBListGroup style={{ width: "100%" }}>
@@ -40,6 +40,18 @@ const SideNav = () => {
         <MDBListGroupItem>
           <MDBNavLink to="quan-ly-he-thong-rap">
           <MDBIcon icon="gopuram"  className="mr-3" />
+            Quản lý hệ thống rạp
+          </MDBNavLink>
+        </MDBListGroupItem>
+        <MDBListGroupItem>
+          <MDBNavLink to="quan-ly-cum-rap">
+          <MDBIcon icon="gopuram"  className="mr-3" />
+            Quản lý cụm rạp
+          </MDBNavLink>
+        </MDBListGroupItem>
+        <MDBListGroupItem>
+          <MDBNavLink to="quan-ly-rap">
+          <MDBIcon icon="gopuram"  className="mr-3" />
             Quản lý rạp
           </MDBNavLink>
         </MDBListGroupItem>
@@ -50,6 +62,7 @@ const SideNav = () => {
             Cấu hình ghế
           </MDBNavLink>
         </MDBListGroupItem>
+
       </MDBListGroup>
       
     </div>
