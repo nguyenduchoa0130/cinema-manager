@@ -81,20 +81,55 @@ class ClusterController {
             next(err);
         }
     }
-    async add(req, res, next) {
+    async fetchBySystemId(req, res, next) {
+        let systemId = req.query.sysId;
+        if (!systemId) {
+            return next();
+        }
+        if (!helper.isValidID(systemId)) {
+            return next(apiError.badRequest('ID hệ thống không hợp lệ'));
+        }
+        try {
+            let rows = await models.CinemaCluster.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                },
+                include: [
+                    {
+                        model: models.Cinema,
+                        attributes: [['cinemaName', 'name']],
+                    },
+                    {
+                        model: models.CinemaSystem,
+                        attributes: [['systemName', 'name']],
+                        where: { id: systemId },
+                    },
+                ],
+            });
+            if (!rows.length) {
+                return next(apiError.notFound('Không tìm thấy kết quả'));
+            } else {
+                return res.json(rows);
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+    async insert(req, res, next) {
         let data = req.body;
         try {
             let name = data.cinemaName.trim().toLowerCase();
-            let cluster = await models.CinemaCluster.findAll({
+            let rows = await models.CinemaCluster.findAll({
                 where: {
-                    clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('cinemaName')), 'LIKE', `%${name}%`),
+                    clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('cinemaName')), 'LIKE', `${name}`),
+                    cinemaId: data.cinemaId,
                 },
             });
-            if (cluster.length) {
+            if (rows.length) {
                 return next(apiError.conflict('Tên cụm rạp đã tồn tại'));
             }
-            let cinema = await models.CinemaCluster.create(data);
-            return res.json({ msg: 'Tạo cụm rạp thành công', cinema });
+            let cluster = await models.CinemaCluster.create(data);
+            return res.json({ msg: 'Tạo cụm rạp thành công', cluster });
         } catch (err) {
             next(err);
         }
@@ -103,7 +138,28 @@ class ClusterController {
         let id = req.params.id;
         let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
-		
+        try {
+            if ('clusterName' in data) {
+                let name = data.clusterName.trim().toLowerCase();
+                let rows = await models.CinemaCluster.findAll({
+                    where: {
+                        clusterName: sequelize.where(sequelize.fn('LOWER', sequelize.col('clusterName')), 'LIKE', `${name}`),
+                        cinemaId: data.cinemaId,
+                    },
+                });
+                if (rows.length) {
+                    return next(apiError.conflict('Tên cụm rạp đã tồn tại'));
+                }
+            }
+            let row = await models.CinemaCluster.update({ ...data }, { where: id });
+            if (!row[0]) {
+                return next(apiError.notFound('Cập nhật không thành công do không tìm thấy cụm rạp'));
+            } else {
+                return res.json({ msg: 'Cập nhật cụm rạp thành công' });
+            }
+        } catch (err) {
+            next(err);
+        }
     }
     async delete(req, res, next) {
         let id = req.params.id;

@@ -1,5 +1,4 @@
 const models = require('../models/index').sequelize.models;
-const db = require('../config/db');
 const { send } = require('../config/nodemailer');
 const helper = require('../config/helper');
 const bcrypt = require('bcrypt');

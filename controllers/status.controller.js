@@ -29,7 +29,7 @@ class StatusController {
             if (!status) return next(apiError.notFound('Không tìm thấy trạng thái'));
             return res.json(status);
         } catch (err) {
-            next();
+            next(err);
         }
     }
     async fetchByName(req, res, next) {

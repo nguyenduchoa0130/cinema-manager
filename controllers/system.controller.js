@@ -3,7 +3,6 @@ const helper = require('../config/helper');
 const models = require('../models/index').sequelize.models;
 const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
-
 class SystemCinemaController {
     async fetchAll(req, res, next) {
         try {
@@ -15,20 +14,49 @@ class SystemCinemaController {
         }
     }
     async fetchById(req, res, next) {
-        let id = req.params.id;
-        if (!id.length) return next(apiError.badRequest('ID truyền vào không hợp lệ'));
+        let id = req.query.id;
+        if (!id) {
+            return next();
+        }
+        if (!helper.isValidID(id)) {
+            return next(apiError.badRequest('ID hệ thống không hợp lệ'));
+        }
         try {
-            let system = await models.CinemaSystem.findOne({
-                where: {
-                    id: sequelize.where(sequelize.fn('LOWER', sequelize.col('id')), 'LIKE', `%${id}%`),
-                },
+            let system = await models.CinemaSystem.findByPk(id, {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo'),
                 },
-                include: models.CinemaCluster,
             });
             if (!system) return next(apiError.notFound('Không tìm thấy hệ thống rạp nào'));
             return res.json(system);
+        } catch (err) {
+            next(err);
+        }
+    }
+    async fetchByName(req, res, next) {
+        let name = req.query.name;
+        if (!name) {
+            return next();
+        }
+        if (!name.trim().length) {
+            return next(apiError.badRequest('Tên hệ thống không hợp lệ'));
+        }
+        try {
+            let rows = await models.CinemaSystem.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo'),
+                },
+            });
+            let systems = rows.filter((system) => {
+                let nameTmp = helper.removeAccents(system.systemName);
+                let key = helper.removeAccents(name);
+                return nameTmp.includes(key);
+            });
+            if (!systems.length) {
+                return next(apiError.notFound('Không tìm thấy hệ thống'));
+            } else {
+                return res.json(systems);
+            }
         } catch (err) {
             next(err);
         }

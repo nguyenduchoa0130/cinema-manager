@@ -48,10 +48,11 @@ class CategoryController {
     }
     async add(req, res, next) {
         try {
-            let data = req.body.categoryName;
+            let data = req.body;
+            let name = data.categoryName.trim().toLowerCase();
             let categories = await models.Category.findAll({
                 where: {
-                    categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${data.categoryName}%`),
+                    categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `${name}`),
                 },
             });
             if (categories.length) {
@@ -69,9 +70,14 @@ class CategoryController {
         let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
-            let rows = await models.Category.update({ ...data }, { where: { id } });
-            if (!rows[0]) return next(apiError.notFound('Cập nhật không thành công. Không tìm thấy danh mục phim trên'));
-            return res.json({ msg: 'Cập nhật danh mục phim thành công' });
+            let name = data.categoryName.trim().toLowerCase();
+            let rows = await models.Category.findAll({
+                where: { categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `${name}`) },
+            });
+            if (rows.length) return next(apiError.conflict('Tên danh mục đã tồn tại'));
+            let row = await models.Category.update({ ...data }, { where: { id } });
+            if (!row[0]) return next(apiError.notFound('Cập nhật không thành công do danh mục phim không tồn tại'));
+            else return res.json({ msg: 'Cập nhật danh mục phim thành công' });
         } catch (err) {
             next(err);
         }
