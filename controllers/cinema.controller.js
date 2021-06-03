@@ -18,7 +18,7 @@ class CinemaController {
                 raw: true,
             });
             if (!cinemas.length) return next(apiError.notFound('Không tìm thấy rạp nào'));
-            return res.json(cinemas);
+            return res.json({ cinemas });
         } catch (err) {
             next(err);
         }
@@ -41,7 +41,7 @@ class CinemaController {
                 raw: true,
             });
             if (!cinema) return next(apiError.notFound('Không tìm thấy rạp'));
-            return res.json(cinema);
+            return res.json({ cinema });
         } catch (err) {
             next(err);
         }
@@ -67,7 +67,7 @@ class CinemaController {
                 return nameTmp.includes(key);
             });
             if (!cinemas.length) return next(apiError.notFound('Không tìm thấy rạp có liên quan tới: ' + name));
-            return res.json(cinemas);
+            return res.json({ cinemas });
         } catch (err) {
             next(err);
         }
@@ -81,7 +81,7 @@ class CinemaController {
             return next(apiError.badRequest('ID cụm rạp không hợp lệ'));
         }
         try {
-            let rows = models.Cinema.findAll({
+            let cinemas = models.Cinema.findAll({
                 raw: true,
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
@@ -95,10 +95,10 @@ class CinemaController {
                     },
                 ],
             });
-            if (!rows.length) {
+            if (!cinemas.length) {
                 return next(apiError.notFound('Không tìm thấy kết quả'));
             } else {
-                return res.json(rows);
+                return res.json({ cinemas });
             }
         } catch (err) {
             next(err);

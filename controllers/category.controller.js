@@ -12,7 +12,7 @@ class CategoryController {
                 },
             });
             if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục nào'));
-            return res.json(categories);
+            return res.json({ categories });
         } catch (err) {
             next(err);
         }
@@ -24,7 +24,7 @@ class CategoryController {
         try {
             let category = await models.Category.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
             if (!category) return next(apiError.notFound('Không tìm thấy danh mục'));
-            return res.json(category);
+            return res.json({ category });
         } catch (err) {
             next(err);
         }
@@ -41,7 +41,7 @@ class CategoryController {
                 return nameTmp.includes(key);
             });
             if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục phim có liên quân tới ' + name));
-            return res.json(categories);
+            return res.json({ categories });
         } catch (err) {
             next(err);
         }

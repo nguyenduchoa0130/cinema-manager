@@ -12,7 +12,7 @@ class UserController {
                 },
             });
             if (users.length) {
-                return res.json(users);
+                return res.json({ users });
             } else {
                 return next(apiError.notFound('Không tìm thầy người dùng'));
             }
@@ -32,7 +32,7 @@ class UserController {
                 },
             });
             if (user) {
-                return res.json(user);
+                return res.json({ user });
             } else {
                 return next(apiError.notFound('Không tìm thầy người dùng!'));
             }
@@ -61,7 +61,7 @@ class UserController {
             if (!users.length) {
                 return next(apiError.notFound('Không tìm thấy người dùng'));
             } else {
-                return res.json(users);
+                return res.json({ users });
             }
         } catch (err) {
             return next(err);
@@ -69,7 +69,7 @@ class UserController {
     }
     async add(req, res, next) {
         let data = req.body;
-		console.log(req.body);
+        console.log(req.body);
         try {
             let users = await models.User.findAll({ where: { email: data.email } });
             if (users.length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));

@@ -8,7 +8,7 @@ class SystemCinemaController {
         try {
             let systems = await models.CinemaSystem.findAll({ attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo') } });
             if (!systems.length) return next(apiError.notFound('Không tìm thấy kết quả nào'));
-            return res.json(systems);
+            return res.json({ systems });
         } catch (err) {
             next(err);
         }
@@ -28,7 +28,7 @@ class SystemCinemaController {
                 },
             });
             if (!system) return next(apiError.notFound('Không tìm thấy hệ thống rạp nào'));
-            return res.json(system);
+            return res.json({ system });
         } catch (err) {
             next(err);
         }
@@ -55,7 +55,7 @@ class SystemCinemaController {
             if (!systems.length) {
                 return next(apiError.notFound('Không tìm thấy hệ thống'));
             } else {
-                return res.json(systems);
+                return res.json({ systems });
             }
         } catch (err) {
             next(err);

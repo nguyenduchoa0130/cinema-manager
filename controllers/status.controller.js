@@ -12,7 +12,7 @@ class StatusController {
                 },
             });
             if (!statuses.length) return next(apiError.notFound('Không có trạng thái nào được tìm thấy'));
-            return res.json(statuses);
+            return res.json({ statuses });
         } catch (err) {
             next(err);
         }
@@ -27,7 +27,7 @@ class StatusController {
                 },
             });
             if (!status) return next(apiError.notFound('Không tìm thấy trạng thái'));
-            return res.json(status);
+            return res.json({ status });
         } catch (err) {
             next(err);
         }
@@ -47,7 +47,7 @@ class StatusController {
                 return nameTmp.includes(name);
             });
             if (!statuses.length) return next(apiError.notFound('Không tìm thấy kết quả'));
-            return res.json(statuses);
+            return res.json({ statuses });
         } catch (err) {
             next();
         }

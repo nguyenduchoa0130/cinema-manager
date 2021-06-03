@@ -21,7 +21,7 @@ class ClusterController {
                 ],
             });
             if (!cluster.length) return next(apiError.notFound('Không tìm thấy cụm rạp nào'));
-            return res.json(cluster);
+            return res.json({ cluster });
         } catch (err) {
             next(err);
         }
@@ -31,7 +31,7 @@ class ClusterController {
         if (!id) return next();
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
-            let cinema = await models.CinemaCluster.findByPk(id, {
+            let cluster = await models.CinemaCluster.findByPk(id, {
                 attributes: {
                     exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
@@ -46,8 +46,8 @@ class ClusterController {
                     },
                 ],
             });
-            if (!cinema) return next(apiError.notFound('Không tìm thấy rạp nào'));
-            return res.json(cinema);
+            if (!cluster) return next(apiError.notFound('Không tìm thấy rạp nào'));
+            return res.json({ cluster });
         } catch (err) {
             next(err);
         }
@@ -76,7 +76,7 @@ class ClusterController {
                 return nameTmp.includes(key);
             });
             if (!clusters.length) return next(apiError.notFound('Không tìm thấy cụm rạp có liên quan tới ' + name));
-            return res.json(clusters);
+            return res.json({ clusters });
         } catch (err) {
             next(err);
         }
@@ -90,7 +90,7 @@ class ClusterController {
             return next(apiError.badRequest('ID hệ thống không hợp lệ'));
         }
         try {
-            let rows = await models.CinemaCluster.findAll({
+            let clusters = await models.CinemaCluster.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
@@ -106,10 +106,10 @@ class ClusterController {
                     },
                 ],
             });
-            if (!rows.length) {
+            if (!clusters.length) {
                 return next(apiError.notFound('Không tìm thấy kết quả'));
             } else {
-                return res.json(rows);
+                return res.json({ clusters });
             }
         } catch (err) {
             next(err);

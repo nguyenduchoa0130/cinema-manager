@@ -132,7 +132,7 @@ class FilmController {
                 raw: true,
             });
             if (!films.length) return next(apiError.notFound('Không tìm thấy kết quả nào phù hợp'));
-            return res.json(films);
+            return res.json({ films });
         } catch (err) {
             next(err);
         }
