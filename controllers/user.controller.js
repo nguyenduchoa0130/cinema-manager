@@ -14,6 +14,7 @@ class UserController {
                     {
                         model: models.Role,
                         require: true,
+                        attributes: ['name'],
                     },
                 ],
                 raw: true,
@@ -146,8 +147,14 @@ class UserController {
             let user = await models.User.findByPk(id);
             if (!user) return next(apiError('Không tìm thấy người dùng'));
             if ('password' in data) {
-                user.password = awai;
+                user.password = await bcrypt.hash(data.password, 10);
+                delete data.password;
             }
+            for (let prop in data) {
+                user[prop] = data[prop];
+            }
+            await user.save();
+            return res.json({ msg: 'Cập nhật thành công' });
         } catch (err) {
             next(err);
         }

@@ -37,10 +37,10 @@ class AuthenticationMiddleware {
             jwt.verify(token, process.env.ACCESS_TOKEN_SERCET || 'accessToken', (err, data) => {
                 if (err) {
                     if (err.name == 'JsonWebTokenError') {
-                        return next(apiError.badRequest('Token không hợp lệ. Vui lòng đăng nhập để xác thực người dùng'));
+                        return next(apiError.badRequest('Vui lòng đăng nhập để thực hiện chức năng này'));
                     }
                     if (err.name == 'TokenExpiredError') {
-                        return next(apiError.badRequest('Token đã hết hạn. Vui lòng đăng nhập lại'));
+                        return next(apiError.badRequest('Phiên đã hết hạn. Vui lòng đăng nhập lại'));
                     }
                 } else {
                     req.dataToken = data;
