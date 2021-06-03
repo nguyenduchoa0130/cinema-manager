@@ -43,14 +43,6 @@ const FilmManager = () => {
     return listFilm?.films?.map((film, index) => {
       return (
         <tr key={index}>
-          {/* {Object.keys(item).slice(0,-2).map(keyName => {
-              return (
-                keyName === "thumbnail"
-                  ? <td>
-                        <img className={styles.thumbnail} src={item[keyName]} />
-                    </td>
-                  : <td> {item[keyName]}</td>)
-            })} */}
           <td>{film.id}</td>
           <td>{film.filmName}</td>
           <td>{film.country}</td>

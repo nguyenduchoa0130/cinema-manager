@@ -28,7 +28,7 @@ const AddSystem = () => {
 
   const handleImageChange = (event)=>{
     setSystem(prevState=>{
-      return {...prevState,[event.target.name] : event.currentTarget.files[0]}
+      return {...prevState,logoSrc : event.currentTarget.files[0]}
     })
     console.log('system.logoSrc :>> ', system.logoSrc);
   }

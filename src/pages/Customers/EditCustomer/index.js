@@ -7,29 +7,48 @@ import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
 import { layTheLoaiPhim, suaPhim } from '../../../redux/actions/QuanLyPhimAction';
+import { suaNguoiDung } from '../../../redux/actions/QuanLyNguoiDungAction';
 
 
 const EditCustomer = () => {
-  const [customer, setCustomer] = useState({
-    id: "",
-    fullName: "",
-    phone: "",
-    email: "",
-    address: "",
-    password:"",
-    typeUser:null
+
+  const { dataUserEdit } = useSelector(state => state.QuanLyNguoiDungReducer)
+  // console.log('dataUserEdit', dataUserEdit);
+  const dispatch = useDispatch();
+  const [dataUser, setDataUser] = useState()
+  // console.log('dataUser', dataUser);
+
+  useEffect(() => {
+    setDataUser({
+      ...dataUserEdit,
+      dataUser: dataUserEdit
+    })
+  }, [dataUserEdit])
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      fullName: dataUserEdit?.fullName,
+      phone: dataUserEdit?.phone,
+      password: "",
+      roleId: dataUserEdit?.roleId,
+    },
+    validationSchema: Yup.object().shape({
+      filmName: Yup.string().required("Required!"),
+      phone: Yup.string().required("Required!"),
+      password: Yup.string().required("Required!"),
+    }),
+    onSubmit: values => {
+      console.log('values', values);
+      dispatch(suaNguoiDung(values, dataUserEdit.id));
+    },
   });
 
-  const handleChange =(event)=>{
-    setCustomer(prevState => {
-      return {...prevState, [event.target.name]: event.target.value}
-    });
-  }
-
-  const handleSubmit = ()=>{
-    console.log('customer :>> ', customer);
-  }
-
+  useEffect(() => {
+    setDataUser({
+      dataUser: formik.values
+    })
+  }, [formik.values])
 
   return (
     <React.Fragment>
@@ -37,8 +56,8 @@ const EditCustomer = () => {
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form onSubmit={handleSubmit}>
-            <MDBRow className="mb-3">
+            <form onSubmit={formik.handleSubmit}>
+              <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
                     htmlFor="defaultFormRegisterPasswordEx4"
@@ -48,9 +67,10 @@ const EditCustomer = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="typeUser" className="browser-default custom-select"  onChange={handleChange}>
-                    <option>Quản trị viên</option>
-                    <option>Khách hàng</option>
+                  <select name="roleId" className="browser-default custom-select" onChange={formik.handleChange}>
+                    <option>{dataUserEdit['Role.name']}</option>
+                    <option value={1}>Quản trị viên</option>
+                    <option value={2}>Khách hàng</option>
                   </select>
                 </MDBCol>
               </MDBRow>
@@ -62,9 +82,10 @@ const EditCustomer = () => {
                 </MDBCol>
                 <MDBCol md="10" className="mb-3">
                   <input
-                    value={customer.id}
+                    readOnly={true}
+                    value={dataUserEdit.id}
                     name="id"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -83,10 +104,10 @@ const EditCustomer = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
-                    value={customer.fullName}
+                  <input
+                    value={dataUser?.dataUser.fullName}
                     name="fullName"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -105,8 +126,8 @@ const EditCustomer = () => {
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.phone}
-                    onChange={handleChange}
+                    value={dataUser?.dataUser.phone}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterConfirmEx3"
                     className="form-control"
@@ -126,8 +147,9 @@ const EditCustomer = () => {
                 </MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.email}
-                    onChange={handleChange}
+                    readOnly={true}
+                    value={dataUserEdit.email}
+                    onChange={formik.handleChange}
                     type="email"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
@@ -147,14 +169,12 @@ const EditCustomer = () => {
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.password}
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="password"
                     id="defaultFormRegisterPasswordEx4"
                     className="form-control"
                     name="password"
                     placeholder="Mật khẩu"
-                    required
                   />
                 </MDBCol>
               </MDBRow>
@@ -162,12 +182,17 @@ const EditCustomer = () => {
               <hr />
               <MDBRow className="justify-content-center">
 
-                <MDBBtn color="primary" type="submit" >
+                <MDBBtn onClick={() => {
+                  if(!formik.values.password.trim().length){
+                    delete formik.values.password
+                  }
+                  dispatch(suaNguoiDung(formik.values, dataUserEdit.id))
+                }} color="primary" type="submit" >
                   Submit Form
               </MDBBtn>
               </MDBRow>
             </form>
-           
+
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>

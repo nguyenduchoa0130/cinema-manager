@@ -6,7 +6,7 @@ import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import { layDanhSachNguoiDung } from "../../../redux/actions/QuanLyNguoiDungAction";
+import { layDanhSachNguoiDung, xoaNguoiDung } from "../../../redux/actions/QuanLyNguoiDungAction";
 
 const CustomerManager = () => {
 
@@ -42,6 +42,7 @@ const CustomerManager = () => {
           <td>{user.id}</td>
           <td>{user.email}</td>
           <td>{user.fullName}</td>
+          <td>{user['Role.name']}</td>
           <td>{user.phone}</td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert() }} >
@@ -87,6 +88,7 @@ const CustomerManager = () => {
                 <th>Mã người dùng</th>
                 <th>Email</th>
                 <th>Họ và tên</th>
+                <th>Loại người dùng</th>
                 <th>Số điện thoại</th>
                 <th>Thao tác</th>
               </tr>
@@ -105,7 +107,9 @@ const CustomerManager = () => {
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
-          <MDBBtn color="danger" >Xóa</MDBBtn>
+          <MDBBtn color="danger" onClick={() => {
+            dispatch(xoaNguoiDung(customer.id))
+          }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 

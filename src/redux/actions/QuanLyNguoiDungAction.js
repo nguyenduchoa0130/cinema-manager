@@ -1,4 +1,5 @@
 import axios from "axios";
+import { history } from "../../App";
 import { TOKEN, USERLOGIN } from "../../util/constants/settingSystem";
 
 export const layDanhSachNguoiDung = () => {
@@ -37,6 +38,7 @@ export const themNguoiDung = (thongTinNguoiDung) => {
                 }
             })
             alert(result.data.msg)
+            history.push('/admin/quan-ly-khach-hang')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -44,17 +46,20 @@ export const themNguoiDung = (thongTinNguoiDung) => {
     }
 }
 
-export const suaNguoiDung = (id) => {
+export const suaNguoiDung = (dataUserEdit, id) => {
     return async dispatch => {
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/user/${id}`,
                 method: 'PUT',
+                data: dataUserEdit,
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
             alert(result.data.msg)
+            dispatch(layDanhSachNguoiDung())
+            history.push('/admin/quan-ly-khach-hang')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -73,6 +78,7 @@ export const xoaNguoiDung = (id) => {
                 }
             })
             alert(result.data.msg)
+            dispatch(layDanhSachNguoiDung())
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

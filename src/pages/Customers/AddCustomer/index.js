@@ -1,11 +1,9 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { useFormik } from 'formik';
-import * as Yup from 'yup'
-import styles from './style.module.scss';
+import React from 'react';
 import Title from '../../../components/Tittle';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { themNguoiDung } from '../../../redux/actions/QuanLyNguoiDungAction';
 
 
@@ -14,6 +12,7 @@ const AddCustomer = () => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       fullName: "",
       phone: "",
@@ -29,13 +28,11 @@ const AddCustomer = () => {
         .required("Required!"),
       password: Yup.string().required("Required!"),
     }),
-    
     onSubmit: values => {
       console.log('values', values);
       dispatch(themNguoiDung(values));
     },
   });
-
 
 
   return (
@@ -44,7 +41,7 @@ const AddCustomer = () => {
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-          <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit}>
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
@@ -146,7 +143,9 @@ const AddCustomer = () => {
               </MDBRow>
               <hr />
               <MDBRow className="justify-content-center">
-                <MDBBtn color="primary" type="submit" >
+                <MDBBtn onClick={() => {
+                  dispatch(themNguoiDung(formik.values))
+                }} color="primary" type="submit" >
                   Submit Form
               </MDBBtn>
               </MDBRow>

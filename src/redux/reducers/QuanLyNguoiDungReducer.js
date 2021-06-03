@@ -10,7 +10,7 @@ export default (state = initialState, action) => {
             return { ...state }
         }
         case 'DATA_USER_EDIT': {
-            state.dataUserEditUser = action.dataUser
+            state.dataUserEdit = action.dataUser
             return { ...state }
         }
 

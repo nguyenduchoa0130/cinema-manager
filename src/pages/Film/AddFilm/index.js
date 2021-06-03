@@ -1,11 +1,5 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { EditorState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import styles from './style.module.scss';
+import React, { useEffec, useEffect } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
 import countryList from '../../../util/constants/countryList';
@@ -24,10 +18,6 @@ const AddFilm = () => {
     dispatch(layTheLoaiPhim());
   }, [])
 
-  const [editorState, setEditorState] = useState(
-    () => EditorState.createEmpty(),
-  );
-
   const dispatch = useDispatch();
   const formik = useFormik({
     enableReinitialize: true,
@@ -42,7 +32,7 @@ const AddFilm = () => {
       thumbnail: null,
       trailer: "",
       premiere: "",
-      desc: "", 
+      desc: "",
       poster: null
     },
     validationSchema: Yup.object().shape({
@@ -325,7 +315,6 @@ const AddFilm = () => {
               </MDBRow>
 
             </form>
-            <a onClick={() => { console.log('editorState :>> ', draftToHtml(convertToRaw(editorState.getCurrentContent()))) }} className="btn btn-primary">Test lấy value trong editor</a>
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>
