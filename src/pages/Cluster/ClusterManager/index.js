@@ -60,13 +60,13 @@ const ClusterManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý hệ thống rạp"} />
+      <Title text={"Quản lý cụm rạp"} />
       <MDBRow>
        <MDBCol>
           <MDBCard>
             <MDBCardBody>
               <div className="text-right">
-                <Link to="/admin/them-he-thong-rap">
+                <Link to="/admin/them-cum-rap">
                   <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
                 </Link>
               </div>

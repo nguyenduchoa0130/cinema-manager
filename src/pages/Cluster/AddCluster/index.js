@@ -28,7 +28,7 @@ const AddCluster = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Thêm cum rạp"} />
+      <Title text={"Thêm cụm rạp"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

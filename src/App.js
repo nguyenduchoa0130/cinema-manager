@@ -35,6 +35,9 @@ import AddCustomer from "./pages/Customers/AddCustomer";
 import AddCluster from "./pages/Cluster/AddCluster";
 import EditCluster from "./pages/Cluster/EditCluster";
 import ClusterManager from "./pages/Cluster/ClusterManager";
+import CinemaManager from "./pages/Cinema/CinemaManager";
+import AddCinema from "./pages/Cinema/AddCinema";
+import EditCinema from "./pages/Cinema/EditCinema";
 
 
 export const history = createBrowserHistory();

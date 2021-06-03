@@ -6,40 +6,41 @@ import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import { clusterTemplate } from "../../../util/dataTemplate/clusterTemplate"
+import { cinemaTemplate } from "../../../util/dataTemplate/cinemaTemplate"
 
-const ClusterManager = () => {
-
+const CinemaManager = () => {
 
 
   const { isShowing, toggle } = useModal();
-  const [cluster, setCluster] = useState({
+  const [cinema, setCinema] = useState({
     id: "",
-    clusterName: "",
-    address: "",
-    systemId:0
+    cinemaName: "",
+    address:  "",
+    col: -1,
+    row: -1,
+    clusterId:"",
   });
-  const removeToggle = (cluster) => {
+  const removeToggle = (cinema) => {
     toggle();
-    setCluster(cluster);
+    setCinema(cinema);
   }
 
 
   const renderRowData = () => {
-    return clusterTemplate.map((cluster, index) => {
+    return cinemaTemplate.map((cinema, index) => {
       return (
         <tr key={index}>
 
-          <td>{cluster.id}</td>
-          <td>{cluster.clusterName}</td>
-          <td>{cluster.address}</td>
-          <td>{cluster.clusterName}</td>
+          <td>{cinema.id}</td>
+          <td>{cinema.cinemaName}</td>
+          <td>{cinema.clusterId}</td>
+          <td>{cinema.col * cinema.row}</td>
           <td>
-            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(cluster.id) }} >
+            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(cinema.id) }} >
               <MDBIcon far icon="eye" />
             </MDBBtn>
 
-            <Link to='/admin/cap-nhat-cum-rap'>
+            <Link to='/admin/cap-nhat-rap'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
 
               }} >
@@ -47,7 +48,7 @@ const ClusterManager = () => {
               </MDBBtn>
             </Link>
 
-            <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(cluster) }} >
+            <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(cinema) }} >
               <MDBIcon far icon="trash-alt" />
             </MDBBtn>
 
@@ -60,23 +61,23 @@ const ClusterManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý hệ thống rạp"} />
+      <Title text={"Quản lý rạp"} />
       <MDBRow>
        <MDBCol>
           <MDBCard>
             <MDBCardBody>
               <div className="text-right">
-                <Link to="/admin/them-he-thong-rap">
+                <Link to="/admin/them-rap">
                   <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
                 </Link>
               </div>
               <MDBTable hover>
                 <MDBTableHead color="primary-color" textWhite>
                   <tr>
-                    <th>Mã cụm</th>
-                    <th>Tên cụm</th>
-                    <th>Hệ thống</th>
-                    <th>Địa chỉ</th>
+                    <th>Mã rạp</th>
+                    <th>Tên rạp</th>
+                    <th>Cụm rạp</th>
+                    <th>Số ghế</th>
                     <th>Thao tác</th>
                   </tr>
                 </MDBTableHead>
@@ -92,7 +93,7 @@ const ClusterManager = () => {
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-          Bạn có muốn xóa hệ thống này  <strong>{cluster.clusterName}</strong> có mã số là <strong>{cluster.id}</strong>?
+          Bạn có muốn xóa hệ thống này  <strong>{cinema.cinemaName}</strong> có mã số là <strong>{cinema.id}</strong>?
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
@@ -104,4 +105,4 @@ const ClusterManager = () => {
   );
 }
 
-export default ClusterManager;
+export default CinemaManager;
