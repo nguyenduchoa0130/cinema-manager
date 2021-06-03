@@ -14,7 +14,6 @@ class UserController {
                     {
                         model: models.Role,
                         require: true,
-                        attributes: [['roleName', 'name']],
                     },
                 ],
                 raw: true,
@@ -147,7 +146,7 @@ class UserController {
             let user = await models.User.findByPk(id);
             if (!user) return next(apiError('Không tìm thấy người dùng'));
             if ('password' in data) {
-				user.password = awai
+                user.password = awai;
             }
         } catch (err) {
             next(err);
