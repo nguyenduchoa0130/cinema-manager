@@ -1,4 +1,4 @@
-const { User: UserModel } = require('../models/index').sequelize.models;
+const models = require('../models/index').sequelize.models;
 const { Op } = require('sequelize');
 const helper = require('../config/helper');
 const bcrypt = require('bcrypt');
@@ -6,39 +6,33 @@ const apiError = require('../errors/apiError');
 class UserController {
     async fetchAll(req, res, next) {
         try {
-            let users = await UserModel.findAll({
+            let users = await models.User.findAll({
                 attributes: {
-                    exclude: helper.ignoreColumns('refreshToken', 'createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
             });
             if (users.length) {
-                return res.json({
-                    msg: 'Lấy dữ liệu thành công',
-                    users,
-                });
+                return res.json(users);
             } else {
-                return next(apiError.notFound('Không tìm thầy người dùng nào'));
+                return next(apiError.notFound('Không tìm thầy người dùng'));
             }
         } catch (err) {
             next(err);
         }
     }
-    async fetchByIdOrEmail(req, res, next) {
-        let param = req.params.id;
+    async fetchById(req, res, next) {
+        let id = req.params.id;
+        if (!helper.isValidID(id)) {
+            return next(apiError.badRequest('ID người dùng không hợp lệ'));
+        }
         try {
-            let user = await UserModel.findOne({
-                where: {
-                    [Op.or]: [{ id: +param ? +param : -1 }, { email: param }],
-                },
+            let user = await models.User.findByPk(id, {
                 attributes: {
-                    exclude: ['refreshToken', 'createdAt', 'updatedAt'],
+                    exclude: ['createdAt', 'updatedAt'],
                 },
             });
             if (user) {
-                return res.json({
-                    msg: 'Lấy dữ liệu thành công',
-                    user,
-                });
+                return res.json(user);
             } else {
                 return next(apiError.notFound('Không tìm thầy người dùng!'));
             }
@@ -46,13 +40,41 @@ class UserController {
             return next(err);
         }
     }
+    async fetchByKey(req, res, next) {
+        let key = req.query.key;
+        if (!key) {
+            return next();
+        }
+        if (!key.length) {
+            return next(apiError.badRequest('Từ khóa người dùng không hợp lệ'));
+        }
+        try {
+            let rows = await models.User.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAAt'),
+                },
+            });
+            let users = rows.filter((user) => {
+                let str = helper.removeAccents(JSON.stringify(user));
+                return str.includes(helper.removeAccents(key));
+            });
+            if (!users.length) {
+                return next(apiError.notFound('Không tìm thấy người dùng'));
+            } else {
+                return res.json(users);
+            }
+        } catch (err) {
+            return next(err);
+        }
+    }
     async add(req, res, next) {
         let data = req.body;
+		console.log(req.body);
         try {
-            let users = await UserModel.findAll({ where: { email: data.email } });
+            let users = await models.User.findAll({ where: { email: data.email } });
             if (users.length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
             data.password = await bcrypt.hash(data.password, 10);
-            let user = await UserModel.create({
+            let user = await models.User.create({
                 ...data,
                 isActive: true,
             });
@@ -69,7 +91,7 @@ class UserController {
             data.password = await bcrypt.hash(data.password, 10);
         }
         try {
-            let user = await UserModel.findByPk(id);
+            let user = await models.User.findByPk(id);
             for (let prop in data) {
                 user[prop] = data[prop];
             }
@@ -86,7 +108,7 @@ class UserController {
             return next(apiError.notAuthorized('Không thể xóa tài khoản của chính mình'));
         }
         try {
-            let user = await UserModel.findByPk(id);
+            let user = await models.User.findByPk(id);
             if (user) {
                 await user.destroy();
                 return res.status(200).json({ msg: 'Xóa thành công' });

@@ -5,8 +5,8 @@ router.use(authMid.authenticate);
 router.post('/add', authMid.isAdmin, userCon.add);
 router
     .route('/:id')
-    .get(authMid.isActive, authMid.isOwnerOrAdmin, userCon.fetchByIdOrEmail)
+    .get(authMid.isActive, authMid.isOwnerOrAdmin, userCon.fetchById)
     .put(authMid.isActive, authMid.isOwnerOrAdmin, userCon.update)
     .delete(authMid.isAdmin, userCon.delete);
-router.get('/', authMid.isAdmin, userCon.fetchAll);
+router.get('/', authMid.isAdmin, userCon.fetchByKey, userCon.fetchAll);
 module.exports = router;
