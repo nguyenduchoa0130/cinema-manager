@@ -6,27 +6,36 @@ import * as Yup from 'yup'
 import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
-import { layTheLoaiPhim, suaPhim } from '../../../redux/actions/QuanLyPhimAction';
+import { themNguoiDung } from '../../../redux/actions/QuanLyNguoiDungAction';
 
 
 const AddCustomer = () => {
-  const [customer, setCustomer] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    password: "",
-    roleId: null
+
+  const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      phone: "",
+      email: "",
+      password: "",
+      roleId: 2
+    },
+    validationSchema: Yup.object().shape({
+      filmName: Yup.string().required("Required!"),
+      phone: Yup.string().required("Required!"),
+      email: Yup.string()
+        .email("Invalid email format")
+        .required("Required!"),
+      password: Yup.string().required("Required!"),
+    }),
+    
+    onSubmit: values => {
+      console.log('values', values);
+      dispatch(themNguoiDung(values));
+    },
   });
 
-  const handleChange = (event) => {
-    setCustomer(prevState => {
-      return { ...prevState, [event.target.name]: event.target.value }
-    });
-  }
-
-  const handleSubmit = () => {
-    console.log('customer :>> ', customer);
-  }
 
 
   return (
@@ -35,18 +44,18 @@ const AddCustomer = () => {
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
+                    htmlFor="roleId"
                     className="grey-text"
                   >
                     Loại người dùng
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="roleId" className="browser-default custom-select" onChange={handleChange}>
+                  <select id="roleId" value={formik.values.roleId} name="roleId" className="browser-default custom-select" onChange={formik.handleChange}>
                     <option value={1}>Quản trị viên</option>
                     <option value={2}>Khách hàng</option>
                   </select>
@@ -56,7 +65,7 @@ const AddCustomer = () => {
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
-                    htmlFor="defaultFormRegisterreleaseYearEx2"
+                    htmlFor="fullName"
                     className="grey-text"
                   >
                     Tên khách hàng
@@ -64,11 +73,10 @@ const AddCustomer = () => {
                 </MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.fullName}
                     name="fullName"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
-                    id="defaultFormRegisterNameEx"
+                    id="fullName"
                     className="form-control"
                     placeholder="Tên khách hàng"
                     required
@@ -78,19 +86,18 @@ const AddCustomer = () => {
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
-                    htmlFor="defaultFormRegisterConfirmEx3"
+                    htmlFor="phone"
                     className="grey-text"
                   >
                     Số điện thoại
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.phone}
-                    onChange={handleChange}
                     type="text"
-                    id="defaultFormRegisterConfirmEx3"
+                    id="phone"
                     className="form-control"
                     name="phone"
+                    onChange={formik.handleChange}
                     placeholder="Số điện thoại"
                   />
                 </MDBCol>
@@ -98,7 +105,7 @@ const AddCustomer = () => {
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
+                    htmlFor="email"
                     className="grey-text"
                   >
                     Email
@@ -106,12 +113,11 @@ const AddCustomer = () => {
                 </MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.email}
-                    onChange={handleChange}
                     type="email"
-                    id="defaultFormRegisterPasswordEx4"
+                    id="email"
                     className="form-control"
                     name="email"
+                    onChange={formik.handleChange}
                     placeholder="Email"
                     required
                   />
@@ -121,19 +127,18 @@ const AddCustomer = () => {
               <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
-                    htmlFor="defaultFormRegisterPasswordEx4"
+                    htmlFor="password"
                     className="grey-text"
                   >
                     Mật khẩu
                   </label></MDBCol>
                 <MDBCol md="10">
                   <input
-                    value={customer.password}
-                    onChange={handleChange}
                     type="password"
-                    id="defaultFormRegisterPasswordEx4"
+                    id="password"
                     className="form-control"
                     name="password"
+                    onChange={formik.handleChange}
                     placeholder="Mật khẩu"
                     required
                   />
@@ -141,13 +146,11 @@ const AddCustomer = () => {
               </MDBRow>
               <hr />
               <MDBRow className="justify-content-center">
-
                 <MDBBtn color="primary" type="submit" >
                   Submit Form
               </MDBBtn>
               </MDBRow>
             </form>
-
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>

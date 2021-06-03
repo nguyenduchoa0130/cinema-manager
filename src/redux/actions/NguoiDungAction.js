@@ -33,6 +33,9 @@ export const dangXuatAction = () => {
             const result = await axios({
                 url: 'https://cinejunsv.herokuapp.com/api/v1/auth/signout',
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                }
             })
             alert('Đăng xuất thành công')
         } catch (error) {

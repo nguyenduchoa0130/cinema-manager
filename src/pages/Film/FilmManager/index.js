@@ -12,7 +12,7 @@ import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimActio
 const FilmManager = () => {
 
   const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
-  console.log('listFilm', listFilm);
+  // console.log('listFilm', listFilm);
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layDanhSachPhim())
@@ -37,10 +37,10 @@ const FilmManager = () => {
   // console.log('film', film);
 
   const renderRowData = () => {
-    listFilm.films?.sort((a, b) => {
+    listFilm?.films?.sort((a, b) => {
       return a.id - b.id;
     })
-    return listFilm.films?.map((film, index) => {
+    return listFilm?.films?.map((film, index) => {
       return (
         <tr key={index}>
           {/* {Object.keys(item).slice(0,-2).map(keyName => {

@@ -67,7 +67,7 @@ const AddFilm = () => {
     },
   });
   const renderTheLoaiPhim = () => {
-    return listCategory.map((theLoai, index) => {
+    return listCategory.categories?.map((theLoai, index) => {
       return <option key={index} value={theLoai.id}>{theLoai.categoryName}</option>
     })
   }
@@ -319,7 +319,6 @@ const AddFilm = () => {
 
               <hr />
               <MDBRow className="justify-content-center">
-
                 <MDBBtn color="primary" type="submit" >
                   Submit Form
               </MDBBtn>
