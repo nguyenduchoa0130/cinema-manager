@@ -44,8 +44,7 @@ export const history = createBrowserHistory();
 
 
 
-class App extends Component {
-  render() {
+const App = ()=> {
     console.log('as :>> ');
     return (
       <Router history={history}>
@@ -108,6 +107,5 @@ class App extends Component {
       </Router>
     );
   }
-}
 
 export default App;
