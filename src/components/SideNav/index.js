@@ -38,19 +38,19 @@ const SideNav = () => {
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
-          <MDBNavLink to="quan-ly-he-thong-rap">
+          <MDBNavLink to="/admin/quan-ly-he-thong-rap">
           <MDBIcon icon="gopuram"  className="mr-3" />
             Quản lý hệ thống rạp
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
-          <MDBNavLink to="quan-ly-cum-rap">
+          <MDBNavLink to="/admin/quan-ly-cum-rap">
           <MDBIcon icon="gopuram"  className="mr-3" />
             Quản lý cụm rạp
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
-          <MDBNavLink to="quan-ly-rap">
+          <MDBNavLink to="/admin/quan-ly-rap">
           <MDBIcon icon="gopuram"  className="mr-3" />
             Quản lý rạp
           </MDBNavLink>
