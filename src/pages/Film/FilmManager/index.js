@@ -36,7 +36,7 @@ const FilmManager = () => {
     setFilm(film);
   }
 
-  
+
   const detailToggle = (film) => {
     toggle();
     film.trailer = "TcMBFSGVi1c";
@@ -58,7 +58,7 @@ const FilmManager = () => {
           <td>{film.duration}</td>
           <td>{film['Category.name']}</td>
           <td>{film[['StatusFilm.name']]}</td>
-          <td>{film.premiere.slice(0,10)}</td>
+          <td>{film.premiere.slice(0, 10)}</td>
           <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { detailToggle(film) }} >
@@ -128,7 +128,6 @@ const FilmManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            toggle();
             dispatch(xoaPhim(film.id));
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
@@ -137,38 +136,38 @@ const FilmManager = () => {
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-            <MDBRow>
-                <div className="w-100">
+          <MDBRow>
+            <div className="w-100">
 
-                </div>
-              {/* <img className="w-100" src={film.thumbnail} alt="" /> */}
-            </MDBRow>
-            <MDBRow>
+            </div>
+            {/* <img className="w-100" src={film.thumbnail} alt="" /> */}
+          </MDBRow>
+          <MDBRow>
 
-              <MDBCol>
-                <img className="w-100 mx-3" src={film.thumbnail} alt="" />
-              </MDBCol>
-              <MDBCol>
-                <p><strong>Tên phim :</strong> {film.filmName}</p>
-                <p><strong>Quốc gia :</strong> {film.country}</p>
-                <p><strong>Năm xuất bản:</strong> {film.releaseYear}</p>
-                <p><strong>Diển viên:</strong> {film.actors}</p>
-                <p><strong>Đạo diển:</strong> {film.director}</p>
-                <p><strong>Thể loại:</strong> {film['Category.name']}</p>
-                <p><strong>hời lượng:</strong> {film.duration}</p>
-                <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
-                <p><strong>Nội dung:</strong> {film.desc}</p>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-            <iframe width="100%" height="500px" src={"https://www.youtube.com/embed/"+film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </MDBRow>
+            <MDBCol>
+              <img className="w-100 mx-3" src={film.thumbnail} alt="" />
+            </MDBCol>
+            <MDBCol>
+              <p><strong>Tên phim :</strong> {film.filmName}</p>
+              <p><strong>Quốc gia :</strong> {film.country}</p>
+              <p><strong>Năm xuất bản:</strong> {film.releaseYear}</p>
+              <p><strong>Diển viên:</strong> {film.actors}</p>
+              <p><strong>Đạo diển:</strong> {film.director}</p>
+              <p><strong>Thể loại:</strong> {film['Category.name']}</p>
+              <p><strong>hời lượng:</strong> {film.duration}</p>
+              <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
+              <p><strong>Nội dung:</strong> {film.desc}</p>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <iframe width="100%" height="500px" src={"https://www.youtube.com/embed/" + film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </MDBRow>
 
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            toggle();
+            dispatch(xoaPhim(film.id))
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
