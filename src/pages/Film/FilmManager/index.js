@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
@@ -18,6 +18,7 @@ const FilmManager = () => {
     dispatch(layDanhSachPhim())
   }, [])
   const { isShowing, toggle } = useModal();
+
   const [film, setFilm] = useState({
     filmName: "",
     country: "",
@@ -32,6 +33,13 @@ const FilmManager = () => {
   });
   const removeToggle = (film) => {
     toggle();
+    setFilm(film);
+  }
+
+  
+  const detailToggle = (film) => {
+    toggle();
+    film.trailer = "TcMBFSGVi1c";
     setFilm(film);
   }
   // console.log('film', film);
@@ -61,7 +69,7 @@ const FilmManager = () => {
           <td>{film.premiere.slice(0,10)}</td>
           <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
           <td>
-            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(film.id) }} >
+            <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { detailToggle(film) }} >
               <MDBIcon far icon="eye" />
             </MDBBtn>
 
@@ -123,16 +131,55 @@ const FilmManager = () => {
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-          Bạn có muốn xóa phim  <strong>{film.filmName}</strong> có mã số là <strong>{film.id}</strong>?
+          Bạn có muốn xóa phim <strong> {film.filmName}</strong> có mã số là <strong>{film.id}</strong>?
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaPhim(film.id))
+            toggle();
+            dispatch(xoaPhim(film.id));
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 
+      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
+        <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
+        <MDBModalBody>
+            <MDBRow>
+                <div className="w-100">
+
+                </div>
+              {/* <img className="w-100" src={film.thumbnail} alt="" /> */}
+            </MDBRow>
+            <MDBRow>
+
+              <MDBCol>
+                <img className="w-100 mx-3" src={film.thumbnail} alt="" />
+              </MDBCol>
+              <MDBCol>
+                <p><strong>Tên phim :</strong> {film.filmName}</p>
+                <p><strong>Quốc gia :</strong> {film.country}</p>
+                <p><strong>Năm xuất bản:</strong> {film.releaseYear}</p>
+                <p><strong>Diển viên:</strong> {film.actors}</p>
+                <p><strong>Đạo diển:</strong> {film.director}</p>
+                <p><strong>Thể loại:</strong> {film['Category.name']}</p>
+                <p><strong>hời lượng:</strong> {film.duration}</p>
+                <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
+                <p><strong>Nội dung:</strong> {film.desc}</p>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+            <iframe width="100%" height="500px" src={"https://www.youtube.com/embed/"+film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </MDBRow>
+
+        </MDBModalBody>
+        <MDBModalFooter>
+          <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
+          <MDBBtn color="danger" onClick={() => {
+            toggle();
+          }}>Xóa</MDBBtn>
+        </MDBModalFooter>
+      </MDBModal>
     </Fragment>
   );
 }
