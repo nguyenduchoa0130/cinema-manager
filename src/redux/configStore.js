@@ -5,6 +5,7 @@ import QuanLyPhimReducer from '../redux/reducers/QuanLyPhimReducer'
 import QuanLyNguoiDungReducer from '../redux/reducers/QuanLyNguoiDungReducer'
 import QuanLyHeThongRapReducer from '../redux/reducers/QuanLyHeThongRapReducer'
 import QuanLyCumRapReducer from '../redux/reducers/QuanLyCumRapReducer'
+import QuanLyRapReducer from '../redux/reducers/QuanLyRapReducer'
 
 
 
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     QuanLyPhimReducer,
     QuanLyNguoiDungReducer,
     QuanLyHeThongRapReducer,
-    QuanLyCumRapReducer
+    QuanLyCumRapReducer,
+    QuanLyRapReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));

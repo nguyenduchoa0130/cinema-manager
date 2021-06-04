@@ -7,18 +7,21 @@ import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
 import { cinemaTemplate } from "../../../util/dataTemplate/cinemaTemplate"
+import { layRap, xoaRap } from "../../../redux/actions/QuanLyRapAction";
 
 const CinemaManager = () => {
-
-
+  const { listRap } = useSelector(state => state.QuanLyRapReducer)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(layRap())
+  }, [])
   const { isShowing, toggle } = useModal();
   const [cinema, setCinema] = useState({
     id: "",
     cinemaName: "",
-    address:  "",
-    col: -1,
-    row: -1,
-    clusterId:"",
+    col: 0,
+    row: 0,
+    clusterId: "",
   });
   const removeToggle = (cinema) => {
     toggle();
@@ -27,13 +30,12 @@ const CinemaManager = () => {
 
 
   const renderRowData = () => {
-    return cinemaTemplate.map((cinema, index) => {
+    return listRap.cinemas?.map((cinema, index) => {
       return (
         <tr key={index}>
-
           <td>{cinema.id}</td>
           <td>{cinema.cinemaName}</td>
-          <td>{cinema.clusterId}</td>
+          <td>{cinema.CinemaCluster?.name}</td>
           <td>{cinema.col * cinema.row}</td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(cinema.id) }} >
@@ -42,7 +44,10 @@ const CinemaManager = () => {
 
             <Link to='/admin/cap-nhat-rap'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
-
+                dispatch({
+                  type: 'DATA_EDIT_RAP',
+                  dataRapEdit: cinema
+                })
               }} >
                 <MDBIcon icon="pencil-ruler" />
               </MDBBtn>
@@ -63,7 +68,7 @@ const CinemaManager = () => {
     <Fragment>
       <Title text={"Quản lý rạp"} />
       <MDBRow>
-       <MDBCol>
+        <MDBCol>
           <MDBCard>
             <MDBCardBody>
               <div className="text-right">
@@ -97,7 +102,9 @@ const CinemaManager = () => {
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
-          <MDBBtn color="danger" >Xóa</MDBBtn>
+          <MDBBtn color="danger" onClick={() => {
+            dispatch(xoaRap(cinema.id))
+          }} >Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 
