@@ -29,7 +29,8 @@
         "redux-thunk": "^2.3.0",
         "sass-loader": "^11.0.1",
         "web-vitals": "^1.1.2",
-        "yup": "^0.32.9"
+        "yup": "^0.32.9",
+        "babel-plugin-root-import": "^6.6.0"
     },
     "scripts": {
         "start": "react-app-rewired start",

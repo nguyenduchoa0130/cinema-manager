@@ -40,7 +40,6 @@ export const history = createBrowserHistory();
 
 
 const App = ()=> {
-    console.log('as :>> ');
     return (
       <Router history={history}>
         <Switch>
