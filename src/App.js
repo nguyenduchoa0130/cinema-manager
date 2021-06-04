@@ -46,6 +46,7 @@ export const history = createBrowserHistory();
 
 class App extends Component {
   render() {
+    console.log('as :>> ');
     return (
       <Router history={history}>
         <Switch>
