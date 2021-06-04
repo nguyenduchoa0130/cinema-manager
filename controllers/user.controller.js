@@ -42,7 +42,7 @@ class UserController {
                     {
                         model: models.Role,
                         require: true,
-                        attributes: [['roleName', 'name']],
+                        attributes: ['name'],
                     },
                 ],
                 raw: true,
