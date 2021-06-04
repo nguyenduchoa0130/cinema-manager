@@ -17,7 +17,13 @@ const rootReducer = combineReducers({
     QuanLyHeThongRapReducer,
     QuanLyCumRapReducer,
     QuanLyRapReducer
-})
+}) 
+// tách rootReducer ra ngoài
 
-const store = createStore(rootReducer, applyMiddleware(reduxThunk));
+
+// cấu hình devTool redux, để hiện thị store
+
+
+
+const store = createStore(rootReducer, applyMiddleware(reduxThunk)); // redux thunk
 export default store;

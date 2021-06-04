@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
 import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimAction";
 
@@ -63,7 +63,7 @@ const FilmManager = () => {
           <td>{film['Category.name']}</td>
           <td>{film[['StatusFilm.name']]}</td>
           <td>{film.premiere.slice(0,10)}</td>
-          <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
+          <td><img className={styles.thumbnail} src={film.thumbnail}  alt={"thumbnail "+film.thumbnail}/></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { detailToggle(film) }} >
               <MDBIcon far icon="eye" />

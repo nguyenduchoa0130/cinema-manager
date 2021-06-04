@@ -1,6 +1,5 @@
 
 import React, { useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBListGroupItem, MDBListGroup } from 'mdbreact';
 import styles from "./style.module.scss";
 import cx from 'classnames';
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +18,7 @@ export default function Profile() {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layThongTinNguoiDung(userId))
-    }, [])
+    }, [dispatch, userId])
 
 
     return (
@@ -27,7 +26,7 @@ export default function Profile() {
             <div className={styles.wrapper_content}>
                 <h1 className="my-5">Thông tin cá nhân</h1>
                 <div className={cx(styles.avatar_box, "position-relative")}>
-                    <img id="profileImg" src="https://banner2.cleanpng.com/20190702/tl/kisspng-computer-icons-portable-network-graphics-avatar-tr-clip-directory-professional-transparent-amp-png-5d1bfa95e508d4.2980489715621147099381.jpg" className={cx(styles.avatar_img, "img-sm rounded-circle border")} />
+                    <img id="profileImg" src="https://banner2.cleanpng.com/20190702/tl/kisspng-computer-icons-portable-network-graphics-avatar-tr-clip-directory-professional-transparent-amp-png-5d1bfa95e508d4.2980489715621147099381.jpg" className={cx(styles.avatar_img, "img-sm rounded-circle border")} alt="avatar-img"  />
                     <label htmlFor="file-input">
                         <i className={cx(styles.inputAvatar_icon, "fas fa-camera")}></i>
                     </label>

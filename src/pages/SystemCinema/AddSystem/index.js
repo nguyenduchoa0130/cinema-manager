@@ -1,11 +1,9 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { themHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 
 

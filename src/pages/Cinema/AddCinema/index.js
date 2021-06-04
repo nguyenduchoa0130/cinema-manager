@@ -1,14 +1,11 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
 import { themRap } from '../../../redux/actions/QuanLyRapAction';
 import { layCumRap } from '../../../redux/actions/QuanLyCumRapAction';
-
 
 const AddCinema = () => {
 
@@ -16,7 +13,7 @@ const AddCinema = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  }, [])
+  },)
 
   const formik = useFormik({
     initialValues: {

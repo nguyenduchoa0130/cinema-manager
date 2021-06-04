@@ -1,6 +1,6 @@
 import axios from "axios";
 import { history } from "../../App";
-import { TOKEN, USERLOGIN } from "../../util/constants/settingSystem";
+import { TOKEN } from "../../util/constants/settingSystem";
 
 export const layDanhSachNguoiDung = () => {
     return async dispatch => {

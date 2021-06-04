@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import { clusterTemplate } from "../../../util/dataTemplate/clusterTemplate"
 import { layCumRap, xoaCumRap } from "../../../redux/actions/QuanLyCumRapAction";
 
 const ClusterManager = () => {
@@ -15,7 +13,7 @@ const ClusterManager = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  }, [])
+  }, [dispatch])
 
   const { isShowing, toggle } = useModal();
   const [cluster, setCluster] = useState({

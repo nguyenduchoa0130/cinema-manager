@@ -1,8 +1,7 @@
 
 import React from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import styles from "./style.module.scss";
-import cx from 'classnames';
 
 const Home = () => {
     return (

@@ -1,9 +1,7 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
 import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
@@ -15,6 +13,7 @@ const AddCluster = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layHeThongRap())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const formik = useFormik({

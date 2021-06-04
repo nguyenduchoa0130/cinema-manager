@@ -1,10 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
+import {  MDBTableBody, MDBBtn, MDBCardBody, MDBCard,  MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
 import { layDanhSachNguoiDung, xoaNguoiDung } from "../../../redux/actions/QuanLyNguoiDungAction";
 
@@ -17,7 +16,7 @@ const CustomerManager = () => {
 
   useEffect(() => {
     dispatch(layDanhSachNguoiDung())
-  }, [])
+  }, [dispatch])
 
   const { isShowing, toggle } = useModal();
   const [customer, setCustomer] = useState({

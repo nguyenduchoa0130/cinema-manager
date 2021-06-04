@@ -1,8 +1,4 @@
-import React, { Component } from "react";
-import {
-  MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse, MDBFormInline,
-  MDBDropdown, MDBDropdownToggle, MDBDropdownMenu, MDBDropdownItem
-} from "mdbreact";
+import React from "react";
 import { createBrowserHistory } from 'history';
 import { Route, Switch, Router } from 'react-router-dom';
 import './App.css';
@@ -18,7 +14,6 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import ForgotPassword from './pages/ForgotPassword';
 import ChangePassword from './pages/ChangePassword';
-import Header from './components/Header';
 import MainAdmin from "./layouts/Admin";
 import Breadcrumb from "./components/Breadcrumb";
 import FilmManager from "./pages/Film/FilmManager";
@@ -41,7 +36,7 @@ import EditCinema from "./pages/Cinema/EditCinema";
 
 
 export const history = createBrowserHistory();
-
+ 
 
 
 const App = ()=> {
