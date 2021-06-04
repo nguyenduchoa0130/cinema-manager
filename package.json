@@ -1,5 +1,4 @@
 {
-	"homepage": "https://nguyenduchoa0130.github.io/cinejun",
 	"name": "cinema",
 	"version": "0.1.0",
 	"private": true,
@@ -34,8 +33,6 @@
 		"yup": "^0.32.9"
 	},
 	"scripts": {
-		"predeploy": "npm run build",
-		"deploy": "gh-pages -d build",
 		"start": "react-app-rewired start",
 		"build": "react-app-rewired build",
 		"test": "react-app-rewired test --env=jsdom",
