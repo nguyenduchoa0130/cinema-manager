@@ -12,7 +12,7 @@ const AddSystem = () => {
   const formik = useFormik({
     initialValues: {
       systemName: '',
-      logo: {}
+      logo: null
     },
     validationSchema: Yup.object().shape({
       systemName: Yup.string().required("Required!"),
@@ -76,7 +76,7 @@ const AddSystem = () => {
                         name="logo"
                       />
                       <label className="custom-file-label" >
-                        Chọn logo hệ thống rạp
+                        {formik.values.logo ? formik.values.logo.name : "Chọn logo hệ thống rạp"}
                       </label>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -17,7 +17,7 @@ const AddFilm = () => {
   // console.log('listCategory', listCategory);
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  }, [])
+  },)
 
   const dispatch = useDispatch();
   const formik = useFormik({

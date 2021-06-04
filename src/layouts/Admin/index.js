@@ -1,9 +1,10 @@
 import React from "react";
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow } from 'mdbreact';
 import styles from "./style.module.scss";
 import SideNav from '../../components/SideNav'
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default ({ children }) => {
     return (
         <MDBContainer fluid className={styles.wrapper}>

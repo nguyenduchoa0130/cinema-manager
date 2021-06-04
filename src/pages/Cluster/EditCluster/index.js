@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
@@ -19,7 +18,7 @@ const EditCluster = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layHeThongRap())
-  }, [])
+  },)
 
 
   useEffect(() => {

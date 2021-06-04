@@ -20,7 +20,7 @@ const EditCustomer = () => {
       ...dataUserEdit,
       dataUser: dataUserEdit
     })
-  }, [dataUserEdit])
+  }, [dataUserEdit],)
 
   const formik = useFormik({
     enableReinitialize: true,

@@ -14,8 +14,7 @@ const SystemManager = () => {
 
   useEffect(() => {
     dispatch(layHeThongRap())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  },[dispatch])
 
   const { isShowing, toggle } = useModal();
   const [system, setSystem] = useState({
@@ -105,7 +104,8 @@ const SystemManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaHeThongRap(system.id))
+            dispatch(xoaHeThongRap(system.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>

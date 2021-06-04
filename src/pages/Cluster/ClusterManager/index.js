@@ -8,14 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { layCumRap, xoaCumRap } from "../../../redux/actions/QuanLyCumRapAction";
 
 const ClusterManager = () => {
+  const { isShowing, toggle } = useModal();
 
   const { listCumRap } = useSelector(state => state.QuanLyCumRapReducer)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  }, [dispatch])
+  },[])
 
-  const { isShowing, toggle } = useModal();
   const [cluster, setCluster] = useState({
     clusterName: "",
     address: "",
@@ -105,7 +105,8 @@ const ClusterManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaCumRap(cluster.id))
+            dispatch(xoaCumRap(cluster.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>

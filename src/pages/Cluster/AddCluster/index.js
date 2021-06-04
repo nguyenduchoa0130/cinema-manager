@@ -13,8 +13,7 @@ const AddCluster = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layHeThongRap())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  },)
 
   const formik = useFormik({
     initialValues: {
@@ -97,6 +96,7 @@ const AddCluster = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <select name="systemId" className="browser-default custom-select" onChange={formik.handleChange}>
+                    <option>Chọn hệ thống rạp</option>
                     {renderHeThongRap()}
                   </select>
                 </MDBCol>

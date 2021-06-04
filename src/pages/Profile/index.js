@@ -18,7 +18,7 @@ export default function Profile() {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layThongTinNguoiDung(userId))
-    }, [dispatch, userId])
+    }, )
 
 
     return (

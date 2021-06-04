@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
@@ -16,7 +15,7 @@ const FilmManager = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layDanhSachPhim())
-  }, [])
+  },)
   const { isShowing, toggle } = useModal();
   const [isShowingDetails, setToggle] = useState(false);
 
@@ -46,7 +45,6 @@ const FilmManager = () => {
     setFilm(film);
     toggleDetails();
   }
-  // console.log('film', film);
 
   const renderRowData = () => {
     listFilm?.films?.sort((a, b) => {
@@ -132,8 +130,8 @@ const FilmManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            toggle();
             dispatch(xoaPhim(film.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
@@ -170,10 +168,7 @@ const FilmManager = () => {
 
         </MDBModalBody>
         <MDBModalFooter>
-          <MDBBtn color="primary" onClick={toggleDetails}>Hủy</MDBBtn>
-          <MDBBtn color="danger" onClick={() => {
-            toggleDetails();
-          }}>Xóa</MDBBtn>
+          <MDBBtn color="primary" onClick={toggleDetails}>Đóng</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
     </Fragment>

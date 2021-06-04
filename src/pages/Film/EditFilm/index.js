@@ -14,19 +14,17 @@ const EditFilm = () => {
   const dispatch = useDispatch();
   const [dataFilm, setDataFilm] = useState()
   console.log('dataFilmEdit', dataFilmEdit);
-  // console.log('dataFilm', dataFilm); 
-
 
   useEffect(() => {
     setDataFilm({
       ...dataFilmEdit,
       dataFilm: dataFilmEdit
     })
-  }, [dataFilmEdit])
+  }, [dataFilmEdit],)
 
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  }, [dispatch])
+  },[dispatch])
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -42,7 +40,8 @@ const EditFilm = () => {
       desc: dataFilmEdit?.desc,
       poster: dataFilmEdit?.poster,
       premiere: dataFilmEdit?.premiere,
-      statusId: dataFilmEdit?.statusId
+      statusId: dataFilmEdit?.statusId,
+      trailer:dataFilmEdit?.trailer
     },
     validationSchema: Yup.object().shape({
       filmName: Yup.string().required("Required!"),
@@ -51,6 +50,7 @@ const EditFilm = () => {
       duration: Yup.string().required("Required!"),
       actors: Yup.string().required("Required!"),
       director: Yup.string().required("Required!"),
+      trailer: Yup.string().required("Required!"),
       desc: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
@@ -294,6 +294,31 @@ const EditFilm = () => {
                   )}
                 </MDBCol>
               </MDBRow>
+              <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Link Trailer
+                  </label></MDBCol>
+                <MDBCol md="10">
+                <input
+                    value={dataFilm?.dataFilm.trailer}
+                    onChange={formik.handleChange}
+                    type="text"
+                    id="defaultFormRegisterPasswordEx4"
+                    className="form-control"
+                    name="trailer"
+                    placeholder="Link trailer"
+                    required
+                  />
+                {formik.errors.trailer && formik.touched.trailer && (
+                    <p className="text-danger">{formik.errors.trailer} </p>
+                  )}
+                </MDBCol>
+              </MDBRow>
+             
               <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label

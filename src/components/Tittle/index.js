@@ -2,7 +2,6 @@
 import React from "react";
 import { MDBCard, MDBCardBody } from 'mdbreact';
 import cx from 'classnames';
-import styles from "./style.module.scss";
 const Title = ({text,className}) => {
   return (
     <MDBCard className="my-3">

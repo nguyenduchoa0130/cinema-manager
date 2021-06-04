@@ -16,7 +16,7 @@ const CustomerManager = () => {
 
   useEffect(() => {
     dispatch(layDanhSachNguoiDung())
-  }, [dispatch])
+  }, )
 
   const { isShowing, toggle } = useModal();
   const [customer, setCustomer] = useState({
@@ -107,7 +107,8 @@ const CustomerManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaNguoiDung(customer.id))
+            dispatch(xoaNguoiDung(customer.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>

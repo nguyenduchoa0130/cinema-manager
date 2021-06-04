@@ -122,6 +122,7 @@ const AddCinema = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <select name="clusterId" className="browser-default custom-select" onChange={formik.handleChange}>
+                    <option>Chọn cụm rạp</option>
                     {renderCumrap()}
                   </select>
                 </MDBCol>
