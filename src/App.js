@@ -45,6 +45,7 @@ export const history = createBrowserHistory();
 
 
 class App extends Component {
+	// console.log('Hello Heroku!');
   render() {
     return (
       <Router history={history}>
