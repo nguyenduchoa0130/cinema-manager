@@ -27,7 +27,7 @@ class ClusterController {
                 ],
             });
             if (!cluster.length) return next(apiError.notFound('Không tìm thấy cụm rạp nào'));
-            return res.json({ cluster });
+            return res.json({ clusters });
         } catch (err) {
             next(err);
         }
