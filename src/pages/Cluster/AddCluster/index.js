@@ -6,24 +6,36 @@ import * as Yup from 'yup'
 import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
+import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
+import { themCumRap } from '../../../redux/actions/QuanLyCumRapAction';
 
 
 const AddCluster = () => {
-  const [cluster, setCluster] = useState({
-    id: "",
-    clustermName: "",
-    address:  null,
-    systemId:false
-  });
+  const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(layHeThongRap())
+  }, [])
 
-  const handleChange =(event)=>{
-    setCluster(prevState => {
-      return {...prevState, [event.target.name]: event.target.value}
-    });
-  }
+  const formik = useFormik({
+    initialValues: {
+      clustermName: "",
+      address: "",
+      systemId: null
+    },
+    validationSchema: Yup.object().shape({
+      cluster: Yup.string().required("Required!"),
+      address: Yup.string().required("Required!"),
+    }),
+    onSubmit: values => {
+      dispatch(themCumRap(values))
+    }
+  })
 
-  const handleSubmit = ()=>{
-    console.log('cluster :>> ', cluster);
+  const renderHeThongRap = () => {
+    return listHeThongRap.systems?.map((system, index) => {
+      return <option key={index} value={system.id}>{system.systemName}</option>
+    })
   }
 
   return (
@@ -32,8 +44,8 @@ const AddCluster = () => {
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form onSubmit={handleSubmit}>
-             <MDBRow className="mb-3">
+            <form onSubmit={formik.handleSubmit}>
+              <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
                     htmlFor="defaultFormRegisterreleaseYearEx2"
@@ -43,10 +55,9 @@ const AddCluster = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
-                    value={cluster.clusterName}
+                  <input
                     name="clusterName"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -65,10 +76,9 @@ const AddCluster = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
-                    value={cluster.address}
+                  <input
                     name="address"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -83,25 +93,26 @@ const AddCluster = () => {
                     htmlFor="defaultFormRegisterPasswordEx4"
                     className="grey-text"
                   >
-                    Hệ thống
+                    Hệ thống rạp
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="systemId" className="browser-default custom-select" onChange={handleChange}>
-                    <option value={1}>CGV</option>
-                    <option value={2}>Lotte</option>
+                  <select name="systemId" className="browser-default custom-select" onChange={formik.handleChange}>
+                    {renderHeThongRap()}
                   </select>
                 </MDBCol>
               </MDBRow>
               <hr />
               <MDBRow className="justify-content-center">
 
-                <MDBBtn color="primary" type="submit" >
-                  Cập nhật
+                <MDBBtn onClick={() => {
+                  dispatch(themCumRap(formik.values))
+                }} color="primary" type="submit" >
+                  Thêm
               </MDBBtn>
               </MDBRow>
             </form>
-           
+
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>

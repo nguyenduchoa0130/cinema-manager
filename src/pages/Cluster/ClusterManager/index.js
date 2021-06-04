@@ -7,17 +7,21 @@ import { Link } from "react-router-dom";
 import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
 import { clusterTemplate } from "../../../util/dataTemplate/clusterTemplate"
+import { layCumRap, xoaCumRap } from "../../../redux/actions/QuanLyCumRapAction";
 
 const ClusterManager = () => {
 
-
+  const { listCumRap } = useSelector(state => state.QuanLyCumRapReducer)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(layCumRap())
+  }, [])
 
   const { isShowing, toggle } = useModal();
   const [cluster, setCluster] = useState({
-    id: "",
     clusterName: "",
     address: "",
-    systemId:0
+    systemId: null
   });
   const removeToggle = (cluster) => {
     toggle();
@@ -26,14 +30,17 @@ const ClusterManager = () => {
 
 
   const renderRowData = () => {
-    return clusterTemplate.map((cluster, index) => {
+
+    return listCumRap.clusters?.map((cluster, index) => {
+      listCumRap?.clusters?.sort((a, b) => {
+        return a.id - b.id;
+      })
       return (
         <tr key={index}>
-
           <td>{cluster.id}</td>
           <td>{cluster.clusterName}</td>
           <td>{cluster.address}</td>
-          <td>{cluster.clusterName}</td>
+          <td>{cluster.CinemaSystem.name}</td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(cluster.id) }} >
               <MDBIcon far icon="eye" />
@@ -41,7 +48,10 @@ const ClusterManager = () => {
 
             <Link to='/admin/cap-nhat-cum-rap'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
-
+                dispatch({
+                  type: 'DATA_EDIT_CLUSTER',
+                  dataClusterEdit: cluster
+                })
               }} >
                 <MDBIcon icon="pencil-ruler" />
               </MDBBtn>
@@ -62,7 +72,7 @@ const ClusterManager = () => {
     <Fragment>
       <Title text={"Quản lý cụm rạp"} />
       <MDBRow>
-       <MDBCol>
+        <MDBCol>
           <MDBCard>
             <MDBCardBody>
               <div className="text-right">
@@ -73,10 +83,10 @@ const ClusterManager = () => {
               <MDBTable hover>
                 <MDBTableHead color="primary-color" textWhite>
                   <tr>
-                    <th>Mã cụm</th>
-                    <th>Tên cụm</th>
-                    <th>Hệ thống</th>
+                    <th>Mã cụm rạp</th>
+                    <th>Tên cụm rạp</th>
                     <th>Địa chỉ</th>
+                    <th>Hệ thống rạp</th>
                     <th>Thao tác</th>
                   </tr>
                 </MDBTableHead>
@@ -96,7 +106,9 @@ const ClusterManager = () => {
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
-          <MDBBtn color="danger" >Xóa</MDBBtn>
+          <MDBBtn color="danger" onClick={() => {
+            dispatch(xoaCumRap(cluster.id))
+          }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 

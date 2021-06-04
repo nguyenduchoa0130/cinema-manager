@@ -13,7 +13,7 @@ export default function Profile() {
         let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
         userId = userLogin.userId;
     }
-    console.log('userId', userId);
+    // console.log('userId', userId);
     const { thongTinNguoiDung } = useSelector(state => state.NguoiDungReducer)
     console.log('thongTinNguoiDung', thongTinNguoiDung);
     const dispatch = useDispatch()

@@ -6,24 +6,56 @@ import * as Yup from 'yup'
 import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
+import { suaCumRap } from '../../../redux/actions/QuanLyCumRapAction';
+import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 
 
 const EditCluster = () => {
-  const [cluster, setCluster] = useState({
-    id: "",
-    clustermName: "",
-    address:  null,
-    systemId:false
-  });
+  const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
+  const { dataClusterEdit } = useSelector(state => state.QuanLyCumRapReducer)
+  console.log('dataClusterEdit', dataClusterEdit);
+  const [cluster, setCluster] = useState()
+  console.log('cluster', cluster);
 
-  const handleChange =(event)=>{
-    setCluster(prevState => {
-      return {...prevState, [event.target.name]: event.target.value}
-    });
-  }
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(layHeThongRap())
+  }, [])
 
-  const handleSubmit = ()=>{
-    console.log('cluster :>> ', cluster);
+
+  useEffect(() => {
+    setCluster({
+      ...dataClusterEdit,
+      cluster: dataClusterEdit
+    })
+  }, [dataClusterEdit])
+
+  const formik = useFormik({
+    initialValues: {
+      id: dataClusterEdit.id,
+      clusterName: dataClusterEdit.clusterName,
+      address: dataClusterEdit.address,
+      systemId: dataClusterEdit.systemId
+    },
+    validationSchema: Yup.object().shape({
+      cluster: Yup.string().required("Required!"),
+      address: Yup.string().required("Required!"),
+    }),
+    onSubmit: values => {
+      dispatch(suaCumRap(values, dataClusterEdit.id))
+    }
+  })
+
+  useEffect(() => {
+    setCluster({
+      cluster: formik.values
+    })
+  }, [formik.values])
+
+  const renderHeThongRap = () => {
+    return listHeThongRap.systems?.map((system, index) => {
+      return <option key={index} value={system.id}>{system.systemName}</option>
+    })
   }
 
   return (
@@ -32,8 +64,8 @@ const EditCluster = () => {
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
-            <form onSubmit={handleSubmit}>
-             <MDBRow className="mb-3">
+            <form onSubmit={formik.handleSubmit}>
+              <MDBRow className="mb-3">
                 <MDBCol md="2">
                   <label
                     htmlFor="defaultFormRegisterreleaseYearEx2"
@@ -43,10 +75,10 @@ const EditCluster = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
-                    value={cluster.clusterName}
+                  <input
+                    value={cluster?.cluster.clusterName}
                     name="clusterName"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -65,10 +97,10 @@ const EditCluster = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10">
-                <input
-                    value={cluster.address}
+                  <input
+                    value={cluster?.cluster.address}
                     name="address"
-                    onChange={handleChange}
+                    onChange={formik.handleChange}
                     type="text"
                     id="defaultFormRegisterNameEx"
                     className="form-control"
@@ -87,21 +119,23 @@ const EditCluster = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="systemId" className="browser-default custom-select" onChange={handleChange}>
-                    <option value={1}>CGV</option>
-                    <option value={2}>Lotte</option>
+                  <select name="systemId" className="browser-default custom-select" onChange={formik.handleChange}>
+                    <option selected={dataClusterEdit.CinemaSystem?.id}>{dataClusterEdit.CinemaSystem?.name}</option>
+                    {renderHeThongRap()}
                   </select>
                 </MDBCol>
               </MDBRow>
               <hr />
               <MDBRow className="justify-content-center">
 
-                <MDBBtn color="primary" type="submit" >
+                <MDBBtn onClick={() => {
+                  dispatch(suaCumRap(formik.values, dataClusterEdit.id))
+                }} color="primary" type="submit" >
                   Cập nhật
               </MDBBtn>
               </MDBRow>
             </form>
-           
+
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>
