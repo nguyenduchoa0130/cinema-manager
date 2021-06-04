@@ -1,4 +1,5 @@
 import axios from "axios";
+import { history } from "../../App";
 
 export const themPhim = (thongTinPhim) => {
     return async dispatch => {
@@ -8,7 +9,10 @@ export const themPhim = (thongTinPhim) => {
                 method: 'POST',
                 data: thongTinPhim
             })
+            dispatch(layDanhSachPhim())
             alert(result.data.msg)
+            history.push('/admin/danh-sach-phim')
+
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -66,6 +70,7 @@ export const xoaPhim = (id) => {
             })
             dispatch(layDanhSachPhim())
             alert('Xóa thành công!')
+            history.push('/admin/danh-sach-phim')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -73,7 +78,7 @@ export const xoaPhim = (id) => {
     }
 }
 
-export const suaPhim = (thongTinPhim,id) => {
+export const suaPhim = (thongTinPhim, id) => {
     return async dispatch => {
         try {
             const result = await axios({
@@ -83,6 +88,7 @@ export const suaPhim = (thongTinPhim,id) => {
             })
             dispatch(layDanhSachPhim())
             alert('Sửa thành công!')
+            history.push('/admin/danh-sach-phim')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

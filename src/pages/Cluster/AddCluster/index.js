@@ -98,6 +98,7 @@ const AddCluster = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <select name="systemId" className="browser-default custom-select" onChange={formik.handleChange}>
+                    <option>Chọn hệ thống rạp</option>
                     {renderHeThongRap()}
                   </select>
                 </MDBCol>
