@@ -18,6 +18,11 @@ const FilmManager = () => {
     dispatch(layDanhSachPhim())
   }, [])
   const { isShowing, toggle } = useModal();
+  const [isShowingDetails, setToggle] = useState(false);
+
+  function toggleDetails() {
+    setToggle(!isShowingDetails);
+  }
 
   const [film, setFilm] = useState({
     filmName: "",
@@ -31,16 +36,15 @@ const FilmManager = () => {
     desc: "",
     poster: {}
   });
+
   const removeToggle = (film) => {
     toggle();
     setFilm(film);
   }
-
   
-  const detailToggle = (film) => {
-    toggle();
-    film.trailer = "TcMBFSGVi1c";
+  const detailToggle = (film) => { 
     setFilm(film);
+    toggleDetails();
   }
   // console.log('film', film);
 
@@ -134,8 +138,8 @@ const FilmManager = () => {
         </MDBModalFooter>
       </MDBModal>
 
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
-        <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
+      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowingDetails} toggle={toggleDetails} centered>
+        <MDBModalHeader toggle={toggleDetails}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
             <MDBRow>
                 <div className="w-100">
@@ -161,14 +165,14 @@ const FilmManager = () => {
               </MDBCol>
             </MDBRow>
             <MDBRow>
-            <iframe width="100%" height="500px" src={"https://www.youtube.com/embed/"+film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </MDBRow>
 
         </MDBModalBody>
         <MDBModalFooter>
-          <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
+          <MDBBtn color="primary" onClick={toggleDetails}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            toggle();
+            toggleDetails();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
