@@ -5,7 +5,7 @@ const apiError = require('../errors/apiError');
 class ClusterController {
     async fetchAll(req, res, next) {
         try {
-            let cluster = await models.CinemaCluster.findAll({
+            let clusters = await models.CinemaCluster.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
