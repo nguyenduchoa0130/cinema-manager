@@ -28,7 +28,7 @@ module.exports = {
                     model: 'Cinemas',
                     key: 'id',
                 },
-                onDelete: 'SET NULL',
+                onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             },
             createdAt: {

@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const jwt = require('jsonwebtoken');
 const emailExistence = require('email-existence');
+const linkCheck = require('link-check');
 class Helper {
     isValidEmail(email) {
         return new Promise((res, rej) => {
@@ -64,6 +65,16 @@ class Helper {
         let now = new Date();
         let compareDate = new Date(date);
         return now.getTime() < compareDate.getTime();
+    }
+    checkLinkTrailer(link) {
+        return new Promise((resolve, reject) => {
+            linkCheck(link, {}, (err, result) => {
+                if (err) {
+                    return reject(err.status);
+                }
+                return resolve(result.status);
+            });
+        });
     }
 }
 module.exports = new Helper();

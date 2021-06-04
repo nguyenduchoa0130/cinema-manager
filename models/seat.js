@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Seat.init(
         {
+            symbol: DataTypes.STRING,
             col: DataTypes.INTEGER,
             row: DataTypes.INTEGER,
             isOrder: DataTypes.BOOLEAN,

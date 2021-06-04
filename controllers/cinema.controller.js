@@ -7,15 +7,18 @@ class CinemaController {
         try {
             let cinemas = await models.Cinema.findAll({
                 attributes: {
-                    exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
                     },
+                    {
+                        model: models.Seat,
+                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                    },
                 ],
-                raw: true,
             });
             if (!cinemas.length) return next(apiError.notFound('Không tìm thấy rạp nào'));
             return res.json({ cinemas });
@@ -30,15 +33,18 @@ class CinemaController {
         try {
             let cinema = await models.Cinema.findByPk(id, {
                 attributes: {
-                    exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
                     },
+                    {
+                        model: models.Seat,
+                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                    },
                 ],
-                raw: true,
             });
             if (!cinema) return next(apiError.notFound('Không tìm thấy rạp'));
             return res.json({ cinema });
@@ -52,14 +58,19 @@ class CinemaController {
         if (!name.length) return next(apiError.badRequest('Tên rạp không hợp lệ'));
         try {
             let rows = await models.Cinema.findAll({
-                attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                },
                 include: [
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
                     },
+                    {
+                        model: models.Seat,
+                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                    },
                 ],
-                raw: true,
             });
             let cinemas = rows.filter((cinema) => {
                 let nameTmp = helper.removeAccents(cinema.cinemaName);
@@ -82,7 +93,6 @@ class CinemaController {
         }
         try {
             let cinemas = models.Cinema.findAll({
-                raw: true,
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
@@ -90,8 +100,11 @@ class CinemaController {
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
-                        require: true,
                         where: { id: clusterId },
+                    },
+                    {
+                        model: models.Seat,
+                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
                     },
                 ],
             });
@@ -130,7 +143,7 @@ class CinemaController {
         try {
             let cinema = await models.Cinema.findByPk(id);
             if (!cinema) return next(apiError.notFound('Không tìm thấy rạp'));
-            if ('cinemaName' in data) {
+            if ('cinemaName' in data && data.cinemaName != cinema.cinemaName) {
                 let name = data.cinemaName.trim().toLowerCase();
                 let rows = await models.Cinema.findAll({
                     where: {
@@ -139,18 +152,19 @@ class CinemaController {
                     },
                 });
                 if (rows.length) return next(apiError.conflict('Tên rạp đã tồn tại. Vui lòng chọn tên rạp khác'));
-                for (let prop in data) {
-                    cinema[prop] = data[prop];
-                }
-				await cinema.save();
-            } else return res.json({ msg: 'Cập nhật rạp thành công' });
+            }
+            for (let prop in data) {
+                cinema[prop] = data[prop];
+            }
+            await cinema.save();
+            return res.json({ msg: 'Cập nhật rạp thành công' });
         } catch (err) {
             next(err);
         }
     }
     async delete(req, res, next) {
         let id = req.params.id;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lê!'));
+        if (!helper.isValidID(id)) return next(apiError.badRequest('ID rạp không hợp lê!'));
         try {
             let row = await models.Cinema.destroy({ where: { id } });
             if (!row) return next(apiError.badRequest('Xóa không thành công, vì không tồn tại rạp trên'));

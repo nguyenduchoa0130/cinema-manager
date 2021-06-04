@@ -7,16 +7,22 @@ class ClusterController {
         try {
             let cluster = await models.CinemaCluster.findAll({
                 attributes: {
-                    exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['id', 'id'], ['cinemaName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['cinemaName', 'name'],
+                        ],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['id', 'id'], ['systemName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['systemName', 'name'],
+                        ],
                     },
                 ],
             });
@@ -38,11 +44,17 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['id', 'id'], ['cinemaName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['cinemaName', 'name'],
+                        ],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['id', 'id'], ['systemName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['systemName', 'name'],
+                        ],
                     },
                 ],
             });
@@ -62,11 +74,17 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['id', 'id'], ['cinemaName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['cinemaName', 'name'],
+                        ],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['id', 'id'], ['systemName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['systemName', 'name'],
+                        ],
                     },
                 ],
             });
@@ -83,7 +101,6 @@ class ClusterController {
     }
     async fetchBySystemId(req, res, next) {
         let systemId = req.query.systemId;
-		console.log(systemId);
         if (!systemId) {
             return next();
         }
@@ -98,14 +115,20 @@ class ClusterController {
                 include: [
                     {
                         model: models.Cinema,
-                        attributes: [['id', 'id'], ['cinemaName', 'name']],
+                        attributes: [
+                            ['id', 'id'],
+                            ['cinemaName', 'name'],
+                        ],
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [['id', 'id'], ['systemName', 'name']],
-						where: {
-							id: systemId
-						}
+                        attributes: [
+                            ['id', 'id'],
+                            ['systemName', 'name'],
+                        ],
+                        where: {
+                            id: systemId,
+                        },
                     },
                 ],
             });
@@ -146,7 +169,7 @@ class ClusterController {
             if (!cluster) {
                 return next(apiError.notFound('Không tìm thấy cụm rạp'));
             }
-            if ('clusterName' in data) {
+            if ('clusterName' in data && data.clusterName != cluster.clusterName) {
                 let name = data.clusterName.trim().toLowerCase();
                 let rows = await models.CinemaCluster.findAll({
                     where: {
