@@ -43,7 +43,7 @@ module.exports = {
                 defaulValue: null,
             },
             desc: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
                 defaultValue: null,
             },
             categoryId: {

@@ -22,7 +22,7 @@ module.exports = {
             },
             clusterId: {
                 type: Sequelize.INTEGER,
-                onDelete: 'SET NULL',
+                onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
                 references: {
                     model: 'CinemaClusters',

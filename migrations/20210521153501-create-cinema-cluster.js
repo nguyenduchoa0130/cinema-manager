@@ -18,7 +18,7 @@ module.exports = {
             systemId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-                onDelete: 'SET NULL',
+                onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
                 references: {
                     model: 'CinemaSystems',

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             this.hasMany(models.Cinema, {
                 foreignKey: 'clusterId',
-                onDelete: 'SET NULL',
+                onDelete: 'CASCASE',
                 onUpdate: 'CASCASE',
             });
             this.belongsTo(models.CinemaSystem, {

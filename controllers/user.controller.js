@@ -125,10 +125,10 @@ class UserController {
     }
     async add(req, res, next) {
         let data = req.body;
-        console.log(req.body);
         try {
-            let users = await models.User.findAll({ where: { email: data.email } });
-            if (users.length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
+            let rows = await Promise.all([models.User.findAll({ where: { email: data.email } }), helper.isValidEmail(data.email)]);
+            if (!rows[1]) return next(apiError.badRequest('Email không tồn tại'));
+            if (rows[0].length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
             data.password = await bcrypt.hash(data.password, 10);
             let user = await models.User.create({
                 ...data,

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             this.hasMany(models.CinemaCluster, {
                 foreignKey: 'systemId',
-                onDelete: 'SET NULL',
+                onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             });
         }
