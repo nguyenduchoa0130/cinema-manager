@@ -1,0 +1,11 @@
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210512033816-create-role.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210512033913-create-user.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210512033944-create-otp.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210518060204-create-category.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210518060206-create-status-film.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210518062430-create-film.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210521153500-create-cinema-system.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210521153501-create-cinema-cluster.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210523065053-create-image.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210601010132-create-cinema.js');
+INSERT INTO public."SequelizeMeta" (name) VALUES ('20210601073355-create-seat.js');

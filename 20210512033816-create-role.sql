@@ -1,0 +1,2 @@
+INSERT INTO public."Roles" (id, name, "createdAt", "updatedAt") VALUES (1, 'Quản Trị Viên', '2021-06-05 00:38:12.013000', '2021-06-05 00:38:12.013000');
+INSERT INTO public."Roles" (id, name, "createdAt", "updatedAt") VALUES (2, 'Khách Hàng', '2021-06-05 00:38:12.013000', '2021-06-05 00:38:12.013000');

@@ -1,0 +1,5 @@
+INSERT INTO public."Categories" (id, "categoryName", "createdAt", "updatedAt") VALUES (1, 'Khác', '2021-06-05 00:38:12.620000', '2021-06-05 00:38:12.620000');
+INSERT INTO public."Categories" (id, "categoryName", "createdAt", "updatedAt") VALUES (2, 'Hành Động', '2021-06-05 00:38:12.620000', '2021-06-05 00:38:12.620000');
+INSERT INTO public."Categories" (id, "categoryName", "createdAt", "updatedAt") VALUES (3, 'Tình Cảm', '2021-06-05 00:38:12.620000', '2021-06-05 00:38:12.620000');
+INSERT INTO public."Categories" (id, "categoryName", "createdAt", "updatedAt") VALUES (4, 'Hài Hước', '2021-06-05 00:38:12.620000', '2021-06-05 00:38:12.620000');
+INSERT INTO public."Categories" (id, "categoryName", "createdAt", "updatedAt") VALUES (5, 'Phiêu Lưu', '2021-06-05 00:38:12.620000', '2021-06-05 00:38:12.620000');
