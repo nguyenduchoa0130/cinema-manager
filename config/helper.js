@@ -66,6 +66,10 @@ class Helper {
         let compareDate = new Date(date);
         return now.getTime() < compareDate.getTime();
     }
+    compareTime(strDate1, strDate2) {
+        let date1 = new Date(strDate1);
+        let date2 = new Date(strDate2);
+    }
     checkLinkTrailer(link) {
         return new Promise((resolve, reject) => {
             linkCheck(link, {}, (err, result) => {
@@ -75,6 +79,9 @@ class Helper {
                 return resolve(result.status);
             });
         });
+    }
+    convertTZ(date) {
+        return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
     }
 }
 module.exports = new Helper();

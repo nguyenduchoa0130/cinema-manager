@@ -9,6 +9,7 @@ class ClusterController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Cinema,
@@ -71,6 +72,7 @@ class ClusterController {
         try {
             let rows = await models.CinemaCluster.findAll({
                 attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Cinema,
@@ -112,6 +114,7 @@ class ClusterController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Cinema,

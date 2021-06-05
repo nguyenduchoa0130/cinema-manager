@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             });
+            this.hasMany(models.Shift, {
+                foreignKey: 'cinemaId',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            });
         }
     }
     Cinema.init(

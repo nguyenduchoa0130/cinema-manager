@@ -6,7 +6,10 @@ const apiError = require('../errors/apiError');
 class SystemCinemaController {
     async fetchAll(req, res, next) {
         try {
-            let systems = await models.CinemaSystem.findAll({ attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo') } });
+            let systems = await models.CinemaSystem.findAll({
+                attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo') },
+                order: [['id', 'ASC']],
+            });
             if (!systems.length) return next(apiError.notFound('Không tìm thấy kết quả nào'));
             return res.json({ systems });
         } catch (err) {
@@ -46,6 +49,7 @@ class SystemCinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo'),
                 },
+				order: [['id', 'ASC']],
             });
             let systems = rows.filter((system) => {
                 let nameTmp = helper.removeAccents(system.systemName);

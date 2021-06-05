@@ -9,6 +9,7 @@ class CinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.CinemaCluster,
@@ -61,6 +62,7 @@ class CinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.CinemaCluster,
@@ -96,6 +98,7 @@ class CinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.CinemaCluster,

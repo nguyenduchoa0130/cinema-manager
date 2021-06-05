@@ -10,6 +10,7 @@ class CategoryController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+                order: [['id', 'ASC']],
             });
             if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục nào'));
             return res.json({ categories });
@@ -34,7 +35,10 @@ class CategoryController {
         if (!name) return next();
         if (!name.length) return next(apiError.badRequest('Tên danh mục không hợp lệ'));
         try {
-            let rows = await models.Category.findAll({ attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
+            let rows = await models.Category.findAll({
+                attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
+                order: [['id', 'ASC']],
+            });
             let categories = rows.filter((category) => {
                 let nameTmp = helper.removeAccents(category.categoryName);
                 let key = helper.removeAccents(name);

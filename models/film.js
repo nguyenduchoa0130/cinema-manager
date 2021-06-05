@@ -21,15 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     Film.init(
         {
-            filmName: {
-                type: DataTypes.STRING,
-                get() {
-                    return _.capitalize(this.getDataValue('filmName'));
-                },
-                set(value) {
-                    this.setDataValue('filmName', value.toLowerCase());
-                },
-            },
+            filmName: DataTypes.STRING,
             country: DataTypes.STRING,
             releaseYear: DataTypes.STRING,
             duration: DataTypes.STRING,

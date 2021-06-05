@@ -10,6 +10,7 @@ class UserController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Role,
@@ -69,6 +70,7 @@ class UserController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Role,
@@ -100,6 +102,7 @@ class UserController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Role,

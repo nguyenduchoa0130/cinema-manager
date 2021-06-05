@@ -10,6 +10,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.StatusFilm,
@@ -112,6 +113,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.StatusFilm,
@@ -146,6 +148,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.StatusFilm,
