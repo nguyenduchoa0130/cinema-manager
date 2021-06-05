@@ -144,7 +144,7 @@ const AddCustomer = () => {
               <hr />
               <MDBRow className="justify-content-center">
                 <MDBBtn onClick={() => {
-                  dispatch(themNguoiDung(formik.values))
+                  dispatch(themNguoiDung(formik.values));
                 }} color="primary" type="submit" >
                   Submit Form
               </MDBBtn>

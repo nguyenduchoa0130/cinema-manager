@@ -1,4 +1,4 @@
-import { MDBListGroup, MDBListGroupItem, MDBBadge, MDBNavLink, MDBIcon, MDBBreadcrumb, MDBBreadcrumbItem, MDBCard, MDBCardBody, MDBBtn } from 'mdbreact';
+import { MDBListGroup, MDBListGroupItem,MDBNavLink, MDBIcon} from 'mdbreact';
 import styles from "./style.module.scss";
 const SideNav = () => {
 
@@ -8,8 +8,9 @@ const SideNav = () => {
         <MDBListGroupItem>
         <MDBNavLink to="/">
             <img
-                class={styles.sidebar_logo}
+                className={styles.sidebar_logo}
                 src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png"
+              alt="logo"
             />
         </MDBNavLink>
         </MDBListGroupItem>

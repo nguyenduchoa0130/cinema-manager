@@ -1,9 +1,7 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import styles from './style.module.scss';
 import Title from '../../../components/Tittle';
 import { useDispatch, useSelector } from 'react-redux';
 import { suaHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
@@ -19,12 +17,12 @@ const EditSystem = () => {
       ...dataSystemEdit,
       systemEdit: dataSystemEdit
     })
-  }, [dataSystemEdit])
+  }, [dataSystemEdit],)
   const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
       systemName: dataSystemEdit.systemName,
-      logo: {}
+      logo: null
     },
     validationSchema: Yup.object().shape({
       systemName: Yup.string().required("Required!"),
@@ -93,7 +91,7 @@ const EditSystem = () => {
                         name="logo"
                       />
                       <label className="custom-file-label" >
-                        Chọn logo hệ thống rạp
+                       {formik.values.logo?formik.values.logo.name : " Chọn logo hệ thống rạp"}
                       </label>
                     </div>
                   </div>

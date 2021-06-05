@@ -1,9 +1,3 @@
-{/* <th>Mã khách hàng</th>
-<th>Họ và tên</th>
-<th>Số điện thoại</th>
-<th>Email</th>
-<th>Địa chỉ</th> */}
-
 export const listCustomer = [{
     id: "1",
     fullName: "Nguyễn Thị A",

@@ -1,10 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
 import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimAction";
 
@@ -16,8 +15,13 @@ const FilmManager = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layDanhSachPhim())
-  }, [])
+  },)
   const { isShowing, toggle } = useModal();
+  const [isShowingDetails, setToggle] = useState(false);
+
+  function toggleDetails() {
+    setToggle(!isShowingDetails);
+  }
 
   const [film, setFilm] = useState({
     filmName: "",
@@ -31,18 +35,16 @@ const FilmManager = () => {
     desc: "",
     poster: {}
   });
+
   const removeToggle = (film) => {
     toggle();
     setFilm(film);
   }
-
-
-  const detailToggle = (film) => {
-    toggle();
-    film.trailer = "TcMBFSGVi1c";
+  
+  const detailToggle = (film) => { 
     setFilm(film);
+    toggleDetails();
   }
-  // console.log('film', film);
 
   const renderRowData = () => {
     listFilm?.films?.sort((a, b) => {
@@ -58,8 +60,8 @@ const FilmManager = () => {
           <td>{film.duration}</td>
           <td>{film['Category.name']}</td>
           <td>{film[['StatusFilm.name']]}</td>
-          <td>{film.premiere.slice(0, 10)}</td>
-          <td><img className={styles.thumbnail} src={film.thumbnail} /></td>
+          <td>{film.premiere.slice(0,10)}</td>
+          <td><img className={styles.thumbnail} src={film.thumbnail}  alt={"thumbnail "+film.thumbnail}/></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { detailToggle(film) }} >
               <MDBIcon far icon="eye" />
@@ -129,46 +131,44 @@ const FilmManager = () => {
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
             dispatch(xoaPhim(film.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
-        <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
+      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowingDetails} toggle={toggleDetails} centered>
+        <MDBModalHeader toggle={toggleDetails}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-          <MDBRow>
-            <div className="w-100">
+            <MDBRow>
+                <div className="w-100">
 
-            </div>
-            {/* <img className="w-100" src={film.thumbnail} alt="" /> */}
-          </MDBRow>
-          <MDBRow>
+                </div>
+              {/* <img className="w-100" src={film.thumbnail} alt="" /> */}
+            </MDBRow>
+            <MDBRow>
 
-            <MDBCol>
-              <img className="w-100 mx-3" src={film.thumbnail} alt="" />
-            </MDBCol>
-            <MDBCol>
-              <p><strong>Tên phim :</strong> {film.filmName}</p>
-              <p><strong>Quốc gia :</strong> {film.country}</p>
-              <p><strong>Năm xuất bản:</strong> {film.releaseYear}</p>
-              <p><strong>Diển viên:</strong> {film.actors}</p>
-              <p><strong>Đạo diển:</strong> {film.director}</p>
-              <p><strong>Thể loại:</strong> {film['Category.name']}</p>
-              <p><strong>hời lượng:</strong> {film.duration}</p>
-              <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
-              <p><strong>Nội dung:</strong> {film.desc}</p>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-            <iframe width="100%" height="500px" src={"https://www.youtube.com/embed/" + film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </MDBRow>
+              <MDBCol>
+                <img className="w-100 mx-3" src={film.thumbnail} alt="" />
+              </MDBCol>
+              <MDBCol>
+                <p><strong>Tên phim :</strong> {film.filmName}</p>
+                <p><strong>Quốc gia :</strong> {film.country}</p>
+                <p><strong>Năm xuất bản:</strong> {film.releaseYear}</p>
+                <p><strong>Diển viên:</strong> {film.actors}</p>
+                <p><strong>Đạo diển:</strong> {film.director}</p>
+                <p><strong>Thể loại:</strong> {film['Category.name']}</p>
+                <p><strong>hời lượng:</strong> {film.duration}</p>
+                <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
+                <p><strong>Nội dung:</strong> {film.desc}</p>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+            <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </MDBRow>
 
         </MDBModalBody>
         <MDBModalFooter>
-          <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
-          <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaPhim(film.id))
-          }}>Xóa</MDBBtn>
+          <MDBBtn color="primary" onClick={toggleDetails}>Đóng</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
     </Fragment>

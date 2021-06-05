@@ -3,8 +3,7 @@ import React from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 import cx from 'classnames';
-import { render } from "@testing-library/react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
@@ -53,7 +52,7 @@ export default function Activated() {
                                         </Link>
 
                                     </div>
-                                    <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" />
+                                    <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" alt="logo"/>
                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Kích hoạt tài khoản</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>

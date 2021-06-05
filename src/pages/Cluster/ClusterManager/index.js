@@ -1,23 +1,21 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import { clusterTemplate } from "../../../util/dataTemplate/clusterTemplate"
 import { layCumRap, xoaCumRap } from "../../../redux/actions/QuanLyCumRapAction";
 
 const ClusterManager = () => {
+  const { isShowing, toggle } = useModal();
 
   const { listCumRap } = useSelector(state => state.QuanLyCumRapReducer)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  }, [])
+  },[])
 
-  const { isShowing, toggle } = useModal();
   const [cluster, setCluster] = useState({
     clusterName: "",
     address: "",
@@ -107,7 +105,8 @@ const ClusterManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaCumRap(cluster.id))
+            dispatch(xoaCumRap(cluster.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>

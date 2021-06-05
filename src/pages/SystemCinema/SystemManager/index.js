@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBDataTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
 import { useDispatch, useSelector } from "react-redux";
-import { systemTemplate } from "../../../util/dataTemplate/systemTemplate"
 import { layHeThongRap, xoaHeThongRap } from "../../../redux/actions/QuanLyHeThongRapAction";
 
 const SystemManager = () => {
@@ -16,7 +14,7 @@ const SystemManager = () => {
 
   useEffect(() => {
     dispatch(layHeThongRap())
-  }, [])
+  },[dispatch])
 
   const { isShowing, toggle } = useModal();
   const [system, setSystem] = useState({
@@ -39,7 +37,7 @@ const SystemManager = () => {
           <td>{system.id}</td>
           <td>{system.systemName}</td>
           <td>
-            <img className={styles.thumbnail} src={system.logoSrc} />
+            <img className={styles.thumbnail} src={system.logoSrc} alt="thumbnail" />
           </td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { alert(system.id) }} >
@@ -106,7 +104,8 @@ const SystemManager = () => {
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaHeThongRap(system.id))
+            dispatch(xoaHeThongRap(system.id));
+            toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>

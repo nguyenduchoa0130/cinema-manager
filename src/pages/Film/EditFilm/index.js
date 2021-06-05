@@ -1,13 +1,7 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useState, useMemo, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { EditorState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
-import styles from './style.module.scss';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
 import countryList from '../../../util/constants/countryList';
@@ -20,22 +14,17 @@ const EditFilm = () => {
   const dispatch = useDispatch();
   const [dataFilm, setDataFilm] = useState()
   console.log('dataFilmEdit', dataFilmEdit);
-  // console.log('dataFilm', dataFilm); 
-
-  const [editorState, setEditorState] = useState(
-    () => EditorState.createEmpty(),
-  );
 
   useEffect(() => {
     setDataFilm({
       ...dataFilmEdit,
       dataFilm: dataFilmEdit
     })
-  }, [dataFilmEdit])
+  }, [dataFilmEdit],)
 
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  }, [])
+  },[dispatch])
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -51,7 +40,8 @@ const EditFilm = () => {
       desc: dataFilmEdit?.desc,
       poster: dataFilmEdit?.poster,
       premiere: dataFilmEdit?.premiere,
-      statusId: dataFilmEdit?.statusId
+      statusId: dataFilmEdit?.statusId,
+      trailer:dataFilmEdit?.trailer
     },
     validationSchema: Yup.object().shape({
       filmName: Yup.string().required("Required!"),
@@ -60,6 +50,7 @@ const EditFilm = () => {
       duration: Yup.string().required("Required!"),
       actors: Yup.string().required("Required!"),
       director: Yup.string().required("Required!"),
+      trailer: Yup.string().required("Required!"),
       desc: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
@@ -304,6 +295,31 @@ const EditFilm = () => {
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
+                <MDBCol md="2">
+                  <label
+                    htmlFor="defaultFormRegisterPasswordEx4"
+                    className="grey-text"
+                  >
+                    Link Trailer
+                  </label></MDBCol>
+                <MDBCol md="10">
+                <input
+                    value={dataFilm?.dataFilm.trailer}
+                    onChange={formik.handleChange}
+                    type="text"
+                    id="defaultFormRegisterPasswordEx4"
+                    className="form-control"
+                    name="trailer"
+                    placeholder="Link trailer"
+                    required
+                  />
+                {formik.errors.trailer && formik.touched.trailer && (
+                    <p className="text-danger">{formik.errors.trailer} </p>
+                  )}
+                </MDBCol>
+              </MDBRow>
+             
+              <MDBRow className="mb-3">
                 <MDBCol md="2" >
                   <label
                     className="grey-text"
@@ -365,7 +381,6 @@ const EditFilm = () => {
               </MDBBtn>
               </MDBRow>
             </form>
-            <a onClick={() => { console.log('editorState :>> ', draftToHtml(convertToRaw(editorState.getCurrentContent()))) }} className="btn btn-primary">Test lấy value trong editor</a>
           </MDBContainer>
         </MDBCardBody>
       </MDBCard>

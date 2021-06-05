@@ -1,5 +1,6 @@
+
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React, { useEffec, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Title from '../../../components/Tittle';
 import countryList from '../../../util/constants/countryList';
@@ -16,7 +17,7 @@ const AddFilm = () => {
   // console.log('listCategory', listCategory);
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  }, [])
+  },)
 
   const dispatch = useDispatch();
   const formik = useFormik({

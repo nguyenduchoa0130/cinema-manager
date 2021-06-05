@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import styles from "./style.module.scss";
 import Header from "../../components/Header";
 
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default ({ children }) => {
     return (
         <Fragment>

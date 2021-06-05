@@ -53,8 +53,8 @@ export const xoaRap = (maRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
+            dispatch(layRap());
             alert(result.data.msg);
-            dispatch(layRap())
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

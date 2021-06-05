@@ -3,7 +3,6 @@ import React from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 import cx from 'classnames';
-import { render } from "@testing-library/react";
 import { Link } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -49,7 +48,7 @@ export default function ForgotPassword() {
                                         </Link>
 
                                     </div>
-                                    <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" />
+                                    <img alt="logo"  className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" />
                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Quên mật khẩu</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>
