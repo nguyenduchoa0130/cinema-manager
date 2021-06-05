@@ -34,6 +34,7 @@ const EditCustomer = () => {
       filmName: Yup.string().required("Required!"),
       phone: Yup.string().required("Required!"),
       password: Yup.string().required("Required!"),
+      roleId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
       console.log('values', values);
@@ -69,6 +70,9 @@ const EditCustomer = () => {
                     <option value={1}>Quản trị viên</option>
                     <option value={2}>Khách hàng</option>
                   </select>
+                  {formik.errors.roleId && formik.touched.roleId && (
+                    <p className="text-danger">{formik.errors.roleId} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -87,7 +91,6 @@ const EditCustomer = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Mã khách hàng"
-                    required
                   />
                 </MDBCol>
               </MDBRow>
@@ -109,8 +112,10 @@ const EditCustomer = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên khách hàng"
-                    required
                   />
+                  {formik.errors.fullName && formik.touched.fullName && (
+                    <p className="text-danger">{formik.errors.fullName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -131,6 +136,9 @@ const EditCustomer = () => {
                     name="phone"
                     placeholder="Số điện thoại"
                   />
+                  {formik.errors.phone && formik.touched.phone && (
+                    <p className="text-danger">{formik.errors.phone} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -152,7 +160,6 @@ const EditCustomer = () => {
                     className="form-control"
                     name="email"
                     placeholder="Email"
-                    required
                   />
                 </MDBCol>
               </MDBRow>

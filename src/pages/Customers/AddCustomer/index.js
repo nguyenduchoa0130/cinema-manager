@@ -21,12 +21,13 @@ const AddCustomer = () => {
       roleId: 2
     },
     validationSchema: Yup.object().shape({
-      filmName: Yup.string().required("Required!"),
+      fullName: Yup.string().required("Required!"),
       phone: Yup.string().required("Required!"),
       email: Yup.string()
         .email("Invalid email format")
         .required("Required!"),
       password: Yup.string().required("Required!"),
+      roleId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
       console.log('values', values);
@@ -56,6 +57,9 @@ const AddCustomer = () => {
                     <option value={1}>Quản trị viên</option>
                     <option value={2}>Khách hàng</option>
                   </select>
+                  {formik.errors.roleId && formik.touched.roleId && (
+                    <p className="text-danger">{formik.errors.roleId} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
 
@@ -76,8 +80,10 @@ const AddCustomer = () => {
                     id="fullName"
                     className="form-control"
                     placeholder="Tên khách hàng"
-                    required
                   />
+                  {formik.errors.fullName && formik.touched.fullName && (
+                    <p className="text-danger">{formik.errors.fullName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -97,6 +103,9 @@ const AddCustomer = () => {
                     onChange={formik.handleChange}
                     placeholder="Số điện thoại"
                   />
+                  {formik.errors.phone && formik.touched.phone && (
+                    <p className="text-danger">{formik.errors.phone} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -116,8 +125,10 @@ const AddCustomer = () => {
                     name="email"
                     onChange={formik.handleChange}
                     placeholder="Email"
-                    required
                   />
+                  {formik.errors.email && formik.touched.email && (
+                    <p className="text-danger">{formik.errors.email} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
 
@@ -137,8 +148,10 @@ const AddCustomer = () => {
                     name="password"
                     onChange={formik.handleChange}
                     placeholder="Mật khẩu"
-                    required
                   />
+                  {formik.errors.password && formik.touched.password && (
+                    <p className="text-danger">{formik.errors.password} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <hr />

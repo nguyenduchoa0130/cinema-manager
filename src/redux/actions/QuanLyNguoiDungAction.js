@@ -37,6 +37,7 @@ export const themNguoiDung = (thongTinNguoiDung) => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
+            dispatch(layDanhSachNguoiDung())
             alert(result.data.msg)
             history.push('/admin/quan-ly-khach-hang')
         } catch (error) {
@@ -57,8 +58,8 @@ export const suaNguoiDung = (dataUserEdit, id) => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
-            alert(result.data.msg)
             dispatch(layDanhSachNguoiDung())
+            alert(result.data.msg)
             history.push('/admin/quan-ly-khach-hang')
         } catch (error) {
             alert(error.response.data.msg);
@@ -77,8 +78,8 @@ export const xoaNguoiDung = (id) => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
-            alert(result.data.msg)
             dispatch(layDanhSachNguoiDung())
+            alert(result.data.msg)
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

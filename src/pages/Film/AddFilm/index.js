@@ -17,7 +17,7 @@ const AddFilm = () => {
   // console.log('listCategory', listCategory);
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  },)
+  })
 
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -87,8 +87,10 @@ const AddFilm = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên phim"
-                    required
                   />
+                  {formik.errors.filmName && formik.touched.filmName && (
+                    <p className="text-danger">{formik.errors.filmName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -112,6 +114,9 @@ const AddFilm = () => {
                     })}
 
                   </select>
+                  {formik.errors.country && formik.touched.country && (
+                    <p className="text-danger">{formik.errors.country} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -131,6 +136,9 @@ const AddFilm = () => {
                     name="releaseYear"
                     placeholder="Năm sản xuất"
                   />
+                  {formik.errors.releaseYear && formik.touched.releaseYear && (
+                    <p className="text-danger">{formik.errors.releaseYear} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -150,8 +158,10 @@ const AddFilm = () => {
                     className="form-control"
                     name="duration"
                     placeholder="Thời lượng"
-                    required
                   />
+                  {formik.errors.duration && formik.touched.duration && (
+                    <p className="text-danger">{formik.errors.duration} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -170,8 +180,10 @@ const AddFilm = () => {
                     className="form-control"
                     name="director"
                     placeholder="Đạo diễn"
-                    required
                   />
+                  {formik.errors.director && formik.touched.director && (
+                    <p className="text-danger">{formik.errors.director} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -190,9 +202,10 @@ const AddFilm = () => {
                     className="form-control"
                     name="actors"
                     placeholder="Diễn viên"
-                    required
                   />
-
+                  {formik.errors.actors && formik.touched.actors && (
+                    <p className="text-danger">{formik.errors.actors} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -209,6 +222,9 @@ const AddFilm = () => {
                     <option>Chọn thể loại phim</option>
                     {renderTheLoaiPhim()}
                   </select>
+                  {formik.errors.categoryId && formik.touched.categoryId && (
+                    <p className="text-danger">{formik.errors.categoryId} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -222,6 +238,9 @@ const AddFilm = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <input type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
+                  {formik.errors.premiere && formik.touched.premiere && (
+                    <p className="text-danger">{formik.errors.premiere} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -234,6 +253,9 @@ const AddFilm = () => {
                 </MDBCol>
                 <MDBCol md="10" >
                   <textarea className="form-control" rows={4} id="desc" name="desc" onChange={formik.handleChange} />
+                  {formik.errors.desc && formik.touched.desc && (
+                    <p className="text-danger">{formik.errors.desc} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -252,6 +274,9 @@ const AddFilm = () => {
                     className="form-control"
                     name="trailer"
                     placeholder="Link trailer" />
+                    {formik.errors.trailer && formik.touched.trailer && (
+                    <p className="text-danger">{formik.errors.trailer} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
