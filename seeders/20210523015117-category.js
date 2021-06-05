@@ -28,6 +28,26 @@ module.exports = {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
+            {
+                categoryName: 'Kinh Dị',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                categoryName: 'Hoạt Hình',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                categoryName: 'Cổ Trang',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                categoryName: 'Viễn Tưởng',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
         ]);
     },
 
