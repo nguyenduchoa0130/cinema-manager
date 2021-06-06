@@ -123,7 +123,7 @@ const FilmManager = () => {
         </MDBCardBody>
       </MDBCard>
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
-        <MDBModalHeader toggle={toggle}>Chi tiết phim</MDBModalHeader>
+        <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
           Bạn có muốn xóa phim <strong> {film.filmName}</strong> có mã số là <strong>{film.id}</strong>?
         </MDBModalBody>
@@ -136,8 +136,8 @@ const FilmManager = () => {
         </MDBModalFooter>
       </MDBModal>
 
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowingDetails} toggle={toggleDetails} centered>
-        <MDBModalHeader toggle={toggleDetails}>Xác nhận</MDBModalHeader>
+      <MDBModal className={styles.detailModal} size="lg" isOpen={isShowingDetails} toggle={toggleDetails} centered>
+        <MDBModalHeader toggle={toggleDetails}>Chi tiết</MDBModalHeader>
         <MDBModalBody>
             <MDBRow>
                 <div className="w-100">

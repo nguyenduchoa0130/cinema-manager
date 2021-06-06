@@ -1,21 +1,14 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
+import React, { Fragment, useState } from "react";
+import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol, MDBAlert } from "mdbreact";
 import Title from "../../../components/Tittle";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimAction";
+import TableShowtime from "../../../components/Table/TableShowTime";
 
 
 const ShowtimeManager = () => {
 
-  const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
-  // console.log('listFilm', listFilm);
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(layDanhSachPhim())
-  },)
   const { isShowing, toggle } = useModal();
   const [isShowingDetails, setToggle] = useState(false);
 
@@ -24,17 +17,30 @@ const ShowtimeManager = () => {
   }
 
   const [film, setFilm] = useState({
+    filmId:"",
     filmName: "",
-    country: "",
-    releaseYear: "",
     duration: "",
-    actors: "",
-    categoryId: 1,
-    director: "",
-    thumbnail: {},
-    desc: "",
-    poster: {}
+    status: "",
+    countShowTime: 0,
+    thumbnail: {}
   });
+
+  const listFilm = [{
+    id:"1",
+    filmName: "Abc",
+    duration: "120",
+    status: "Đang công chiếu",
+    countShowTime:10,
+    thumbnail: "https://cinejunsv.herokuapp.com/img/thumb/1"
+  },
+  {
+    id:"2",
+    filmName: "Abc",
+    duration: "120",
+    status: "Đang công chiếu",
+    countShowTime:3,
+    thumbnail: "https://cinejunsv.herokuapp.com/img/thumb/5"
+  }]
 
   const removeToggle = (film) => {
     toggle();
@@ -47,38 +53,21 @@ const ShowtimeManager = () => {
   }
 
   const renderRowData = () => {
-    listFilm?.films?.sort((a, b) => {
-      return a.id - b.id;
-    })
-    return listFilm?.films?.map((film, index) => {
+    return listFilm?.map((film, index) => {
       return (
         <tr key={index}>
           <td>{film.id}</td>
           <td>{film.filmName}</td>
-          <td>{film.country}</td>
-          <td>{film.releaseYear}</td>
           <td>{film.duration}</td>
-          <td>{film['Category.name']}</td>
-          <td>{film[['StatusFilm.name']]}</td>
-          <td>{film.premiere.slice(0,10)}</td>
+          <td>{film.status}</td>
+          <td>{film.countShowTime}</td>
           <td><img className={styles.thumbnail} src={film.thumbnail}  alt={"thumbnail "+film.thumbnail}/></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { detailToggle(film) }} >
               <MDBIcon far icon="eye" />
             </MDBBtn>
 
-            <Link to='/admin/cap-nhat-suat-chieu'>
-              <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
-                dispatch({
-                  type: 'DATA_FILM_EDIT',
-                  dataFilm: film
-                })
-              }} >
-                <MDBIcon icon="pencil-ruler" />
-              </MDBBtn>
-            </Link>
-
-            <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(film) }} className>
+             <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(film) }} className>
               <MDBIcon far icon="trash-alt" />
             </MDBBtn>
 
@@ -92,25 +81,57 @@ const ShowtimeManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý phim"} />
+      <Title text={"Quản lý suất chiếu"} />
       <MDBCard>
         <MDBCardBody>
-          <div className="text-right">
-            <Link to="/admin/them-suat-chieu">
-              <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
-            </Link>
-          </div>
+          <MDBRow className="my-3 align-items-baseline" >
+            <MDBCol>
+              <MDBRow  className="align-items-center">
+                <MDBCol md="3" className="mb-3">
+                    <label className="grey-text">
+                      Hệ thống
+                    </label>
+                  </MDBCol>
+                  <MDBCol md="9" className="mb-3">
+                    <select name="clusterId" className="browser-default custom-select" >
+                      <option>Chọn hệ thống rạp</option>
+                    </select>
+                  </MDBCol>
+              </MDBRow>
+            </MDBCol>
+            <MDBCol>
+            <MDBRow  className="align-items-center">
+                <MDBCol md="3" className="mb-3">
+                    <label className="grey-text">
+                      Cụm rạp
+                    </label>
+                  </MDBCol>
+                  <MDBCol md="9" className="mb-3">
+                    <select name="clusterId" className="browser-default custom-select" >
+                      <option>Chọn cụm rạp</option>
+                    </select>
+                  </MDBCol>
+              </MDBRow>
+            </MDBCol>      
+            <MDBCol md ="2">
+              <MDBBtn color="success">Lọc</MDBBtn>
+            </MDBCol>
+            <MDBCol md ="2" className="text-right">
+              <Link to="/admin/them-suat-chieu">
+                <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
+              </Link>
+            </MDBCol>
+          </MDBRow>
+
+          {listFilm.length?(
           <MDBTable hover>
             <MDBTableHead color="primary-color" textWhite>
               <tr>
                 <th>Mã số</th>
                 <th>Tên</th>
-                <th>Quốc gia sản xuất</th>
-                <th>Năm phát hành</th>
                 <th>Thời lượng</th>
-                <th>Thể loại</th>
                 <th>Trạng thái</th>
-                <th>Ngày công chiếu</th>
+                <th>Số suất chiếu</th>
                 <th>Hình ảnh</th>
                 <th>Thao tác</th>
               </tr>
@@ -119,53 +140,31 @@ const ShowtimeManager = () => {
               {renderRowData()}
             </MDBTableBody>
           </MDBTable>
-
+          ):(
+            <MDBAlert color="primary" >
+              Không có dữ liệu, vui lòng chọn hệ thống và cụm rạp!
+            </MDBAlert>
+          )}
         </MDBCardBody>
       </MDBCard>
+
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
-          Bạn có muốn xóa phim <strong> {film.filmName}</strong> có mã số là <strong>{film.id}</strong>?
+          Bạn có muốn xóa tất cả các suất chiếu của phim <strong> {film.filmName}</strong> ?
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggle}>Hủy</MDBBtn>
           <MDBBtn color="danger" onClick={() => {
-            dispatch(xoaPhim(film.id));
             toggle();
           }}>Xóa</MDBBtn>
         </MDBModalFooter>
       </MDBModal>
 
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowingDetails} toggle={toggleDetails} centered>
-        <MDBModalHeader toggle={toggleDetails}>Xác nhận</MDBModalHeader>
+      <MDBModal className={styles.detailModal} size="fluid" isOpen={isShowingDetails} toggle={toggleDetails} centered>
+        <MDBModalHeader toggle={toggleDetails}>Danh sách suất chiếu</MDBModalHeader>
         <MDBModalBody>
-            <MDBRow>
-                <div className="w-100">
-
-                </div>
-              {/* <img className="w-100" src={film.thumbnail} alt="" /> */}
-            </MDBRow>
-            <MDBRow>
-
-              <MDBCol>
-                <img className="w-100 mx-3" src={film.thumbnail} alt="" />
-              </MDBCol>
-              <MDBCol>
-                <p><strong>Tên phim :</strong> {film.filmName}</p>
-                <p><strong>Quốc gia :</strong> {film.country}</p>
-                <p><strong>Năm xuất bản:</strong> {film.releaseYear}</p>
-                <p><strong>Diển viên:</strong> {film.actors}</p>
-                <p><strong>Đạo diển:</strong> {film.director}</p>
-                <p><strong>Thể loại:</strong> {film['Category.name']}</p>
-                <p><strong>hời lượng:</strong> {film.duration}</p>
-                <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
-                <p><strong>Nội dung:</strong> {film.desc}</p>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-            <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </MDBRow>
-
+          <TableShowtime/>    
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggleDetails}>Đóng</MDBBtn>
