@@ -14,7 +14,7 @@ const ClusterManager = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  },[])
+  },[dispatch])
 
   const [cluster, setCluster] = useState({
     clusterName: "",

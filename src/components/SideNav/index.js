@@ -1,4 +1,4 @@
-import { MDBListGroup, MDBListGroupItem,MDBNavLink, MDBIcon} from 'mdbreact';
+import { MDBListGroup, MDBListGroupItem, MDBNavLink, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 const SideNav = () => {
 
@@ -6,13 +6,13 @@ const SideNav = () => {
     <div className={styles.sidebar}>
       <MDBListGroup style={{ width: "100%" }}>
         <MDBListGroupItem>
-        <MDBNavLink to="/">
+          <MDBNavLink to="/">
             <img
-                className={styles.sidebar_logo}
-                src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png"
+              className={styles.sidebar_logo}
+              src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png"
               alt="logo"
             />
-        </MDBNavLink>
+          </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
           <MDBNavLink to="/admin">
@@ -40,23 +40,30 @@ const SideNav = () => {
         </MDBListGroupItem>
         <MDBListGroupItem>
           <MDBNavLink to="/admin/quan-ly-he-thong-rap">
-          <MDBIcon icon="gopuram"  className="mr-3" />
+            <MDBIcon icon="gopuram" className="mr-3" />
             Quản lý hệ thống rạp
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
           <MDBNavLink to="/admin/quan-ly-cum-rap">
-          <MDBIcon icon="gopuram"  className="mr-3" />
+            <MDBIcon icon="gopuram" className="mr-3" />
             Quản lý cụm rạp
           </MDBNavLink>
         </MDBListGroupItem>
         <MDBListGroupItem>
           <MDBNavLink to="/admin/quan-ly-rap">
-          <MDBIcon icon="gopuram"  className="mr-3" />
+            <MDBIcon icon="gopuram" className="mr-3" />
             Quản lý rạp
           </MDBNavLink>
         </MDBListGroupItem>
-        
+
+        <MDBListGroupItem>
+          <MDBNavLink to="/admin/quan-ly-suat-chieu">
+            <MDBIcon icon="couch" className="mr-3" />
+            Quản lý suất chiếu
+          </MDBNavLink>
+        </MDBListGroupItem>
+
         <MDBListGroupItem>
           <MDBNavLink to="/admin/cau-hinh-ghe">
             <MDBIcon icon="couch" className="mr-3" />
@@ -64,8 +71,36 @@ const SideNav = () => {
           </MDBNavLink>
         </MDBListGroupItem>
 
+
+        {/* <MDBListGroupItem>
+          <a className={styles.dropdown_menu}>
+            <MDBIcon icon="couch" className="mr-3" />
+              Dropdown
+              <MDBListGroup>
+              <MDBListGroupItem>
+                <MDBNavLink to="/admin/cau-hinh-ghe">
+                  <MDBIcon icon="couch" className="mr-3" />
+            Cấu hình ghế
+          </MDBNavLink>
+              </MDBListGroupItem>
+              <MDBListGroupItem>
+                <MDBNavLink to="/admin/cau-hinh-ghe">
+                  <MDBIcon icon="couch" className="mr-3" />
+            Cấu hình ghế
+          </MDBNavLink>
+              </MDBListGroupItem>
+              <MDBListGroupItem>
+                <MDBNavLink to="/admin/cau-hinh-ghe">
+                  <MDBIcon icon="couch" className="mr-3" />
+            Cấu hình ghế
+          </MDBNavLink>
+              </MDBListGroupItem>
+            </MDBListGroup>
+          </a>
+        </MDBListGroupItem> */}
+
       </MDBListGroup>
-      
+
     </div>
   );
 };

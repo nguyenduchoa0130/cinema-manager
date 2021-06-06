@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimAction";
 
 
-const FilmManager = () => {
+const ShowtimeManager = () => {
 
   const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
   // console.log('listFilm', listFilm);
@@ -67,7 +67,7 @@ const FilmManager = () => {
               <MDBIcon far icon="eye" />
             </MDBBtn>
 
-            <Link to='/admin/cap-nhat-phim'>
+            <Link to='/admin/cap-nhat-suat-chieu'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
                 dispatch({
                   type: 'DATA_FILM_EDIT',
@@ -96,7 +96,7 @@ const FilmManager = () => {
       <MDBCard>
         <MDBCardBody>
           <div className="text-right">
-            <Link to="/admin/them-phim">
+            <Link to="/admin/them-suat-chieu">
               <MDBBtn color="primary"> <MDBIcon icon="plus-circle" /> Thêm</MDBBtn>
             </Link>
           </div>
@@ -123,7 +123,7 @@ const FilmManager = () => {
         </MDBCardBody>
       </MDBCard>
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
-        <MDBModalHeader toggle={toggle}>Chi tiết phim</MDBModalHeader>
+        <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
           Bạn có muốn xóa phim <strong> {film.filmName}</strong> có mã số là <strong>{film.id}</strong>?
         </MDBModalBody>
@@ -157,12 +157,12 @@ const FilmManager = () => {
                 <p><strong>Diển viên:</strong> {film.actors}</p>
                 <p><strong>Đạo diển:</strong> {film.director}</p>
                 <p><strong>Thể loại:</strong> {film['Category.name']}</p>
-                <p><strong>Thời lượng:</strong> {film.duration}</p>
-                <p><strong>Trạng thái:</strong> {film[['StatusFilm.name']]}</p>
+                <p><strong>hời lượng:</strong> {film.duration}</p>
+                <p><strong>rạng thái:</strong> {film[['StatusFilm.name']]}</p>
                 <p><strong>Nội dung:</strong> {film.desc}</p>
               </MDBCol>
             </MDBRow>
-            <MDBRow className="mt-3">
+            <MDBRow>
             <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </MDBRow>
 
@@ -175,4 +175,4 @@ const FilmManager = () => {
   );
 }
 
-export default FilmManager;
+export default ShowtimeManager;

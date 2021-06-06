@@ -40,6 +40,15 @@
                 color: rgb(99, 95, 95);
                 font-weight: 400;
                 padding: 1rem 1rem 1rem 1.25rem;
+                display: block;
+            }
+            .dropdown_menu {
+                ul {
+                    display: none;
+                }
+                &:hover ul {
+                    display: block;
+                }
             }
         }
     }

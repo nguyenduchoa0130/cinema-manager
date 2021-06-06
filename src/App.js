@@ -17,7 +17,6 @@ import ChangePassword from './pages/ChangePassword';
 import MainAdmin from "./layouts/Admin";
 import Breadcrumb from "./components/Breadcrumb";
 import FilmManager from "./pages/Film/FilmManager";
-import ShowtimeManager from "./pages/ShowtimeManager";
 import NonAuth from "./layouts/NonAuth";
 import AddFilm from "./pages/Film/AddFilm";
 import EditFilm from "./pages/Film/EditFilm";
@@ -33,6 +32,9 @@ import ClusterManager from "./pages/Cluster/ClusterManager";
 import CinemaManager from "./pages/Cinema/CinemaManager";
 import AddCinema from "./pages/Cinema/AddCinema";
 import EditCinema from "./pages/Cinema/EditCinema";
+import AddShowtime from "./pages/Showtime/AddShowtime";
+import EditShowtime from "./pages/Showtime/EditShowtime";
+import ShowtimeManager from "./pages/Showtime/ShowtimeManager";
 
 
 export const history = createBrowserHistory();
@@ -68,7 +70,6 @@ const App = ()=> {
             <MainAdmin>
               <Switch>
                 <Route path='/admin' exact component={Breadcrumb}/>
-                <Route path='/admin/quan-ly-suat-chieu'  component={ShowtimeManager} />
                 {/* Film */}
                 <Route path='/admin/danh-sach-phim'  component={FilmManager} />
                 <Route path='/admin/them-phim'  component={AddFilm} />
@@ -90,6 +91,10 @@ const App = ()=> {
                 <Route path='/admin/them-rap'  component={AddCinema} />
                 <Route path='/admin/cap-nhat-rap'  component={EditCinema} />
 
+                 {/* Showtime */}
+                <Route path='/admin/quan-ly-suat-chieu'  component={ShowtimeManager} /> 
+                <Route path='/admin/them-suat-chieu'  component={AddShowtime} />
+                <Route path='/admin/cap-nhat-suat-chieu'  component={EditShowtime} />
 
               </Switch>
             </MainAdmin>
