@@ -5,7 +5,6 @@ const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShiftController {
     async insert(req, res, next) {
-        console.log('run add show film');
         let data = req.body;
         let minutes = req.minutes;
         let showtimes = [];
@@ -25,7 +24,7 @@ class ShiftController {
             });
             if (rows.length) {
                 for (let rawTime of data.timeStart) {
-                    let timeStart = helper.convertUTCDateToLocalDate(rawTime);
+                    let timeStart = helper.convertUTCDateToLocalDate(new Date(rawTime));
                     let timeEnd = helper.addMinutes(timeStart, minutes);
                     let checkDuplicate = rows.filter((row) => {
                         let checkStart = new Date(row.timeStart);
@@ -44,7 +43,7 @@ class ShiftController {
                 }
             } else {
                 for (let rawTime of data.timeStart) {
-                    let timeStart = helper.convertUTCDateToLocalDate(rawTime);
+                    let timeStart = helper.convertUTCDateToLocalDate(new Date(rawTime));
                     let timeEnd = helper.addMinutes(timeStart, minutes);
                     showtimes.push({
                         ...data,
