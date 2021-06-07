@@ -10,7 +10,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.StatusFilm,
@@ -60,10 +60,10 @@ class FilmController {
                 let { filmName, country, director, actors } = film;
                 let dataTMP = [filmName, country, director, actors];
                 for (let i = 0; i < dataTMP.length; i++) {
-                    dataTMP[i] = helper.removeAccents(dataTMP[i]).trim().toLowerCase();
+                    dataTMP[i] = helper.removeAccents(dataTMP[i]);
                 }
                 let joinStr = dataTMP.join(' ');
-                return joinStr.includes(key);
+                return joinStr.includes(helper.removeAccents(key));
             });
             if (!films.length) return next(apiError.notFound('Không tìm thấy kết quả nào phù hợp'));
             return res.json({ films });
@@ -113,7 +113,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.StatusFilm,
@@ -148,7 +148,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.StatusFilm,
@@ -202,7 +202,6 @@ class FilmController {
     }
     async update(req, res, next) {
         let id = req.params.id;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
             let [film, img] = await Promise.all([models.Film.findByPk(id), models.Image.findOne({ where: { filmId: id } })]);
             if (!film) return next(apiError.notFound('Không tìm thấy film'));

@@ -9,7 +9,7 @@ class ClusterController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Cinema,
@@ -20,10 +20,7 @@ class ClusterController {
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [
-                            ['id', 'id'],
-                            ['systemName', 'name'],
-                        ],
+                        attributes: [['systemName', 'name']],
                     },
                 ],
             });
@@ -40,7 +37,7 @@ class ClusterController {
         try {
             let cluster = await models.CinemaCluster.findByPk(id, {
                 attributes: {
-                    exlude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 include: [
                     {
@@ -52,10 +49,7 @@ class ClusterController {
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [
-                            ['id', 'id'],
-                            ['systemName', 'name'],
-                        ],
+                        attributes: [['systemName', 'name']],
                     },
                 ],
             });
@@ -72,7 +66,7 @@ class ClusterController {
         try {
             let rows = await models.CinemaCluster.findAll({
                 attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Cinema,
@@ -83,10 +77,7 @@ class ClusterController {
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [
-                            ['id', 'id'],
-                            ['systemName', 'name'],
-                        ],
+                        attributes: [['systemName', 'name']],
                     },
                 ],
             });
@@ -114,7 +105,7 @@ class ClusterController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.Cinema,
@@ -125,10 +116,7 @@ class ClusterController {
                     },
                     {
                         model: models.CinemaSystem,
-                        attributes: [
-                            ['id', 'id'],
-                            ['systemName', 'name'],
-                        ],
+                        attributes: [['systemName', 'name']],
                         where: {
                             id: systemId,
                         },
@@ -166,7 +154,6 @@ class ClusterController {
     async update(req, res, next) {
         let id = req.params.id;
         let data = req.body;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lệ'));
         try {
             let cluster = await models.CinemaCluster.findByPk(id);
             if (!cluster) {
@@ -195,7 +182,6 @@ class ClusterController {
     }
     async delete(req, res, next) {
         let id = req.params.id;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID không hợp lê!'));
         try {
             let row = await models.CinemaCluster.destroy({ where: { id } });
             if (!row) return next(apiError.badRequest('Xóa không thành công, vì không tồn tại rạp trên'));

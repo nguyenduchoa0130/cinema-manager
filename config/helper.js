@@ -80,8 +80,32 @@ class Helper {
             });
         });
     }
-    convertTZ(date) {
-        return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', { timeZone: 'Asia/Ho_Chi_Minh' }));
+    addMinutes(date, minutes) {
+        return new Date(date.getTime() + minutes * 60000);
     }
+    nextChar(c) {
+        let charCode = c.charCodeAt(0);
+        charCode++;
+        return String.fromCharCode(charCode);
+    }
+    checkShowTime(checkStart, checkEnd, timeStart, timeEnd) {
+        return (
+            (checkStart.getTime() <= timeStart.getTime() && timeStart.getTime() <= checkEnd.getTime()) ||
+            (checkStart.getTime() <= timeEnd.getTime() && timeEnd.getTime() <= checkEnd.getTime())
+        );
+    }
+    convertUTCDateToLocalDate(date) {
+        var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        var offset = date.getTimezoneOffset() / 60;
+        var hours = date.getHours();
+
+        newDate.setHours(hours - offset);
+
+        return newDate;
+    }
+	validateShowtimes(models, systemId, clusterId, cinemaId, filmId, timeStart){
+		
+	}
 }
 module.exports = new Helper();

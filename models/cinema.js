@@ -1,11 +1,5 @@
 'use strict';
-const { Model, Op } = require('sequelize');
-const { QueryInterface } = require('sequelize');
-function nextChar(c) {
-    let charCode = c.charCodeAt(0);
-    charCode++;
-    return String.fromCharCode(charCode);
-}
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Cinema extends Model {
         static associate(models) {
@@ -13,11 +7,6 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'clusterId',
             });
             this.hasMany(models.Seat, {
-                foreignKey: 'cinemaId',
-                onDelete: 'CASCADE',
-                onUpdate: 'CASCADE',
-            });
-            this.hasMany(models.Shift, {
                 foreignKey: 'cinemaId',
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',

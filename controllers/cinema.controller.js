@@ -9,15 +9,11 @@ class CinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
-                    },
-                    {
-                        model: models.Seat,
-                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
                     },
                 ],
             });
@@ -41,10 +37,6 @@ class CinemaController {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
                     },
-                    {
-                        model: models.Seat,
-                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
-                    },
                 ],
             });
             if (!cinema) return next(apiError.notFound('Không tìm thấy rạp'));
@@ -62,15 +54,11 @@ class CinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
-                    },
-                    {
-                        model: models.Seat,
-                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
                     },
                 ],
             });
@@ -86,7 +74,7 @@ class CinemaController {
         }
     }
     async fetchByClusterId(req, res, next) {
-        let clusterId = req.query.clusId;
+        let clusterId = req.query.clusterId;
         if (!clusterId) {
             return next();
         }
@@ -94,20 +82,18 @@ class CinemaController {
             return next(apiError.badRequest('ID cụm rạp không hợp lệ'));
         }
         try {
-            let cinemas = models.Cinema.findAll({
+            let cinemas = await models.Cinema.findAll({
+                order: [['id', 'ASC']],
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-				order: [['id', 'ASC']],
                 include: [
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
-                        where: { id: clusterId },
-                    },
-                    {
-                        model: models.Seat,
-                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                        where: {
+                            id: +clusterId,
+                        },
                     },
                 ],
             });
@@ -142,7 +128,6 @@ class CinemaController {
     async update(req, res, next) {
         let id = req.params.id;
         let data = req.body;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID rạp không hợp lệ'));
         try {
             let cinema = await models.Cinema.findByPk(id);
             if (!cinema) return next(apiError.notFound('Không tìm thấy rạp'));
@@ -167,7 +152,6 @@ class CinemaController {
     }
     async delete(req, res, next) {
         let id = req.params.id;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID rạp không hợp lê!'));
         try {
             let row = await models.Cinema.destroy({ where: { id } });
             if (!row) return next(apiError.badRequest('Xóa không thành công, vì không tồn tại rạp trên'));

@@ -62,7 +62,7 @@ class CategoryController {
             if (categories.length) {
                 return next(apiError.conflict('Danh mục phim đã tồn tại'));
             } else {
-                let category = await models.Category.create({ categoryName });
+                let category = await models.Category.create(data);
                 return res.json({ msg: 'Tạo danh mục thành công', category });
             }
         } catch (err) {
@@ -72,7 +72,6 @@ class CategoryController {
     async update(req, res, next) {
         let id = req.params.id;
         let data = req.body;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
             let name = data.categoryName.trim().toLowerCase();
             let rows = await models.Category.findAll({
@@ -88,10 +87,9 @@ class CategoryController {
     }
     async delete(req, res, next) {
         let id = req.params.id;
-        if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
             let rows = await models.Category.destroy({ where: { id } });
-            if (!rows[0]) return next(apiError.notFound('Xóa không thành công. Không tìm thấy danh mục phim trên'));
+            if (!rows) return next(apiError.notFound('Xóa không thành công. Không tìm thấy danh mục phim trên'));
             return res.json({ msg: 'Xóa danh mục phim thành công' });
         } catch (err) {
             next(err);

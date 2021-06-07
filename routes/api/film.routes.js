@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const authMid = require('../../middlewares/auth.middleware');
+const filmMid = require('../../middlewares/film.middleware');
 const uploads = require('../../config/multer');
 const filmCon = require('../../controllers/film.controller');
 router.get('/search', filmCon.fetchFilmByKey, filmCon.fetchByCategory, filmCon.fetchByStatus);
 router
     .route('/:id')
-    .get(filmCon.fetchById)
+    .get(filmMid.isFilmIdValid, filmCon.fetchById)
     .put(
         uploads.fields([
             {
@@ -17,9 +18,11 @@ router
                 maxCount: 1,
             },
         ]),
+        filmMid.isFilmIdValid,
+        filmMid.isCategoryIdValid,
         filmCon.update
     )
-    .delete(filmCon.delete);
+    .delete(filmMid.isFilmIdValid, filmCon.delete);
 router.post(
     '/add',
     uploads.fields([
@@ -35,6 +38,6 @@ router.post(
     filmCon.add
 );
 
-router.get('/', filmCon.fetchAll);
+router.get('/', filmCon.fetchByCategory, filmCon.fetchByStatus, filmCon.fetchFilmByKey, filmCon.fetchAll);
 
 module.exports = router;

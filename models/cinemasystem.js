@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             });
+            this.hasMany(models.Showtimes, {
+                foreignKey: 'systemId',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            });
         }
     }
     CinemaSystem.init(

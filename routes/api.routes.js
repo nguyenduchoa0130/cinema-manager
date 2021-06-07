@@ -8,7 +8,9 @@ const filmRoutes = require('./api/film.routes');
 const statusRoutes = require('./api/status.routes');
 const cinemaRoutes = require('./api/cinema.routes');
 const seatRoutes = require('./api/seat.routes');
+const showtimesRoutes = require('./api/showtimes.routes');
 
+router.use('/showtimes', showtimesRoutes);
 router.use('/seat', seatRoutes);
 router.use('/cinema', cinemaRoutes);
 router.use('/status', statusRoutes);

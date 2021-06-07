@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
     class Seat extends Model {
         static associate(models) {
             // define association here
-            this.belongsTo(models.Cinema, {
-                foreignKey: 'cinemaId',
-            });
             this.belongsTo(models.Showtimes, {
                 foreignKey: 'showtimesId',
+            });
+            this.belongsTo(models.Cinema, {
+                foreignKey: 'cinemaId',
             });
         }
     }
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
             symbol: DataTypes.STRING,
             row: DataTypes.INTEGER,
             col: DataTypes.INTEGER,
-            cinemaId: DataTypes.INTEGER,
+			cinemaId: DataTypes.INTEGER,
             showtimesId: DataTypes.INTEGER,
         },
         {

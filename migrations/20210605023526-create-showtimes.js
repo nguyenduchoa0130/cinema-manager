@@ -8,16 +8,43 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            cinemaId: {
-                type: Sequelize.INTEGER,
-                defaultValue: null,
-            },
             filmId: {
                 type: Sequelize.INTEGER,
                 defaultValue: null,
             },
-            shiftId: {
+            systemId: {
                 type: Sequelize.INTEGER,
+                references: {
+                    model: 'CinemaSystems',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            },
+            clusterId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'CinemaClusters',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            },
+            cinemaId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Cinemas',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            },
+            timeStart: {
+                type: Sequelize.DATE,
+                defaultValue: null,
+            },
+            timeEnd: {
+                type: Sequelize.DATE,
                 defaultValue: null,
             },
             priceTicket: {

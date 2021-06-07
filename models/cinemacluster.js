@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'CASCASE',
                 onUpdate: 'CASCASE',
             });
+            this.hasMany(models.Showtimes, {
+                foreignKey: 'clusterId',
+                onDelete: 'CASCASE',
+                onUpdate: 'CASCASE',
+            });
             this.belongsTo(models.CinemaSystem, {
                 foreignKey: 'systemId',
             });
