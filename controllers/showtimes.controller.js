@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShiftController {
     async insert(req, res, next) {
+        return res.json(req.body);
         // let data = req.body;
         // let minutes = req.minutes;
         // let showtimes = [];
