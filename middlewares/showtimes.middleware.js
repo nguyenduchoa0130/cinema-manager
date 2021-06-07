@@ -48,7 +48,7 @@ class ShowtimesMiddleware {
         });
         if (rows.length) {
             let msg = rows.reduce((str, item) => {
-                return str + `ID ${item.name} `;
+                return str + `${item.name} `;
             }, '');
             return next(apiError.badRequest(msg));
         }
@@ -63,11 +63,11 @@ class ShowtimesMiddleware {
                         where: {
                             id: clusterId,
                         },
-                    },
-                    {
-                        model: models.CinemaSystem,
-                        where: {
-                            id: systemId,
+                        include: {
+                            model: models.CinemaSystem,
+                            where: {
+                                id: systemId,
+                            },
                         },
                     },
                 ],
