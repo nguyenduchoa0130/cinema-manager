@@ -1,5 +1,6 @@
 const initialState = {
     listRap: [],
+    listRapTheoCumRap:[],
     dataRapEdit: {}
 }
 
@@ -13,6 +14,10 @@ export default (state = initialState, action) => {
         }
         case 'DATA_EDIT_RAP': {
             state.dataRapEdit = action.dataRapEdit;
+            return { ...state }
+        }
+        case 'GET_RAP_THEO_CUM_RAP': {
+            state.listRapTheoCumRap = action.listRapTheoCumRap;
             return { ...state }
         }
 

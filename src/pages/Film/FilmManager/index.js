@@ -47,9 +47,6 @@ const FilmManager = () => {
   }
 
   const renderRowData = () => {
-    listFilm?.films?.sort((a, b) => {
-      return a.id - b.id;
-    })
     return listFilm?.films?.map((film, index) => {
       return (
         <tr key={index}>
@@ -137,7 +134,7 @@ const FilmManager = () => {
       </MDBModal>
 
       <MDBModal className={styles.removeModal} size="lg" isOpen={isShowingDetails} toggle={toggleDetails} centered>
-        <MDBModalHeader toggle={toggleDetails}>Xác nhận</MDBModalHeader>
+        <MDBModalHeader toggle={toggleDetails}>chi tiết phim</MDBModalHeader>
         <MDBModalBody>
             <MDBRow>
                 <div className="w-100">
