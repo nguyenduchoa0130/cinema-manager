@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShiftController {
     async insert(req, res, next) {
+        console.log('run add show film');
         let data = req.body;
         let minutes = req.minutes;
         let showtimes = [];
@@ -16,29 +17,11 @@ class ShiftController {
                 attributes: {
                     include: ['timeStart', 'timeEnd'],
                 },
-                include: [
-                    {
-                        model: models.Cinema,
-                        attributes: ['cinemaName'],
-                        where: {
-                            id: data.cinemaId,
-                        },
-                    },
-                    {
-                        model: models.CinemaCluster,
-                        attributes: ['clusterName'],
-                        where: {
-                            id: data.clusterId,
-                        },
-                    },
-                    {
-                        model: models.CinemaSystem,
-                        attributes: ['systemName'],
-                        where: {
-                            id: data.systemId,
-                        },
-                    },
-                ],
+                where: {
+                    cinemaId: data.cinemaId,
+                    clusterId: data.clusterId,
+                    systemId: data.systemId,
+                },
             });
             if (rows.length) {
                 for (let rawTime of data.timeStart) {
