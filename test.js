@@ -1,3 +1,1 @@
-const helper = require('./config/helper');
-
-console.log(now);
+let arr = ['2020/12/12 12:12:00', '2020/12/12 11:11'];
