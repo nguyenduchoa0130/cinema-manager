@@ -59,7 +59,7 @@ const SideNav = () => {
 
         <MDBListGroupItem>
           <MDBNavLink to="/admin/quan-ly-suat-chieu">
-            <MDBIcon icon="couch" className="mr-3" />
+          <MDBIcon far icon="calendar-alt" className="mr-3" />
             Quản lý suất chiếu
           </MDBNavLink>
         </MDBListGroupItem>
