@@ -35,6 +35,7 @@ import EditCinema from "./pages/Cinema/EditCinema";
 import AddShowtime from "./pages/Showtime/AddShowtime";
 import EditShowtime from "./pages/Showtime/EditShowtime";
 import ShowtimeManager from "./pages/Showtime/ShowtimeManager";
+import FilmDetail from "./pages/FilmDetail";
 
 
 export const history = createBrowserHistory();
@@ -66,6 +67,10 @@ const App = ()=> {
           <Route path="/kich-hoat">
             <NonAuth children={<Activated />}/>   
           </Route>
+          <Route path="/chi-tiet-phim">
+            <NonAuth children={<FilmDetail />}/>   
+          </Route>
+          
           <Route path='/admin/:path?' exact>
             <MainAdmin>
               <Switch>

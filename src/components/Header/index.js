@@ -61,6 +61,10 @@ export default function Header() {
           <MDBNavItem>
             <MDBNavLink to="/admin">Admin</MDBNavLink>
           </MDBNavItem>
+
+          <MDBNavItem>
+            <MDBNavLink to="/chi-tiet-phim">Chi tiết phim</MDBNavLink>
+          </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>
           <MDBNavItem>

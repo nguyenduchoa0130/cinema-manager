@@ -9,9 +9,14 @@ import styles from "./style.module.scss";
 
 
 const AddShowtime = () => {
-const [values, setValues] = useState();
+const [values, setValues] = useState([]);
 
-  
+
+const submit = () =>{
+  console.log(' :>> ', values?.map((item) => {return item.format("DD/MM/YYYY HH:mm"); }));
+}
+
+ 
 
   return (
     <React.Fragment>
@@ -88,7 +93,7 @@ const [values, setValues] = useState();
                   multiple
                   plugins={[
                     <TimePicker position="bottom" hideSeconds  />,
-                    <DatePanel markFocused />
+                    <DatePanel markFocused  />
                   ]}
                 />
                 </MDBCol>
@@ -114,7 +119,7 @@ const [values, setValues] = useState();
               </MDBRow>
               <hr />
               <MDBRow className="justify-content-center">
-                <MDBBtn color="primary" type="submit" >
+                <MDBBtn color="primary" type="submit" onClick={submit}>
                   Submit Form
               </MDBBtn>
               </MDBRow>

@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;700&display=swap');
+.dynamic_page_header {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 80vh;
+    min-height: 700px;
+    background-image: url(https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg);
+    background-position: 50% 50%;
+    background-size: cover;
+    .dynamic_header_overlay {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        padding-bottom: 0;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        background-image: linear-gradient( 0deg, #fffffffa 14%, #0826384f);
+        color: #000;
+        .header_content {
+            .header_thumbnail {
+                width: 340px;
+                height: 510px;
+                border-radius: 10px;
+                background-image: url(https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg);
+                background-position: 50% 100%;
+                background-size: cover;
+                box-shadow: 12px 12px 38px #d1d3d5, -12px -12px 38px #ffffff;
+            }
+            .header_info {
+                .header_title {
+                    font-weight: 700;
+                    font-family: 'Baloo Tammudu 2', cursive;
+                    max-width: 75%;
+                }
+                .header_short_descriptiop {
+                    p {
+                        margin-bottom: 0.8rem!important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.descripion_film {
+    padding: 1rem 0;
+    background-color: #fff;
+    color: #082638;
+    h1 {
+        color: #ff6b01;
+        font-family: 'Baloo Tammudu 2', cursive;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+    iframe {
+        margin-top: 1rem;
+    }
+}
