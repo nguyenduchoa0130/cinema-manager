@@ -6,7 +6,7 @@ const apiError = require('../errors/apiError');
 class ShiftController {
     async insert(req, res, next) {
         let data = req.body;
-        let minutes = req.minutes;
+        let minutes = 0;
         let showtimes = [];
         let duplicateTime = [];
         try {
