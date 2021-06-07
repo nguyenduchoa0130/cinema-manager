@@ -85,7 +85,7 @@ class ShowtimesMiddleware {
             return next(apiError.badRequest('Vui lòng chọn thời gian bắt đầu của suất chiếu'));
         }
         let now = helper.convertUTCDateToLocalDate(new Date());
-        for (let rawTime in timeStarts) {
+        for (let rawTime of timeStarts) {
             // check now
             let time = helper.convertUTCDateToLocalDate(new Date(rawTime));
             if (time.getTime() < now.getTime()) {
