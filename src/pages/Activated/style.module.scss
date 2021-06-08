@@ -5,7 +5,7 @@
 .wrapper_content {
     min-height: 100vh;
     position: relative;
-    background-color: #ffff;
+    background-color: #fff;
     .wrapper_header {
         max-width: 100%;
         width: 390px;
@@ -40,17 +40,6 @@
     position: absolute;
 }
 
-.shape {
-    // background-color: #ffff;
-    // height: 100%;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // z-index: 0;
-    // width: 50px;
-    // -webkit-clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
-    // clip-path: polygon(0 0, 100% 0, 75% 100%, 0 100%);
-}
 
 .bg_img {
     background: url(https://images.cdn1.stockunlimited.net/preview1300/cinema-background-with-movie-objects_1823387.jpg);
