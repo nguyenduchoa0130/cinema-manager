@@ -249,11 +249,13 @@ class ShowtimesController {
             return next(apiError.badRequest('ID lịch chiếu không hợp lệ'));
         }
         try {
-            let rows = await models.Showtimes.destroy({ where: { id } });
-            if (!rows) {
+            let showtimes = await models.Showtimes.findByPk(id);
+            if (!showtimes) {
                 return next(apiError.notFound('Không tìm thấy ca chiếu'));
             }
-            return res.json({ msg: 'Xóa ca chiếu thành công' });
+            let { clusterId, filmId } = showtimes;
+            await showtimes.destroy();
+            return res.json({ msg: 'Xóa ca chiếu thành công', clusterId, filmId });
         } catch (err) {
             next(err);
         }

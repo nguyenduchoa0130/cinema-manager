@@ -4,7 +4,7 @@ const showtimesMid = require('../../middlewares/showtimes.middleware');
 const showtimesCon = require('../../controllers/showtimes.controller');
 router
     .route('/:id')
-    .put(showtimesMid.isShowtimesIdValid, showtimesMid.isFilmIdValid, showtimesMid.isValidTimeStart, showtimesCon.update)
+    .put(showtimesMid.isShowtimesIdValid, showtimesMid.isValidTimeStart, showtimesCon.update)
     .delete(showtimesMid.isShowtimesIdValid, showtimesCon.delete);
 router.post('/add', showtimesMid.isFilmIdValid, showtimesMid.isValidTimeStart, showtimesCon.insert);
 router.get(
