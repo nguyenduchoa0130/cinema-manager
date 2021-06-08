@@ -10,7 +10,12 @@ module.exports = {
             },
             filmId: {
                 type: Sequelize.INTEGER,
-                defaultValue: null,
+                references: {
+                    model: 'Films',
+                    key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             },
             systemId: {
                 type: Sequelize.INTEGER,

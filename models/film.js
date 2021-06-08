@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.StatusFilm, {
                 foreignKey: 'statusId',
             });
+            this.hasMany(models.Showtimes, {
+                foreignKey: 'filmId',
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
+            });
         }
     }
     Film.init(

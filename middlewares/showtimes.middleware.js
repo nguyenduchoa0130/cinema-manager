@@ -80,19 +80,29 @@ class ShowtimesMiddleware {
         }
     }
     isValidTimeStart(req, res, next) {
+        // req.body.timeStart = ['2021/06/10 13:00', '2021/06/08 15:00'];
+		// req.body.timeStart = ['2021-06-08 16:00:00'];
         let timeStarts = req.body.timeStart;
-        if (!timeStarts.length) {
+        if (!timeStarts?.length) {
             return next(apiError.badRequest('Vui lòng chọn thời gian bắt đầu của suất chiếu'));
         }
         let now = helper.convertUTCDateToLocalDate(new Date());
-        for (let rawTime of timeStarts) {
-            // check now
-            let time = helper.convertUTCDateToLocalDate(new Date(rawTime));
-            if (time.getTime() < now.getTime()) {
-                return next(apiError.badRequest('Thời gian không hợp lệ(thời gian đã qua): ', rawTime));
-            }
+
+        let validTimeStart = timeStarts.filter((timeStart) => {
+            let time = helper.convertUTCDateToLocalDate(new Date(timeStart));
+            return time.getTime() >= now.getTime();
+        });
+        let invalidTimeStart = timeStarts.filter((timeStart) => {
+            let time = helper.convertUTCDateToLocalDate(new Date(timeStart));
+            return time.getTime() < now.getTime();
+        });
+        if (validTimeStart.length) {
+            req.body.timeStart = validTimeStart;
+            req.invalidTimeStart = invalidTimeStart;
+            return next();
+        } else {
+            return next(apiError.badRequest('Thời gian chiếu không hợp lệ (thời gian đã qua) ' + invalidTimeStart.join(' ')));
         }
-        return next();
     }
 }
 module.exports = new ShowtimesMiddleware();

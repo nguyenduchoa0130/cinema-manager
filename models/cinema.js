@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.CinemaCluster, {
                 foreignKey: 'clusterId',
             });
-            this.hasMany(models.Seat, {
+            this.hasMany(models.Showtimes, {
                 foreignKey: 'cinemaId',
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',

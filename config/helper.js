@@ -104,8 +104,8 @@ class Helper {
 
         return newDate;
     }
-	validateShowtimes(models, systemId, clusterId, cinemaId, filmId, timeStart){
-		
-	}
+    toLocalStringUTC(date) {
+        return date.toLocaleString('en-US', { timezone: 'UTC' });
+    }
 }
 module.exports = new Helper();

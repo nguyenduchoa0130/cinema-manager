@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             });
+            this.belongsTo(models.Film, {
+                foreignKey: 'filmId',
+            });
+            this.belongsTo(models.CinemaCluster, {
+                foreignKey: 'clusterId',
+            });
+            this.belongsTo(models.CinemaSystem, {
+                foreignKey: 'systemId',
+            });
+            this.belongsTo(models.Cinema, {
+                foreignKey: 'cinemaId',
+            });
         }
     }
     Showtimes.init(

@@ -3,159 +3,165 @@ const models = require('../models/index').sequelize.models;
 const sequelize = require('sequelize');
 const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
-class ShiftController {
-    async insert(req, res, next) {
-        return res.json(req.body);
-        // let data = req.body;
-        // let minutes = req.minutes;
-        // let showtimes = [];
-        // let duplicateTime = [];
-        // try {
-        //     // kiểm tra lịch chiếu này có bị trùng với lịch chiếu khác hay không
-        //     // B1. Lấy ra nhưng lịch chiếu trong cái rạp này
-        //     let rows = await models.Showtimes.findAll({
-        //         attributes: {
-        //             exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
-        //         },
-        //         where: {
-        //             cinemaId: data.cinemaId,
-        //             clusterId: data.clusterId,
-        //             systemId: data.systemId,
-        //         },
-        //     });
-        //     if (rows.length) {
-        //         for (let rawTime of data.timeStart) {
-        //             let timeStart = helper.convertUTCDateToLocalDate(new Date(rawTime));
-        //             let timeEnd = helper.addMinutes(timeStart, minutes);
-        //             let checkDuplicate = rows.filter((row) => {
-        //                 let checkStart = new Date(row.timeStart);
-        //                 let checkEnd = new Date(row.timeEnd);
-        //                 return !helper.checkShowTime(checkStart, checkEnd, timeStart, timeEnd);
-        //             });
-        //             if (!checkDuplicate.length) {
-        //                 showtimes.push({
-        //                     ...data,
-        //                     timeStart,
-        //                     timeEnd,
-        //                 });
-        //             } else {
-        //                 duplicateTime.push(rawTime);
-        //             }
-        //         }
-        //     } else {
-        //         for (let rawTime of data.timeStart) {
-        //             let timeStart = helper.convertUTCDateToLocalDate(new Date(rawTime));
-        //             let timeEnd = helper.addMinutes(timeStart, minutes);
-        //             showtimes.push({
-        //                 ...data,
-        //                 timeStart,
-        //                 timeEnd,
-        //             });
-        //         }
-        //     }
-        //     if (showtimes.length) {
-        //         await models.Showtimes.bulkCreate(showtimes);
-        //         return res.json({
-        //             msg: 'Tạo suất chiếu thành công. Số suất chiếu được tạo: ' + showtimes.length,
-        //             error: 'Lỗi: Suất chiếu bị trùng. Số suất: ' + duplicateTime.length,
-        //         });
-        //     } else {
-        //         return next(apiError.badRequest('Tất cả suất chiếu đều đã bị trùng'));
-        //     }
-        // } catch (err) {
-        //     next(err);
-        // }
-    }
-    async update(req, res, next) {
-        let id = req.params.id;
-        let data = req.body;
-        let listsId = ['systemId', 'clusterId', 'cinemaId', 'filmId'];
-        let nameId = {
-            systemId: 'ID hệ thống rạp',
-            clusterId: 'ID cụm rạp',
-            cinemaId: 'ID rạp không hợp lệ',
-            filmId: 'ID phim không hợp lệ',
-        };
-        if (!helper.isValidID(id)) {
-            return next(apiError.badRequest('ID suất chiếu không hợp lệ'));
+class ShowtimesController {
+    async fetchByCluterId(req, res, next) {
+        let clusterId = req.query.clusterId;
+        if (!helper.isValidID(clusterId)) {
+            return next(apiError.badRequest('ID cụm rạp không hợp lệ'));
         }
-        let checkIsValidListId = listsId.filter((id) => {
-            return helper.isValidID(id);
-        });
-        if (checkIsValidListId.length != listsId.length) {
-            let errorId = listsId.filter((id) => {
-                return !checkIsValidListId.includes(id);
-            });
-            let msg = errorId.reduce((str, id) => {
-                return str + `${nameId[id]} không hợp lệ `;
-            }, '');
-            return next(apiError.badRequest(msg));
-        }
-
         try {
-            let showtimes = await models.Showtimes.findByPk(id);
-            if (!showtimes) {
-                return next(apiError.notFound('Không tìm thấy suất chiếu'));
-            }
-            let minutes = rows[1].duration.split(' ')[0].trim();
-            let timeStart = null;
-            if ('timeStart' in data) {
-                timeStart = helper.convertUTCDateToLocalDate(new Date(data.timeStart));
-                let now = helper.convertUTCDateToLocalDate(new Date());
-                if (timeStart.getTime() <= now.getTime()) {
-                    return next(apiError.badRequest('Thời gian chiếu không hợp lệ'));
-                }
-            } else {
-                timeStart = new Date(showtimes.timeStart);
-            }
-            let timeEnd = helper.addMinutes(timeStart, +minutes); // local time
-            let rows = await models.Showtimes.findAll({
+            let showtimes = await models.Showtimes.findAll({
+                attributes: {
+                    include: ['clusterId', 'filmId', 'systemId'],
+                },
+                group: ['clusterId', 'filmId', 'systemId'],
+
                 include: [
                     {
-                        model: models.CinemaSystem,
-                        attributes: [['systemName', 'name']],
-                        where: {
-                            id: data.systemId,
-                        },
+                        model: models.Film,
+                        attributes: [
+                            ['filmName', 'name'],
+                            ['duration', 'duration'],
+                        ],
+                        include: [
+                            {
+                                model: models.StatusFilm,
+                                attributes: [['statusName', 'name']],
+                            },
+                        ],
                     },
                     {
                         model: models.CinemaCluster,
                         attributes: [['clusterName', 'name']],
                         where: {
-                            id: data.clusterId,
-                        },
-                    },
-                    {
-                        model: models.Cinema,
-                        attributes: [['cinemaName', 'name']],
-                        where: {
-                            id: data.cinemaId,
+                            id: clusterId,
                         },
                     },
                 ],
             });
+            return res.json({ showtimes });
+        } catch (err) {
+            next(err);
+        }
+    }
+    async insert(req, res, next) {
+        let data = req.body;
+        let minutes = req.minutes;
+        let showtimes = [];
+        let duplicateTime = [];
+        let invalidTimeStart = req.invalidTimeStart;
+        try {
+            let rows = await models.Showtimes.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                },
+                where: {
+                    cinemaId: data.cinemaId,
+                    clusterId: data.clusterId,
+                    systemId: data.systemId,
+                },
+            });
             if (rows.length) {
-                let rowsCheck = rows.filter((showtimes) => {
-                    let checkStart = new Date(showtimes.timeStart);
-                    let checkEnd = new Date(showtimes.timeEnd);
-                    return helper.checkShowTime(checkStart, checkEnd, timeStart, timeEnd);
-                });
-                if (rowsCheck.length) {
-                    let notice = rowsCheck.reduce((str, row) => {
-                        return ` ${str} ${row.timeStart.toLocaleString('en-US', { timeZone: 'UTC' })} - ${row.timeEnd.toLocaleString('en-US', {
-                            timeZone: 'UTC',
-                        })}`;
-                    }, '');
-                    return next(apiError.conflict('Suất chiếu bị trùng với suất:' + notice));
+                for (let rawTime of data.timeStart) {
+                    let timeStart = helper.convertUTCDateToLocalDate(new Date(rawTime));
+                    let timeEnd = helper.addMinutes(timeStart, minutes);
+                    let checkDuplicate = rows.filter((row) => {
+                        let checkStart = new Date(row.timeStart);
+                        let checkEnd = new Date(row.timeEnd);
+                        return helper.checkShowTime(checkStart, checkEnd, timeStart, timeEnd);
+                    });
+                    if (checkDuplicate.length) {
+                        duplicateTime.push(rawTime);
+                    } else {
+                        showtimes.push({
+                            ...data,
+                            timeStart,
+                            timeEnd,
+                        });
+                    }
+                }
+            } else {
+                for (let rawTime of data.timeStart) {
+                    let timeStart = helper.convertUTCDateToLocalDate(new Date(rawTime));
+                    let timeEnd = helper.addMinutes(timeStart, minutes);
+
+                    showtimes.push({
+                        ...data,
+                        timeStart,
+                        timeEnd,
+                    });
                 }
             }
-            data.timeStart = timeStart;
-            data.timeEnd = timeEnd;
+            if (showtimes.length) {
+                await models.Showtimes.bulkCreate(showtimes);
+                return res.json({
+                    msg: 'Số suất chiếu được tạo thành công: ' + showtimes.length,
+                    duplicate:
+                        'Số suất chiếu bị trùng: ' + duplicateTime.length + (duplicateTime.length ? duplicateTime.join('-') : ''),
+                    invalidTimeStart:
+                        'Số suất chiếu có thời gian bắt đầu không hợp lệ: ' +
+                        invalidTimeStart.length +
+                        (invalidTimeStart.length ? invalidTimeStart.join('-') : ''),
+                });
+            } else {
+                let msg = `Số suất chiếu bị trùng lịch: ${duplicateTime.length} (${
+                    duplicateTime.length ? duplicateTime.join('-') : ''
+                }) Số suất chiếu có thời gian bắt đầu không hợp lệ: ${invalidTimeStart.length} ${
+                    invalidTimeStart.length ? invalidTimeStart.join('-') : ''
+                },
+				`;
+                return next(apiError.badRequest(JSON.stringify(msg)));
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+    async update(req, res, next) {
+        let id = req.params.id;
+        let minutes = req.minutes;
+        let data = req.body;
+        try {
+            let rawData = await Promise.all([
+                models.Showtimes.findByPk(id),
+                models.Showtimes.findAll({
+                    where: {
+                        systemId: data.systemId,
+                        clusterId: data.clusterId,
+                        cinemaId: data.cinemaId,
+                        id: {
+                            [Op.ne]: id,
+                        },
+                    },
+                }),
+            ]);
+            let [showtimes, rows] = rawData;
+            if (!showtimes) {
+                return next(apiError.notFound('Không tìm thấy suất chiếu'));
+            }
+            let timeStart =
+                'timeStart' in data
+                    ? helper.convertUTCDateToLocalDate(new Date(data.timeStart[0]))
+                    : new Date(showtimes.timeStart);
+            let timeEnd = 'timeStart' in data ? helper.addMinutes(timeStart, minutes) : new Date(showtimes.timeEnd);
+            if (rows.length) {
+                let rowCheck = rows.filter((row) => {
+                    let checkStart = new Date(row.timeStart);
+                    let checkEnd = new Date(row.timeEnd);
+                    return helper.checkShowTime(checkStart, checkEnd, timeStart, timeEnd);
+                });
+                if (rowCheck.length) {
+                    let msg = rowCheck.reduce((str, row) => {
+                        return str + ` ${helper.toLocalStringUTC(row.timeStart)} - ${helper.toLocalStringUTC(row.timeEnd)} `;
+                    }, '');
+                    return next(apiError.badRequest('Thời gian đã bị trùng với: ' + msg));
+                }
+            }
+            data = { ...data, timeStart, timeEnd };
             for (let prop in data) {
                 showtimes[prop] = data[prop];
             }
             await showtimes.save();
-            return res.json({ msg: 'Cập nhật thành công' });
+            return res.json({ msg: 'Cập nhật suất chiếu thành công' });
         } catch (err) {
             next(err);
         }
@@ -176,4 +182,4 @@ class ShiftController {
         }
     }
 }
-module.exports = new ShiftController();
+module.exports = new ShowtimesController();
