@@ -249,7 +249,7 @@ class ShowtimesController {
             return next(apiError.badRequest('ID lịch chiếu không hợp lệ'));
         }
         try {
-            let rows = await models.Showtimes.delete({ where: { id } });
+            let rows = await models.Showtimes.destroy({ where: { id } });
             if (!rows) {
                 return next(apiError.notFound('Không tìm thấy ca chiếu'));
             }
