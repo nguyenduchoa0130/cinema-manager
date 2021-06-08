@@ -108,6 +108,11 @@ class ShowtimesController {
                                 id: clusterId,
                             },
                         },
+						{
+							model: models.CinemaSystem,
+                            attributes: ['id', ['systemName', 'name']],
+                        },
+						
                     ],
                 });
                 if (!showtimes.length) {
