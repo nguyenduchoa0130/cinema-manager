@@ -59,7 +59,7 @@ class ShowtimesController {
                 include: [
                     {
                         model: models.Film,
-                        attributes: ['id', ['filmName', 'name'], ['duration', 'duration']],
+                        attributes: ['id', ['filmName', 'name'], 'duration', 'thumbnail'],
                         include: [
                             {
                                 model: models.StatusFilm,
