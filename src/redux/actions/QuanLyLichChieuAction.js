@@ -11,6 +11,7 @@ export const themLichChieu = (thongTinLichChieu) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
+            console.log('result',result.data);
             alert(result.data.msg);
         } catch (error) {
             alert(error.response.data.msg);

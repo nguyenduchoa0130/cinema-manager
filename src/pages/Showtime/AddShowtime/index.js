@@ -17,7 +17,6 @@ import { layRapTheoCumRap } from '../../../redux/actions/QuanLyRapAction';
 
 
 const AddShowtime = () => {
-  const [values, setValues] = useState();
   const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
   const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
   const { listCumRapTheoHeThong } = useSelector(state => state.QuanLyCumRapReducer)
@@ -30,15 +29,17 @@ const AddShowtime = () => {
     dispatch(layHeThongRap());
   }, [])
 
+  const [values, setValues] = useState([]);
+
+
   const formik = useFormik({
     initialValues: {
       filmId: '',
       systemId: '',
       clusterId: '',
       cinemaId: '',
-      timeStart: '06/17/2021 10:07',
+      timeStart: [],
       priceTicket: 0,
-
     },
     validationSchema: Yup.object().shape({
       priceTicket: Yup.string().required("Required!"),
@@ -54,18 +55,22 @@ const AddShowtime = () => {
     initialValues: {
       systemId: '',
       clusterId: '',
-      cinemaId: 7
+      cinemaId: '',
     },
 
   })
 
   useEffect(() => {
-    dispatch(layCumRapTheoHethong(rap_Formik.values.systemId))
-  }, [rap_Formik.values])
+    if (rap_Formik.values.systemId !== '') {
+      dispatch(layCumRapTheoHethong(rap_Formik.values.systemId))
+    }
+  }, [rap_Formik.values.systemId])
 
   useEffect(() => {
-    dispatch(layRapTheoCumRap(rap_Formik.values.clusterId))
-  }, [rap_Formik.values.systemId])
+    if (rap_Formik.values.clusterId !== '') {
+      dispatch(layRapTheoCumRap(rap_Formik.values.clusterId))
+    }
+  }, [rap_Formik.values.clusterId])
 
 
   const renderPhim = () => {
@@ -78,13 +83,11 @@ const AddShowtime = () => {
       return <option key={index} value={system.id}>{system.systemName}</option>
     })
   }
-
   const renderCumRap = () => {
     return listCumRapTheoHeThong.clusters?.map((cluster, index) => {
       return <option key={index} value={cluster.id}>{cluster.clusterName}</option>
     })
   }
-
   const renderRap = () => {
     return listRapTheoCumRap.cinemas?.map((cinema, index) => {
       return <option key={index} value={cinema.id}>{cinema.cinemaName}</option>
@@ -147,7 +150,7 @@ const AddShowtime = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" className="mb-3">
-                  <select name="cinemaId" className="browser-default custom-select" value={formik.values.cinemaId = rap_Formik.values.cinemaId} onChange={formik.handleChange}>
+                  <select name="cinemaId" className="browser-default custom-select" value={formik.values.cinemaId = rap_Formik.values.cinemaId} onChange={rap_Formik.handleChange}>
                     <option>Chọn rạp</option>
                     {renderRap()}
                   </select>
@@ -164,11 +167,13 @@ const AddShowtime = () => {
                 </MDBCol>
                 <MDBCol md="10">
                   <DatePicker
-                    format="MM/DD/YYYY HH:mm"
-                    name="timeStart"
+                    format="YYYY-MM-DD HH:mm"
                     containerClassName={styles.dateTime_Picker}
                     inputClass="custom-input"
-                    value={formik.values['timeStart']}
+                    value={formik.values.timeStart = values?.map(item => {
+                      return item.format("YYYY-MM-DD HH:mm")
+                    })}
+                    onChange={setValues}
                     multiple
                     plugins={[
                       <TimePicker position="bottom" hideSeconds />,

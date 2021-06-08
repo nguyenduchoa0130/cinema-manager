@@ -26,7 +26,7 @@ export const layRapTheoCumRap = (id) => {
     return async dispatch => {
         try {
             const result = await axios({
-                url: `https://cinejunsv.herokuapp.com/api/v1/cinema?clusId=${id}`,
+                url: `https://cinejunsv.herokuapp.com/api/v1/cinema?clusterId=${id}`,
                 method: 'GET',
                 // headers: {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
