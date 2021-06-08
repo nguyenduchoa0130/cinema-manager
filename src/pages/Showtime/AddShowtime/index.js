@@ -204,7 +204,7 @@ const AddShowtime = () => {
               </MDBRow>
               <hr />
               <MDBRow className="justify-content-center">
-                <MDBBtn color="primary" type="submit" onClick={submit}>
+                <MDBBtn color="primary" type="submit" >
                   Submit Form
               </MDBBtn>
               </MDBRow>
