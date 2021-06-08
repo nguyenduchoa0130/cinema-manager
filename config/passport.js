@@ -30,24 +30,6 @@ function configPassport(passport) {
                     return done(err); // Server error
                 }
             }
-        ),
-        new FacebookStrategy(
-            {
-                clientID: process.env.FACEBOOK_APP_ID,
-                clientSecret: process.env.FACEBOOK_APP_SECRET,
-                callbackURL: process.env.CALLBACK_URL,
-            },
-            function (accessToken, refreshToken, profile, done) {}
-        ),
-        new GoogleStrategy(
-            {
-                consumerKey: process.env.GOOGLE_CONSUMER_KEY,
-                consumerSecret: process.env.GOOGLE_CONSUMER_SECRET,
-                callbackURL: 'http://www.example.com/auth/google/callback',
-            },
-            function (token, tokenSecret, profile, done) {
-              
-            }
         )
     );
     passport.serializeUser(function (user, done) {
