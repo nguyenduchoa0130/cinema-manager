@@ -7,5 +7,10 @@ router
     .put(showtimesMid.isShowtimesIdValid, showtimesMid.isFilmIdValid, showtimesMid.isValidTimeStart, showtimesCon.update)
     .delete(showtimesMid.isShowtimesIdValid, showtimesCon.delete);
 router.post('/add', showtimesMid.isFilmIdValid, showtimesMid.isValidTimeStart, showtimesCon.insert);
-router.get('/', showtimesCon.fetchByCluterId);
+router.get(
+    '/',
+    showtimesCon.fetchByCinemaHasShowtimesByFilmIdAndClusterId,
+    showtimesCon.fetchByCluterId,
+    showtimesCon.fetchShowtimesById
+);
 module.exports = router;

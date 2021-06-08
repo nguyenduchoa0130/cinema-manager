@@ -4,25 +4,62 @@ const sequelize = require('sequelize');
 const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShowtimesController {
+    async fetchShowtimesById(req, res, next) {
+        let id = req.query.id;
+        if (!helper.isValidID(id)) {
+            return next(apiError.badRequest('ID suất chiếu không hợp lệ'));
+        }
+        try {
+            let showtimes = await models.Showtimes.findByPk(id, {
+                attributes: {
+                    exclude: helper.ignoreColumns('filmId', 'systemId', 'clusterId', 'cinemaId', 'createdAt', 'updatedAt'),
+                },
+                include: [
+                    {
+                        model: models.Film,
+                        attributes: [['filmName', 'name']],
+                    },
+                    {
+                        model: models.CinemaSystem,
+                        attributes: [['systemName', 'name']],
+                    },
+                    {
+                        model: models.CinemaCluster,
+                        attributes: [['clusterName', 'name']],
+                    },
+                    {
+                        model: models.Cinema,
+                        attributes: [['cinemaName', 'name']],
+                    },
+                    {
+                        model: models.Seat,
+                        attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                    },
+                ],
+            });
+            if (!showtimes) {
+                return next(apiError.notFound('Không tìm thầy suất chiếu'));
+            }
+            return res.json({ showtimes });
+        } catch (err) {
+            next(err);
+        }
+    }
     async fetchByCluterId(req, res, next) {
         let clusterId = req.query.clusterId;
+        if (!clusterId) {
+            return next();
+        }
         if (!helper.isValidID(clusterId)) {
             return next(apiError.badRequest('ID cụm rạp không hợp lệ'));
         }
         try {
             let showtimes = await models.Showtimes.findAll({
-                attributes: {
-                    include: ['clusterId', 'filmId', 'systemId'],
-                },
-                group: ['clusterId', 'filmId', 'systemId'],
-
+                attributes: ['clusterId', [sequelize.fn('count', sequelize.col('*')), 'sum']],
                 include: [
                     {
                         model: models.Film,
-                        attributes: [
-                            ['filmName', 'name'],
-                            ['duration', 'duration'],
-                        ],
+                        attributes: ['id', ['filmName', 'name'], ['duration', 'duration']],
                         include: [
                             {
                                 model: models.StatusFilm,
@@ -32,16 +69,56 @@ class ShowtimesController {
                     },
                     {
                         model: models.CinemaCluster,
-                        attributes: [['clusterName', 'name']],
+                        attributes: ['id', ['clusterName', 'name']],
                         where: {
                             id: clusterId,
                         },
                     },
                 ],
+                group: ['clusterId', 'Film.filmName', 'Film.id', 'Film.StatusFilm.id', 'CinemaCluster.id'],
             });
             return res.json({ showtimes });
         } catch (err) {
             next(err);
+        }
+    }
+    async fetchByCinemaHasShowtimesByFilmIdAndClusterId(req, res, next) {
+        let filmId = req.query.filmId;
+        let clusterId = req.query.clusterId;
+        if (filmId && clusterId) {
+            try {
+                let showtimes = await models.Showtimes.findAll({
+                    attributes: ['id', 'timeStart', 'timeEnd', 'priceTicket'],
+                    include: [
+                        {
+                            model: models.Cinema,
+                            attributes: ['id', ['cinemaName', 'name']],
+                        },
+                        {
+                            model: models.Film,
+                            attributes: ['id', ['filmName', 'name']],
+                            where: {
+                                id: filmId,
+                            },
+                        },
+                        {
+                            model: models.CinemaCluster,
+                            attributes: ['id', ['clusterName', 'name']],
+                            where: {
+                                id: clusterId,
+                            },
+                        },
+                    ],
+                });
+                if (!showtimes.length) {
+                    return next(apiError.notFound('Không tìm thấy kết quả'));
+                }
+                return res.json({ showtimes });
+            } catch (err) {
+                next(err);
+            }
+        } else {
+            return next();
         }
     }
     async insert(req, res, next) {

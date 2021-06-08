@@ -80,8 +80,6 @@ class ShowtimesMiddleware {
         }
     }
     isValidTimeStart(req, res, next) {
-        // req.body.timeStart = ['2021/06/10 13:00', '2021/06/08 15:00'];
-		// req.body.timeStart = ['2021-06-08 16:00:00'];
         let timeStarts = req.body.timeStart;
         if (!timeStarts?.length) {
             return next(apiError.badRequest('Vui lòng chọn thời gian bắt đầu của suất chiếu'));
