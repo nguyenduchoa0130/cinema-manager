@@ -32,6 +32,9 @@ const EditCinema = () => {
     },
     validationSchema: Yup.object().shape({
       cinemaName: Yup.string().required("Required!"),
+      row: Yup.string().required("Required!"),
+      col: Yup.string().required("Required!"),
+      clusterId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
       console.log(values);
@@ -74,8 +77,10 @@ const EditCinema = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên cụm rạp"
-                    required
                   />
+                  {formik.errors.cinemaName && formik.touched.cinemaName && (
+                    <p className="text-danger">{formik.errors.cinemaName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -97,8 +102,10 @@ const EditCinema = () => {
                     placeholder="Số dòng ghế"
                     min={1}
                     max={10}
-                    required
                   />
+                  {formik.errors.row && formik.touched.row && (
+                    <p className="text-danger">{formik.errors.row} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -121,8 +128,10 @@ const EditCinema = () => {
                     placeholder="Số cột ghế"
                     min={1}
                     max={10}
-                    required
                   />
+                  {formik.errors.col && formik.touched.col && (
+                    <p className="text-danger">{formik.errors.col} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
 
@@ -141,6 +150,9 @@ const EditCinema = () => {
                     <option selected={dataRapEdit.clusterId}>{dataRapEdit.CinemaCluster?.name}</option>
                     {renderCumrap()}
                   </select>
+                  {formik.errors.clusterId && formik.touched.clusterId && (
+                    <p className="text-danger">{formik.errors.clusterId} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <hr />

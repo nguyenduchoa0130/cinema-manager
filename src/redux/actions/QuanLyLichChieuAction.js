@@ -1,19 +1,18 @@
 import axios from "axios";
-import { history } from "../../App";
 
-export const layRap = () => {
+export const layLichChieu = (id) => {
     return async dispatch => {
         try {
             const result = await axios({
-                url: 'https://cinejunsv.herokuapp.com/api/v1/cinema',
+                url: `https://cinejunsv.herokuapp.com/api/v1/showtimes?clusterId=${id}`,
                 method: 'GET',
                 // headers: {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
             dispatch({
-                type: 'GET_LIST_RAP',
-                listRap: result.data
+                type: 'GET__SHOWTIME',
+                listShowTime: result.data
             })
         } catch (error) {
             alert(error.response.data.msg);
@@ -22,19 +21,19 @@ export const layRap = () => {
     }
 }
 
-export const layRapTheoCumRap = (id) => {
+export const layChiTietLichChieu = (clusterId,filmId) => {
     return async dispatch => {
         try {
             const result = await axios({
-                url: `https://cinejunsv.herokuapp.com/api/v1/cinema?clusterId=${id}`,
+                url: `https://cinejunsv.herokuapp.com/api/v1/showtimes?clusterId=${clusterId}&filmId=${filmId}`,
                 method: 'GET',
                 // headers: {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
             dispatch({
-                type: 'GET_RAP_THEO_CUM_RAP',
-                listRapTheoCumRap: result.data
+                type: 'GET_DETAIL_SHOWTIME',
+                listDetailShowTime: result.data
             })
         } catch (error) {
             alert(error.response.data.msg);
@@ -43,20 +42,39 @@ export const layRapTheoCumRap = (id) => {
     }
 }
 
-export const themRap = (thongTinRap) => {
+
+export const themLichChieu = (thongTinLichChieu) => {
     return async dispatch => {
         try {
             const result = await axios({
-                url: 'https://cinejunsv.herokuapp.com/api/v1/cinema/add',
+                url: 'https://cinejunsv.herokuapp.com/api/v1/showtimes/add',
                 method: 'POST',
-                data: thongTinRap,
+                data: thongTinLichChieu
+                // headers: {
+                //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                // }
+            })
+            console.log('result', result.data);
+            alert(result.data.msg);
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
+export const suaLichChieu = (thongTinLichChieu, id) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/showtimes/${id}`,
+                method: 'PUT',
+                data: thongTinLichChieu
                 // headers: {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
             alert(result.data.msg);
-            dispatch(layRap())
-            history.push('/admin/quan-ly-rap')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -64,39 +82,18 @@ export const themRap = (thongTinRap) => {
     }
 }
 
-export const xoaRap = (maRap) => {
+export const xoaLichChieu = (id) => {
     return async dispatch => {
         try {
             const result = await axios({
-                url: `https://cinejunsv.herokuapp.com/api/v1/cinema/${maRap}`,
+                url: `https://cinejunsv.herokuapp.com/api/v1/showtimes/${id}`,
                 method: 'DELETE',
                 // headers: {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            dispatch(layRap());
+            dispatch(layChiTietLichChieu(result.data.clusterId,result.data.filmId))
             alert(result.data.msg);
-        } catch (error) {
-            alert(error.response.data.msg);
-            console.log('error', error.response.data.msg);
-        }
-    }
-}
-
-export const suaRap = (thongTinRap, maRap) => {
-    return async dispatch => {
-        try {
-            const result = await axios({
-                url: `https://cinejunsv.herokuapp.com/api/v1/cinema/${maRap}`,
-                method: 'PUT',
-                data: thongTinRap,
-                // headers: {
-                //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
-                // }
-            })
-            alert(result.data.msg);
-            dispatch(layRap())
-            history.push('/admin/quan-ly-rap')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

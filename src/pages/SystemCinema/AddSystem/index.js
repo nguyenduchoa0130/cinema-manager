@@ -52,8 +52,10 @@ const AddSystem = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên hệ thống rạp"
-                    required
                   />
+                  {formik.errors.systemName && formik.touched.systemName && (
+                    <p className="text-danger">{formik.errors.systemName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">

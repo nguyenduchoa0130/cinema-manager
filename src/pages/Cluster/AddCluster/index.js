@@ -13,7 +13,7 @@ const AddCluster = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layHeThongRap())
-  },)
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -22,8 +22,9 @@ const AddCluster = () => {
       systemId: null
     },
     validationSchema: Yup.object().shape({
-      cluster: Yup.string().required("Required!"),
+      clusterName: Yup.string().required("Required!"),
       address: Yup.string().required("Required!"),
+      systemId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
       dispatch(themCumRap(values))
@@ -62,6 +63,9 @@ const AddCluster = () => {
                     placeholder="Tên cụm rạp"
                     required
                   />
+                  {formik.errors.clustermName && formik.touched.clustermName && (
+                    <p className="text-danger">{formik.errors.clustermName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -81,8 +85,10 @@ const AddCluster = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Địa chỉ"
-                    required
                   />
+                  {formik.errors.address && formik.touched.address && (
+                    <p className="text-danger">{formik.errors.address} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -95,7 +101,7 @@ const AddCluster = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <select name="systemId" className="browser-default custom-select" onChange={formik.handleChange}>
+                  <select name="systemId" className="browser-default custom-select" onChange={formik.handleChange} >
                     <option>Chọn hệ thống rạp</option>
                     {renderHeThongRap()}
                   </select>

@@ -53,8 +53,8 @@ export const xoaHeThongRap = (maHeThongRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
             dispatch(layHeThongRap())
+            alert(result.data.msg);
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

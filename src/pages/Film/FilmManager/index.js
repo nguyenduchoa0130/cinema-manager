@@ -15,7 +15,7 @@ const FilmManager = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layDanhSachPhim())
-  },)
+  })
   const { isShowing, toggle } = useModal();
   const [isShowingDetails, setToggle] = useState(false);
 
@@ -40,16 +40,13 @@ const FilmManager = () => {
     toggle();
     setFilm(film);
   }
-  
-  const detailToggle = (film) => { 
+
+  const detailToggle = (film) => {
     setFilm(film);
     toggleDetails();
   }
 
   const renderRowData = () => {
-    listFilm?.films?.sort((a, b) => {
-      return a.id - b.id;
-    })
     return listFilm?.films?.map((film, index) => {
       return (
         <tr key={index}>
@@ -60,8 +57,8 @@ const FilmManager = () => {
           <td>{film.duration}</td>
           <td>{film['Category.name']}</td>
           <td>{film[['StatusFilm.name']]}</td>
-          <td>{film.premiere.slice(0,10)}</td>
-          <td><img className={styles.thumbnail} src={film.thumbnail}  alt={"thumbnail "+film.thumbnail}/></td>
+          <td>{film.premiere.slice(0, 10)}</td>
+          <td><img className={styles.thumbnail} src={film.thumbnail} alt={"thumbnail " + film.thumbnail} /></td>
           <td>
             <MDBBtn color="primary" size="sm" title="Xem chi tiết" onClick={() => { detailToggle(film) }} >
               <MDBIcon far icon="eye" />
@@ -164,7 +161,7 @@ const FilmManager = () => {
             </MDBRow>
             <MDBRow className="mt-3">
             <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </MDBRow>
+          </MDBRow>
 
         </MDBModalBody>
         <MDBModalFooter>

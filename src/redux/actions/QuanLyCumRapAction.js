@@ -22,6 +22,27 @@ export const layCumRap = () => {
     }
 }
 
+export const layCumRapTheoHethong = (id) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/cluster?systemId=${id}`,
+                method: 'GET',
+                // headers: {
+                //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                // }
+            })
+            dispatch({
+                type: 'GET_CUM_RAP_THEO_HE_THONG',
+                listCumRapTheoHeThong: result.data
+            })
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
 export const themCumRap = (thongTinCumRap) => {
     return async dispatch => {
         try {

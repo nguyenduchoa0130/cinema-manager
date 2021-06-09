@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 const initialState = {
     listCumRap: [],
+    listCumRapTheoHeThong:[],
     dataClusterEdit: {}
 }
 
@@ -13,6 +14,10 @@ export default (state = initialState, action) => {
         }
         case 'DATA_EDIT_CLUSTER': {
             state.dataClusterEdit = action.dataClusterEdit;
+            return { ...state }
+        }
+        case 'GET_CUM_RAP_THEO_HE_THONG': {
+            state.listCumRapTheoHeThong = action.listCumRapTheoHeThong;
             return { ...state }
         }
 

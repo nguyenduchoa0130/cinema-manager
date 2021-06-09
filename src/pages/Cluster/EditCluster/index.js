@@ -38,6 +38,7 @@ const EditCluster = () => {
     validationSchema: Yup.object().shape({
       cluster: Yup.string().required("Required!"),
       address: Yup.string().required("Required!"),
+      systemId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
       dispatch(suaCumRap(values, dataClusterEdit.id))
@@ -81,8 +82,10 @@ const EditCluster = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên cụm rạp"
-                    required
                   />
+                  {formik.errors.clusterName && formik.touched.clusterName && (
+                    <p className="text-danger">{formik.errors.clusterName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -103,8 +106,10 @@ const EditCluster = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Địa chỉ"
-                    required
                   />
+                  {formik.errors.address && formik.touched.address && (
+                    <p className="text-danger">{formik.errors.address} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -121,6 +126,9 @@ const EditCluster = () => {
                     <option selected={dataClusterEdit.CinemaSystem?.id}>{dataClusterEdit.CinemaSystem?.name}</option>
                     {renderHeThongRap()}
                   </select>
+                  {formik.errors.systemId && formik.touched.systemId && (
+                    <p className="text-danger">{formik.errors.systemId} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <hr />

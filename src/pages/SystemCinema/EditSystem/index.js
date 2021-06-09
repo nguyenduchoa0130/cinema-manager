@@ -17,7 +17,7 @@ const EditSystem = () => {
       ...dataSystemEdit,
       systemEdit: dataSystemEdit
     })
-  }, [dataSystemEdit],)
+  }, [dataSystemEdit])
   const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
@@ -33,7 +33,7 @@ const EditSystem = () => {
         form_data.append(key, values[key])
       }
       console.log('value', values);
-      dispatch(suaHeThongRap(form_data,dataSystemEdit.id))
+      dispatch(suaHeThongRap(form_data, dataSystemEdit.id))
     }
   })
   useEffect(() => {
@@ -67,8 +67,10 @@ const EditSystem = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên hệ thống rạp"
-                    required
                   />
+                  {formik.errors.systemName && formik.touched.systemName && (
+                    <p className="text-danger">{formik.errors.systemName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -91,7 +93,7 @@ const EditSystem = () => {
                         name="logo"
                       />
                       <label className="custom-file-label" >
-                       {formik.values.logo?formik.values.logo.name : " Chọn logo hệ thống rạp"}
+                        {formik.values.logo ? formik.values.logo.name : " Chọn logo hệ thống rạp"}
                       </label>
                     </div>
                   </div>

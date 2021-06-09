@@ -13,7 +13,7 @@ const EditFilm = () => {
   const { listCategory, dataFilmEdit } = useSelector(state => state.QuanLyPhimReducer)
   const dispatch = useDispatch();
   const [dataFilm, setDataFilm] = useState()
-  console.log('dataFilmEdit', dataFilmEdit);
+  console.log('dataFilm', dataFilm);
 
   useEffect(() => {
     setDataFilm({
@@ -24,24 +24,24 @@ const EditFilm = () => {
 
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  },[dispatch])
+  },[])
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      filmName: dataFilmEdit?.filmName,
-      country: dataFilmEdit?.country,
-      releaseYear: dataFilmEdit?.releaseYear,
-      duration: dataFilmEdit?.duration,
-      actors: dataFilmEdit?.actors,
-      categoryId: dataFilmEdit?.categoryId,
-      director: dataFilmEdit?.director,
-      thumbnail: dataFilmEdit?.thumbnail,
-      desc: dataFilmEdit?.desc,
-      poster: dataFilmEdit?.poster,
-      premiere: dataFilmEdit?.premiere,
-      statusId: dataFilmEdit?.statusId,
-      trailer:dataFilmEdit?.trailer
+      filmName: dataFilmEdit.filmName,
+      country: dataFilmEdit.country,
+      releaseYear: dataFilmEdit.releaseYear,
+      duration: dataFilmEdit.duration,
+      actors: dataFilmEdit.actors,
+      categoryId: dataFilmEdit.categoryId,
+      director: dataFilmEdit.director,
+      thumbnail: dataFilmEdit.thumbnail,
+      desc: dataFilmEdit.desc,
+      poster: dataFilmEdit.poster,
+      premiere: dataFilmEdit.premiere,
+      statusId: dataFilmEdit.statusId,
+      trailer:dataFilmEdit.trailer
     },
     validationSchema: Yup.object().shape({
       filmName: Yup.string().required("Required!"),
@@ -58,6 +58,7 @@ const EditFilm = () => {
       for (var key in values) {
         form_data.append(key, values[key])
       }
+      console.log(values);
       dispatch(suaPhim(form_data, dataFilmEdit.id))
 
     },
@@ -98,7 +99,6 @@ const EditFilm = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên phim"
-                    required
                   />
                   {formik.errors.filmName && formik.touched.filmName && (
                     <p className="text-danger">{formik.errors.filmName} </p>
@@ -171,7 +171,6 @@ const EditFilm = () => {
                     className="form-control"
                     name="duration"
                     placeholder="Thời lượng"
-                    required
                   />
                   {formik.errors.duration && formik.touched.duration && (
                     <p className="text-danger">{formik.errors.duration} </p>
@@ -195,7 +194,6 @@ const EditFilm = () => {
                     className="form-control"
                     name="director"
                     placeholder="Đạo diển"
-                    required
                   />
                   {formik.errors.director && formik.touched.director && (
                     <p className="text-danger">{formik.errors.director} </p>
@@ -219,7 +217,6 @@ const EditFilm = () => {
                     className="form-control"
                     name="actors"
                     placeholder="Diển viên"
-                    required
                   />
                   {formik.errors.actors && formik.touched.actors && (
                     <p className="text-danger">{formik.errors.actors} </p>
@@ -282,12 +279,6 @@ const EditFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  {/* <Editor
-                    editorState={editorState}
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="px-3"
-                    onEditorStateChange={setEditorState}
-                  /> */}
                   <textarea value={dataFilm?.dataFilm.desc} className="form-control" rows={4} id="desc" name="desc" onChange={formik.handleChange} />
                   {formik.errors.desc && formik.touched.desc && (
                     <p className="text-danger">{formik.errors.desc} </p>
@@ -311,7 +302,6 @@ const EditFilm = () => {
                     className="form-control"
                     name="trailer"
                     placeholder="Link trailer"
-                    required
                   />
                 {formik.errors.trailer && formik.touched.trailer && (
                     <p className="text-danger">{formik.errors.trailer} </p>

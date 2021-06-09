@@ -26,6 +26,7 @@ const AddCinema = () => {
       cinemaName: Yup.string().required("Required!"),
       col: Yup.string().required("Required!"),
       row: Yup.string().required("Required!"),
+      clusterId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
       console.log(values);
@@ -62,8 +63,10 @@ const AddCinema = () => {
                     id="defaultFormRegisterNameEx"
                     className="form-control"
                     placeholder="Tên rạp"
-                    required
                   />
+                  {formik.errors.cinemaName && formik.touched.cinemaName && (
+                    <p className="text-danger">{formik.errors.cinemaName} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -85,6 +88,9 @@ const AddCinema = () => {
                     max={10}
                     required
                   />
+                  {formik.errors.row && formik.touched.row && (
+                    <p className="text-danger">{formik.errors.row} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">
@@ -107,6 +113,9 @@ const AddCinema = () => {
                     max={10}
                     required
                   />
+                  {formik.errors.col && formik.touched.col && (
+                    <p className="text-danger">{formik.errors.col} </p>
+                  )}
                 </MDBCol>
               </MDBRow>
 
