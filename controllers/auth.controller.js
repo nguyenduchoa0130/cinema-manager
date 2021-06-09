@@ -46,7 +46,9 @@ class AuthController {
                     }),
                     send(data.email, 'Kích Hoạt Tài Khoản', `Mã kích hoạt: ${code}`),
                 ]);
-                return res.status(200).json({ msg: 'Đăng Ký Thành Công. Một OTP đã được gứi tới email ' + data.email, userId: user.id });
+                return res
+                    .status(200)
+                    .json({ msg: 'Đăng Ký Thành Công. Một OTP đã được gứi tới email ' + data.email, userId: user.id });
             }
         } catch (err) {
             return next(err);
@@ -161,6 +163,46 @@ class AuthController {
         } catch (err) {
             return next(err);
         }
+    }
+    async handleLoginFacebook(req, res, next) {
+        passport.authenticate('facebook', (err, user, info) => {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return next(apiError.notFound('Không tìm thấy tài khoản'));
+            }
+            if (user.isComplete && user.isExists) {
+                req.login(user, (err) => {
+                    if (err) {
+                        return next(err);
+                    }
+                });
+                let User = user.user;
+                let accessToken = helper.createAccessToken(User);
+                return res.status(200).json({
+                    userId: User.id,
+                    email: User.email,
+                    fullName: User.fullName,
+                    phone: User.phone,
+                    isAdmin: User.roleId == 1 ? true : false,
+                    isActive: User.isActive ? true : false,
+                    accessToken,
+                });
+            } else {
+                return res.json({ data: user });
+            }
+        })(req, res, next);
+    }
+    async hanleCompleteUser(req, res, next) {
+        const { isExists, isComplete, id, ...userInfo } = req.body;
+        if (data.isExists) {
+            data.password = await bcrypt.hash(data.password, 10);
+            let rows = await models.User.update({ ...userInfo }, { where: { id } });
+        } else {
+            let user = await models.User.create(userInfo);
+        }
+        return res.json({ msg: 'Thao tác thành công. Vui lòng đăng nhập lại' });
     }
 }
 module.exports = new AuthController();

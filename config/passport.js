@@ -1,6 +1,7 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const { User: UserModel } = require('../models/index').sequelize.models;
+const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuthStrategy;
@@ -30,6 +31,61 @@ function configPassport(passport) {
                     return done(err); // Server error
                 }
             }
+        ),
+        passport.use(
+            new FacebookStrategy(
+                {
+                    clientID: process.env.FACEBOOK_APP_ID,
+                    clientSecret: process.env.FACEBOOK_APP_SECRET,
+                    callbackURL: process.env.CALLBACK_URL_FB,
+                    profileFields: ['id', 'emails', 'name', 'displayName'],
+                },
+                async function (accessToken, refreshToken, profile, done) {
+                    // Kiểm tra email có tồn tại trong hệ thống hay chưa và người dùng ngày có đã có fbid hay chưa
+                    let data = {};
+                    let rows = await Promise.all([
+                        UserModel.findOne({ where: { facebookId: profile.id } }),
+                        UserModel.findOne({ where: { email: profile.emails[0].value } }),
+                    ]);
+                    let [checkFacebookId, checkEmail] = rows; // instance User
+                    if (!checkFacebookId) {
+                        if (checkEmail) {
+                            let { email, fullName, phone, id } = checkEmail;
+                            data = {
+                                isComplete: false,
+                                isExists: true,
+								newMail:  profile.emails[0].value,
+                                user: {
+                                    id,
+                                    facebookId: profile.id,
+                                    email,
+                                    fullName,
+                                    phone,
+                                },
+                            };
+                        } else {
+                            data = {
+                                isComplete: false,
+                                isExists: false,
+                                user: {
+                                    facebookId: profile.id,
+                                    email: profile.emails[0].value,
+                                    fullName: profile.displayName,
+                                },
+                            };
+                        }
+                    } else {
+                        data = {
+                            isComplete: true,
+                            isExists: true,
+                            user: {
+                                ...checkFacebookId,
+                            },
+                        };
+                    }
+                    done(null, data);
+                }
+            )
         )
     );
     passport.serializeUser(function (user, done) {
@@ -39,7 +95,7 @@ function configPassport(passport) {
     passport.deserializeUser(async function (id, done) {
         let user = await UserModel.findByPk(id, {
             attributes: {
-                exclude: ['password', 'refreshToken', 'createdAt', 'updatedAt'],
+                exclude: ['password', 'createdAt', 'updatedAt'],
             },
         });
         if (user) {
