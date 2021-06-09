@@ -5,12 +5,17 @@ const helper = require('../config/helper');
 const apiError = require('../errors/apiError');
 class FilmController {
     async fetchAll(req, res, next) {
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
+        let offset = page ? (page - 1) * limit : null;
         try {
             let films = await models.Film.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.StatusFilm,
@@ -36,12 +41,17 @@ class FilmController {
     }
     async fetchFilmByKey(req, res, next) {
         let key = req.query.key;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!key) return next();
         try {
             let data = await models.Film.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+                limit,
+                offset,
                 include: [
                     {
                         model: models.StatusFilm,
@@ -54,6 +64,8 @@ class FilmController {
                         attributes: [['categoryName', 'name']],
                     },
                 ],
+                limit: limit ?? null,
+                offset: offset ?? null,
                 raw: true,
             });
             let films = data.filter((film) => {
@@ -105,6 +117,9 @@ class FilmController {
     }
     async fetchByCategory(req, res, next) {
         let cate = req.query.cate;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!cate) return next();
         let id = Math.abs(Math.floor(parseInt(cate))) ? Math.abs(Math.floor(parseInt(cate))) : -1;
         cate = cate.trim().toLowerCase();
@@ -114,6 +129,8 @@ class FilmController {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.StatusFilm,
@@ -127,7 +144,13 @@ class FilmController {
                         where: {
                             [Op.or]: [
                                 { id },
-                                { categoryName: sequelize.where(sequelize.fn('LOWER', sequelize.col('categoryName')), 'LIKE', `%${cate}%`) },
+                                {
+                                    categoryName: sequelize.where(
+                                        sequelize.fn('LOWER', sequelize.col('categoryName')),
+                                        'LIKE',
+                                        `%${cate}%`
+                                    ),
+                                },
                             ],
                         },
                     },
@@ -142,6 +165,9 @@ class FilmController {
     }
     async fetchByStatus(req, res, next) {
         let status = req.query.status;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!status) return next();
         try {
             let films = await models.Film.findAll({
@@ -149,6 +175,8 @@ class FilmController {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.StatusFilm,
@@ -157,7 +185,13 @@ class FilmController {
                         where: {
                             [Op.or]: [
                                 { id: status },
-                                { statusName: sequelize.where(sequelize.fn('LOWER', sequelize.col('statusName')), 'LIKE', `%${status}%`) },
+                                {
+                                    statusName: sequelize.where(
+                                        sequelize.fn('LOWER', sequelize.col('statusName')),
+                                        'LIKE',
+                                        `%${status}%`
+                                    ),
+                                },
                             ],
                         },
                     },

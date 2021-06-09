@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Cinema, {
                 foreignKey: 'cinemaId',
             });
+            this.hasMany(models.Booking, {
+                foreignKey: 'showtimesId',
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
+            });
         }
     }
     Showtimes.init(
@@ -43,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
                         sequelize.models.Cinema.findByPk(cinemaId)
                             .then((cinema) => {
                                 if (cinema) {
-                                    let { row, col } = cinema;
+                                    let { row, col, priceTicket } = cinema;
                                     let letter = 'A';
                                     let seats = [];
                                     for (let i = 0; i < row; i++) {
@@ -54,6 +59,7 @@ module.exports = (sequelize, DataTypes) => {
                                                 col: j,
                                                 cinemaId,
                                                 showtimesId: id,
+                                                priceTicket,
                                             });
                                         }
                                         letter = helper.nextChar(letter);

@@ -4,12 +4,17 @@ const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
 class ClusterController {
     async fetchAll(req, res, next) {
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
+        let offset = page ? (page - 1) * limit : null;
         try {
             let clusters = await models.CinemaCluster.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.Cinema,
@@ -61,12 +66,17 @@ class ClusterController {
     }
     async fetchByClusterName(req, res, next) {
         let name = req.query.name;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!name) return next();
         if (!name.length) return next(apiError.badRequest('Tên cụm rạp không hợp lệ'));
         try {
             let rows = await models.CinemaCluster.findAll({
                 attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.Cinema,
@@ -94,6 +104,9 @@ class ClusterController {
     }
     async fetchBySystemId(req, res, next) {
         let systemId = req.query.systemId;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!systemId) {
             return next();
         }
@@ -106,6 +119,8 @@ class ClusterController {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.Cinema,

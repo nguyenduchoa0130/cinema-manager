@@ -39,6 +39,9 @@ module.exports = {
                 onDelete: 'CASCADE',
                 onUpdate: 'CASCADE',
             },
+            priceTicket: {
+                type: Sequelize.BIGINT,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

@@ -26,7 +26,7 @@ module.exports = {
                 onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             },
-            timeOfBooking: {
+            timeBooking: {
                 type: Sequelize.DATE,
                 allowNull: false,
             },

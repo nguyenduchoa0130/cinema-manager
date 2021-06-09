@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Cinema, {
                 foreignKey: 'cinemaId',
             });
+            this.hasOne(models.Ticket, {
+                foreignKey: 'seatId',
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
+            });
         }
     }
     Seat.init(
@@ -17,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             symbol: DataTypes.STRING,
             row: DataTypes.INTEGER,
             col: DataTypes.INTEGER,
-			cinemaId: DataTypes.INTEGER,
+            cinemaId: DataTypes.INTEGER,
             showtimesId: DataTypes.INTEGER,
         },
         {

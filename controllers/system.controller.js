@@ -5,10 +5,15 @@ const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
 class SystemCinemaController {
     async fetchAll(req, res, next) {
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
+        let offset = page ? (page - 1) * limit : null;
         try {
             let systems = await models.CinemaSystem.findAll({
                 attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo') },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
             });
             if (!systems.length) return next(apiError.notFound('Không tìm thấy kết quả nào'));
             return res.json({ systems });
@@ -38,6 +43,9 @@ class SystemCinemaController {
     }
     async fetchByName(req, res, next) {
         let name = req.query.name;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!name) {
             return next();
         }
@@ -49,7 +57,9 @@ class SystemCinemaController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
+                limit,
+                offset,
             });
             let systems = rows.filter((system) => {
                 let nameTmp = helper.removeAccents(system.systemName);
@@ -91,7 +101,9 @@ class SystemCinemaController {
         let data = req.body;
         if (!helper.isValidID(id)) return next(apiError.badRequest('Cập nhật thất bại: ID không hợp lệ'));
         try {
-            let system = await models.CinemaSystem.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
+            let system = await models.CinemaSystem.findByPk(id, {
+                attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
+            });
             if (!system) return next(apiError.notFound(' Không tìm thấy hệ thống rạp'));
             if ('systemName' in data && data.systemName != system.systemName) {
                 let name = data.systemName.trim().toLowerCase();

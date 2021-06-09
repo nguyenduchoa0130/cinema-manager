@@ -10,5 +10,6 @@ class CategoryMiddlware {
             return next(apiError.badRequest('ID danh mục không hợp lệ'));
         }
     }
+	
 }
 module.exports = new CategoryMiddlware();

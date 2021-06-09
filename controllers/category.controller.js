@@ -5,12 +5,17 @@ const sequelize = require('sequelize');
 const apiError = require('../errors/apiError');
 class CategoryController {
     async fetchAll(req, res, next) {
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
+        let offset = page ? (page - 1) * limit : null;
         try {
             let categories = await models.Category.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
             });
             if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục nào'));
             return res.json({ categories });
@@ -23,7 +28,9 @@ class CategoryController {
         if (!id) return next();
         if (!helper.isValidID(id)) return next(apiError.badRequest('ID danh mục không hợp lệ'));
         try {
-            let category = await models.Category.findByPk(id, { attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') } });
+            let category = await models.Category.findByPk(id, {
+                attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
+            });
             if (!category) return next(apiError.notFound('Không tìm thấy danh mục'));
             return res.json({ category });
         } catch (err) {
@@ -32,19 +39,24 @@ class CategoryController {
     }
     async fetchByName(req, res, next) {
         let name = req.query.name;
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!name) return next();
         if (!name.length) return next(apiError.badRequest('Tên danh mục không hợp lệ'));
         try {
             let rows = await models.Category.findAll({
                 attributes: { exclude: helper.ignoreColumns('createdAt', 'updatedAt') },
                 order: [['id', 'ASC']],
+                limit,
+                offset,
             });
             let categories = rows.filter((category) => {
                 let nameTmp = helper.removeAccents(category.categoryName);
                 let key = helper.removeAccents(name);
                 return nameTmp.includes(key);
             });
-            if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục phim có liên quân tới ' + name));
+            if (!categories.length) return next(apiError.notFound('Không tìm thấy danh mục phim có liên quan tới ' + name));
             return res.json({ categories });
         } catch (err) {
             next(err);

@@ -4,6 +4,111 @@ const sequelize = require('sequelize');
 const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShowtimesController {
+    async fetchShowtimesByCinemaId(req, res, next) {
+        let { clusterId, cinemaId, filmId } = req.query;
+        if (clusterId && cinemaId && filmId) {
+            try {
+                let showtimes = await models.Showtimes.findAll({
+                    attributes: ['id', 'timeStart', 'timeEnd', 'priceTicket'],
+                    include: [
+                        {
+                            model: models.Cinema,
+                            attributes: ['id', ['cinemaName', 'name']],
+                            where: {
+                                id: cinemaId,
+                            },
+                        },
+                        {
+                            model: models.Film,
+                            attributes: ['id', ['filmName', 'name']],
+                            where: {
+                                id: filmId,
+                            },
+                        },
+                        {
+                            model: models.CinemaCluster,
+                            attributes: ['id', ['clusterName', 'name']],
+                            where: {
+                                id: clusterId,
+                            },
+                        },
+                        {
+                            model: models.CinemaSystem,
+                            attributes: ['id', ['systemName', 'name']],
+                        },
+                        {
+                            model: models.Seat,
+                            attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                        },
+                    ],
+                });
+                if (!showtimes.length) {
+                    return next(apiError.notFound('Không tìm thấy kết quả'));
+                }
+                return res.json({ showtimes });
+            } catch (err) {
+                next(err);
+            }
+        } else {
+            return next();
+        }
+    }
+    async fetchShowtimesByDate(req, res, next) {
+        let { clusterId, cinemaId, filmId, date } = req.query;
+        let start = new Date(date);
+        let end = helper.addMinutes(start, 23 * 60 + 59);
+        if (clusterId && cinemaId && filmId && date) {
+            try {
+                let rows = await models.Showtimes.findAll({
+                    attributes: ['id', 'timeStart', 'timeEnd', 'priceTicket'],
+                    include: [
+                        {
+                            model: models.Cinema,
+                            attributes: ['id', ['cinemaName', 'name']],
+                            where: {
+                                id: cinemaId,
+                            },
+                        },
+                        {
+                            model: models.Film,
+                            attributes: ['id', ['filmName', 'name']],
+                            where: {
+                                id: filmId,
+                            },
+                        },
+                        {
+                            model: models.CinemaCluster,
+                            attributes: ['id', ['clusterName', 'name']],
+                            where: {
+                                id: clusterId,
+                            },
+                        },
+                        {
+                            model: models.CinemaSystem,
+                            attributes: ['id', ['systemName', 'name']],
+                        },
+                        {
+                            model: models.Seat,
+                            attributes: ['id', 'symbol', 'row', 'col', 'isOrder'],
+                        },
+                    ],
+                });
+                let showtimes = rows.filter((row) => {
+                    let timeStart = new Date(row.timeStart);
+                    let timeEnd = new Date(row.timeEnd);
+                    return start.getTime() <= timeStart.getTime() && end.getTime() >= timeEnd.getTime();
+                });
+                if (!showtimes.length) {
+                    return next(apiError.notFound('Không tìm thấy kết quả'));
+                }
+                return res.json({ showtimes });
+            } catch (err) {
+                next(err);
+            }
+        } else {
+            return next();
+        }
+    }
     async fetchShowtimesById(req, res, next) {
         let id = req.query.id;
         if (!helper.isValidID(id)) {
@@ -108,11 +213,10 @@ class ShowtimesController {
                                 id: clusterId,
                             },
                         },
-						{
-							model: models.CinemaSystem,
+                        {
+                            model: models.CinemaSystem,
                             attributes: ['id', ['systemName', 'name']],
                         },
-						
                     ],
                 });
                 if (!showtimes.length) {

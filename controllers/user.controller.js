@@ -5,12 +5,17 @@ const bcrypt = require('bcrypt');
 const apiError = require('../errors/apiError');
 class UserController {
     async fetchAll(req, res, next) {
+        let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
+        let offset = page ? (page - 1) * limit : null;
         try {
             let users = await models.User.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
+                limit,
+                offset,
                 include: [
                     {
                         model: models.Role,
@@ -59,6 +64,9 @@ class UserController {
     }
     async fetchByRole(req, res, next) {
         let roleId = req.query.roleId;
+		let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!roleId) {
             return next();
         }
@@ -70,7 +78,9 @@ class UserController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
+				limit,
+				offset,
                 include: [
                     {
                         model: models.Role,
@@ -91,6 +101,9 @@ class UserController {
     }
     async fetchByKey(req, res, next) {
         let key = req.query.key;
+		let page = req.query.page ? parseInt(req.query.page) : null;
+        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let offset = page ? (page - 1) * limit : null;
         if (!key) {
             return next();
         }
@@ -102,7 +115,9 @@ class UserController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
-				order: [['id', 'ASC']],
+                order: [['id', 'ASC']],
+				limit,
+				offset,
                 include: [
                     {
                         model: models.Role,
@@ -129,7 +144,10 @@ class UserController {
     async add(req, res, next) {
         let data = req.body;
         try {
-            let rows = await Promise.all([models.User.findAll({ where: { email: data.email } }), helper.isValidEmail(data.email)]);
+            let rows = await Promise.all([
+                models.User.findAll({ where: { email: data.email } }),
+                helper.isValidEmail(data.email),
+            ]);
             if (!rows[1]) return next(apiError.badRequest('Email không tồn tại'));
             if (rows[0].length) return next(apiError.conflict('Email đã được sử dụng cho 1 tài khoản khác'));
             data.password = await bcrypt.hash(data.password, 10);

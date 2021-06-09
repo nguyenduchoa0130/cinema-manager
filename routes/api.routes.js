@@ -9,7 +9,9 @@ const statusRoutes = require('./api/status.routes');
 const cinemaRoutes = require('./api/cinema.routes');
 const seatRoutes = require('./api/seat.routes');
 const showtimesRoutes = require('./api/showtimes.routes');
+const bookingRoutes = require('./api/booking.routes');
 
+router.use('/booking', bookingRoutes);
 router.use('/showtimes', showtimesRoutes);
 router.use('/seat', seatRoutes);
 router.use('/cinema', cinemaRoutes);

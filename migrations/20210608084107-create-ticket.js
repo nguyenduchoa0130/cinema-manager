@@ -9,12 +9,12 @@ module.exports = {
                 defaultValue: Sequelize.UUIDV4,
             },
             bookingId: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.UUID,
                 references: {
                     model: 'Bookings',
                     key: 'id',
                 },
-                onDelete: 'CASCADE',
+                onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             },
             seatId: {
@@ -23,7 +23,7 @@ module.exports = {
                     model: 'Seats',
                     key: 'id',
                 },
-                onDelete: 'CASCADE',
+                onDelete: 'SET NULL',
                 onUpdate: 'CASCADE',
             },
             priceTicket: {

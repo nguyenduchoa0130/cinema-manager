@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
             this.belongsTo(models.Role, {
                 foreignKey: 'roleId',
             });
+            this.hasMany(models.Booking, {
+                foreignKey: 'userId',
+                onDelete: 'SET NULL',
+                onUpdate: 'CASCADE',
+            });
         }
     }
     User.init(

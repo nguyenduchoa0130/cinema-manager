@@ -9,6 +9,8 @@ router
 router.post('/add', showtimesMid.isFilmIdValid, showtimesMid.isValidTimeStart, showtimesCon.insert);
 router.get(
     '/',
+    showtimesCon.fetchShowtimesByDate,
+    showtimesCon.fetchShowtimesByCinemaId,
     showtimesCon.fetchByCinemaHasShowtimesByFilmIdAndClusterId,
     showtimesCon.fetchByCluterId,
     showtimesCon.fetchShowtimesById
