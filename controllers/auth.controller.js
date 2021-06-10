@@ -106,6 +106,7 @@ class AuthController {
         }
     }
     async handleSignOut(req, res, next) {
+        req.session = null;
         req.logout();
         res.status(200).json({ msg: 'Đăng xuất thành công' });
     }

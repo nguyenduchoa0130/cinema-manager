@@ -43,3 +43,10 @@ app.use(errorHandler); // Mount Error Handlers
 app.listen(PORT, () => {
     console.log('Server is running at ' + PORT);
 });
+
+let {isComplete, isExists, user} = result.data.data;
+if(isComplete && isExists){
+	// chuyển hướng sang trang chủ
+}else{
+	// chuyển hướng qua hoàn tất đăng ký
+}

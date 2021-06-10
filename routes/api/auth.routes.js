@@ -4,6 +4,10 @@ const authCon = require('../../controllers/auth.controller');
 const passport = require('passport');
 const passportConfig = require('../../config/passport');
 passportConfig(passport);
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function (req, res) {
+    res.redirect('/');
+});
 router.get('/facebook/callback', authCon.handleLoginFacebook);
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 router.post('/complete', authCon.hanleCompleteUser);
