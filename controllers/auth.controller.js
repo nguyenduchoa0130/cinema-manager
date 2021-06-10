@@ -166,6 +166,9 @@ class AuthController {
         }
     }
     async handleLoginFacebook(req, res, next) {
+        res.header('Access-Control-Allow-Origin: *');
+        res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
         passport.authenticate('facebook', (err, user) => {
             let info;
             if (err) {
@@ -211,6 +214,9 @@ class AuthController {
         return res.json({ msg: 'Thao tác thành công. Vui lòng đăng nhập lại' });
     }
     async handleLoginByFacebook(req, res, next) {
+        res.header('Access-Control-Allow-Origin: *');
+        res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
         if (req.query.info) {
             let info = JSON.parse(req.query.info);
             return res.json(info);
