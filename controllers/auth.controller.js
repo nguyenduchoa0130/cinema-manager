@@ -197,7 +197,7 @@ class AuthController {
                 };
             }
             let str = JSON.stringify(info);
-            return res.status(302).redirect('/fbdata?info=' + str);
+            return res.status(302).redirect('/api/v1/auth/signin-fb?info=' + str);
         })(req, res, next);
     }
     async hanleCompleteUser(req, res, next) {
@@ -209,6 +209,14 @@ class AuthController {
             let user = await models.User.create(userInfo);
         }
         return res.json({ msg: 'Thao tác thành công. Vui lòng đăng nhập lại' });
+    }
+    async handleLoginByFacebook(req, res, next) {
+        if (req.query.info) {
+            let info = JSON.parse(req.query.info);
+            return res.json(info);
+        } else {
+            return res.redirect('/api/v1/auth/facebook');
+        }
     }
 }
 module.exports = new AuthController();
