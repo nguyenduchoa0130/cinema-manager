@@ -166,7 +166,8 @@ class AuthController {
         }
     }
     async handleLoginFacebook(req, res, next) {
-        passport.authenticate('facebook', (err, user, info) => {
+        passport.authenticate('facebook', (err, user) => {
+            let info;
             if (err) {
                 return next(err);
             }
@@ -181,7 +182,7 @@ class AuthController {
                 });
                 let User = user.user;
                 let accessToken = helper.createAccessToken(User);
-                return res.status(200).json({
+                info = {
                     userId: User.id,
                     email: User.email,
                     fullName: User.fullName,
@@ -189,10 +190,14 @@ class AuthController {
                     isAdmin: User.roleId == 1 ? true : false,
                     isActive: User.isActive ? true : false,
                     accessToken,
-                });
+                };
             } else {
-                return res.json({ data: user });
+                info = {
+                    ...user,
+                };
             }
+            let str = JSON.stringify(info);
+            return res.status(302).redirect('/fbdata?info=' + str);
         })(req, res, next);
     }
     async hanleCompleteUser(req, res, next) {
