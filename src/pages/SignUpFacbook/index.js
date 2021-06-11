@@ -1,34 +1,22 @@
 
-import React, { Fragment, useEffect, useState } from "react";
+import React from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 import cx from 'classnames';
 import { Link, Redirect } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { dangKyAction, hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
-import { useDispatch, useSelector } from "react-redux";
+import { dangKyAction } from "../../redux/actions/NguoiDungAction";
+import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
 
-export default function SignUpBySocial() {
-    const { userLogin } = useSelector(state => state.NguoiDungReducer)
-    console.log('userLogin', userLogin);
-    const [dataUser, setDataUser] = useState()
-    console.log('dataUser', dataUser);
-    useEffect(() => {
-        setDataUser({
-            dataUser: userLogin
-        })
-    }, [userLogin])
+export default function SignUpFacbook() {
     const dispatch = useDispatch();
     const formik = useFormik({
-        enableReinitialize: true,
         initialValues: {
-            fullName: userLogin.fullName,
-            userId: userLogin?.userId,
-            facebookId: userLogin.facebookId,
+            fullName: '',
             password: '',
-            email: userLogin.email,
+            email: '',
             phone: '',
         },
         validationSchema: Yup.object().shape({
@@ -48,18 +36,21 @@ export default function SignUpBySocial() {
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
         }),
         onSubmit: values => {
-            console.log('values', values);
-            if (values.userId) {
-                let { password, ...userData } = values
-                dispatch(hoanTatPut(userData))
-            } else {
-                let { userId, ...userData } = values
-                dispatch(hoanTatPost(userData))
-            }
-
+            dispatch(dangKyAction(values))
+            // console.log('value', values);
         }
     });
 
+    let isSuccess = '';
+    if (localStorage.getItem(USERLOGIN)) {
+        let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
+        isSuccess = userLogin.isSuccess;
+        if (isSuccess === true) {
+            return <Redirect to="/kich-hoat" />
+        } else {
+            return <Redirect to="/dang-ky" />
+        }
+    }
 
     return (
         <div className={styles.wrapper_template}>
@@ -82,17 +73,17 @@ export default function SignUpBySocial() {
 
                                     </div>
                                     <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" alt="logo" />
-                                    <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Hoàn tất đăng ký</h2>
+                                    <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Đăng ký thành công</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className="grey-text">
-                                            <MDBInput value={dataUser?.dataUser.fullName} name="fullName" id="fullName" label="Họ tên" icon="user" group type="text" validate error="wrong"
+                                            <MDBInput name="fullName" id="fullName" label="Họ tên" icon="user" group type="text" validate error="wrong"
                                                 success="right" onChange={formik.handleChange} />
                                             {formik.errors.fullName && formik.touched.fullName && (
                                                 <p className="text-danger">{formik.errors.fullName} </p>
                                             )}
-                                            <MDBInput value={dataUser?.dataUser.email} name="email" id="email" label="Email" icon="envelope" group type="email" validate error="wrong"
+                                            <MDBInput name="email" id="email" label="Email" icon="envelope" group type="email" validate error="wrong"
                                                 success="right" onChange={formik.handleChange} />
                                             {formik.errors.email && formik.touched.email && (
                                                 <p className="text-danger">{formik.errors.email} </p>
@@ -102,19 +93,17 @@ export default function SignUpBySocial() {
                                             {formik.errors.phone && formik.touched.phone && (
                                                 <p className="text-danger">{formik.errors.phone} </p>
                                             )}
-                                            {userLogin.isExists ? '' : <Fragment>
-                                                <MDBInput name="password" id="password" label="Mật khẩu" icon="lock" group type="password" validate onChange={formik.handleChange} />
-                                                {formik.errors.password && formik.touched.password && (
-                                                    <p className="text-danger">{formik.errors.password} </p>
-                                                )}
-                                                <MDBInput name="passwordConfirm" id="passwordConfirm" label="Mật khẩu xác thực" icon="exclamation-triangle" group type="password" validate onChange={formik.handleChange} />
-                                                {formik.errors.passwordConfirm && formik.touched.passwordConfirm && (
-                                                    <p className="text-danger">{formik.errors.passwordConfirm} </p>
-                                                )}
-                                            </Fragment>}
+                                            <MDBInput name="password" id="password" label="Mật khẩu" icon="lock" group type="password" validate onChange={formik.handleChange} />
+                                            {formik.errors.password && formik.touched.password && (
+                                                <p className="text-danger">{formik.errors.password} </p>
+                                            )}
+                                            <MDBInput name="passwordConfirm" id="passwordConfirm" label="Mật khẩu xác thực" icon="exclamation-triangle" group type="password" validate onChange={formik.handleChange} />
+                                            {formik.errors.passwordConfirm && formik.touched.passwordConfirm && (
+                                                <p className="text-danger">{formik.errors.passwordConfirm} </p>
+                                            )}
                                         </div>
                                         <div className="text-center">
-                                            <MDBBtn type="submit" color="primary" className="w-100">Hoàn tất đăng ký</MDBBtn>
+                                            <MDBBtn type="submit" color="primary" className="w-100">Đăng ký</MDBBtn>
                                         </div>
                                     </form>
                                 </div>

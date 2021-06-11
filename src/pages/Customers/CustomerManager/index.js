@@ -32,9 +32,7 @@ const CustomerManager = () => {
   }
 
   const renderRowData = () => {
-    listUser.users?.sort((a, b) => {
-      return a.id - b.id;
-    })
+   
     return listUser.users?.map((user, index) => {
       return (
         <tr key={index}>

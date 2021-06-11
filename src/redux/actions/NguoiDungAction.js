@@ -28,33 +28,76 @@ export const dangNhapAction = (userLogin) => {
     }
 }
 
-export const dangNhapCallBackFBAction = () => {
+export const dangNhapFBAction = (userLogin) => {
     return async dispatch => {
         try {
             const result = await axios({
-                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/signin-fb',
-                method: 'GET',
-                headers: { "Access-Control-Allow-Origin": "http://localhost:3000", 'Access-Control-Allow-Methods': 'GET', 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token','Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                'Content-Type': 'text/html' }
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/facebook',
+                method: 'POST',
+                data: userLogin
             })
-            console.log('result', result.data);
-            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
-            let { isComplete, isExists, user } = result.data;
+            dispatch({
+                type: 'DANG_NHAP_FB',
+                userLogin: result.data
+            })
+
+            let { isComplete, isExists } = result.data;
             if (isComplete && isExists) {
-                // localStorage.setItem(TOKEN, result.data.accessToken);
+                delete result.data.isComplete;
+                delete result.data.isExists;
+                localStorage.setItem(TOKEN, result.data.accessToken);
+                localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
                 history.push('/')
             } else {
                 history.push('/thong-tin-ban-dau')
             }
+
         } catch (error) {
-            // alert(error.response.data.msg);
-            console.log('error', error);
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
         }
     }
 }
 
+export const hoanTatPost = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/complete',
+                method: 'POST',
+                data: userLogin
+            })
+            delete result.data.isComplete;
+            delete result.data.isExists;
+            localStorage.setItem(TOKEN, result.data.accessToken);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+            history.push('/')
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
 
-
+export const hoanTatPut = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/auth/complete`,
+                method: 'PUT',
+                data: userLogin
+            })
+            delete result.data.isComplete;
+            delete result.data.isExists;
+            localStorage.setItem(TOKEN, result.data.accessToken);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+            history.push('/')
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
 
 export const dangXuatAction = () => {
     return async dispatch => {

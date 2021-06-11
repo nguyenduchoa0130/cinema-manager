@@ -14,7 +14,7 @@ export default function Profile() {
     }
     // console.log('userId', userId);
     const { thongTinNguoiDung } = useSelector(state => state.NguoiDungReducer)
-    console.log('thongTinNguoiDung', thongTinNguoiDung);
+    // console.log('thongTinNguoiDung', thongTinNguoiDung);
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layThongTinNguoiDung(userId))

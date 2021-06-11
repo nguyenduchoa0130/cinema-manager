@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBListGroupItem, MDBListGroup } from 'mdbreact';
 import { Link, Redirect } from "react-router-dom";
 import styles from "./style.module.scss";
@@ -8,12 +8,17 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
-import { dangNhapAction, dangNhapFBAction, dangNhapCallBackFBAction } from "../../redux/actions/NguoiDungAction";
-import { history } from "../../App";
+import { dangNhapAction, dangNhapFBAction } from "../../redux/actions/NguoiDungAction";
+import GoogleLogin from "react-google-login";
+import FacebookLogin from 'react-facebook-login';
 
 
 export default function SingIn() {
-
+    const [state, setstate] = useState({
+        facebookId:'',
+        email:'',
+        fullName:''
+    })
     const dispatch = useDispatch();
     const formik = useFormik({
         initialValues: {
@@ -32,7 +37,17 @@ export default function SingIn() {
         return <Redirect to="/" />
     }
 
-
+    const responseGoogle = (response) => {
+        console.log(response);
+    }
+    const responseFacebook = (response) => {
+        console.log(response);
+        setstate({
+                facebookId : response.id,
+                email : response.email,
+                fullName: response.name
+            })
+    }
 
     return (
         <div>
@@ -81,16 +96,33 @@ export default function SingIn() {
                                             <MDBListGroup className={styles.list_group}>
                                                 <MDBListGroupItem>
                                                     <div className="text-center">
-                                                        <MDBBtn color="blue"
-                                                            onClick={() => {
-                                                                window.location.href='https://cinejunsv.herokuapp.com/api/v1/auth/signin-fb'
-                                                                dispatch(dangNhapCallBackFBAction())
-                                                            }}  >Đăng nhập với Facebook</MDBBtn>
+                                                        {/* <MDBBtn color="indigo" >Đăng nhập với Facebook</MDBBtn> */}
+                                                        <FacebookLogin
+                                                            appId="1817896348372359"
+                                                            autoLoad={true}
+                                                            fields="id,email,name"
+                                                            callback={responseFacebook}
+                                                            cssClass={cx(styles.btn_facebook, styles.btn_social)}
+                                                            scope='email,public_profile'
+                                                            icon="fa-facebook"
+                                                            onClick={()=>{
+                                                                dispatch(dangNhapFBAction(state))
+                                                            }}
+                                                        />
                                                     </div>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
                                                     <div className="text-center">
-                                                        <MDBBtn color="red" >Đăng nhập với Google</MDBBtn>
+                                                        {/* <MDBBtn color="red" >Đăng nhập với Google</MDBBtn> */}
+                                                        {/* <GoogleLogin
+                                                            className={styles.btn_social}
+                                                            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                                                            buttonText="Đăng nhập với Google"
+                                                            onSuccess={responseGoogle}
+                                                            onFailure={responseGoogle}
+
+                                                            cookiePolicy={'single_host_origin'}
+                                                        /> */}
                                                     </div>
                                                 </MDBListGroupItem>
                                             </MDBListGroup>
