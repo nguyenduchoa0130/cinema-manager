@@ -4,14 +4,8 @@ const authCon = require('../../controllers/auth.controller');
 const passport = require('passport');
 const passportConfig = require('../../config/passport');
 passportConfig(passport);
-router.get('/signin-fb', authCon.handleLoginByFacebook);
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function (req, res) {
-    res.redirect('/');
-});
-router.get('/facebook/callback', authCon.handleLoginFacebook);
-router.get('/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-router.post('/complete', authCon.hanleCompleteUser);
+router.post('/facebook', authCon.handleLoginByFacebook);
+router.route('/complete').post(authCon.handleComplete).put(authCon.handleComplete);
 router.get('/otp/:userId', authCon.sendOTP);
 router.post('/signin', authMid.isNotSignedIn, authCon.handleSignIn);
 router.post('/signup', authMid.isNotSignedIn, authMid.isValidEmail, authCon.handleSignUp);

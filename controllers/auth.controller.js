@@ -165,63 +165,113 @@ class AuthController {
             return next(err);
         }
     }
-    async handleLoginFacebook(req, res, next) {
-        res.header('Access-Control-Allow-Origin: *');
-        res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-        res.header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
-        passport.authenticate('facebook', (err, user) => {
-            let info;
-            if (err) {
-                return next(err);
-            }
-            if (!user) {
-                return next(apiError.notFound('Không tìm thấy tài khoản'));
-            }
-            if (user.isComplete && user.isExists) {
-                req.login(user, (err) => {
-                    if (err) {
-                        return next(err);
-                    }
-                });
-                let User = user.user;
-                let accessToken = helper.createAccessToken(User);
-                info = {
-                    userId: User.id,
-                    email: User.email,
-                    fullName: User.fullName,
-                    phone: User.phone,
-                    isAdmin: User.roleId == 1 ? true : false,
-                    isActive: User.isActive ? true : false,
-                    accessToken,
-                };
-            } else {
-                info = {
-                    ...user,
-                };
-            }
-            let str = JSON.stringify(info);
-            return res.status(302).redirect('/api/v1/auth/signin-fb?info=' + str);
-        })(req, res, next);
-    }
-    async hanleCompleteUser(req, res, next) {
-        const { isExists, isComplete, id, ...userInfo } = req.body;
-        if (data.isExists) {
-            data.password = await bcrypt.hash(data.password, 10);
-            let rows = await models.User.update({ ...userInfo }, { where: { id } });
-        } else {
-            let user = await models.User.create(userInfo);
-        }
-        return res.json({ msg: 'Thao tác thành công. Vui lòng đăng nhập lại' });
-    }
     async handleLoginByFacebook(req, res, next) {
-        res.header('Access-Control-Allow-Origin: *');
-        res.header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
-        res.header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
-        if (req.query.info) {
-            let info = JSON.parse(req.query.info);
-            return res.json(info);
-        } else {
-            return res.redirect('/api/v1/auth/facebook');
+        let data = req.body;
+        /**
+         * @params facebookId
+         * @parasm email
+         * @fullName fullName
+         */
+        try {
+            let checkUserFacebookId = await models.User.findOne({ where: { facebookId: data.facebookId } });
+            // Xảy ra 2 trường hợp
+            /*
+				TODO: Trường hợp 1: checkUserFacebookId = null
+					! Kiểm tra trong hệ thống có người dùng có email = data.email hay không
+						TODO: Trường hợp 1: Tồn tại 
+							? Update người dùng đó có với facebookId => trả về accessToken
+						TODO: Trường hợp 2: Không tồn tại
+							? Trả về thông tin + ghi chú và yêu cầu chuyển sang hoàn tất đăng ký
+				TODO: Trường hợp 2: checkUserFacebookId != null
+					! Kiểm tra cái email có trùng với data.email hay không ?
+						TODO: Trường hợp 1: trùng
+							? Trả về accessToken
+						TODO: Trường hợp 2: không trùng -> gửi thông tin và yêu cầu xác thực
+
+			*/
+            if (!checkUserFacebookId) {
+                let checkUserEmail = await models.User.findOne({ where: { email: data.email } });
+                if (checkUserEmail) {
+                    checkUserEmail.facebookId = data.facebookId;
+                    await checkUserEmail.save();
+                    let accessToken = helper.createAccessToken(checkUserEmail);
+                    return res.status(200).json({
+                        isComplete: true,
+                        isExists: true,
+                        userId: checkUserEmail.id,
+                        email: checkUserEmail.email,
+                        fullName: checkUserEmail.fullName,
+                        phone: checkUserEmail.phone,
+                        isAdmin: checkUserEmail.roleId == 1 ? true : false,
+                        isActive: checkUserEmail.isActive ? true : false,
+                        accessToken,
+                    });
+                } else {
+                    return res.json({
+                        isComplete: false,
+                        isExists: false,
+                        ...data,
+                    });
+                }
+            } else {
+                if (checkUserFacebookId.email == data.email) {
+                    let accessToken = helper.createAccessToken(checkUserFacebookId);
+                    return res.status(200).json({
+                        isComplete: true,
+                        isExists: true,
+                        userId: checkUserFacebookId.id,
+                        email: checkUserFacebookId.email,
+                        fullName: checkUserFacebookId.fullName,
+                        phone: checkUserFacebookId.phone,
+                        isAdmin: checkUserFacebookId.roleId == 1 ? true : false,
+                        isActive: checkUserFacebookId.isActive ? true : false,
+                        accessToken,
+                    });
+                } else {
+                    return res.json({
+                        isComplete: false,
+                        isExists: true,
+                        userId: checkUserFacebookId.id,
+                        facebookId: data.facebookId,
+                        newEmail: data.email,
+                        currentEmail: checkUserFacebookId.email,
+                    });
+                }
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+    async handleComplete(req, res, next) {
+        let data = req.body;
+        if (req.method == 'PUT') {
+            let user = await models.User.findByPk(data.userId);
+            for (let prop in data) {
+                user[prop] = data[prop];
+            }
+            await user.save();
+            let accessToken = helper.createAccessToken(user);
+            return res.status(200).json({
+                userId: user.id,
+                email: user.email,
+                fullName: user.fullName,
+                phone: user.phone,
+                isAdmin: user.roleId == 1 ? true : false,
+                isActive: user.isActive ? true : false,
+                accessToken,
+            });
+        } else if (req.method == 'POST') {
+            let user = await models.User.create(data);
+            let accessToken = helper.createAccessToken(user);
+            return res.status(200).json({
+                userId: user.id,
+                email: user.email,
+                fullName: user.fullName,
+                phone: user.phone,
+                isAdmin: user.roleId == 1 ? true : false,
+                isActive: user.isActive ? true : false,
+                accessToken,
+            });
         }
     }
 }
