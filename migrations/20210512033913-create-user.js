@@ -10,7 +10,10 @@ module.exports = {
             },
             facebookId: {
                 type: Sequelize.STRING,
-                allowNull: true,
+                defaultValue: null,
+            },
+			googleId: {
+                type: Sequelize.STRING,
                 defaultValue: null,
             },
             email: {
