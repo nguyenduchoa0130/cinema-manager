@@ -167,6 +167,8 @@ class AuthController {
     }
     async handleLoginByFacebook(req, res, next) {
         let data = req.body;
+		console.log('data', data);
+        console.log('email', data.email);
         let userFacebook = await models.User.findOne({ where: { email: data.email } });
         if (userFacebook) {
             userFacebook.facebookId = data.facebookId;
@@ -195,6 +197,8 @@ class AuthController {
     }
     async handleLoginByGoogle(req, res, next) {
         let data = req.body;
+        console.log('data', data);
+        console.log('email', data.email);
         let userGoogle = await models.User.findOne({ where: { email: data.email } });
         if (userGoogle) {
             userGoogle.googleId = data.googleId;
