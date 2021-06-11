@@ -193,6 +193,8 @@ class AuthController {
                 let checkUserEmail = await models.User.findOne({ where: { email: data.email } });
                 if (checkUserEmail) {
                     checkUserEmail.facebookId = data.facebookId;
+                    req.session.passport.user = { id: checkUserEmail.id };
+                    req.user = checkUserEmail;
                     await checkUserEmail.save();
                     let accessToken = helper.createAccessToken(checkUserEmail);
                     return res.status(200).json({
@@ -215,6 +217,8 @@ class AuthController {
                 }
             } else {
                 if (checkUserFacebookId.email == data.email) {
+                    req.session.passport.user = { id: checkUserEmail.id };
+                    req.user = checkUserEmail;
                     let accessToken = helper.createAccessToken(checkUserFacebookId);
                     return res.status(200).json({
                         isComplete: true,
@@ -261,6 +265,7 @@ class AuthController {
                 accessToken,
             });
         } else if (req.method == 'POST') {
+            data.password = await bcrypt.hash(data.password, 10);
             let user = await models.User.create(data);
             let accessToken = helper.createAccessToken(user);
             return res.status(200).json({
@@ -270,6 +275,7 @@ class AuthController {
                 phone: user.phone,
                 isAdmin: user.roleId == 1 ? true : false,
                 isActive: user.isActive ? true : false,
+                isActive: true,
                 accessToken,
             });
         }
