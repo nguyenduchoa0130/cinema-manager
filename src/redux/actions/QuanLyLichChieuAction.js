@@ -1,4 +1,5 @@
 import axios from "axios";
+import { history } from "../../App";
 
 export const layLichChieu = (id) => {
     return async dispatch => {
@@ -54,8 +55,10 @@ export const themLichChieu = (thongTinLichChieu) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            console.log('result', result.data);
+            
+            // console.log('result', result.data);
             alert(result.data.msg);
+            history.push('/admin/quan-ly-suat-chieu')
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -93,6 +96,7 @@ export const xoaLichChieu = (id) => {
                 // }
             })
             dispatch(layChiTietLichChieu(result.data.clusterId,result.data.filmId))
+            dispatch(layLichChieu(result.data.clusterId))
             alert(result.data.msg);
         } catch (error) {
             alert(error.response.data.msg);

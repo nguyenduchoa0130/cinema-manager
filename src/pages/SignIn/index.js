@@ -8,7 +8,8 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
-import { dangNhapAction } from "../../redux/actions/NguoiDungAction";
+import { dangNhapAction, dangNhapFBAction, dangNhapCallBackFBAction } from "../../redux/actions/NguoiDungAction";
+import { history } from "../../App";
 
 
 export default function SingIn() {
@@ -80,7 +81,11 @@ export default function SingIn() {
                                             <MDBListGroup className={styles.list_group}>
                                                 <MDBListGroupItem>
                                                     <div className="text-center">
-                                                        <MDBBtn color="indigo" >Đăng nhập với Facebook</MDBBtn>
+                                                        <MDBBtn color="blue"
+                                                            onClick={() => {
+                                                                window.location.href='https://cinejunsv.herokuapp.com/api/v1/auth/signin-fb'
+                                                                dispatch(dangNhapCallBackFBAction())
+                                                            }}  >Đăng nhập với Facebook</MDBBtn>
                                                     </div>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
@@ -97,6 +102,6 @@ export default function SingIn() {
                     </MDBContainer>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

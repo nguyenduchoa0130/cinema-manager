@@ -28,6 +28,34 @@ export const dangNhapAction = (userLogin) => {
     }
 }
 
+export const dangNhapCallBackFBAction = () => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/signin-fb',
+                method: 'GET',
+                headers: { "Access-Control-Allow-Origin": "http://localhost:3000", 'Access-Control-Allow-Methods': 'GET', 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token','Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'Content-Type': 'text/html' }
+            })
+            console.log('result', result.data);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+            let { isComplete, isExists, user } = result.data;
+            if (isComplete && isExists) {
+                // localStorage.setItem(TOKEN, result.data.accessToken);
+                history.push('/')
+            } else {
+                history.push('/thong-tin-ban-dau')
+            }
+        } catch (error) {
+            // alert(error.response.data.msg);
+            console.log('error', error);
+        }
+    }
+}
+
+
+
+
 export const dangXuatAction = () => {
     return async dispatch => {
         try {

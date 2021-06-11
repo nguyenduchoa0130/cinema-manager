@@ -76,12 +76,17 @@ const ShowtimeManager = () => {
 
   const renderHeThongRap = () => {
     return listHeThongRap.systems?.map((system, index) => {
-      return <option key={index} value={system.id}>{system.systemName}</option>
+      return <Fragment>
+        <option key={index} value={system.id}>{system.systemName}</option>
+      </Fragment>
+
     })
   }
   const renderCumRap = () => {
     return listCumRapTheoHeThong.clusters?.map((cluster, index) => {
-      return <option key={index} value={cluster.id}>{cluster.clusterName}</option>
+      return <Fragment>
+        <option key={index} value={cluster.id}>{cluster.clusterName}</option>
+      </Fragment>
     })
   }
 
@@ -188,7 +193,7 @@ const ShowtimeManager = () => {
       <MDBModal className={styles.detailModal} size="fluid" isOpen={isShowingDetails} toggle={toggleDetails} centered>
         <MDBModalHeader toggle={toggleDetails}>Danh sách suất chiếu</MDBModalHeader>
         <MDBModalBody>
-          <TableShowtime clusterId={film.clusterId} filmId={film.filmId}/>
+          <TableShowtime clusterId={film.clusterId} filmId={film.filmId} />
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggleDetails}>Đóng</MDBBtn>
