@@ -5,6 +5,7 @@ const passport = require('passport');
 const passportConfig = require('../../config/passport');
 passportConfig(passport);
 router.post('/facebook', authCon.handleLoginByFacebook);
+router.post('/google', authCon.handleLoginByGoogle);
 router.route('/complete').post(authCon.handleComplete).put(authCon.handleComplete);
 router.get('/otp/:userId', authCon.sendOTP);
 router.post('/signin', authMid.isNotSignedIn, authCon.handleSignIn);

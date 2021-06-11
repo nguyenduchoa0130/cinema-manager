@@ -167,9 +167,38 @@ class AuthController {
     }
     async handleLoginByFacebook(req, res, next) {
         let data = req.body;
-        let userFacebookId = await models.User.findOne({ where: { facebookId: data.facebookId } });
-        if (userFacebookId) {
-            let user = userFacebookId;
+        let userFacebook = await models.User.findOne({ where: { email: data.email } });
+        if (userFacebook) {
+            userFacebook.facebookId = data.facebookId;
+            await userFacebook.save();
+            let user = userFacebook;
+            let accessToken = helper.createAccessToken(user);
+            return res.status(200).json({
+                isComplete: true,
+                isExists: true,
+                userId: user.id,
+                email: user.email,
+                fullName: user.fullName,
+                phone: user.phone,
+                isAdmin: user.roleId == 1 ? true : false,
+                isActive: user.isActive ? true : false,
+                accessToken,
+            });
+        } else {
+            return res.json({
+                isComplete: false,
+                isExistss: false,
+                ...data,
+            });
+        }
+    }
+    async handleLoginByGoogle(req, res, next) {
+        let data = req.body;
+        let userGoogle = await models.User.findOne({ where: { email: data.email } });
+        if (userGoogle) {
+			userGoogle.googleId = data.googleId;
+            await userGoogle.save();
+            let user = userGoogle;
             let accessToken = helper.createAccessToken(user);
             return res.status(200).json({
                 isComplete: true,
