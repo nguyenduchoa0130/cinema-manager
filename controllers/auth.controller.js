@@ -172,6 +172,7 @@ class AuthController {
             userFacebook.facebookId = data.facebookId;
             await userFacebook.save();
             let user = userFacebook;
+            req.session.userId = user.id;
             let accessToken = helper.createAccessToken(user);
             return res.status(200).json({
                 isComplete: true,
@@ -196,9 +197,10 @@ class AuthController {
         let data = req.body;
         let userGoogle = await models.User.findOne({ where: { email: data.email } });
         if (userGoogle) {
-			userGoogle.googleId = data.googleId;
+            userGoogle.googleId = data.googleId;
             await userGoogle.save();
             let user = userGoogle;
+            req.session.userId = user.id;
             let accessToken = helper.createAccessToken(user);
             return res.status(200).json({
                 isComplete: true,
@@ -214,7 +216,7 @@ class AuthController {
         } else {
             return res.json({
                 isComplete: false,
-                isExistss: false,
+                isExists: false,
                 ...data,
             });
         }
