@@ -173,7 +173,7 @@ class AuthController {
             let accessToken = helper.createAccessToken(user);
             return res.status(200).json({
                 isComplete: true,
-                isExistss: true,
+                isExists: true,
                 userId: user.id,
                 email: user.email,
                 fullName: user.fullName,
@@ -192,11 +192,13 @@ class AuthController {
     }
     async handleComplete(req, res, next) {
         let data = req.body;
+        data.isActive = true;
+        data.password = await bcrypt.hash(data.password, 10);
         let user = await models.User.create(data);
         let accessToken = helper.createAccessToken(user);
         return res.status(200).json({
             isComplete: true,
-            isExistss: true,
+            isExists: true,
             userId: user.id,
             email: user.email,
             fullName: user.fullName,
