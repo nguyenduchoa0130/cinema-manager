@@ -9,7 +9,7 @@ if (localStorage.getItem(USERLOGIN)) {
 const stateDefault = {
     taiKhoan: taiKhoanNguoiDung,
     thongTinNguoiDung: {},
-    userLogin:{}
+    userLogin: {}
 }
 
 export const NguoiDungReducer = (state = stateDefault, action) => {
@@ -24,6 +24,10 @@ export const NguoiDungReducer = (state = stateDefault, action) => {
             return { ...state }
         }
         case 'DANG_NHAP_FB': {
+            state.userLogin = action.userLogin
+            return { ...state }
+        }
+        case 'DANG_NHAP_GG': {
             state.userLogin = action.userLogin
             return { ...state }
         }

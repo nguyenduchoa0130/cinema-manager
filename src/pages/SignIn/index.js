@@ -8,17 +8,18 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
-import { dangNhapAction, dangNhapFBAction } from "../../redux/actions/NguoiDungAction";
+import { dangNhapAction, dangNhapFBAction, dangNhapGGAction } from "../../redux/actions/NguoiDungAction";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
 
 
 export default function SingIn() {
     const [state, setstate] = useState({
-        facebookId:'',
-        email:'',
-        fullName:''
+        facebookId: '',
+        email: '',
+        fullName: ''
     })
+
     const dispatch = useDispatch();
     const formik = useFormik({
         initialValues: {
@@ -43,10 +44,10 @@ export default function SingIn() {
     const responseFacebook = (response) => {
         console.log(response);
         setstate({
-                facebookId : response.id,
-                email : response.email,
-                fullName: response.name
-            })
+            facebookId: response.id,
+            email: response.email,
+            fullName: response.name
+        })
     }
 
     return (
@@ -105,7 +106,7 @@ export default function SingIn() {
                                                             cssClass={cx(styles.btn_facebook, styles.btn_social)}
                                                             scope='email,public_profile'
                                                             icon="fa-facebook"
-                                                            onClick={()=>{
+                                                            onClick={() => {
                                                                 dispatch(dangNhapFBAction(state))
                                                             }}
                                                         />
@@ -114,15 +115,20 @@ export default function SingIn() {
                                                 <MDBListGroupItem>
                                                     <div className="text-center">
                                                         {/* <MDBBtn color="red" >Đăng nhập với Google</MDBBtn> */}
-                                                        {/* <GoogleLogin
+                                                        <GoogleLogin
                                                             className={styles.btn_social}
-                                                            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                                                            clientId="258306785106-ev7k3sdcdq51ce1ipu911ekrhe834v0b.apps.googleusercontent.com"
                                                             buttonText="Đăng nhập với Google"
-                                                            onSuccess={responseGoogle}
+                                                            onSuccess={response => {
+                                                                dispatch(dangNhapGGAction({
+                                                                    googleId: response.profileObj.googleId,
+                                                                    email: response.profileObj.email,
+                                                                    fullName: response.profileObj.name
+                                                                }))
+                                                            }}
                                                             onFailure={responseGoogle}
-
                                                             cookiePolicy={'single_host_origin'}
-                                                        /> */}
+                                                        />
                                                     </div>
                                                 </MDBListGroupItem>
                                             </MDBListGroup>

@@ -237,7 +237,7 @@ const AddFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <input type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
+                  <input  type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
                   {formik.errors.premiere && formik.touched.premiere && (
                     <p className="text-danger">{formik.errors.premiere} </p>
                   )}

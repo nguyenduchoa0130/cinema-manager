@@ -49,7 +49,38 @@ export const dangNhapFBAction = (userLogin) => {
                 localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
                 history.push('/')
             } else {
-                history.push('/thong-tin-ban-dau')
+                history.push('/hoan-tat-thong-tin-fb')
+            }
+
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
+export const dangNhapGGAction = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/google',
+                method: 'POST',
+                data: userLogin
+            })
+            dispatch({
+                type: 'DANG_NHAP_GG',
+                userLogin: result.data
+            })
+            // console.log('result', result.data);
+            let { isComplete, isExists } = result.data;
+            if (isComplete && isExists) {
+                delete result.data.isComplete;
+                delete result.data.isExists;
+                localStorage.setItem(TOKEN, result.data.accessToken);
+                localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+                history.push('/')
+            } else {
+                history.push('/hoan-tat-thong-tin-gg')
             }
 
         } catch (error) {

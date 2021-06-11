@@ -3,10 +3,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 import cx from 'classnames';
-import { Link, Redirect } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import { dangKyAction, hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
+import {  hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
 import { useDispatch, useSelector } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
 

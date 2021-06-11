@@ -37,6 +37,7 @@ import EditShowtime from "./pages/Showtime/EditShowtime";
 import ShowtimeManager from "./pages/Showtime/ShowtimeManager";
 import FilmDetail from "./pages/FilmDetail";
 import SignUpBySocial from "./pages/SignUpBySocial";
+import SignInGoogle from "./pages/SignInGoogle";
 
 
 export const history = createBrowserHistory();
@@ -66,8 +67,11 @@ const App = ()=> {
             <NonAuth children={<ChangePassword />}/>   
           </Route>
 
-          <Route path="/thong-tin-ban-dau">
+          <Route path="/hoan-tat-thong-tin-fb">
             <NonAuth children={<SignUpBySocial />}/>   
+          </Route>
+          <Route path="/hoan-tat-thong-tin-gg">
+            <NonAuth children={<SignInGoogle />}/>   
           </Route>
           <Route path="/kich-hoat">
             <NonAuth children={<Activated />}/>   
