@@ -511,9 +511,7 @@ const Home = () => {
               <div class="col-md-10">
                 <p class="text-white">
                   
-                  {/* code này m mới tải về hả
-                  uk
-                  cái cũ t clone cho m đâu */}
+                 
                 </p>
                 <p class="a">
                   Địa chỉ: 52 Nguyễn Văn Cừ, Phường 1, Quận5 , Tp Hồ Chí
