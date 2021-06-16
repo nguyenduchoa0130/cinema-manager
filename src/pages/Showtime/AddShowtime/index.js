@@ -1,7 +1,7 @@
 
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect, useState } from 'react';
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
@@ -99,7 +99,7 @@ const AddShowtime = () => {
   return (
     <React.Fragment>
 
-      <Title text={"Thêm suất chiếu"} />
+      <TitleBox text={"Thêm suất chiếu"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

@@ -2,7 +2,7 @@
 import React from "react";
 import { MDBCard, MDBCardBody } from 'mdbreact';
 import cx from 'classnames';
-const Title = ({text,className}) => {
+const TitleBox = ({text,className}) => {
   return (
     <MDBCard className="my-3">
       <MDBCardBody  className="d-flex align-items-center justify-content-center">
@@ -12,4 +12,4 @@ const Title = ({text,className}) => {
   );
 }
 
-export default Title;
+export default TitleBox;

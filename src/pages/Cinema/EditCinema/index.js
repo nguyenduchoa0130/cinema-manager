@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbr
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { suaRap } from '../../../redux/actions/QuanLyRapAction';
 import { layCumRap } from '../../../redux/actions/QuanLyCumRapAction';
@@ -55,7 +55,7 @@ const EditCinema = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Thêm rạp"} />
+      <TitleBox text={"Thêm rạp"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

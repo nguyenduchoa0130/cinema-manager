@@ -17,7 +17,7 @@ export default function Header() {
     setState({ isOpen: !state.isOpen });
   }
   return (
-    <MDBNavbar color="indigo" dark expand="md">
+    <MDBNavbar color="danger-color" dark expand="md">
       <MDBNavbarBrand>
         <strong className="white-text">Navbar</strong>
       </MDBNavbarBrand>

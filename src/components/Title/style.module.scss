@@ -1,0 +1,25 @@
+.title{
+    font-weight: 500;
+    position :relative;
+    display: inline;
+    font-size: 2rem;
+    text-transform: uppercase;
+    &::before{
+        content:"";
+        background:rgb(212, 212, 212);
+        position:absolute;
+        top: calc(100% + 5px);
+        right: 0;
+        width: 100%;
+        height: 2px;
+    }
+    &::after{
+        content:"";
+        background:rgb(2, 192, 240);
+        position:absolute;
+        top: calc(100% + 3px);
+        right: 40%;
+        width: 20%;
+        height: 6px;
+    }
+}

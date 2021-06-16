@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbr
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { suaNguoiDung } from '../../../redux/actions/QuanLyNguoiDungAction';
 
@@ -50,7 +50,7 @@ const EditCustomer = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhật thông tin khách hàng"} />
+      <TitleBox text={"Cập nhật thông tin khách hàng"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

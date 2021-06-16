@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol, MDBAlert } from "mdbreact";
-import Title from "../../../components/Tittle";
+import TitleBox from "../../../components/TittleBox";
 import useModal from "../../../util/useModal";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -117,7 +117,7 @@ const ShowtimeManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý suất chiếu"} />
+      <TitleBox text={"Quản lý suất chiếu"} />
       <MDBCard>
         <MDBCardBody>
           <form onSubmit={formik.handleSubmit}>

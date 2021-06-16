@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbr
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { suaHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 
@@ -44,7 +44,7 @@ const EditSystem = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhật thông tin hệ thống rạp"} />
+      <TitleBox text={"Cập nhật thông tin hệ thống rạp"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

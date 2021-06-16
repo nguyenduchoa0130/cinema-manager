@@ -1,0 +1,50 @@
+.cart {
+    &:hover {
+        .cart_img {
+            img{
+                transform: scale(1);
+            }
+            .layout_active {
+                opacity: 1;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+        }
+
+    }
+
+    .cart_img {
+        position: relative;
+
+        img {
+            transform: scale(1.05);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .layout_active {
+            position: absolute;
+            top: 50%;
+            bottom: 50%;
+            left: 20%;
+            right: 20%;
+            background: rgba(0, 0, 0, 0.685);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.5s ease-in-out;
+        }
+    }
+
+    h4 {
+        font-size: 20px;
+        color: #000;
+        font-weight: 500 !important;
+        ;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

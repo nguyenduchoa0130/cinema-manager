@@ -2,7 +2,7 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import countryList from '../../../util/constants/countryList';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -68,7 +68,7 @@ const AddFilm = () => {
   return (
     <React.Fragment>
 
-      <Title text={"Thêm phim"} />
+      <TitleBox text={"Thêm phim"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

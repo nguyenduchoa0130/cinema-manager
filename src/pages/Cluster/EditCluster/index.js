@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbr
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { suaCumRap } from '../../../redux/actions/QuanLyCumRapAction';
 import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
@@ -59,7 +59,7 @@ const EditCluster = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhât thông tin cụm rạp"} />
+      <TitleBox text={"Cập nhât thông tin cụm rạp"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
