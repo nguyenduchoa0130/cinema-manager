@@ -9,15 +9,15 @@ import styles from "./style.module.scss";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
+import { layDanhSachPhim } from '../../../redux/actions/QuanLyPhimAction';
 import { themLichChieu } from '../../../redux/actions/QuanLyLichChieuAction';
 import { layCumRapTheoHethong } from '../../../redux/actions/QuanLyCumRapAction';
 import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 import { layRapTheoCumRap } from '../../../redux/actions/QuanLyRapAction';
-import { layDanhSachPhimDangCongChieu } from '../../../redux/actions/TrangChuAction/TrangChuAction';
 
 
 const AddShowtime = () => {
-  const { listFilmDangCongChieu } = useSelector(state => state.QuanLyPhimReducer)
+  const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
   const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
   const { listCumRapTheoHeThong } = useSelector(state => state.QuanLyCumRapReducer)
   const { listRapTheoCumRap } = useSelector(state => state.QuanLyRapReducer)
@@ -25,7 +25,7 @@ const AddShowtime = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(layDanhSachPhimDangCongChieu());
+    dispatch(layDanhSachPhim());
     dispatch(layHeThongRap());
   }, [])
 
@@ -74,7 +74,7 @@ const AddShowtime = () => {
 
 
   const renderPhim = () => {
-    return listFilmDangCongChieu.films?.map((film, index) => {
+    return listFilm.films?.map((film, index) => {
       return <option key={index} value={film.id}>{film.filmName}</option>
     })
   }
@@ -206,7 +206,7 @@ const AddShowtime = () => {
               <MDBRow className="justify-content-center">
                 <MDBBtn color="primary" type="submit" >
                   Submit Form
-                </MDBBtn>
+              </MDBBtn>
               </MDBRow>
 
             </form>

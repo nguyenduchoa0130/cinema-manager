@@ -1,8 +1,7 @@
 const initialState = {
     listCategory: [],
     listFilm: [],
-    dataFilmEdit:{},
-    listFilmDangCongChieu:[]
+    dataFilmEdit:{}
 }
 
 
@@ -20,10 +19,6 @@ export default (state = initialState, action) => {
         }
         case 'DATA_FILM_EDIT': {
             state.dataFilmEdit = action.dataFilm
-            return { ...state }
-        }
-        case "GET_LIST_FILM_DANG_CONG_CHIEU": {
-            state.listFilmDangCongChieu = action.listFilmDangCongChieu
             return { ...state }
         }
         default:
