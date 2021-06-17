@@ -13,6 +13,7 @@ router.get(
     showtimesCon.fetchShowtimesByCinemaId,
     showtimesCon.fetchByCinemaHasShowtimesByFilmIdAndClusterId,
     showtimesCon.fetchByCluterId,
-    showtimesCon.fetchShowtimesById
+    showtimesCon.fetchShowtimesById,
+    showtimesCon.fetchAll
 );
 module.exports = router;

@@ -87,9 +87,12 @@ class FilmController {
         try {
             let id = req.params.id;
             if (helper.isValidID(id)) {
-                let film = await models.Film.findByPk(id, {
+                let film = await models.Film.findOne({
                     attributes: {
                         exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                    },
+                    where: {
+                        id,
                     },
                     include: [
                         {
@@ -103,7 +106,6 @@ class FilmController {
                             attributes: [['categoryName', 'name']],
                         },
                     ],
-                    raw: true,
                 });
                 if (!film) {
                     return next(apiError.notFound('Không tìm thấy kết quả nào'));
@@ -117,6 +119,9 @@ class FilmController {
     }
     async fetchByCategory(req, res, next) {
         let cate = req.query.cate;
+        if (!cate) {
+            return next();
+        }
         let page = req.query.page ? parseInt(req.query.page) : null;
         let limit = req.query.limit ? parseInt(req.query.limit) : 8;
         let offset = page ? (page - 1) * limit : null;
@@ -165,6 +170,9 @@ class FilmController {
     }
     async fetchByStatus(req, res, next) {
         let status = req.query.status;
+        if (!status) {
+            return next();
+        }
         let page = req.query.page ? parseInt(req.query.page) : null;
         let limit = req.query.limit ? parseInt(req.query.limit) : 8;
         let offset = page ? (page - 1) * limit : null;

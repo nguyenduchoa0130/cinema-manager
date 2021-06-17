@@ -4,12 +4,47 @@ const sequelize = require('sequelize');
 const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShowtimesController {
+    async fetchAll(req, res, next) {
+        try {
+            let showtimes = await models.CinemaSystem.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                },
+                include: [
+                    {
+                        required: false,
+                        model: models.Showtimes,
+                        attributes: ['id', 'timeStart'],
+                        where: {
+                            timeStart: {
+                                [Op.gte]: helper.convertUTCDateToLocalDate(new Date()),
+                            },
+                        },
+                        include: [
+                            {
+                                model: models.Film,
+                                attributes: ['id', ['filmName', 'name'], 'thumbnail'],
+                            },
+                        ],
+                    },
+                ],
+            });
+            return res.json(showtimes);
+        } catch (err) {
+            next(err);
+        }
+    }
     async fetchShowtimesByCinemaId(req, res, next) {
         let { clusterId, cinemaId, filmId } = req.query;
         if (clusterId && cinemaId && filmId) {
             try {
                 let showtimes = await models.Showtimes.findAll({
                     attributes: ['id', 'timeStart', 'timeEnd', 'priceTicket'],
+                    where: {
+                        timeStart: {
+                            [Op.gte]: helper.convertUTCDateToLocalDate(new Date()),
+                        },
+                    },
                     include: [
                         {
                             model: models.Cinema,
@@ -59,8 +94,16 @@ class ShowtimesController {
         let end = helper.addMinutes(start, 23 * 60 + 59);
         if (clusterId && cinemaId && filmId && date) {
             try {
-                let rows = await models.Showtimes.findAll({
+                let showtimes = await models.Showtimes.findAll({
                     attributes: ['id', 'timeStart', 'timeEnd', 'priceTicket'],
+                    where: {
+                        timeStart: {
+                            [Op.between]: [
+                                helper.convertUTCDateToLocalDate(new Date(start)),
+                                helper.convertUTCDateToLocalDate(new Date(end)),
+                            ],
+                        },
+                    },
                     include: [
                         {
                             model: models.Cinema,
@@ -93,15 +136,7 @@ class ShowtimesController {
                         },
                     ],
                 });
-                let showtimes = rows.filter((row) => {
-                    let timeStart = new Date(row.timeStart);
-                    let timeEnd = new Date(row.timeEnd);
-                    return start.getTime() <= timeStart.getTime() && end.getTime() >= timeEnd.getTime();
-                });
-                if (!showtimes.length) {
-                    return next(apiError.notFound('Không tìm thấy kết quả'));
-                }
-                return res.json({ showtimes });
+                return res.json(showtimes);
             } catch (err) {
                 next(err);
             }
@@ -111,6 +146,9 @@ class ShowtimesController {
     }
     async fetchShowtimesById(req, res, next) {
         let id = req.query.id;
+        if (!id) {
+            return next();
+        }
         if (!helper.isValidID(id)) {
             return next(apiError.badRequest('ID suất chiếu không hợp lệ'));
         }
@@ -228,6 +266,41 @@ class ShowtimesController {
             }
         } else {
             return next();
+        }
+    }
+    async fetchShowtimesByFilmId(req, res, next) {
+        let filmId = req.query.filmId;
+        if (!filmId) {
+            return next();
+        }
+        if (!helper.isValidID(filmId)) {
+            return next(apiError.badRequest('ID phim không hợp lệ'));
+        }
+        try {
+            let showtimes = await models.CinemaSystem.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                },
+                include: [
+                    {
+                        model: models.Showtimes,
+                        required: false,
+                        attributes: ['id', 'timeStart'],
+                        where: {
+                            filmId,
+                        },
+                        include: [
+                            {
+                                model: models.CinemaCluster,
+                                attributes: ['id', ['clusterName', 'name']],
+                            },
+                        ],
+                    },
+                ],
+            });
+            return res.json(showtimes);
+        } catch (err) {
+            next(err);
         }
     }
     async insert(req, res, next) {
