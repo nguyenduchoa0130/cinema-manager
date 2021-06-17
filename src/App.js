@@ -76,8 +76,7 @@ const App = ()=> {
           <Route path="/kich-hoat">
             <NonAuth children={<Activated />}/>   
           </Route>
-          <Route path="/chi-tiet-phim">
-            <NonAuth children={<FilmDetail />}/>   
+          <Route path="/chi-tiet-phim/:id" component={FilmDetail}>          
           </Route>
           
           <Route path='/admin/:path?' exact>

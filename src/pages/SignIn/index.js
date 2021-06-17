@@ -99,8 +99,7 @@ export default function SingIn() {
                                                     <div className="text-center">
                                                         {/* <MDBBtn color="indigo" >Đăng nhập với Facebook</MDBBtn> */}
                                                         <FacebookLogin
-                                                            appId="1817896348372359"
-                                                            autoLoad={true}
+                                                            appId="1817896348372359"                                                       
                                                             fields="id,email,name"
                                                             callback={responseFacebook}
                                                             cssClass={cx(styles.btn_facebook, styles.btn_social)}

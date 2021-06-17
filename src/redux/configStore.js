@@ -7,6 +7,8 @@ import QuanLyHeThongRapReducer from '../redux/reducers/QuanLyHeThongRapReducer'
 import QuanLyCumRapReducer from '../redux/reducers/QuanLyCumRapReducer'
 import QuanLyRapReducer from '../redux/reducers/QuanLyRapReducer'
 import QuanLyLichChieuReducer from '../redux/reducers/QuanLyLichChieuReducer'
+import TrangChuReducer from '../redux/reducers/TrangChuReducer/TrangChuReducer'
+import ChiTietPhimReducer from '../redux/reducers/ChiTietPhimReducer/ChiTietPhimReducer'
 
 
 
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
     QuanLyCumRapReducer,
     QuanLyRapReducer,
     QuanLyLichChieuReducer,
+    TrangChuReducer,
+    ChiTietPhimReducer
 }) 
 // tách rootReducer ra ngoài
 

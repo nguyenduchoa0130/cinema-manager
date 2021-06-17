@@ -111,7 +111,7 @@ const AddCluster = () => {
               <MDBRow className="justify-content-center">
 
                 <MDBBtn onClick={() => {
-                  dispatch(themCumRap(formik.values))
+                  // dispatch(themCumRap(formik.values))
                 }} color="primary" type="submit" >
                   Thêm
               </MDBBtn>
