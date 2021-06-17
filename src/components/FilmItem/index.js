@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
 import styles from './style.module.scss'
-import {  MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
-import { Link } from 'react-router-dom';
+import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
+import { Link, NavLink } from 'react-router-dom';
 
 
-const FilmItem = ({ info }) => {
+
+const FilmItem = ({ info },props) => {
     return (
         <Fragment>
             <Link path={info.path}>
@@ -13,17 +14,17 @@ const FilmItem = ({ info }) => {
                         <MDBCardImage className="img-fluid" src={info.thumbnail}
                             waves />
                         <div className={styles.layout_active}>
-                            <Link to={'/chi-tiet-phim?id=' + info.id} className="btn-success btn Ripple-parent w-75" >
+                            <NavLink to={`/chi-tiet-phim/${info.id}`} className="btn-success btn Ripple-parent w-75" >
                                 Chi tiết
-                            </Link>
-                            <Link to={'/dat-ve-phim?id=' + info.id} className="btn-danger btn Ripple-parent w-75" >
+                            </NavLink>
+                            <Link to={`/chi-tiet-phim/${info.id}`} className="btn-danger btn Ripple-parent w-75" >
                                 Đặt vé
                             </Link>
                         </div>
                     </div>
 
                     <MDBCardBody className="ml-2 text-left">
-                        <Link to={'/chi-tiet-phim?id=' + info.id} >
+                        <Link to={`/chi-tiet-phim/${info.id}`} >
                             <MDBCardTitle>{info.filmName}</MDBCardTitle>
                         </Link>
                         <MDBCardText>

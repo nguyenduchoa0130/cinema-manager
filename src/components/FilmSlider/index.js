@@ -7,11 +7,11 @@ import cx from 'classnames';
 import styles from "./style.module.scss";
 
 const FilmSlider = ({settings, dataSource,className }) => {
-    console.log(-settings);
+    // console.log(-settings);
     return (
         <Slider {...settings} className={cx(styles.listFilm,className)}>
             {
-                dataSource.map(film => {
+                dataSource?.map(film => {
                     return (
                         <div>
                             <div className={cx(styles.filmItem, "text-center")}>
