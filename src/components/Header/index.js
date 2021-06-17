@@ -19,12 +19,14 @@ export default function Header() {
   return (
     <MDBNavbar color="danger-color" dark expand="md">
       <MDBNavbarBrand>
-        <strong className="white-text">Navbar</strong>
+        <MDBNavLink to="/">
+          <strong className="white-text">CineJun</strong>
+        </MDBNavLink>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />
       <MDBCollapse id="navbarCollapse3" isOpen={state.isOpen} navbar>
         <MDBNavbarNav left>
-          <MDBNavItem active>
+          <MDBNavItem >
             <MDBNavLink to="/">Trang chủ</MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>

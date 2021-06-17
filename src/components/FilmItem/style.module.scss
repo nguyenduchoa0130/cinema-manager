@@ -17,34 +17,42 @@
 
     .cart_img {
         position: relative;
-
+        border-top-left-radius: 5px 5px !important;
         img {
             transform: scale(1.05);
-            transition: all 0.5s ease-in-out;
+            transition: all 0.3s ease-in-out;
+            
         }
 
         .layout_active {
             position: absolute;
-            top: 50%;
-            bottom: 50%;
+            top: 20%;
+            bottom: 20%;
             left: 20%;
             right: 20%;
             background: rgba(0, 0, 0, 0.685);
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
             opacity: 0;
-            transition: all 0.5s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
     }
+    >div{
+        &:last-child{
+            padding: 9px 15px 9px 6px !important;
+        }
+    }
+    
 
     h4 {
         font-size: 20px;
         color: #000;
         font-weight: 500 !important;
-        ;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        margin-bottom: 5px;
     }
 }

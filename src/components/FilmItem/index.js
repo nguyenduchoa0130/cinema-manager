@@ -1,28 +1,33 @@
 import React, { Fragment } from 'react';
 import styles from './style.module.scss'
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
+import {  MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
 import { Link } from 'react-router-dom';
 
 
-const FilmItem = ({ title, category, srcImg, path }) => {
+const FilmItem = ({ info }) => {
     return (
         <Fragment>
-            <Link path={path}>
+            <Link path={info.path}>
                 <MDBCard className={styles.cart}>
                     <div className={styles.cart_img}>
-                        <MDBCardImage className="img-fluid" src={srcImg}
+                        <MDBCardImage className="img-fluid" src={info.thumbnail}
                             waves />
                         <div className={styles.layout_active}>
-                            <Link to={path} className="btn-default btn Ripple-parent" >
+                            <Link to={'/chi-tiet-phim?id=' + info.id} className="btn-success btn Ripple-parent w-75" >
                                 Chi tiết
+                            </Link>
+                            <Link to={'/dat-ve-phim?id=' + info.id} className="btn-danger btn Ripple-parent w-75" >
+                                Đặt vé
                             </Link>
                         </div>
                     </div>
-                    
-                    <MDBCardBody className = "ml-2 text-left">
-                    <MDBCardTitle>{title}</MDBCardTitle>
-                    <MDBCardText>
-                            {category}
+
+                    <MDBCardBody className="ml-2 text-left">
+                        <Link to={'/chi-tiet-phim?id=' + info.id} >
+                            <MDBCardTitle>{info.filmName}</MDBCardTitle>
+                        </Link>
+                        <MDBCardText>
+                            {info.categoryName}
                         </MDBCardText>
                     </MDBCardBody>
                 </MDBCard>

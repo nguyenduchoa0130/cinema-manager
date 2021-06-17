@@ -58,7 +58,7 @@ const FilmDetail = () => {
                                             <p><strong>Thời lượng:</strong> {film.duration}</p>
                                             <p><strong>Trạng thái:</strong> {film.status}</p>
                                         </div>
-                                        <div className="header_btn_group">
+                                        <div className={styles.header_btn_group}>
                                             <MDBBtn color="primary" onClick={toggle}>Trailer</MDBBtn>
                                             <MDBBtn color="danger">Đặt vé</MDBBtn>
                                         </div>
@@ -76,12 +76,12 @@ const FilmDetail = () => {
                 <MDBContainer>
                     <h1>Nội dung phim</h1>
                     <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora in voluptate voluptatem laudantium, id sit incidunt quidem quae dignissimos ducimus distinctio aperiam corrupti sequi nulla quos, mollitia nam explicabo velit. Unde sunt facere quam enim tempora natus odit aperiam, architecto ea dolore quibusdam ad maiores exercitationem voluptas aspernatur veritatis, ducimus eligendi recusandae nesciunt. Quos harum voluptas vero consequatur a tempore iste odio tempora rerum? Et rem fugit dolorum! Odio velit a, vitae quo cupiditate vero blanditiis reiciendis in consequuntur quos?</p>
-                    <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe  width="100%" height="500px" src={film.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                 </MDBContainer>
             </div>
         </div>
         <MDBModal className={styles.detailModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
-            <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="100%" height="500px" src={film.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
       </MDBModal>
         </>
 

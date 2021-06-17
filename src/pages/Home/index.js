@@ -1,30 +1,17 @@
 
 import React from "react";
-import { MDBContainer } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 import ListPoster from "../../components/ListPoster";
 import Title from "../../components/Title";
-import OwlCarousel from "react-owl-carousel";
-import FilmItem from './../../components/FilmItem/index';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import cx from 'classnames';
+import FilmSlider from "../../components/FilmSlider";
+import { Link } from "react-router-dom";
 const Home = () => {
 
-    function SlickArrow(props) {
-        const { className, style, onClick } = props;
-        return (
-            <div
-                className={className}
-                style={{ ...style, color:"blue!import" }}
-                onClick={onClick}
-            />
-        );
-    }
     const settings = {
         dots: true,
         infinite: false,
+        margin: 10,
         speed: 500,
         slidesToShow: 5,
         slidesToScroll: 5,
@@ -50,91 +37,79 @@ const Home = () => {
             {
                 breakpoint: 480,
                 settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
                 }
             }
         ]
     };
 
+    const filmData =[ {
+        id: 1,
+        filmName: 'Bố già',
+        categoryName: 'Hài',
+        thumbnail: 'https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg',
+    },{
+        id: 1,
+        filmName: 'Bố già',
+        categoryName: 'Hài',
+        thumbnail: 'https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg',
+    },{
+        id: 1,
+        filmName: 'Bố già',
+        categoryName: 'Hài',
+        thumbnail: 'https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg',
+    },{
+        id: 1,
+        filmName: 'Bố già',
+        categoryName: 'Hài',
+        thumbnail: 'https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg',
+    },{
+        id: 1,
+        filmName: 'Bố già',
+        categoryName: 'Hài',
+        thumbnail: 'https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg',
+    },{
+        id: 1,
+        filmName: 'Bố già',
+        categoryName: 'Hài',
+        thumbnail: 'https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg',
+    }]
 
     return (
         <div>
             <ListPoster />
             <MDBContainer>
-                <Title text={'SẮP CHIẾU'} className="mt-5 mb-5" />
 
-                <Slider {...settings}>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bạn Cùng Phòng Của Tôi Là Gumiho - My Roommate is a Gumiho (2021)" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                </Slider>
+                <MDBRow className="mb-5">
+                    <MDBCol>
+                        <MDBAnimation type="fadeInRight">
+                            <Title text={'SẮP CHIẾU'} className="mt-5 mb-4" />
+                        </MDBAnimation>
+                        <MDBAnimation type="fadeInLeft" delay="onScroll" data-mdb-animation-start="onScroll">
+                           <div className="d-flex justify-content-end mr-3">
+                                <Link to="/danh-sach-phim?status=SAP_CHIEU">Xem thêm <MDBIcon icon="angle-double-right" /></Link>
+                           </div>
 
-
-
-                <Title text={'ĐANG CHIẾU'} className="mt-5 mb-5" />
-               
-                <Slider {...settings}>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bạn Cùng Phòng Của Tôi Là Gumiho - My Roommate is a Gumiho (2021)" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                    <div>
-                        <div className={cx(styles.filmItem, "text-center")}>
-                            <FilmItem title="Bố già" category="Hài" path="/" srcImg="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg" />
-                        </div>
-                    </div>
-                </Slider>
-
-            </MDBContainer>
+                            
+                            <FilmSlider settings={settings} dataSource={filmData} className={styles.listFilm}/>
+                        </MDBAnimation>
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow className="mb-5">
+                    <MDBCol>
+                        <MDBAnimation type="fadeInRight">
+                            <Title text={'Đang CHIẾU'} className="mt-5 mb-4" />
+                        </MDBAnimation>
+                        <MDBAnimation type="fadeInLeft" delay="onScroll" data-mdb-animation-start="onScroll">
+                            <div className="d-flex justify-content-end mr-3">
+                                <Link to="/danh-sach-phim?status=DANG_CHIEU">Xem thêm <MDBIcon icon="angle-double-right" /></Link>
+                           </div>
+                            <FilmSlider settings={settings} dataSource={filmData} className={styles.listFilm}/> 
+                        </MDBAnimation>
+                    </MDBCol>
+                </MDBRow>
+                  </MDBContainer>
 
         </div>
     );
