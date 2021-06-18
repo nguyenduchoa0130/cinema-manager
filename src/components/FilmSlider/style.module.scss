@@ -1,10 +1,21 @@
 .listFilm {
-    padding :  0 20px;
-    button{
-            &::before{
-                color: #000 !important;
-            }
+    padding: 0 20px;
+
+    >button {
+        background-color: transparent !important;
+        right: 0;
+        &:first-child {
+            left: 0;
+            right: 0;
+        }
+
+
+        &::before {
+
+            color: #fff !important;
+        }
     }
+
     .filmItem {
         margin: 1rem 10px;
     }

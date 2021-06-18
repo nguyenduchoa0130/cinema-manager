@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import styles from './style.module.scss'
-import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText } from 'mdbreact';
+import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBBtn } from 'mdbreact';
 import { Link, NavLink } from 'react-router-dom';
 
 
@@ -14,9 +14,9 @@ const FilmItem = ({ info },props) => {
                         <MDBCardImage className="img-fluid" src={info.thumbnail}
                             waves />
                         <div className={styles.layout_active}>
-                            <NavLink to={`/chi-tiet-phim/${info.id}`} className="btn-success btn Ripple-parent w-75" >
-                                Chi tiết
-                            </NavLink>
+                            <MDBBtn className="btn-success btn Ripple-parent w-75" >
+                                Trailer
+                            </MDBBtn>
                             <Link to={`/chi-tiet-phim/${info.id}`} className="btn-danger btn Ripple-parent w-75" >
                                 Đặt vé
                             </Link>

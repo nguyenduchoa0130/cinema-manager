@@ -1,0 +1,28 @@
+.cluster_thumbnail{
+    width: 60px;
+    height: 60px;
+    background-position: center;
+    background-size: cover;
+}
+.seat_plan{
+    li{
+        background: #081b27!important;
+        display: flex;
+        align-items: center;
+        padding:1rem 0;
+        font-size: 1rem;
+        &:not(:first-child){
+            border-top: 1px solid #11326f;
+          
+        }
+        .name{
+            display: block;
+            width: 100%;
+            border-right: 1px solid #11326f;
+            @media only screen and (max-width: 992px) {
+                border-right:none;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}

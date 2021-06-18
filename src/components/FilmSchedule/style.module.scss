@@ -1,0 +1,22 @@
+.film_schedule_box{
+    display: flex;
+    flex-wrap: wrap;
+    .item{
+        color: #ffffff;
+        padding: 5px;
+        width: 70px;
+        background: #162f5f;
+        position: relative;
+        mask-position: center center;
+        text-align: center;
+        mask-image: url('../../assets/images/movie-seat.png');
+        mask-repeat: no-repeat;
+        mask-size: 100% 100%;
+        cursor: pointer;
+        transition: all ease 0.3s;
+        margin: 5px;
+        &:hover {
+            background: #31d7a9;
+        }
+    }
+}

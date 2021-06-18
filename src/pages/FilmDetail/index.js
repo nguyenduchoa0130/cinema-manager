@@ -5,6 +5,8 @@ import cx from 'classnames';
 import { MDBBtn, MDBCol, MDBContainer, MDBModal, MDBRow } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
 import { layChiTietPhim } from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
+import Header from "../../components/Header";
+import ModalVideo from 'react-modal-video'
 
 const FilmDetail = (props) => {
     const { dataFilmDetail } = useSelector(state => state.ChiTietPhimReducer)
@@ -14,30 +16,14 @@ const FilmDetail = (props) => {
         dispatch(layChiTietPhim(maPhim))
     }, [])
 
-    const [isShowing, setShowing] = useState(false);
-    const toggle = () => {
-        setShowing(!isShowing);
-    }
+    const [isOpen, setOpen] = useState(false);
 
-    // const film = {
-    //     filmName: "Bossam: Đánh Cắp Số Phận ",
-    //     country: "Korean",
-    //     releaseYear: "",
-    //     duration: "2021",
-    //     actors: "Kwon Suk Jang",
-    //     categoryId: "Võ thuật",
-    //     director: " Jung Il Woo, Kwon Yoo Ri, Shin Hyun Soo",
-    //     status: "Đang công chiếu",
-    //     trailer: "https://www.youtube.com/embed/zDnNEnOAl7o",
-    //     desc: "Chuyện phim Bossam: Đánh Cắp Số Phận lấy bối cảnh ở thời Vua Gwang Hae, xoay quanh cuộc sống của hai nhân vật Ba Woo (Jung Il Woo thủ vai) và công chúa Soo Kyung (Kwon Yoo Ri đảm nhận). Trong đó Ba Woo là người chuyên thực hiện việc kết nối những phụ nữ không có ý định lấy chồng mới hay nói cách khác là góa phụ, nhưng anh vô tình bắt cóc phải công chúa Soo Kyung. Anh ta bị đóng khung cho âm mưu của của ai đó và lựa chọn sống trong vỏ bọc của một kẻ thấp hèn dù rất muốn thoát khỏi nó.",
-    //     poster: "https://www.fullphim.net//static/5fe2d564b3fa6403ffa11d1c/60acb62be8687a52cfd3115b_hung-than-trang-1.jpg",
-    //     thumbnail: "https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/607eacb95464f47aa43bf101_poster-bossam-danh-cap-so-phan.jpg"
-    // }
     return (
         <>
+            <Header/>
             <div className={styles.wrapper_template}>
                 <div style={{
-                    backgroundImage: `url(${(dataFilmDetail.poster) || "../public/book.png"})`
+                    backgroundImage: `url(${(dataFilmDetail.poster) || "https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/606933569689aa9478944174_tay-du-ky-1.jpg"})`
                 }}
                     className={styles.dynamic_page_header}
                 >
@@ -68,7 +54,7 @@ const FilmDetail = (props) => {
                                                 <p><strong>Trạng thái:</strong> {dataFilmDetail.StatusFilm?.name}</p>
                                             </div>
                                             <div className={styles.header_btn_group}>
-                                                <MDBBtn color="primary" onClick={toggle}>Trailer</MDBBtn>
+                                                <MDBBtn color="primary" onClick={()=>setOpen(true)}>Trailer</MDBBtn>
                                                 <MDBBtn color="danger">Đặt vé</MDBBtn>
                                             </div>
 
@@ -89,9 +75,10 @@ const FilmDetail = (props) => {
                     </MDBContainer>
                 </div>
             </div>
-            <MDBModal className={styles.detailModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
+            {/* <MDBModal className={styles.detailModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
                 <iframe width="100%" height="500px" src={dataFilmDetail.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-            </MDBModal>
+            </MDBModal> */}
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="DDWFjTqnHbM" onClose={() => setOpen(false)} />
         </>
 
     );

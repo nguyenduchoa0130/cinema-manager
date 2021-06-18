@@ -2,38 +2,71 @@
 import React from "react";
 import './carousel.scss';
 import styles from "./style.module.scss";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import cx from "classnames";
 const ListPoster = () => {
 
-
     const options = {
-        loop: true,
-        autoplayTimeout: 3000,
-        autoplay: true,
-        responsive: {
-            0: {
-                items: 1
+        arrow: false,
+        dots: true,
+        infinite: true,
+        margin: 10,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        centerMode: true,
+        centerPadding: "150px",
+        responsive: [
+            {
+                breakpoint: 0,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: false,
+                    centerPadding: "0",
+                }
             },
-            992: {
-                items: 1
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    centerMode: false,
+                    centerPadding: "0",
+                }
             }
-        }
-    }
+        ]
+    };
+
 
     return (
-            <div className={styles.posters}>
-                <OwlCarousel {...options} >
+        <div className={styles.posters}>
+            {/* <OwlCarousel {...options} >
                     <div className={cx(styles.poster_item, "item")}>
-                        <img src="https://media.lottecinemavn.com/Media/WebAdmin/9aa9607cd0844a1a863d14c61d8f2ef1.jpg" alt="" />
+                        <img src="https://www.themoviedb.org//t/p/w1920_and_h800_multi_faces/ykElAtsOBoArgI1A8ATVH0MNve0.jpg" alt="" />
                     </div>
                     <div className={cx(styles.poster_item, "item")}>
-                        <img src="https://media.lottecinemavn.com/Media/WebAdmin/9b5494601af14d32ba26d310819b8c8a.jpg" alt="" />
+                        <img src="https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/9Jmd1OumCjaXDkpllbSGi2EpJvl.jpg" alt="" />
                     </div>
-                </OwlCarousel>
-            </div>
+                </OwlCarousel> */}
+
+            <Slider {...options} dotsClass={cx(styles.dots, "slick-dots")} className={styles.posters}>
+                    <div className={cx(styles.poster_item, "item")}>
+                        <img src="https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/9Jmd1OumCjaXDkpllbSGi2EpJvl.jpg" alt="" />
+                    </div>
+                    <div className={cx(styles.poster_item, "item")}>
+                        <img src="https://www.themoviedb.org//t/p/w1920_and_h800_multi_faces/ykElAtsOBoArgI1A8ATVH0MNve0.jpg" alt="" />
+                    </div>
+                    <div className={cx(styles.poster_item, "item")}>
+                        <img src="https://www.themoviedb.org//t/p/w1920_and_h800_multi_faces/inJjDhCjfhh3RtrJWBmmDqeuSYC.jpg" alt="" />
+                    </div>
+                    <div className={cx(styles.poster_item, "item")}>
+                        <img src="https://themoviedb.org/t/p/w1920_and_h800_multi_faces/xXHZeb1yhJvnSHPzZDqee0zfMb6.jpg" alt="" />
+                    </div>
+            </Slider>
+        </div>
     );
 };
 

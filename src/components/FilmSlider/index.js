@@ -21,6 +21,72 @@ const FilmSlider = ({settings, dataSource,className }) => {
                     )
                 })
             }
+            {
+                dataSource?.map(film => {
+                    return (
+                        <div>
+                            <div className={cx(styles.filmItem, "text-center")}>
+                                <FilmItem info={film} />
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            {
+                dataSource?.map(film => {
+                    return (
+                        <div>
+                            <div className={cx(styles.filmItem, "text-center")}>
+                                <FilmItem info={film} />
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            {
+                dataSource?.map(film => {
+                    return (
+                        <div>
+                            <div className={cx(styles.filmItem, "text-center")}>
+                                <FilmItem info={film} />
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            {
+                dataSource?.map(film => {
+                    return (
+                        <div>
+                            <div className={cx(styles.filmItem, "text-center")}>
+                                <FilmItem info={film} />
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            {
+                dataSource?.map(film => {
+                    return (
+                        <div>
+                            <div className={cx(styles.filmItem, "text-center")}>
+                                <FilmItem info={film} />
+                            </div>
+                        </div>
+                    )
+                })
+            }
+            {
+                dataSource?.map(film => {
+                    return (
+                        <div>
+                            <div className={cx(styles.filmItem, "text-center")}>
+                                <FilmItem info={film} />
+                            </div>
+                        </div>
+                    )
+                })
+            }
         </Slider>
     );
 }

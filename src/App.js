@@ -5,6 +5,7 @@ import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import 'antd/dist/antd.css';
 
 import Activated from './pages/Activated';
 import ActiveForgetPassword  from './pages/ActiveForgetPassword';
@@ -76,7 +77,8 @@ const App = ()=> {
           <Route path="/kich-hoat">
             <NonAuth children={<Activated />}/>   
           </Route>
-          <Route path="/chi-tiet-phim/:id" component={FilmDetail}>          
+          <Route path="/chi-tiet-phim/:id" component={FilmDetail}>      
+              {/* <NonAuth children={<FilmDetail />}/>       */}
           </Route>
           
           <Route path='/admin/:path?' exact>
