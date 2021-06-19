@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { laydanhSachLichChieu, layDanhSachPhimDangCongChieu, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
 import { Tabs } from 'antd';
 import FilmSchedule from "../../components/FilmSchedule";
-
+import _ from "lodash";
+import moment from 'moment';
 
 const { TabPane } = Tabs;
 
@@ -164,48 +165,102 @@ const Home = () => {
         return listFilm;
     }
 
+    const formatTime = (times) =>{
+        return times.map(time=>{
+            return time.substr(0,5);
+        })
+    }
+
+    const renderFilmTabPane = (film) => {
+        return(
+            <div className={styles.film_tab_pane}>
+                <div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${film.thumbnail})` }}></div>
+                <p>{film.name}</p>
+            </div>
+            
+        )
+    } 
+
 
     const renderTabSystem = () => {
-        return listShowtimes.map((item, index) => {
-            return (
-                <Tabs key={index} defaultActiveKey="1" centered className="mt-4 text-white">
-                    <TabPane tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${item.logoSrc})` }}>
-                    </div>} key="1">
-                        {item.CinemaClusters?.map((cluster, index) => {
-                            return <Tabs key={index} tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
-                                <TabPane tab={renderClusterTabItem({ name: `${cluster.name}`, address: `${cluster.address}` })} >                                    
-                                    {/* {setSchedule({
-                                        schedule: getDetailFilm(cluster.Showtimes)
-                                    })}
-                                    {console.log(schedule)} */}
-                                    {console.log('chitiet',getDetailFilm(cluster.Showtimes))}
-                                    {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
-                                        return (
-                                            <MDBListGroup key={index} className={styles.seat_plan}>
-                                                <MDBListGroupItem>
-                                                    <MDBRow className="w-100 align-items-center">
-                                                        <MDBCol lg="5" md="12">
-                                                            <strong className={styles.name} >
-                                                                {showTime.name}
-                                                            </strong>
-                                                        </MDBCol>
-                                                        <MDBCol lg="7" md="12">
-                                                            {/* <FilmSchedule schedules={} /> */}
-                                                        </MDBCol>
-                                                    </MDBRow>
-                                                </MDBListGroupItem>
-                                            </MDBListGroup>
-                                        );
-                                    })}
-                                </TabPane>
+        console.log('listShowtimes :>> ', listShowtimes);
+
+        return (
+            //Tab System  
+            <Tabs defaultActiveKey="1" centered className="mt-4 text-white">
+                {   listShowtimes.map((item, index) => {
+                    return (
+                        //Render item System         
+                        <TabPane
+                            tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${item.logoSrc})` }}> </div>}
+                            key={index + 1}
+                        >
+                            {/*  Tab Clusters */}
+                            <Tabs tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
+                                {item.CinemaClusters?.map((cluster, index) => {
+                                    //Render item Cluster     
+                                    return (
+                                        <TabPane tab={renderClusterTabItem({ name: `${cluster.name}`, address: `${cluster.address}` })} key={index + 1}>
+
+                                            {/*  Tab Film */}
+                                            <Tabs tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
+                                                {console.log('getDetailFilm', getDetailFilm(cluster.Showtimes))}
+                                                {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
+
+                                                    //Render item Film     
+                                                    return (
+                                                        <TabPane className={styles.tab_schedule} key={index + 1}tab={renderFilmTabPane(showTime)} key={index + 1}>
+                                                            {
+                                                                showTime.shedule?.map((scheduleItem, index) => {
+                                                                    console.log('scheduleItem :>> ', scheduleItem);
+                                                                    return (
+                                                                        <div className={styles.schedule_item}>
+                                                                            <p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>
+                                                                            <FilmSchedule schedules={formatTime(scheduleItem.times)} />
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TabPane>
+
+
+
+                                                        // <MDBListGroup key={index + 1} className={styles.seat_plan}>
+                                                        //     <MDBListGroupItem>
+                                                        //         <MDBRow className="w-100 align-items-center">
+                                                        //             <MDBCol lg="5" md="12">
+                                                        //                 <strong className={styles.name} >
+                                                        //                     {showTime.name}
+                                                        //                 </strong>
+                                                        //             </MDBCol>
+                                                        //             <MDBCol lg="7" md="12">
+                                                        //                 {
+                                                        //                     showTime.shedule.map((scheduleItem,index) =>{
+                                                        //                     {console.log('schedule :>> ', scheduleItem);}
+                                                        //                     return <FilmSchedule schedules={scheduleItem.times} />
+                                                        //                 })}
+
+                                                        //             </MDBCol>
+                                                        //         </MDBRow>
+                                                        //     </MDBListGroupItem>
+                                                        // </MDBListGroup>
+                                                    )
+                                                })
+                                                }
+                                            </Tabs>
+
+                                        </TabPane>
+
+                                    )
+                                })
+                                }
                             </Tabs>
-                        })}
-
-                    </TabPane>
-                </Tabs>
-            );
-        })
-
+                        </TabPane>
+                    )
+                })
+                }
+            </Tabs >
+        )
     }
 
     const renderClusterTabItem = (cluster) => {
