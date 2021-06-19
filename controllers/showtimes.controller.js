@@ -12,21 +12,21 @@ class ShowtimesController {
                 },
                 include: [
                     {
-						model: models.CinemaCluster, 
-						attributes: ['id', ['clusterName', 'name']],
-						require: false, 
-						include: [
-							{
-								model: models.Showtimes, 
-								attributes: ['id', 'timeStart', 'priceTicket'],
-								include: [
-									{
-										model: models.Film, 
-										attributes: ['id', ['filmName', 'name'], 'thumbnail']
-									}
-								]
-							}
-						]
+                        model: models.CinemaCluster,
+                        attributes: ['id', ['clusterName', 'name'], 'address'],
+                        require: false,
+                        include: [
+                            {
+                                model: models.Showtimes,
+                                attributes: ['id', 'timeStart', 'priceTicket'],
+                                include: [
+                                    {
+                                        model: models.Film,
+                                        attributes: ['id', ['filmName', 'name'], 'thumbnail'],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             });
