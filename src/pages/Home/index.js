@@ -1,12 +1,12 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBIcon, MDBBtn, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 import styles from "./style.module.scss";
 import ListPoster from "../../components/ListPoster";
 import Title from "../../components/Title";
 import FilmSlider from "../../components/FilmSlider";
 import { useDispatch, useSelector } from "react-redux";
-import { layDanhSachPhimDangCongChieu, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
+import { laydanhSachLichChieu, layDanhSachPhimDangCongChieu, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
 import { Tabs } from 'antd';
 import FilmSchedule from "../../components/FilmSchedule";
 
@@ -14,14 +14,16 @@ import FilmSchedule from "../../components/FilmSchedule";
 const { TabPane } = Tabs;
 
 const Home = () => {
-
-    const { listFilmDangCongChieu, listFilmSapCongChieu } = useSelector(state => state.TrangChuReducer)
-    console.log(listFilmDangCongChieu);
-    console.log(listFilmSapCongChieu);
+    const [schedule, setSchedule] = useState()
+    const { listFilmDangCongChieu, listFilmSapCongChieu, listShowtimes } = useSelector(state => state.TrangChuReducer)
+    // console.log(listFilmDangCongChieu);
+    // console.log(listFilmSapCongChieu);
+    console.log(listShowtimes);
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layDanhSachPhimDangCongChieu())
         dispatch(layDanhSachPhimSapCongChieu())
+        dispatch(laydanhSachLichChieu())
     }, [])
 
     const settings = {
@@ -60,26 +62,150 @@ const Home = () => {
             }
         ]
     };
+    function convertUTCDateToLocalDate(date) {
+        var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+
+        var offset = date.getTimezoneOffset() / 60;
+        var hours = date.getHours();
+
+        newDate.setHours(hours - offset);
+
+        return newDate;
+    }
+    function getDateOfWeek(date) {
+        let listDayOfWeek = [
+            {
+                dayOfWeek: 0,
+                name: 'Chủ Nhật',
+            },
+            {
+                dayOfWeek: 1,
+                name: 'Thứ Hai',
+            },
+            {
+                dayOfWeek: 2,
+                name: 'Thứ Ba',
+            },
+            {
+                dayOfWeek: 3,
+                name: 'Thứ Tư',
+            },
+            {
+                dayOfWeek: 4,
+                name: 'Thứ Năm',
+            },
+            {
+                dayOfWeek: 5,
+                name: 'Thứ Sáu',
+            },
+            {
+                dayOfWeek: 6,
+                name: 'Thứ Bảy',
+            },
+        ];
+        let dayOfWeek = new Date(date).getDay();
+        let result = listDayOfWeek.find((item) => {
+            return item.dayOfWeek == dayOfWeek;
+        });
+        return result.name;
+    }
+    function getStartAndEndFromTimeStart(timestart) {
+        let start = new Date(timestart);
+        let yearMonthDate = timestart.split('T')[0].split('-');
+        let [y, M, d] = yearMonthDate;
+        let hoursMinutes = timestart.split('T')[1].split(':');
+        let [h, m] = hoursMinutes;
+        h = 23 - +h + +h;
+        m = 59 - +m + +m;
+        let end = convertUTCDateToLocalDate(new Date(y, M - 1, d, h, m));
+        return { start, end };
+    }
+    function getDetailFilm(listShowtimesRaw) {
+        listShowtimesRaw.sort((a, b) => {
+            return new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime();
+        });
+        let listFilm = [];
+        listShowtimesRaw.forEach((element) => {
+            let arr = listFilm.filter((item) => {
+                return element.Film.id == item.id;
+            });
+            if (!arr.length) {
+                listFilm.push(element.Film);
+            }
+        });
+        listFilm.forEach((film) => {
+            film.shedule = [];
+            let dates = listShowtimesRaw.filter((item) => {
+                return item.Film.id == film.id;
+            });
+            dates = dates.map((date) => {
+                let str = date.timeStart.split('T')[0];
+                return new Date(str);
+            });
+            dates = [...new Set(dates)];
+            dates.forEach((item) => {
+                let { start, end } = getStartAndEndFromTimeStart(item.toJSON());
+                let filter = listShowtimesRaw.filter((showtimes) => {
+                    let timeStart = new Date(showtimes.timeStart);
+                    return (
+                        showtimes.Film.id == film.id && start.getTime() <= timeStart.getTime() && end.getTime() >= timeStart.getTime()
+                    );
+                });
+                let times = filter.map((item) => {
+                    return item.timeStart.split('T')[1];
+                });
+                film.shedule.push({
+                    name: getDateOfWeek(item),
+                    date: item,
+                    times,
+                });
+            });
+        });
+        return listFilm;
+    }
 
 
+    const renderTabSystem = () => {
+        return listShowtimes.map((item, index) => {
+            return (
+                <Tabs key={index} defaultActiveKey="1" centered className="mt-4 text-white">
+                    <TabPane tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${item.logoSrc})` }}>
+                    </div>} key="1">
+                        {item.CinemaClusters?.map((cluster, index) => {
+                            return <Tabs key={index} tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
+                                <TabPane tab={renderClusterTabItem({ name: `${cluster.name}`, address: `${cluster.address}` })} >                                    
+                                    {/* {setSchedule({
+                                        schedule: getDetailFilm(cluster.Showtimes)
+                                    })}
+                                    {console.log(schedule)} */}
+                                    {console.log('chitiet',getDetailFilm(cluster.Showtimes))}
+                                    {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
+                                        return (
+                                            <MDBListGroup key={index} className={styles.seat_plan}>
+                                                <MDBListGroupItem>
+                                                    <MDBRow className="w-100 align-items-center">
+                                                        <MDBCol lg="5" md="12">
+                                                            <strong className={styles.name} >
+                                                                {showTime.name}
+                                                            </strong>
+                                                        </MDBCol>
+                                                        <MDBCol lg="7" md="12">
+                                                            {/* <FilmSchedule schedules={} /> */}
+                                                        </MDBCol>
+                                                    </MDBRow>
+                                                </MDBListGroupItem>
+                                            </MDBListGroup>
+                                        );
+                                    })}
+                                </TabPane>
+                            </Tabs>
+                        })}
 
-    const renderTabSystem = (listSystem) => {
-        return (
-            <Tabs defaultActiveKey="1" centered className="mt-4 text-white">
-                <TabPane tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url("https://lh3.googleusercontent.com/proxy/U6jG1Evp4KtSmtTuvZmliiWYQ4kpWEyZJnq_r3JfK3cK8Fbjr-40wyYh67OhH_a1scZ6AU-osgnRAv-bQaoO7kfZdZahIO00hz94uUGo-m2pwNxlCZb77m4J63JQHkFWJw")` }}>
-                </div>} key="1">
-                    {renderTabCluster()}
-                </TabPane>
-                <TabPane tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url("https://www.bhdstar.vn/wp-content/uploads/2019/06/BHDStar_Logo_Tron.png")` }}>
-                </div>} key="2">
-                    <FilmSlider settings={settings} dataSource={listFilmDangCongChieu?.films} className={styles.listFilm} />
-                </TabPane>
-                <TabPane tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url("https://media.licdn.cn/dms/image/C560BAQG2JSNNKC-M7g/company-logo_200_200/0/1561753326625?e=2159024400&v=beta&t=TPo293PrmPD7JeJYH4p1DrYkjwhHlCK6B652oI_-NVU")` }}>
-                </div>} key="3">
-                    <FilmSlider settings={settings} dataSource={listFilmDangCongChieu?.films} className={styles.listFilm} />
-                </TabPane>
-            </Tabs>
-        );
+                    </TabPane>
+                </Tabs>
+            );
+        })
+
     }
 
     const renderClusterTabItem = (cluster) => {
@@ -116,7 +242,6 @@ const Home = () => {
         );
     }
 
-
     const renderTabDay = () => {
         return (
             <Tabs defaultActiveKey="1" centered className="mt-4 text-white">
@@ -124,7 +249,7 @@ const Home = () => {
                     {renderSeatPlan()}
                 </TabPane>
                 <TabPane tab="20-06" key="2">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi quo harum amet unde dolorum perferendis repellat mollitia ex odio modi. Beatae, similique suscipit? Eligendi eaque fugit ad tenetur, dicta ducimus nemo quod nihil maxime quisquam doloribus. Provident asperiores dignissimos, delectus rerum ipsam nostrum odio vel tempora repellat, mollitia doloribus dicta quos vero similique! Minima qui ipsa odit culpa perferendis ullam voluptatum cupiditate quis temporibus asperiores debitis est quisquam repellendus praesentium delectus, doloribus voluptatem sunt itaque distinctio amet? Est facilis repellat iusto cum sapiente ad quae tempora! Magni facilis recusandae corporis alias. Autem sit culpa laboriosam perferendis! Facere placeat quasi quae!
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi quo harum amet unde dolorum
                 </TabPane>
                 <TabPane tab="21-06" key="3">
                     21-06

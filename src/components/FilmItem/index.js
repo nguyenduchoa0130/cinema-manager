@@ -3,7 +3,7 @@ import styles from './style.module.scss'
 import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBBtn } from 'mdbreact';
 import { Link, NavLink } from 'react-router-dom';
 
-
+// ok
 
 const FilmItem = ({ info },props) => {
     return (

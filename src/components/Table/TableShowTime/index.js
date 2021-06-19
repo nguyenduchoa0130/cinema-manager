@@ -45,7 +45,7 @@ const TableShowtime = (props) => {
           <td>{showTime.Film?.name}</td>
           <td>{showTime.CinemaCluster?.name}</td>
           <td>{showTime.Cinema?.name}</td>
-          <td>{toLocalStringUTC(new Date(showTime.timeStart))}</td>
+          <td>{showTime.timeStart}</td>
           <td>{showTime.priceTicket}đ</td>
           <td>
             {/* <Link to='/admin/cap-nhat-suat-chieu'>

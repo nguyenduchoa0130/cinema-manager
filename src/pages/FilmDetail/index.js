@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { layChiTietPhim } from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
 import Header from "../../components/Header";
 import ModalVideo from 'react-modal-video'
-
+import '../../../node_modules/react-modal-video/scss/modal-video.scss';
 const FilmDetail = (props) => {
     const { dataFilmDetail } = useSelector(state => state.ChiTietPhimReducer)
     const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const FilmDetail = (props) => {
 
     return (
         <>
-            <Header/>
+            <Header />
             <div className={styles.wrapper_template}>
                 <div style={{
                     backgroundImage: `url(${(dataFilmDetail.poster) || "https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/606933569689aa9478944174_tay-du-ky-1.jpg"})`
@@ -54,7 +54,7 @@ const FilmDetail = (props) => {
                                                 <p><strong>Trạng thái:</strong> {dataFilmDetail.StatusFilm?.name}</p>
                                             </div>
                                             <div className={styles.header_btn_group}>
-                                                <MDBBtn color="primary" onClick={()=>setOpen(true)}>Trailer</MDBBtn>
+                                                <MDBBtn color="primary" onClick={() => setOpen(true)}>Trailer</MDBBtn>
                                                 <MDBBtn color="danger">Đặt vé</MDBBtn>
                                             </div>
 
