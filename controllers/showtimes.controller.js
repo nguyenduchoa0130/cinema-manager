@@ -12,33 +12,21 @@ class ShowtimesController {
                 },
                 include: [
                     {
-                        required: false,
-                        model: models.Showtimes,
-                        attributes: ['id', 'timeStart'],
-                        where: {
-                            timeStart: {
-                                [Op.gte]: helper.convertUTCDateToLocalDate(new Date()),
-                            },
-                        },
-                        include: [
-                            {
-                               model: models.CinemaCluster, 
-							   attributes: ['id', ['clusterName', 'name']],
-							   require: false, 
-							   include: [
-								   {
-									   model: models.Showtimes, 
-									   attributes: ['id', 'timeStart', 'priceTicket'],
-									   include: [
-										   {
-											   model: models.Film, 
-											   attributes: ['id', ['filmName', 'name'], 'thumbnail']
-										   }
-									   ]
-								   }
-							   ]
-                            },
-                        ],
+						model: models.CinemaCluster, 
+						attributes: ['id', ['clusterName', 'name']],
+						require: false, 
+						include: [
+							{
+								model: models.Showtimes, 
+								attributes: ['id', 'timeStart', 'priceTicket'],
+								include: [
+									{
+										model: models.Film, 
+										attributes: ['id', ['filmName', 'name'], 'thumbnail']
+									}
+								]
+							}
+						]
                     },
                 ],
             });
