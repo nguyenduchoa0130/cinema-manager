@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import cx from 'classnames';
 import { MDBAnimation, MDBBtn, MDBCol, MDBContainer, MDBModal, MDBRow } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
-import { layChiTietPhim } from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
+import { layChiTietPhim, layLichChieu} from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
 import Header from "../../components/Header";
 import ModalVideo from 'react-modal-video'
 import '../../../node_modules/react-modal-video/scss/modal-video.scss';
@@ -18,6 +18,7 @@ const FilmDetail = (props) => {
     const maPhim = props.match.params.id;
     useEffect(() => {
         dispatch(layChiTietPhim(maPhim))
+        dispatch(layLichChieu(maPhim))
     }, [])
 
     const [isOpen, setOpen] = useState(false);
