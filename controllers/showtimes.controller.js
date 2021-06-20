@@ -290,6 +290,7 @@ class ShowtimesController {
                     {
                         model: models.CinemaCluster,
                         attributes: ['id', ['clusterName', 'name'], 'address'],
+                        require: true,
                         include: [
                             {
                                 model: models.Showtimes,
