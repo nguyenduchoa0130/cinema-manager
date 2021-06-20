@@ -2,10 +2,13 @@ import React, { Fragment } from 'react';
 import styles from './style.module.scss'
 import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBBtn } from 'mdbreact';
 import { Link, NavLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { layLichChieu } from '../../redux/actions/ChiTietPhimAction/ChiTietPhimAction';
 
 // ok
 
 const FilmItem = ({ info },props) => {
+    const dispatch = useDispatch()
     return (
         <Fragment>
             <Link path={info.path}>
@@ -17,7 +20,9 @@ const FilmItem = ({ info },props) => {
                             <MDBBtn className="btn-success btn Ripple-parent w-75" >
                                 Trailer
                             </MDBBtn>
-                            <Link to={`/chi-tiet-phim/${info.id}`} className="btn-danger btn Ripple-parent w-75" >
+                            <Link to={`/chi-tiet-phim/${info.id}`} className="btn-danger btn Ripple-parent w-75" onClick={()=>{
+                                dispatch(layLichChieu(info.id))
+                            }}>
                                 Đặt vé
                             </Link>
                         </div>

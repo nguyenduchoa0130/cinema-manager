@@ -15,11 +15,10 @@ import moment from 'moment';
 const { TabPane } = Tabs;
 
 const Home = () => {
-    const [schedule, setSchedule] = useState()
     const { listFilmDangCongChieu, listFilmSapCongChieu, listShowtimes } = useSelector(state => state.TrangChuReducer)
     // console.log(listFilmDangCongChieu);
     // console.log(listFilmSapCongChieu);
-    console.log(listShowtimes);
+    // console.log(listShowtimes);
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layDanhSachPhimDangCongChieu())
@@ -121,43 +120,50 @@ const Home = () => {
         let end = convertUTCDateToLocalDate(new Date(y, M - 1, d, h, m));
         return { start, end };
     }
-    function getDetailFilm(listShowtimesRaw) {
-        listShowtimesRaw.sort((a, b) => {
+    function getDetailFilm(listShowtimes) {
+        listShowtimes.sort((a, b) => {
             return new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime();
         });
         let listFilm = [];
-        listShowtimesRaw.forEach((element) => {
-            let arr = listFilm.filter((item) => {
-                return element.Film.id == item.id;
+        // Lấy danh sách phim
+        listShowtimes.forEach((item) => {
+            let arr = listFilm.filter((film) => {
+                return film.id == item.Film.id;
             });
             if (!arr.length) {
-                listFilm.push(element.Film);
+                listFilm.push(item.Film);
             }
         });
-        listFilm.forEach((film) => {
-            film.shedule = [];
-            let dates = listShowtimesRaw.filter((item) => {
-                return item.Film.id == film.id;
+        listFilm.forEach((item) => {
+            item.schedule = [];
+            let dates = [];
+            // lấy danh sách ngày
+            listShowtimes.forEach((showtimes) => {
+                if (showtimes.Film.id == item.id) {
+                    let dateCheck = new Date(showtimes.timeStart.split('T')[0]);
+                    let arr = dates.filter((date) => {
+                        return date.getTime() == dateCheck.getTime();
+                    });
+                    if (!arr.length) {
+                        dates.push(dateCheck);
+                    }
+                }
             });
-            dates = dates.map((date) => {
-                let str = date.timeStart.split('T')[0];
-                return new Date(str);
-            });
-            dates = [...new Set(dates)];
-            dates.forEach((item) => {
-                let { start, end } = getStartAndEndFromTimeStart(item.toJSON());
-                let filter = listShowtimesRaw.filter((showtimes) => {
+            // lấy các ca trong ngày
+            dates.forEach((date) => {
+                let times = [];
+                let arr = listShowtimes.filter((showtimes) => {
+                    let { start, end } = getStartAndEndFromTimeStart(date.toJSON());
                     let timeStart = new Date(showtimes.timeStart);
                     return (
-                        showtimes.Film.id == film.id && start.getTime() <= timeStart.getTime() && end.getTime() >= timeStart.getTime()
+                        showtimes.Film.id == item.id && start.getTime() <= timeStart.getTime() && timeStart.getTime() <= end.getTime()
                     );
                 });
-                let times = filter.map((item) => {
-                    return item.timeStart.split('T')[1];
+                times = arr.map((i) => {
+                    return i.timeStart.split('T')[1].substr(0, 5);
                 });
-                film.shedule.push({
-                    name: getDateOfWeek(item),
-                    date: item,
+                item.schedule.push({
+                    date: date.toJSON().split('T')[0],
                     times,
                 });
             });
@@ -165,21 +171,22 @@ const Home = () => {
         return listFilm;
     }
 
-    const formatTime = (times) =>{
-        return times.map(time=>{
-            return time.substr(0,5);
+
+    const formatTime = (times) => {
+        return times.map(time => {
+            return time.substr(0, 5);
         })
     }
 
     const renderFilmTabPane = (film) => {
-        return(
+        return (
             <div className={styles.film_tab_pane}>
                 <div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${film.thumbnail})` }}></div>
                 <p>{film.name}</p>
             </div>
-            
+
         )
-    } 
+    }
 
 
     const renderTabSystem = () => {
@@ -188,7 +195,7 @@ const Home = () => {
         return (
             //Tab System  
             <Tabs defaultActiveKey="1" centered className="mt-4 text-white">
-                {   listShowtimes.map((item, index) => {
+                {listShowtimes.map((item, index) => {
                     return (
                         //Render item System         
                         <TabPane
@@ -209,18 +216,21 @@ const Home = () => {
 
                                                     //Render item Film     
                                                     return (
-                                                        <TabPane className={styles.tab_schedule} key={index + 1}tab={renderFilmTabPane(showTime)} key={index + 1}>
-                                                            {
-                                                                showTime.shedule?.map((scheduleItem, index) => {
-                                                                    console.log('scheduleItem :>> ', scheduleItem);
-                                                                    return (
-                                                                        <div className={styles.schedule_item}>
-                                                                            <p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>
-                                                                            <FilmSchedule schedules={formatTime(scheduleItem.times)} />
-                                                                        </div>
-                                                                    )
-                                                                })
-                                                            }
+                                                        <TabPane className={styles.tab_schedule} key={index + 1} tab={renderFilmTabPane(showTime)} key={index + 1}>
+                                                            <Tabs tabPosition="top" defaultActiveKey="1" centered className="mt-4 text-white">
+                                                                {
+                                                                    showTime.schedule?.map((scheduleItem, index) => {
+                                                                        console.log('scheduleItem :>> ', scheduleItem);
+                                                                        return (
+                                                                            <TabPane key={index + 1} tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
+                                                                                <div className={styles.schedule_item}>
+                                                                                    <FilmSchedule schedules={formatTime(scheduleItem.times)} />
+                                                                                </div>
+                                                                            </TabPane>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </Tabs>
                                                         </TabPane>
 
 
@@ -348,8 +358,6 @@ const Home = () => {
         <div>
             <ListPoster />
             <MDBContainer>
-
-
                 <MDBRow className="mb-5">
                     <MDBCol>
                         <MDBAnimation type="fadeInRight">

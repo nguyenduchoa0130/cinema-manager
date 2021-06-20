@@ -8,7 +8,9 @@ const FilmSchedule = ({schedules}) => {
     return (
         <div className={styles.film_schedule_box}>
             {schedules.map(item => {
-                return (<div className={styles.item}>{item}</div>)
+                return (<div title={`Rạp:`} className={styles.item}>{item}
+                
+                </div>)
             })}
         </div>
     );
