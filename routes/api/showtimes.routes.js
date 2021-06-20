@@ -13,6 +13,7 @@ router.get(
     showtimesCon.fetchShowtimesByCinemaId,
     showtimesCon.fetchByCinemaHasShowtimesByFilmIdAndClusterId,
     showtimesCon.fetchByCluterId,
+    showtimesCon.fetchShowtimesByFilmId,
     showtimesCon.fetchShowtimesById,
     showtimesCon.fetchAll
 );
