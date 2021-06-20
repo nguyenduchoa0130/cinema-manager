@@ -12,25 +12,25 @@ class ShowtimesController {
                 },
                 include: [
                     {
-						model: models.CinemaCluster, 
-						attributes: ['id', ['clusterName', 'name']],
-						require: false, 
-						include: [
-							{
-								model: models.Showtimes, 
-								attributes: ['id', 'timeStart', 'priceTicket'],
-								include: [
-									{
-										model: models.Cinema, 
-										attributes: ['id', ['cinemaName', 'name']]
-									},
-									{
-										model: models.Film, 
-										attributes: ['id', ['filmName', 'name'], 'thumbnail']
-									}
-								]
-							}
-						]
+                        model: models.CinemaCluster,
+                        attributes: ['id', ['clusterName', 'name'], 'address'],
+                        require: false,
+                        include: [
+                            {
+                                model: models.Showtimes,
+                                attributes: ['id', 'timeStart', 'priceTicket'],
+                                include: [
+                                    {
+                                        model: models.Cinema,
+                                        attributes: ['id', ['cinemaName', 'name']],
+                                    },
+                                    {
+                                        model: models.Film,
+                                        attributes: ['id', ['filmName', 'name'], 'thumbnail'],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             });
@@ -282,34 +282,34 @@ class ShowtimesController {
             return next(apiError.badRequest('ID phim không hợp lệ'));
         }
         try {
-			let showtimes = await models.CinemaSystem.findAll({
+            let showtimes = await models.CinemaSystem.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'logo'),
                 },
                 include: [
                     {
-						model: models.CinemaCluster, 
-						attributes: ['id', ['clusterName', 'name']],
-						require: false, 
-						include: [
-							{
-								model: models.Showtimes, 
-								attributes: ['id', 'timeStart', 'priceTicket'],
-								where: {
-									filmId
-								},
-								include: [
-									{
-										model: models.Cinema, 
-										attributes: ['id', ['cinemaName', 'name']]
-									},
-									{
-										model: models.Film, 
-										attributes: ['id', ['filmName', 'name'], 'thumbnail']
-									}
-								]
-							}
-						]
+                        model: models.CinemaCluster,
+                        attributes: ['id', ['clusterName', 'name'], 'address'],
+                        require: false,
+                        include: [
+                            {
+                                model: models.Showtimes,
+                                attributes: ['id', 'timeStart', 'priceTicket'],
+                                where: {
+                                    filmId,
+                                },
+                                include: [
+                                    {
+                                        model: models.Cinema,
+                                        attributes: ['id', ['cinemaName', 'name']],
+                                    },
+                                    {
+                                        model: models.Film,
+                                        attributes: ['id', ['filmName', 'name'], 'thumbnail'],
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             });
