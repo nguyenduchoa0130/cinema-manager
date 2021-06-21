@@ -16,30 +16,8 @@ const FilmDetail = (props) => {
         dispatch(layChiTietPhim(maPhim))
     }, [])
 
-<<<<<<< HEAD
-const FilmDetail = () => {
-    const [isShowing,setShowing] =useState(false);
-    const toggle = () =>{
-        setShowing(!isShowing);
-
-    const film = {
-        filmName: "Bossam: Đánh Cắp Số Phận ",
-        country: "Korean",
-        releaseYear: "",
-        duration: "2021",
-        actors: "Kwon Suk Jang",
-        categoryId:  "Võ thuật",
-        director: " Jung Il Woo, Kwon Yoo Ri, Shin Hyun Soo",
-        status: "Đang công chiếu",
-        trailer:"https://www.youtube.com/embed/zDnNEnOAl7o",
-        desc: "Chuyện phim Bossam: Đánh Cắp Số Phận lấy bối cảnh ở thời Vua Gwang Hae, xoay quanh cuộc sống của hai nhân vật Ba Woo (Jung Il Woo thủ vai) và công chúa Soo Kyung (Kwon Yoo Ri đảm nhận). Trong đó Ba Woo là người chuyên thực hiện việc kết nối những phụ nữ không có ý định lấy chồng mới hay nói cách khác là góa phụ, nhưng anh vô tình bắt cóc phải công chúa Soo Kyung. Anh ta bị đóng khung cho âm mưu của của ai đó và lựa chọn sống trong vỏ bọc của một kẻ thấp hèn dù rất muốn thoát khỏi nó.",
-        poster: "https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60bcdc24035eeb3c061c2dce_f9-1.jpg",
-        thumbnail: "https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60bcdb9ccc230f6768333912_f9.jpg"
-    }
-=======
     const [isOpen, setOpen] = useState(false);
 
->>>>>>> origin/frontend
     return (
         <>
             <Header />

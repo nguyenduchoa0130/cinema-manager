@@ -59,10 +59,6 @@ export default function Header() {
           <MDBNavItem>
             <MDBNavLink to="/thong-tin-ban-dau">Tạo thông tin ban đầu</MDBNavLink>
           </MDBNavItem>
-<<<<<<< HEAD
-          
-=======
->>>>>>> origin/frontend
 
           <MDBNavItem>
             <MDBNavLink to="/kich-hoat">OTP</MDBNavLink>
