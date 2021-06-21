@@ -28,6 +28,108 @@ export const dangNhapAction = (userLogin) => {
     }
 }
 
+export const dangNhapFBAction = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/facebook',
+                method: 'POST',
+                data: userLogin
+            })
+            dispatch({
+                type: 'DANG_NHAP_FB',
+                userLogin: result.data
+            })
+
+            let { isComplete, isExists } = result.data;
+            if (isComplete && isExists) {
+                delete result.data.isComplete;
+                delete result.data.isExists;
+                localStorage.setItem(TOKEN, result.data.accessToken);
+                localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+                history.push('/')
+            } else {
+                history.push('/hoan-tat-thong-tin-fb')
+            }
+
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
+export const dangNhapGGAction = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/google',
+                method: 'POST',
+                data: userLogin
+            })
+            dispatch({
+                type: 'DANG_NHAP_GG',
+                userLogin: result.data
+            })
+            // console.log('result', result.data);
+            let { isComplete, isExists } = result.data;
+            if (isComplete && isExists) {
+                delete result.data.isComplete;
+                delete result.data.isExists;
+                localStorage.setItem(TOKEN, result.data.accessToken);
+                localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+                history.push('/')
+            } else {
+                history.push('/hoan-tat-thong-tin-gg')
+            }
+
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
+export const hoanTatPost = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: 'https://cinejunsv.herokuapp.com/api/v1/auth/complete',
+                method: 'POST',
+                data: userLogin
+            })
+            delete result.data.isComplete;
+            delete result.data.isExists;
+            localStorage.setItem(TOKEN, result.data.accessToken);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+            history.push('/')
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
+export const hoanTatPut = (userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/auth/complete`,
+                method: 'PUT',
+                data: userLogin
+            })
+            delete result.data.isComplete;
+            delete result.data.isExists;
+            localStorage.setItem(TOKEN, result.data.accessToken);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
+            history.push('/')
+        } catch (error) {
+            alert(error.response.data.msg);
+            console.log('error', error.response.data.msg);
+        }
+    }
+}
+
 export const dangXuatAction = () => {
     return async dispatch => {
         try {

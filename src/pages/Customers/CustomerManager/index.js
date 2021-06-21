@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {  MDBTableBody, MDBBtn, MDBCardBody, MDBCard,  MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
-import Title from "../../../components/Tittle";
+import TitleBox from "../../../components/TittleBox";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
@@ -32,9 +32,7 @@ const CustomerManager = () => {
   }
 
   const renderRowData = () => {
-    listUser.users?.sort((a, b) => {
-      return a.id - b.id;
-    })
+   
     return listUser.users?.map((user, index) => {
       return (
         <tr key={index}>
@@ -73,7 +71,7 @@ const CustomerManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý khách hàng"} />
+      <TitleBox text={"Quản lý khách hàng"} />
       <MDBCard>
         <MDBCardBody>
           <div className="text-right">

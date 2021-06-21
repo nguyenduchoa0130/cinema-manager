@@ -58,7 +58,7 @@ export default function Activated() {
                                 <div className={styles.wrapper_form}>
                                     <form onSubmit={formik.handleSubmit}>
                                         <div className={cx(styles.otp_group, "grey-text")}>
-                                            <MDBInput label="otp" name="code" type="text" icon="mobile" group validate error="wrong"
+                                            <MDBInput label="OTP" name="code" type="text" icon="mobile" group validate error="wrong"
                                                 success="right" onChange={formik.handleChange} />
                                             {formik.errors.code && formik.touched.code && (
                                                 <p className="text-danger">{formik.errors.code} </p>

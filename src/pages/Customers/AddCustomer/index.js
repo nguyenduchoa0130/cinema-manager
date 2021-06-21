@@ -1,6 +1,6 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React from 'react';
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -38,7 +38,7 @@ const AddCustomer = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Thêm khách hàng"} />
+      <TitleBox text={"Thêm khách hàng"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol, MDBAlert } from "mdbreact";
-import Title from "../../../components/Tittle";
+import TitleBox from "../../../components/TittleBox";
 import useModal from "../../../util/useModal";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -76,12 +76,17 @@ const ShowtimeManager = () => {
 
   const renderHeThongRap = () => {
     return listHeThongRap.systems?.map((system, index) => {
-      return <option key={index} value={system.id}>{system.systemName}</option>
+      return <Fragment>
+        <option key={index} value={system.id}>{system.systemName}</option>
+      </Fragment>
+
     })
   }
   const renderCumRap = () => {
     return listCumRapTheoHeThong.clusters?.map((cluster, index) => {
-      return <option key={index} value={cluster.id}>{cluster.clusterName}</option>
+      return <Fragment>
+        <option key={index} value={cluster.id}>{cluster.clusterName}</option>
+      </Fragment>
     })
   }
 
@@ -112,7 +117,7 @@ const ShowtimeManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý suất chiếu"} />
+      <TitleBox text={"Quản lý suất chiếu"} />
       <MDBCard>
         <MDBCardBody>
           <form onSubmit={formik.handleSubmit}>
@@ -188,7 +193,7 @@ const ShowtimeManager = () => {
       <MDBModal className={styles.detailModal} size="fluid" isOpen={isShowingDetails} toggle={toggleDetails} centered>
         <MDBModalHeader toggle={toggleDetails}>Danh sách suất chiếu</MDBModalHeader>
         <MDBModalBody>
-          <TableShowtime clusterId={film.clusterId} filmId={film.filmId}/>
+          <TableShowtime clusterId={film.clusterId} filmId={film.filmId} />
         </MDBModalBody>
         <MDBModalFooter>
           <MDBBtn color="primary" onClick={toggleDetails}>Đóng</MDBBtn>

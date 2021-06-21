@@ -17,14 +17,16 @@ export default function Header() {
     setState({ isOpen: !state.isOpen });
   }
   return (
-    <MDBNavbar color="indigo" dark expand="md">
+    <MDBNavbar color="#0c2738" dark expand="md" className="boder-bottom">
       <MDBNavbarBrand>
-        <strong className="white-text">Navbar</strong>
+        <MDBNavLink to="/">
+          <strong className="white-text">CineJun</strong>
+        </MDBNavLink>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />
       <MDBCollapse id="navbarCollapse3" isOpen={state.isOpen} navbar>
         <MDBNavbarNav left>
-          <MDBNavItem active>
+          <MDBNavItem >
             <MDBNavLink to="/">Trang chủ</MDBNavLink>
           </MDBNavItem>
           <MDBNavItem>
@@ -57,7 +59,10 @@ export default function Header() {
           <MDBNavItem>
             <MDBNavLink to="/thong-tin-ban-dau">Tạo thông tin ban đầu</MDBNavLink>
           </MDBNavItem>
+<<<<<<< HEAD
           
+=======
+>>>>>>> origin/frontend
 
           <MDBNavItem>
             <MDBNavLink to="/kich-hoat">OTP</MDBNavLink>

@@ -2,7 +2,7 @@
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect } from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import countryList from '../../../util/constants/countryList';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
@@ -68,7 +68,7 @@ const AddFilm = () => {
   return (
     <React.Fragment>
 
-      <Title text={"Thêm phim"} />
+      <TitleBox text={"Thêm phim"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
@@ -237,7 +237,7 @@ const AddFilm = () => {
                   </label>
                 </MDBCol>
                 <MDBCol md="10" >
-                  <input type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
+                  <input  type="date" name="premiere" value={formik.values['premiere']} onChange={formik.handleChange} />
                   {formik.errors.premiere && formik.touched.premiere && (
                     <p className="text-danger">{formik.errors.premiere} </p>
                   )}

@@ -1,0 +1,34 @@
+.posters {
+    .poster_item {
+        width: 100%;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .dots {
+        transform: translateY(0vh);
+        li{
+            margin: 0 !important;
+            button {
+                &::before {
+                    color: white !important;
+                    font-size: 10px;
+                }
+            }
+        }
+        
+    }
+
+    >div {
+        >div {
+            >div {
+                 transform: scale(0.95);
+                opacity:0.5;
+                clip-path: polygon(30% 0, 70% 0, 100% 5%, 100% 95%, 70% 100%, 30% 100%, 0 95%, 0 5%);
+                transition: all 0.3s ease-in-out;
+            }
+        }
+    }
+}

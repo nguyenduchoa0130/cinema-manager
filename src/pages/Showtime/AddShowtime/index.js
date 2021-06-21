@@ -1,7 +1,7 @@
 
 import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect, useState } from 'react';
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
@@ -9,15 +9,15 @@ import styles from "./style.module.scss";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
-import { layDanhSachPhim } from '../../../redux/actions/QuanLyPhimAction';
 import { themLichChieu } from '../../../redux/actions/QuanLyLichChieuAction';
 import { layCumRapTheoHethong } from '../../../redux/actions/QuanLyCumRapAction';
 import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 import { layRapTheoCumRap } from '../../../redux/actions/QuanLyRapAction';
+import { layDanhSachPhimDangCongChieu } from '../../../redux/actions/TrangChuAction/TrangChuAction';
 
 
 const AddShowtime = () => {
-  const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
+  const { listFilmDangCongChieu } = useSelector(state => state.QuanLyPhimReducer)
   const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
   const { listCumRapTheoHeThong } = useSelector(state => state.QuanLyCumRapReducer)
   const { listRapTheoCumRap } = useSelector(state => state.QuanLyRapReducer)
@@ -25,7 +25,7 @@ const AddShowtime = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(layDanhSachPhim());
+    dispatch(layDanhSachPhimDangCongChieu());
     dispatch(layHeThongRap());
   }, [])
 
@@ -74,7 +74,7 @@ const AddShowtime = () => {
 
 
   const renderPhim = () => {
-    return listFilm.films?.map((film, index) => {
+    return listFilmDangCongChieu.films?.map((film, index) => {
       return <option key={index} value={film.id}>{film.filmName}</option>
     })
   }
@@ -99,7 +99,7 @@ const AddShowtime = () => {
   return (
     <React.Fragment>
 
-      <Title text={"Thêm suất chiếu"} />
+      <TitleBox text={"Thêm suất chiếu"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
@@ -206,7 +206,7 @@ const AddShowtime = () => {
               <MDBRow className="justify-content-center">
                 <MDBBtn color="primary" type="submit" >
                   Submit Form
-              </MDBBtn>
+                </MDBBtn>
               </MDBRow>
 
             </form>

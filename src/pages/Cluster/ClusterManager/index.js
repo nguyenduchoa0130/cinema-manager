@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol } from "mdbreact";
-import Title from "../../../components/Tittle";
+import TitleBox from "../../../components/TittleBox";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
@@ -68,7 +68,7 @@ const ClusterManager = () => {
 
   return (
     <Fragment>
-      <Title text={"Quản lý cụm rạp"} />
+      <TitleBox text={"Quản lý cụm rạp"} />
       <MDBRow>
         <MDBCol>
           <MDBCard>

@@ -12,7 +12,7 @@ export const layDanhSachNguoiDung = () => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
-            console.log('result', result.data);
+            // console.log('result', result.data);
             dispatch(
                 {
                     type: "GET_LIST_USER",

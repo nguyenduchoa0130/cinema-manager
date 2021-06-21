@@ -5,6 +5,7 @@ import './App.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
+import 'antd/dist/antd.css';
 
 import Activated from './pages/Activated';
 import ActiveForgetPassword  from './pages/ActiveForgetPassword';
@@ -37,6 +38,7 @@ import EditShowtime from "./pages/Showtime/EditShowtime";
 import ShowtimeManager from "./pages/Showtime/ShowtimeManager";
 import FilmDetail from "./pages/FilmDetail";
 import SignUpBySocial from "./pages/SignUpBySocial";
+import SignInGoogle from "./pages/SignInGoogle";
 
 
 export const history = createBrowserHistory();
@@ -66,14 +68,17 @@ const App = ()=> {
             <NonAuth children={<ChangePassword />}/>   
           </Route>
 
-          <Route path="/thong-tin-ban-dau">
+          <Route path="/hoan-tat-thong-tin-fb">
             <NonAuth children={<SignUpBySocial />}/>   
+          </Route>
+          <Route path="/hoan-tat-thong-tin-gg">
+            <NonAuth children={<SignInGoogle />}/>   
           </Route>
           <Route path="/kich-hoat">
             <NonAuth children={<Activated />}/>   
           </Route>
-          <Route path="/chi-tiet-phim">
-            <NonAuth children={<FilmDetail />}/>   
+          <Route path="/chi-tiet-phim/:id" component={FilmDetail}>      
+              {/* <NonAuth children={<FilmDetail />}/>       */}
           </Route>
           
           <Route path='/admin/:path?' exact>

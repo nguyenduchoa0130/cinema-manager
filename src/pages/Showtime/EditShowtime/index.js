@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbr
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import DatePicker from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import DatePanel from "react-multi-date-picker/plugins/date_panel";
@@ -95,7 +95,7 @@ const EditShowtime = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhật suất chiếu"} />
+      <TitleBox text={"Cập nhật suất chiếu"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>

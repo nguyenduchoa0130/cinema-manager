@@ -1,3 +1,7 @@
-/* .nav-link {
-    color: rgb(77, 76, 76)!important;
-} */
+body,.ant-layout{
+    font-size: 16px!important;
+    color: #dbe2fb!important;
+    overflow-x: hidden;
+    background: #081b27!important;
+}
+

@@ -45,10 +45,10 @@ const TableShowtime = (props) => {
           <td>{showTime.Film?.name}</td>
           <td>{showTime.CinemaCluster?.name}</td>
           <td>{showTime.Cinema?.name}</td>
-          <td>{toLocalStringUTC(new Date(showTime.timeStart))}</td>
+          <td>{showTime.timeStart}</td>
           <td>{showTime.priceTicket}đ</td>
           <td>
-            <Link to='/admin/cap-nhat-suat-chieu'>
+            {/* <Link to='/admin/cap-nhat-suat-chieu'>
               <MDBBtn color="success" size="sm" title="Chỉnh sửa" onClick={() => {
                 dispatch({
                   type: 'DATA_EDIT_SHOWTIME',
@@ -57,7 +57,7 @@ const TableShowtime = (props) => {
               }} >
                 <MDBIcon icon="pencil-ruler" />
               </MDBBtn>
-            </Link>
+            </Link> */}
 
             <MDBBtn color="danger" size="sm" title="Xóa" onClick={() => { removeToggle(showTime) }} className>
               <MDBIcon far icon="trash-alt" />

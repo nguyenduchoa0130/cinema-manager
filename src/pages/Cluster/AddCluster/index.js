@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBRow } from 'mdbr
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 import { themCumRap } from '../../../redux/actions/QuanLyCumRapAction';
@@ -39,7 +39,7 @@ const AddCluster = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Thêm cụm rạp"} />
+      <TitleBox text={"Thêm cụm rạp"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
@@ -111,7 +111,7 @@ const AddCluster = () => {
               <MDBRow className="justify-content-center">
 
                 <MDBBtn onClick={() => {
-                  dispatch(themCumRap(formik.values))
+                  // dispatch(themCumRap(formik.values))
                 }} color="primary" type="submit" >
                   Thêm
               </MDBBtn>

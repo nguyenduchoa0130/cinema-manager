@@ -14,8 +14,13 @@
         height: 100%;
         padding-bottom: 0;
         align-items: center;
+<<<<<<< HEAD
         background-color: rgba(255, 255, 255, 0.8);
         background-image: linear-gradient(to top, rgba(6,15,25,1), rgba(6,15,25,0.0));
+=======
+        background-color: rgba(7, 24, 34, 0.8);
+        background-image: linear-gradient(180deg, rgba(12, 39, 56, 0) 14%, #081b27);
+>>>>>>> origin/frontend
         color: #000;
         .header_content {
             .header_thumbnail {
@@ -25,18 +30,60 @@
                 background-image: url(https://d3e54v103j8qbb.cloudfront.net/img/background-image.svg);
                 background-position: 50% 100%;
                 background-size: cover;
-                box-shadow: 12px 12px 38px #d1d3d5, -12px -12px 38px #ffffff;
+                box-shadow: 12px 12px 38px #183757, -12px -12px 38px #2e2d30;
             }
             .header_info {
+                color: rgb(235, 235, 235);
                 .header_title {
+                    color: rgb(235, 235, 235);
                     font-weight: 700;
                     font-family: 'Baloo Tammudu 2', cursive;
                     max-width: 75%;
                 }
                 .header_short_descriptiop {
                     p {
-                        margin-bottom: 0.8rem!important;
+                        strong {
+                            font-weight: bold;
+                        }
+                        margin-bottom: 0.8rem !important;
                     }
+                }
+            }
+        }
+    }
+    @media only screen and (max-width: 992px) {
+        .dynamic_header_overlay {
+            .header_content {
+                .header_thumbnail {
+                    width: calc(340px*0.7);
+                    margin: 1rem auto;
+                    height: calc(510px*0.7);
+                }
+            }
+            .header_info {
+                .header_title {
+                    font-size: 1.7rem;
+                    margin: 0.25rem 0;
+                    max-width: 100% !important;
+                }
+                margin-left: 10px;
+            }
+        }
+    }
+    @media only screen and (max-width: 767px) {
+        height: 100%;
+        .dynamic_header_overlay {
+            .header_info {
+                margin-left: 10px;
+                .header_title {
+                    font-size: 1.7rem;
+                    text-align: center;
+                    margin: 0.25rem 0;
+                    max-width: 100% !important;
+                }
+                .header_btn_group {
+                    width: 100%;
+                    text-align: center;
                 }
             }
         }
@@ -45,8 +92,12 @@
 
 .descripion_film {
     padding: 1rem 0;
+<<<<<<< HEAD
     background-color: rgba(6,15,25,1) ;
     color: #ffffff;
+=======
+    background: #081b27;
+>>>>>>> origin/frontend
     h1 {
         color: #ff6b01;
         font-family: 'Baloo Tammudu 2', cursive;

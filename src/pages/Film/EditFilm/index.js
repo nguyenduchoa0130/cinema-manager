@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import Title from '../../../components/Tittle';
+import TitleBox from '../../../components/TittleBox';
 import countryList from '../../../util/constants/countryList';
 import { useDispatch, useSelector } from 'react-redux';
 import { layTheLoaiPhim, suaPhim } from '../../../redux/actions/QuanLyPhimAction';
@@ -79,7 +79,7 @@ const EditFilm = () => {
 
   return (
     <React.Fragment>
-      <Title text={"Cập nhật thông tin phim"} />
+      <TitleBox text={"Cập nhật thông tin phim"} />
       <MDBCard className="py-3">
         <MDBCardBody>
           <MDBContainer>
