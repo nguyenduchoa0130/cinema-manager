@@ -144,7 +144,7 @@ const Home = () => {
                           <div class="time">dsa</div>
                         </div>
                         <div class="btn-bookve">
-                          <MDBBtn color="red" className="w-100">
+                        <MDBBtn color="red" className="w-100" href="/chi-tiet-phim">
                             Đặt Vé
                           </MDBBtn>
                         </div>
@@ -171,7 +171,7 @@ const Home = () => {
                           <div class="time">dsa</div>
                         </div>
                         <div class="btn-bookve">
-                          <MDBBtn color="red" className="w-100">
+                        <MDBBtn color="red" className="w-100" href="/chi-tiet-phim">
                             Đặt Vé
                           </MDBBtn>
                         </div>
@@ -198,7 +198,7 @@ const Home = () => {
                           <div class="time">dsa</div>
                         </div>
                         <div class="btn-bookve">
-                          <MDBBtn color="red" className="w-100">
+                          <MDBBtn color="red" className="w-100" href="/chi-tiet-phim">
                             Đặt Vé
                           </MDBBtn>
                         </div>
@@ -240,25 +240,25 @@ const Home = () => {
                       <td>Bố già</td>
                       <td>16/04/2021</td>
                       <td>Galaxy Tân Bình</td>
-                      <button class="btn red">Đặt ngay</button>
+                      <a class="btn red" href="/chi-tiet-phim">Đặt ngay</a>
+                    </tr>
+                    <tr class="text-center">  
+                      <td>Bố già</td>
+                      <td>16/04/2021</td>
+                      <td>Galaxy Tân Bình</td>
+                      <a class="btn red" href="/chi-tiet-phim">Đặt ngay</a>
                     </tr>
                     <tr class="text-center">
                       <td>Bố già</td>
                       <td>16/04/2021</td>
                       <td>Galaxy Tân Bình</td>
-                      <button class="btn red">Đặt ngay</button>
+                      <a class="btn red" href="/chi-tiet-phim">Đặt ngay</a>
                     </tr>
                     <tr class="text-center">
                       <td>Bố già</td>
                       <td>16/04/2021</td>
                       <td>Galaxy Tân Bình</td>
-                      <button class="btn red">Đặt ngay</button>
-                    </tr>
-                    <tr class="text-center">
-                      <td>Bố già</td>
-                      <td>16/04/2021</td>
-                      <td>Galaxy Tân Bình</td>
-                      <button class="btn red">Đặt ngay</button>
+                      <a class="btn red" href="/chi-tiet-phim">Đặt ngay</a>
                     </tr>
                     {/*tạm thời m làm 1 mình m 1 nhánh, nên có làm gì thì cứ 
                     git add .
@@ -272,13 +272,13 @@ const Home = () => {
                       <td>Bố già</td>
                       <td>16/04/2021</td>
                       <td>Galaxy Tân Bình</td>
-                      <button class="btn red">Đặt ngay</button>
+                      <a class="btn red" href="/chi-tiet-phim">Đặt ngay</a>
                     </tr>
                     <tr class="text-center">
                       <td>Bố già</td>
                       <td>16/04/2021</td>
                       <td>Galaxy Tân Bình</td>
-                      <button class="btn red">Đặt ngay</button>
+                      <a class="btn red" href="/chi-tiet-phim">Đặt ngay</a>
                     </tr>
                   </tbody>
                 </table>
