@@ -9,6 +9,8 @@ import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
 import { dangNhapAction } from "../../redux/actions/NguoiDungAction";
+import GoogleLogin from "react-google-login";
+import FacebookLogin from 'react-facebook-login';
 
 
 export default function SingIn() {
@@ -31,7 +33,12 @@ export default function SingIn() {
         return <Redirect to="/" />
     }
 
-
+    const responseGoogle = (response) => {
+        console.log(response);
+    }
+    const responseFacebook = (response) => {
+        console.log(response);
+    }
 
     return (
         <div>
@@ -80,12 +87,29 @@ export default function SingIn() {
                                             <MDBListGroup className={styles.list_group}>
                                                 <MDBListGroupItem>
                                                     <div className="text-center">
-                                                        <MDBBtn color="indigo" >Đăng nhập với Facebook</MDBBtn>
+                                                        {/* <MDBBtn color="indigo" >Đăng nhập với Facebook</MDBBtn> */}
+                                                        <FacebookLogin
+                                                            appId="1088597931155576"
+                                                            autoLoad={true}
+                                                            fields="name,email,picture"
+                                                            callback={responseFacebook}
+                                                            cssClass={cx (styles.btn_facebook, styles.btn_social)}
+                                                            icon="fa-facebook"
+                                                        />
                                                     </div>
                                                 </MDBListGroupItem>
                                                 <MDBListGroupItem>
                                                     <div className="text-center">
-                                                        <MDBBtn color="red" >Đăng nhập với Google</MDBBtn>
+                                                        {/* <MDBBtn color="red" >Đăng nhập với Google</MDBBtn> */}
+                                                        <GoogleLogin
+                                                            className = {styles.btn_social}
+                                                            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                                                            buttonText="Đăng nhập với Google"
+                                                            onSuccess={responseGoogle}
+                                                            onFailure={responseGoogle}
+                                                        
+                                                            cookiePolicy={'single_host_origin'}
+                                                        />
                                                     </div>
                                                 </MDBListGroupItem>
                                             </MDBListGroup>
