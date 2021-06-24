@@ -160,7 +160,10 @@ const Home = () => {
                     );
                 });
                 times = arr.map((i) => {
-                    return i.timeStart.split('T')[1].substr(0, 5);
+                    return {
+                        time: i.timeStart.split('T')[1].substr(0, 5),
+                        id: i.id
+                    }
                 });
                 item.schedule.push({
                     date: date.toJSON().split('T')[0],
@@ -174,7 +177,7 @@ const Home = () => {
 
     const formatTime = (times) => {
         return times.map(time => {
-            return time.substr(0, 5);
+            return time.time.substr(0, 5);
         })
     }
 
@@ -224,7 +227,7 @@ const Home = () => {
                                                                         return (
                                                                             <TabPane key={index + 1} tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>
-                                                                                    <FilmSchedule schedules={formatTime(scheduleItem.times)} />
+                                                                                    <FilmSchedule schedules={scheduleItem.times} />
                                                                                 </div>
                                                                             </TabPane>
                                                                         )

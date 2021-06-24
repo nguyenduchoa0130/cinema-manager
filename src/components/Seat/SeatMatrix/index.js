@@ -35,8 +35,7 @@ const SeatMatrix = ({ seatOccupied, selectedSeats, onSelectedSeatsChange,numCol,
                   isSelected && styles.selected,
                   isOccupied && styles.occupied,
                 )}
-                onClick={isOccupied ? null : () => handleSelectedState(seat)}
-               
+                onClick={isOccupied ? null : () => handleSelectedState(seat)} 
              >
                {seat}
              </span>

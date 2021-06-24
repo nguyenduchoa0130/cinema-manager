@@ -81,12 +81,13 @@ const App = () => {
         <Route path="/chi-tiet-phim/:id" component={FilmDetail}>
           {/* <NonAuth children={<FilmDetail />}/>       */}
         </Route>
-        <Route path="/dat-ve/:path?" exact>
+        <Route path="/dat-ve/chon-ghe/:maLichChieu" component={ChooseSeat}></Route>
+        {/* <Route path="/dat-ve/:path?" exact>
           <Switch>
-            <Route path="/dat-ve/chon-ghe" component={ChooseSeat}>
+            <Route path="/dat-ve/chon-ghe/:maLichChieu" component={ChooseSeat}>
             </Route>
           </Switch>
-        </Route>
+        </Route> */}
 
 
         <Route path='/admin/:path?' exact>
