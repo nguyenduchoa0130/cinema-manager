@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBIcon, MDBBtn, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 import styles from "./style.module.scss";
