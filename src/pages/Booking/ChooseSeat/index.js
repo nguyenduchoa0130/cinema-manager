@@ -1,5 +1,5 @@
 import { MDBBtn, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import SeatMatrix from '../../../components/Seat/SeatMatrix';
 import ShowCaseSeat from '../../../components/Seat/ShowCaseSeat';
@@ -9,48 +9,62 @@ import Header from '../../../components/Header';
 import cx from 'classnames';
 import { Collapse, List } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
 const { Panel } = Collapse;
 
-const ChooseSeat = () => {
-    const [seatOccupied, setSeatOccupied] = useState([10, 12, 50, 33, 28, 47])
+const ChooseSeat = (props) => {
+    const { detailBookingRoom } = useSelector(state => state.PhongVeReducer)
+    const { userId } = useSelector(state => state.NguoiDungReducer)
+    // console.log('userId', userId)
     const [selectedSeats, setSelectedSeats] = useState([])
-    const price = 90000;
-    console.log('selectedSeats.length :>> ', selectedSeats.length);
+    // console.log('detailBookingRoom', detailBookingRoom);
+    const dispatch = useDispatch()
+    const maLichChieu = props.match.params.maLichChieu
+    const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === false)
+    useEffect(() => {
+        dispatch(layChiTietPhongVe(maLichChieu))
+    }, [])
+    console.log('seatOccupied', seatOccupied);
+
+    const price = detailBookingRoom?.showtimes?.priceTicket;
+    // console.log('selectedSeats.length :>> ', selectedSeats.length);
+
+
     return (
         <>
             <Header />
             <MDBContainer className="mt-5">
-                <MDBRow className={cx(styles.info_showtime,"mb-3")}>
-                <MDBCol md="4" xs="12">
-                    <img src="https://www.fullphim.net/static/5fe2d564b3fa6403ffa11d1c/60adc5d975000a6b680bfa25_poster-loki-marvel-2021.jpg"
-                     alt="thumbnail" className={styles.thumbnail}
-                    />
-                </MDBCol>
-                <MDBCol md="8" xs="12">
-                    <div className={styles.descripion}>
-                        <h3 className={styles.value}>MORTAL KOMBAT: CUỘC CHIẾN SINH TỬ</h3>
-                        <p>Cụm rạp: <strong className={styles.value}>CGV Aeon Mall Hải Phòng</strong> </p>
-                        <p>Suất chiếu: <strong className={styles.value}>18:45, 24/06/2021</strong> </p>
-                        <p>Rạp: <strong className={styles.value}>Rạp Số 4</strong> </p>
-                    </div>
+                <MDBRow className={cx(styles.info_showtime, "mb-3")}>
+                    <MDBCol md="4" xs="12">
+                        <img src={detailBookingRoom.showtimes?.Film?.thumbnail}
+                            alt="thumbnail" className={styles.thumbnail}
+                        />
+                    </MDBCol>
+                    <MDBCol md="8" xs="12">
+                        <div className={styles.descripion}>
+                            <h3 className={styles.value}>{detailBookingRoom.showtimes?.Film?.name}</h3>
+                            <p>Cụm rạp: <strong className={styles.value}>{detailBookingRoom.showtimes?.CinemaCluster?.name}</strong> </p>
+                            <p>Suất chiếu: <strong className={styles.value}>{detailBookingRoom.showtimes?.timeStart?.split('T')[1].substr(0, 5)}, {detailBookingRoom.showtimes?.timeStart?.split('T')[0]}</strong> </p>
+                            <p>Rạp: <strong className={styles.value}>{detailBookingRoom.showtimes?.Cinema?.name} </strong> </p>
+                        </div>
                     </MDBCol>
                 </MDBRow>
 
-                <Title text={"Chọn ghế"}/>
+                <Title text={"Chọn ghế"} />
 
                 <MDBRow className="mt-4">
                     <MDBCol md="8" xs="12">
                         <ShowCaseSeat className="mx-auto" />
                         <SeatMatrix
-                            numCol={8}
-                            numRow={9}
+                            numCol={detailBookingRoom.showtimes?.Cinema?.col}
+                            numRow={detailBookingRoom.showtimes?.Cinema?.row}
                             seatOccupied={seatOccupied}
                             selectedSeats={selectedSeats}
                             onSelectedSeatsChange={selectedSeats => setSelectedSeats(selectedSeats)}
                         /></MDBCol>
                     <MDBCol md="4" xs="12">
                         <div className={styles.list_seats}>
-
                             <Collapse defaultActiveKey={['1']}
                                 expandIconPosition={'right'}
                                 expandIcon={({ isActive }) => <CaretRightOutlined className="text-white" rotate={isActive ? 90 : 0} />}
@@ -68,7 +82,6 @@ const ChooseSeat = () => {
                                                 </MDBCol>
                                             </MDBRow>
                                         }
-
                                         dataSource={selectedSeats}
                                         renderItem={item => (
                                             <List.Item>
@@ -98,7 +111,16 @@ const ChooseSeat = () => {
 
                         </div>
 
-                        <MDBBtn color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn>
+                        <MDBBtn onClick={() => {
+                            let object = {
+                                userId: userId,
+                                showtimesId: maLichChieu,
+                                timebooking: new Date(),
+                                sumany: selectedSeats.length * price,
+                                seats: selectedSeats
+                            }
+                            console.log('object', object);
+                        }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>

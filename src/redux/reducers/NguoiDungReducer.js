@@ -1,15 +1,18 @@
 import { USERLOGIN } from "../../util/constants/settingSystem";
 
 let taiKhoanNguoiDung = '';
+let userid = '';
 if (localStorage.getItem(USERLOGIN)) {
     let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
     taiKhoanNguoiDung = userLogin.taiKhoan;
+    userid = userLogin.userId
 }
 
 const stateDefault = {
     taiKhoan: taiKhoanNguoiDung,
     thongTinNguoiDung: {},
-    userLogin: {}
+    userLogin: {},
+    userId: userid
 }
 
 export const NguoiDungReducer = (state = stateDefault, action) => {
