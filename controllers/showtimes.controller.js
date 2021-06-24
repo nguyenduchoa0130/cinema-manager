@@ -165,7 +165,7 @@ class ShowtimesController {
                 include: [
                     {
                         model: models.Film,
-                        attributes: [['filmName', 'name']],
+                        attributes: ['thumbnail', ['filmName', 'name']],
                     },
                     {
                         model: models.CinemaSystem,
@@ -177,7 +177,7 @@ class ShowtimesController {
                     },
                     {
                         model: models.Cinema,
-                        attributes: [['cinemaName', 'name']],
+                        attributes: ['row', 'col', ['cinemaName', 'name']],
                     },
                     {
                         model: models.Seat,
