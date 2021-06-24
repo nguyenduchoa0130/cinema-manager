@@ -8,7 +8,7 @@ import 'mdbreact/dist/css/mdb.css';
 import 'antd/dist/antd.css';
 
 import Activated from './pages/Activated';
-import ActiveForgetPassword  from './pages/ActiveForgetPassword';
+import ActiveForgetPassword from './pages/ActiveForgetPassword';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
@@ -39,87 +39,95 @@ import ShowtimeManager from "./pages/Showtime/ShowtimeManager";
 import FilmDetail from "./pages/FilmDetail";
 import SignUpBySocial from "./pages/SignUpBySocial";
 import SignInGoogle from "./pages/SignInGoogle";
+import ChooseSeat from "./pages/Booking/ChooseSeat";
 
 
 export const history = createBrowserHistory();
- 
 
 
-const App = ()=> {
-    return (
-      <Router history={history}>
-        <Switch>
-          <Route exact path="/">
-             <NonAuth children={<Home />}/>   
-          </Route>
-          <Route path="/dang-nhap">
-            <NonAuth children={<SignIn />}/>   
-          </Route>
-          <Route path="/dang-ky">
-            <NonAuth children={<SignUp />}/>   
-          </Route>
-          <Route path="/trang-ca-nhan">
-            <NonAuth children={<Profile />}/>   
-          </Route>
-          <Route path="/quen-mat-khau">
-            <NonAuth children={<ForgotPassword />}/>   
-          </Route>
-          <Route path="/doi-mat-khau">
-            <NonAuth children={<ChangePassword />}/>   
-          </Route>
 
-          <Route path="/hoan-tat-thong-tin-fb">
-            <NonAuth children={<SignUpBySocial />}/>   
-          </Route>
-          <Route path="/hoan-tat-thong-tin-gg">
-            <NonAuth children={<SignInGoogle />}/>   
-          </Route>
-          <Route path="/kich-hoat">
-            <NonAuth children={<Activated />}/>   
-          </Route>
-          <Route path="/chi-tiet-phim/:id" component={FilmDetail}>      
-              {/* <NonAuth children={<FilmDetail />}/>       */}
-          </Route>
-          
-          <Route path='/admin/:path?' exact>
-            <MainAdmin>
-              <Switch>
-                <Route path='/admin' exact component={Breadcrumb}/>
-                {/* Film */}
-                <Route path='/admin/danh-sach-phim'  component={FilmManager} />
-                <Route path='/admin/them-phim'  component={AddFilm} />
-                <Route path='/admin/cap-nhat-phim'  component={EditFilm} />
-                {/* User */}
-                <Route path='/admin/quan-ly-khach-hang'  component={CustomerManager} />
-                <Route path='/admin/cap-nhat-khach-hang'  component={EditCustomer} />
-                <Route path='/admin/them-khach-hang'  component={AddCustomer} />
-                {/* System */}
-                <Route path='/admin/quan-ly-he-thong-rap'  component={SystemManager} />
-                <Route path='/admin/them-he-thong-rap'  component={AddSystem} />
-                <Route path='/admin/cap-nhat-he-thong-rap'  component={EditSystem} />
-                {/* Cluter */}
-                <Route path='/admin/quan-ly-cum-rap'  component={ClusterManager} /> 
-                <Route path='/admin/them-cum-rap'  component={AddCluster} />
-                <Route path='/admin/cap-nhat-cum-rap'  component={EditCluster} />
-                 {/* Cinema */}
-                 <Route path='/admin/quan-ly-rap'  component={CinemaManager} /> 
-                <Route path='/admin/them-rap'  component={AddCinema} />
-                <Route path='/admin/cap-nhat-rap'  component={EditCinema} />
+const App = () => {
+  return (
+    <Router history={history}>
+      <Switch>
+        <Route exact path="/">
+          <NonAuth children={<Home />} />
+        </Route>
+        <Route path="/dang-nhap">
+          <NonAuth children={<SignIn />} />
+        </Route>
+        <Route path="/dang-ky">
+          <NonAuth children={<SignUp />} />
+        </Route>
+        <Route path="/trang-ca-nhan">
+          <NonAuth children={<Profile />} />
+        </Route>
+        <Route path="/quen-mat-khau">
+          <NonAuth children={<ForgotPassword />} />
+        </Route>
+        <Route path="/doi-mat-khau">
+          <NonAuth children={<ChangePassword />} />
+        </Route>
 
-                 {/* Showtime */}
-                <Route path='/admin/quan-ly-suat-chieu'  component={ShowtimeManager} /> 
-                <Route path='/admin/them-suat-chieu'  component={AddShowtime} />
-                <Route path='/admin/cap-nhat-suat-chieu'  component={EditShowtime} />
+        <Route path="/hoan-tat-thong-tin-fb">
+          <NonAuth children={<SignUpBySocial />} />
+        </Route>
+        <Route path="/hoan-tat-thong-tin-gg">
+          <NonAuth children={<SignInGoogle />} />
+        </Route>
+        <Route path="/kich-hoat">
+          <NonAuth children={<Activated />} />
+        </Route>
+        <Route path="/chi-tiet-phim/:id" component={FilmDetail}>
+          {/* <NonAuth children={<FilmDetail />}/>       */}
+        </Route>
+        <Route path="/dat-ve/:path?" exact>
+          <Switch>
+            <Route path="/dat-ve/chon-ghe" component={ChooseSeat}>
+            </Route>
+          </Switch>
+        </Route>
 
-              </Switch>
-            </MainAdmin>
-          </Route>
-          <Route path="/xac-nhan-otp">
-            <ActiveForgetPassword />
-          </Route>
-        </Switch>
-      </Router>
-    );
-  }
+
+        <Route path='/admin/:path?' exact>
+          <MainAdmin>
+            <Switch>
+              <Route path='/admin' exact component={Breadcrumb} />
+              {/* Film */}
+              <Route path='/admin/danh-sach-phim' component={FilmManager} />
+              <Route path='/admin/them-phim' component={AddFilm} />
+              <Route path='/admin/cap-nhat-phim' component={EditFilm} />
+              {/* User */}
+              <Route path='/admin/quan-ly-khach-hang' component={CustomerManager} />
+              <Route path='/admin/cap-nhat-khach-hang' component={EditCustomer} />
+              <Route path='/admin/them-khach-hang' component={AddCustomer} />
+              {/* System */}
+              <Route path='/admin/quan-ly-he-thong-rap' component={SystemManager} />
+              <Route path='/admin/them-he-thong-rap' component={AddSystem} />
+              <Route path='/admin/cap-nhat-he-thong-rap' component={EditSystem} />
+              {/* Cluter */}
+              <Route path='/admin/quan-ly-cum-rap' component={ClusterManager} />
+              <Route path='/admin/them-cum-rap' component={AddCluster} />
+              <Route path='/admin/cap-nhat-cum-rap' component={EditCluster} />
+              {/* Cinema */}
+              <Route path='/admin/quan-ly-rap' component={CinemaManager} />
+              <Route path='/admin/them-rap' component={AddCinema} />
+              <Route path='/admin/cap-nhat-rap' component={EditCinema} />
+
+              {/* Showtime */}
+              <Route path='/admin/quan-ly-suat-chieu' component={ShowtimeManager} />
+              <Route path='/admin/them-suat-chieu' component={AddShowtime} />
+              <Route path='/admin/cap-nhat-suat-chieu' component={EditShowtime} />
+
+            </Switch>
+          </MainAdmin>
+        </Route>
+        <Route path="/xac-nhan-otp">
+          <ActiveForgetPassword />
+        </Route>
+      </Switch>
+    </Router>
+  );
+}
 
 export default App;

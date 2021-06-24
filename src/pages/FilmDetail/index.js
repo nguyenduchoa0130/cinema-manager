@@ -68,7 +68,7 @@ const FilmDetail = (props) => {
         ];
         let dayOfWeek = new Date(date).getDay();
         let result = listDayOfWeek.find((item) => {
-            return item.dayOfWeek == dayOfWeek;
+            return item.dayOfWeek === dayOfWeek;
         });
         return result.name;
     }
@@ -91,7 +91,7 @@ const FilmDetail = (props) => {
         // Lấy danh sách phim
         listShowtimes.forEach((item) => {
             let arr = listFilm.filter((film) => {
-                return film.id == item.Film.id;
+                return film.id === item.Film.id;
             });
             if (!arr.length) {
                 listFilm.push(item.Film);
@@ -103,7 +103,7 @@ const FilmDetail = (props) => {
             // lấy danh sách ngày
             listShowtimes.forEach((showtimes) => {
                 let dateCheck = new Date(showtimes.timeStart.split('T')[0]);
-                let arr = dates.filter((date) => date.getTime() == dateCheck.getTime());
+                let arr = dates.filter((date) => date.getTime() === dateCheck.getTime());
                 if (!arr.length) {
                     dates.push(dateCheck);
                 }
@@ -115,7 +115,7 @@ const FilmDetail = (props) => {
                     let { start, end } = getStartAndEndFromTimeStart(date.toJSON());
                     let timeStart = new Date(showtimes.timeStart);
                     return (
-                        showtimes.Film.id == item.id && start.getTime() <= timeStart.getTime() && timeStart.getTime() <= end.getTime()
+                        showtimes.Film.id === item.id && start.getTime() <= timeStart.getTime() && timeStart.getTime() <= end.getTime()
                     );
                 });
                 times = arr.map((i) => {
