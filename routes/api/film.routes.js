@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const authMid = require('../../middlewares/auth.middleware');
+const bookingMid = require('../../middlewares/booking.middleware');
 const filmMid = require('../../middlewares/film.middleware');
 const uploads = require('../../config/multer');
 const filmCon = require('../../controllers/film.controller');
@@ -22,7 +23,7 @@ router
         filmMid.isCategoryIdValid,
         filmCon.update
     )
-    .delete(filmMid.isFilmIdValid, filmCon.delete);
+    .delete(filmMid.isFilmIdValid, bookingMid.checkBookingByfilmId, filmCon.delete);
 router.post(
     '/add',
     uploads.fields([

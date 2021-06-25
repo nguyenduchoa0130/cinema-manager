@@ -1,5 +1,6 @@
 const models = require('../models/index').sequelize.models;
 const helper = require('../config/helper');
+const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShowtimesMiddleware {
     isShowtimesIdValid(req, res, next) {
@@ -102,5 +103,6 @@ class ShowtimesMiddleware {
             return next(apiError.badRequest('Thời gian chiếu không hợp lệ (thời gian đã qua) ' + invalidTimeStart.join(' ')));
         }
     }
+
 }
 module.exports = new ShowtimesMiddleware();

@@ -1,11 +1,12 @@
 const router = require('express').Router();
 const authMid = require('../../middlewares/auth.middleware');
+const bookingMid = require('../../middlewares/booking.middleware');
 const showtimesMid = require('../../middlewares/showtimes.middleware');
 const showtimesCon = require('../../controllers/showtimes.controller');
 router
     .route('/:id')
     .put(showtimesMid.isShowtimesIdValid, showtimesMid.isValidTimeStart, showtimesCon.update)
-    .delete(showtimesMid.isShowtimesIdValid, showtimesCon.delete);
+    .delete(showtimesMid.isShowtimesIdValid, bookingMid.checkBookingByShowtimesId, showtimesCon.delete);
 router.post('/add', showtimesMid.isFilmIdValid, showtimesMid.isValidTimeStart, showtimesCon.insert);
 router.get(
     '/',
