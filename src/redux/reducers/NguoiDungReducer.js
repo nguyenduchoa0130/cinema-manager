@@ -4,7 +4,7 @@ let taiKhoanNguoiDung = '';
 let userid = '';
 if (localStorage.getItem(USERLOGIN)) {
     let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
-    taiKhoanNguoiDung = userLogin.taiKhoan;
+    taiKhoanNguoiDung = userLogin.email;
     userid = userLogin.userId
 }
 

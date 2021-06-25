@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import cx from 'classnames';
 import { MDBAnimation, MDBBtn, MDBCol, MDBContainer, MDBModal, MDBRow } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
-import { layChiTietPhim, layLichChieu} from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
+import { layChiTietPhim, layLichChieu } from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
 import Header from "../../components/Header";
 import ModalVideo from 'react-modal-video'
 import '../../../node_modules/react-modal-video/scss/modal-video.scss';
@@ -119,7 +119,10 @@ const FilmDetail = (props) => {
                     );
                 });
                 times = arr.map((i) => {
-                    return i.timeStart.split('T')[1].substr(0, 5);
+                    return {
+                        time: i.timeStart.split('T')[1].substr(0, 5),
+                        id: i.id
+                    }
                 });
                 item.schedule.push({
                     date: date.toJSON().split('T')[0],
@@ -132,7 +135,7 @@ const FilmDetail = (props) => {
 
     const formatTime = (times) => {
         return times.map(time => {
-            return time.substr(0, 5);
+            return time.time.substr(0, 5);
         })
     }
 
@@ -180,7 +183,7 @@ const FilmDetail = (props) => {
                                                                         return (
                                                                             <TabPane key={index + 1} tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>
-                                                                                    <FilmSchedule schedules={formatTime(scheduleItem.times)} />
+                                                                                    <FilmSchedule schedules={scheduleItem.times} />
                                                                                 </div>
                                                                             </TabPane>
                                                                         )
