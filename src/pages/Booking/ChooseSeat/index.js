@@ -24,7 +24,7 @@ const ChooseSeat = (props) => {
     const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === false)
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
-    }, [])
+    }, [dispatch,maLichChieu])
     console.log('seatOccupied', seatOccupied);
 
     const price = detailBookingRoom?.showtimes?.priceTicket;

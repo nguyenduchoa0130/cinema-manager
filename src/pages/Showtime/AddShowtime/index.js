@@ -27,7 +27,7 @@ const AddShowtime = () => {
   useEffect(() => {
     dispatch(layDanhSachPhimDangCongChieu());
     dispatch(layHeThongRap());
-  }, [])
+  }, [dispatch])
 
   const [values, setValues] = useState([]);
 
@@ -64,13 +64,13 @@ const AddShowtime = () => {
     if (rap_Formik.values.systemId !== '') {
       dispatch(layCumRapTheoHethong(rap_Formik.values.systemId))
     }
-  }, [rap_Formik.values.systemId])
+  }, [dispatch,rap_Formik.values.systemId])
 
   useEffect(() => {
     if (rap_Formik.values.clusterId !== '') {
       dispatch(layRapTheoCumRap(rap_Formik.values.clusterId))
     }
-  }, [rap_Formik.values.clusterId])
+  }, [dispatch,rap_Formik.values.clusterId])
 
 
   const renderPhim = () => {

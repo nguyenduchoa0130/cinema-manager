@@ -16,7 +16,6 @@ import SignIn from './pages/SignIn';
 import ForgotPassword from './pages/ForgotPassword';
 import ChangePassword from './pages/ChangePassword';
 import MainAdmin from "./layouts/Admin";
-import Breadcrumb from "./components/Breadcrumb";
 import FilmManager from "./pages/Film/FilmManager";
 import NonAuth from "./layouts/NonAuth";
 import AddFilm from "./pages/Film/AddFilm";
@@ -40,6 +39,7 @@ import FilmDetail from "./pages/FilmDetail";
 import SignUpBySocial from "./pages/SignUpBySocial";
 import SignInGoogle from "./pages/SignInGoogle";
 import ChooseSeat from "./pages/Booking/ChooseSeat";
+import Dashboard from "./pages/Dashboard";
 
 
 export const history = createBrowserHistory();
@@ -93,7 +93,7 @@ const App = () => {
         <Route path='/admin/:path?' exact>
           <MainAdmin>
             <Switch>
-              <Route path='/admin' exact component={Breadcrumb} />
+              <Route path='/admin' exact component={Dashboard} />
               {/* Film */}
               <Route path='/admin/danh-sach-phim' component={FilmManager} />
               <Route path='/admin/them-phim' component={AddFilm} />

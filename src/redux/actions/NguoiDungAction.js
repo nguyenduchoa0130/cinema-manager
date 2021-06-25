@@ -140,6 +140,8 @@ export const dangXuatAction = () => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
+            
+            history.push('/');
             alert('Đăng xuất thành công')
         } catch (error) {
             alert(error.response.data.msg)

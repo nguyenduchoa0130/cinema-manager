@@ -3,7 +3,7 @@ import { MDBNavbar, MDBNavbarBrand, MDBNavbarToggler, MDBCollapse, MDBNavbarNav,
 import { useDispatch } from "react-redux";
 import { dangXuatAction } from "../../redux/actions/NguoiDungAction";
 import { TOKEN, USERLOGIN } from "../../util/constants/settingSystem";
-
+import styles from "./style.module.scss";
 
 export default function Header() {
 
@@ -20,7 +20,7 @@ export default function Header() {
     <MDBNavbar color="#0c2738" dark expand="md" className="boder-bottom">
       <MDBNavbarBrand>
         <MDBNavLink to="/">
-          <strong className="white-text">CineJun</strong>
+          <strong className={styles.brand}>CineJun</strong>
         </MDBNavLink>
       </MDBNavbarBrand>
       <MDBNavbarToggler onClick={toggleCollapse} />

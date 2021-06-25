@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import {  hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
 import { useDispatch, useSelector } from "react-redux";
-import { USERLOGIN } from "../../util/constants/settingSystem";
+import logo from "~/assets/images/logo.svg"
 
 export default function SignUpBySocial() {
     const { userLogin } = useSelector(state => state.NguoiDungReducer)
@@ -81,7 +81,7 @@ export default function SignUpBySocial() {
                                         </Link>
 
                                     </div>
-                                    <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" alt="logo" />
+                                    <img className={styles.wrapper_header_logo} src={logo} alt="logo" />
                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Hoàn tất đăng ký</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>

@@ -1,5 +1,5 @@
-import { MDBBtn, MDBCol, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow } from 'mdbreact';
-import React,{ useState } from 'react';
+import { MDBBtn, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow } from 'mdbreact';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 const Modal = ({ isShowing, hide,title,children }) => {

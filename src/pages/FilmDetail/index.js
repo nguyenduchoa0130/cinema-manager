@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import cx from 'classnames';
-import { MDBAnimation, MDBBtn, MDBCol, MDBContainer, MDBModal, MDBRow } from "mdbreact";
+import { MDBAnimation, MDBBtn, MDBCol, MDBContainer, MDBRow } from "mdbreact";
 import { useDispatch, useSelector } from "react-redux";
 import { layChiTietPhim, layLichChieu} from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
 import Header from "../../components/Header";
@@ -16,10 +16,11 @@ const FilmDetail = (props) => {
     const { dataFilmDetail, listShowtimesOfFilm } = useSelector(state => state.ChiTietPhimReducer)
     const dispatch = useDispatch()
     const maPhim = props.match.params.id;
+    
     useEffect(() => {
         dispatch(layChiTietPhim(maPhim))
         dispatch(layLichChieu(maPhim))
-    }, [])
+    }, [dispatch, maPhim])
 
     const [isOpen, setOpen] = useState(false);
     const { TabPane } = Tabs;
@@ -35,43 +36,7 @@ const FilmDetail = (props) => {
 
         return newDate;
     }
-    function getDateOfWeek(date) {
-        let listDayOfWeek = [
-            {
-                dayOfWeek: 0,
-                name: 'Chủ Nhật',
-            },
-            {
-                dayOfWeek: 1,
-                name: 'Thứ Hai',
-            },
-            {
-                dayOfWeek: 2,
-                name: 'Thứ Ba',
-            },
-            {
-                dayOfWeek: 3,
-                name: 'Thứ Tư',
-            },
-            {
-                dayOfWeek: 4,
-                name: 'Thứ Năm',
-            },
-            {
-                dayOfWeek: 5,
-                name: 'Thứ Sáu',
-            },
-            {
-                dayOfWeek: 6,
-                name: 'Thứ Bảy',
-            },
-        ];
-        let dayOfWeek = new Date(date).getDay();
-        let result = listDayOfWeek.find((item) => {
-            return item.dayOfWeek === dayOfWeek;
-        });
-        return result.name;
-    }
+   
     function getStartAndEndFromTimeStart(timestart) {
         let start = new Date(timestart);
         let yearMonthDate = timestart.split('T')[0].split('-');
@@ -172,13 +137,13 @@ const FilmDetail = (props) => {
 
                                                     //Render item Film     
                                                     return (
-                                                        <TabPane className={styles.tab_schedule} key={index + 1} tab={renderFilmTabPane(showTime)} key={index + 1}>
+                                                        <TabPane className={styles.tab_schedule} tab={renderFilmTabPane(showTime)} key={index + 1}>
                                                             <Tabs tabPosition="top" defaultActiveKey="1" centered className="mt-4 text-white">
                                                                 {
                                                                     showTime.schedule?.map((scheduleItem, index) => {
                                                                         console.log('scheduleItem :>> ', scheduleItem);
                                                                         return (
-                                                                            <TabPane key={index + 1} tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
+                                                                            <TabPane  tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>
                                                                                     <FilmSchedule schedules={formatTime(scheduleItem.times)} />
                                                                                 </div>

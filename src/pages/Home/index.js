@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBIcon, MDBBtn, MDBListGroup, MDBListGroupItem } from 'mdbreact';
+import React, { useEffect } from "react";
+import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBListGroup, MDBListGroupItem } from 'mdbreact';
 import styles from "./style.module.scss";
 import ListPoster from "../../components/ListPoster";
 import Title from "../../components/Title";
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { laydanhSachLichChieu, layDanhSachPhimDangCongChieu, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
 import { Tabs } from 'antd';
 import FilmSchedule from "../../components/FilmSchedule";
-import _ from "lodash";
 import moment from 'moment';
 
 const { TabPane } = Tabs;
@@ -23,7 +22,7 @@ const Home = () => {
         dispatch(layDanhSachPhimDangCongChieu())
         dispatch(layDanhSachPhimSapCongChieu())
         dispatch(laydanhSachLichChieu())
-    }, [])
+    }, [dispatch])
 
     const settings = {
         dots: true,
@@ -71,43 +70,7 @@ const Home = () => {
 
         return newDate;
     }
-    function getDateOfWeek(date) {
-        let listDayOfWeek = [
-            {
-                dayOfWeek: 0,
-                name: 'Chủ Nhật',
-            },
-            {
-                dayOfWeek: 1,
-                name: 'Thứ Hai',
-            },
-            {
-                dayOfWeek: 2,
-                name: 'Thứ Ba',
-            },
-            {
-                dayOfWeek: 3,
-                name: 'Thứ Tư',
-            },
-            {
-                dayOfWeek: 4,
-                name: 'Thứ Năm',
-            },
-            {
-                dayOfWeek: 5,
-                name: 'Thứ Sáu',
-            },
-            {
-                dayOfWeek: 6,
-                name: 'Thứ Bảy',
-            },
-        ];
-        let dayOfWeek = new Date(date).getDay();
-        let result = listDayOfWeek.find((item) => {
-            return item.dayOfWeek === dayOfWeek;
-        });
-        return result.name;
-    }
+   
     function getStartAndEndFromTimeStart(timestart) {
         let start = new Date(timestart);
         let yearMonthDate = timestart.split('T')[0].split('-');
@@ -173,7 +136,7 @@ const Home = () => {
         return listFilm;
     }
 
-
+    // eslint-disable-next-line
     const formatTime = (times) => {
         return times.map(time => {
             return time.time.substr(0, 5);
@@ -218,13 +181,13 @@ const Home = () => {
 
                                                     //Render item Film     
                                                     return (
-                                                        <TabPane className={styles.tab_schedule} key={index + 1} tab={renderFilmTabPane(showTime)} key={index + 1}>
+                                                        <TabPane className={styles.tab_schedule}  tab={renderFilmTabPane(showTime)} key={index + 1}>
                                                             <Tabs tabPosition="top" defaultActiveKey="1" centered className="mt-4 text-white">
                                                                 {
                                                                     showTime.schedule?.map((scheduleItem, index) => {
                                                                         console.log('scheduleItem :>> ', scheduleItem);
                                                                         return (
-                                                                            <TabPane key={index + 1} tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
+                                                                            <TabPane tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>
                                                                                     <FilmSchedule schedules={scheduleItem.times} />
                                                                                 </div>
@@ -293,6 +256,7 @@ const Home = () => {
         );
     }
 
+    // eslint-disable-next-line
     const renderTabCluster = (listCluster) => {
         return (
             <Tabs tabPosition="left" defaultActiveKey="4" centered className="mt-4 text-white">

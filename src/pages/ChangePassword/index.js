@@ -9,6 +9,7 @@ import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { matKhauMoi } from "../../redux/actions/NguoiDungAction";
 import { USERLOGIN } from "../../util/constants/settingSystem";
+import logo from "~/assets/images/logo.svg"
 
 export default function ChangePassword() {
     const dispatch = useDispatch()
@@ -54,7 +55,7 @@ export default function ChangePassword() {
                                         </Link>
 
                                     </div>
-                                    <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" alt="logo" />
+                                    <img className={styles.wrapper_header_logo} src={logo} alt="logo" />
                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Đổi mật khẩu</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>
