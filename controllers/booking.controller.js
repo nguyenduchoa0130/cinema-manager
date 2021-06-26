@@ -92,7 +92,7 @@ class BookingController {
                             { transaction: t }
                         ),
                     ]);
-                    tickets.push(`ID: ${d[1].id}, Số ghế: ${seat.symbol}`);
+                    tickets.push(`ID: ${d[1].id} - Số ghế: ${seat.symbol}`);
                 }
                 return {
                     id: booking.id,
@@ -128,6 +128,7 @@ class BookingController {
                     `Bạn đã đặt thành vé thành công.
 Chi tiết giao dịch: 
 Mã giao dịch: ${result.id}
+Chi tiết các vé: ${tickets.join(', ')}
 Cụm rạp: ${details[1].CinemaCluster.clusterName}
 Rạp: ${details[1].Cinema.cinemaName}
 Địa chỉ: ${details[1].CinemaCluster.address}
@@ -136,7 +137,6 @@ Thời lượng: ${details[1].Film.duration}
 Thời gian chiếu: ${details[1].timeStart.toJSON().split('T')[0]} - ${details[1].timeStart.toJSON().split('T')[1].substr(0, 5)}
 Thời gian kết thúc: ${details[1].timeEnd.toJSON().split('T')[0]} - ${details[1].timeEnd.toJSON().split('T')[1].substr(0, 5)}
 Tổng tiền: ${result.sumMoney}
-Ghế: ${tickets.join(', ')}
 Xin cảm ơn`
                 );
             }
