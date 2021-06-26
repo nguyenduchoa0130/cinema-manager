@@ -25,7 +25,7 @@ const ChooseSeat = (props) => {
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
     }, [])
-    console.log('seatOccupied', seatOccupied);
+    // console.log('seatOccupied', seatOccupied);
 
     const price = detailBookingRoom?.showtimes?.priceTicket;
     // console.log('selectedSeats.length :>> ', selectedSeats.length);
@@ -115,8 +115,7 @@ const ChooseSeat = (props) => {
                             let object = {
                                 userId: userId,
                                 showtimesId: maLichChieu,
-                                timebooking: new Date(),
-                                sumany: selectedSeats.length * price,
+                                sumMoney: selectedSeats.length * price,
                                 seats: selectedSeats
                             }
                             console.log('object', object);
