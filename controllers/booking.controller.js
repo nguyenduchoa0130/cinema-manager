@@ -52,12 +52,12 @@ class BookingController {
     }
     async insert(req, res, next) {
         let data = req.body;
-        data = {
-            userId: 1,
-            showtimesId: '28',
-            sumMoney: 45000,
-            seats: [1326, 1327, 1328, 1329],
-        };
+        // data = {
+        //     userId: 1,
+        //     showtimesId: '28',
+        //     sumMoney: 45000,
+        //     seats: [1326, 1327, 1328, 1329],
+        // };
         let priceTicket = data.sumMoney / data.seats.length;
         try {
             let tickets = [];
@@ -80,8 +80,7 @@ class BookingController {
                     if (seat.isOrder) {
                         throw new Error('Ghế được được bởi người khác');
                     }
-                    tickets.push(seat.symbol);
-                    await Promise.all([
+                    let d = await Promise.all([
                         models.Seat.update({ isOrder: true, priceTicket }, { where: { id: seatId }, transaction: t }),
                         models.Ticket.create(
                             {
@@ -93,6 +92,7 @@ class BookingController {
                             { transaction: t }
                         ),
                     ]);
+                    tickets.push(`ID: ${d[1].id}, Số ghế: ${seat.symbol}`);
                 }
                 return {
                     id: booking.id,
