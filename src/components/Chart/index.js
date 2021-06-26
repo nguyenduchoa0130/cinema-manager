@@ -1,5 +1,4 @@
-import styles from "./style.module.scss";
-import React, { FunctionComponent } from "react";
+import React from "react";
 import {
     LineChart,
     Line,
@@ -7,7 +6,6 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer
 } from "recharts";
 

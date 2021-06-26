@@ -29,8 +29,15 @@ const AddShowtime = () => {
     dispatch(layHeThongRap());
   }, [dispatch])
 
-  const [values, setValues] = useState([]);
+  // eslint-disable-next-line
+  const [timeStarts, setTimeStarts] = useState([]);
 
+  const onChangeTimeStarts = (dates)=>{
+      setTimeStarts(dates)
+      formik.values.timeStart = dates?.map(item => {
+        return item.format("YYYY-MM-DD HH:mm")
+      })
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -170,10 +177,8 @@ const AddShowtime = () => {
                     format="YYYY-MM-DD HH:mm"
                     containerClassName={styles.dateTime_Picker}
                     inputClass="custom-input"
-                    value={formik.values.timeStart = values?.map(item => {
-                      return item.format("YYYY-MM-DD HH:mm")
-                    })}
-                    onChange={setValues}
+                    value={timeStarts}
+                    onChange={onChangeTimeStarts}
                     multiple
                     plugins={[
                       <TimePicker position="bottom" hideSeconds />,

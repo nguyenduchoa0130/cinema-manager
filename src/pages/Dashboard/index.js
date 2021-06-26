@@ -1,7 +1,7 @@
-import { MDBCard, MDBCardBody, MDBCardHeader, MDBCol, MDBRow } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCol, MDBRow } from "mdbreact";
 import TitleBox from "../../components/TittleBox";
 import styles from "./style.module.scss";
-import React, { useState } from "react";
+import React from "react";
 import Chart from "~/components/Chart";
 import Title from "../../components/Title";
 import cx from 'classnames';

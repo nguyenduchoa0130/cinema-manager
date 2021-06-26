@@ -2,8 +2,7 @@ import React from 'react';
 import styles from './style.module.scss';
 import cx from 'classnames';
 
-const SeatMatrix = ({ seatOccupied, selectedSeats, onSelectedSeatsChange,numCol,numRow })=> {
-    const seats = Array.from({ length: numCol * numRow }, (_, i) => i)
+const SeatMatrix = ({  seats,seatOccupied, selectedSeats, onSelectedSeatsChange,numCol,numRow })=> {
     
     function handleSelectedState(seat) {
       const isSelected = selectedSeats.includes(seat)
@@ -23,13 +22,13 @@ const SeatMatrix = ({ seatOccupied, selectedSeats, onSelectedSeatsChange,numCol,
         </div>
   
         <div className={styles.seats} style={{gridColumn:{numCol}}}>
-          {seats.map(seat => {
+          {seats?.map(seat => {
             const isSelected = selectedSeats.includes(seat)
             const isOccupied = seatOccupied.includes(seat)
             return (
               <span
                 tabIndex="0"
-                key={seat}
+                key={seat.id}
                 className={cx(
                   styles.seat,
                   isSelected && styles.selected,
@@ -37,7 +36,7 @@ const SeatMatrix = ({ seatOccupied, selectedSeats, onSelectedSeatsChange,numCol,
                 )}
                 onClick={isOccupied ? null : () => handleSelectedState(seat)} 
              >
-               {seat}
+               {seat.symbol}
              </span>
             )
           })}
