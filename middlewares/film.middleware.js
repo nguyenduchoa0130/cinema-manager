@@ -1,6 +1,7 @@
 const models = require('../models/index').sequelize.models;
 const helper = require('../config/helper');
 const apiError = require('../errors/apiError');
+const { Op } = require('sequelize');
 class FilmMiddleware {
     isFilmIdValid(req, res, next) {
         let id = req.params.id;
@@ -26,6 +27,19 @@ class FilmMiddleware {
         } else {
             return next();
         }
+    }
+    async updateStatusFilm(req, res, next) {
+        await models.Film.update(
+            { statusId: 'DANG_CONG_CHIEU' },
+            {
+                where: {
+                    premiere: {
+                        [Op.lte]: helper.convertUTCDateToLocalDate(new Date()),
+                    },
+                },
+            }
+        );
+        return next();
     }
 }
 module.exports = new FilmMiddleware();

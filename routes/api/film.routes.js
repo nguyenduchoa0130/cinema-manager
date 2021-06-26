@@ -5,9 +5,10 @@ const filmMid = require('../../middlewares/film.middleware');
 const uploads = require('../../config/multer');
 const filmCon = require('../../controllers/film.controller');
 router.get('/search', filmCon.fetchFilmByKey, filmCon.fetchByCategory, filmCon.fetchByStatus);
+router.get('/hot', filmCon.fetchFilmHot);
 router
     .route('/:id')
-    .get(filmMid.isFilmIdValid, filmCon.fetchById)
+    .get(filmMid.isFilmIdValid, filmMid.updateStatusFilm, filmCon.fetchById)
     .put(
         uploads.fields([
             {
@@ -39,6 +40,13 @@ router.post(
     filmCon.add
 );
 
-router.get('/', filmCon.fetchByCategory, filmCon.fetchByStatus, filmCon.fetchFilmByKey, filmCon.fetchAll);
+router.get(
+    '/',
+    filmMid.updateStatusFilm,
+    filmCon.fetchByCategory,
+    filmCon.fetchByStatus,
+    filmCon.fetchFilmByKey,
+    filmCon.fetchAll
+);
 
 module.exports = router;

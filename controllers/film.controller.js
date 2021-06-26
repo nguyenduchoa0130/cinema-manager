@@ -4,6 +4,30 @@ const models = require('../models/index').sequelize.models;
 const helper = require('../config/helper');
 const apiError = require('../errors/apiError');
 class FilmController {
+    async fetchFilmHot(req, res, next) {
+		console.log(1);
+        try {
+            let films = await models.Film.findAll({
+                attributes: {
+                    exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
+                },
+                include: [
+                    {
+                        model: models.Showtimes,
+                        attributes: ['id'],
+                        include: [
+                            {
+                                model: models.Booking,
+                            },
+                        ],
+                    },
+                ],
+            });
+            return res.json(films);
+        } catch (err) {
+            next(err);
+        }
+    }
     async fetchAll(req, res, next) {
         let page = req.query.page ? parseInt(req.query.page) : null;
         let limit = req.query.limit ? parseInt(req.query.limit) : null;
@@ -42,7 +66,7 @@ class FilmController {
     async fetchFilmByKey(req, res, next) {
         let key = req.query.key;
         let page = req.query.page ? parseInt(req.query.page) : null;
-        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
         let offset = page ? (page - 1) * limit : null;
         if (!key) return next();
         try {
@@ -123,7 +147,7 @@ class FilmController {
             return next();
         }
         let page = req.query.page ? parseInt(req.query.page) : null;
-        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
         let offset = page ? (page - 1) * limit : null;
         if (!cate) return next();
         let id = Math.abs(Math.floor(parseInt(cate))) ? Math.abs(Math.floor(parseInt(cate))) : -1;
@@ -174,7 +198,7 @@ class FilmController {
             return next();
         }
         let page = req.query.page ? parseInt(req.query.page) : null;
-        let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+        let limit = req.query.limit ? parseInt(req.query.limit) : null;
         let offset = page ? (page - 1) * limit : null;
         if (!status) return next();
         try {

@@ -99,7 +99,11 @@ class StatisticController {
                 details: statistic,
             });
         } else {
-            return res.json({});
+            return res.json({
+                totalMoney: 0,
+                totalTicket: 0,
+                details: [],
+            });
         }
     }
     async byFilmId(req, res, next) {
@@ -161,19 +165,37 @@ class StatisticController {
         let dates = data.map((item) => item.timeBooking.toJSON().split('T')[0]);
         dates = [...new Set(dates)]; // lấy danh sách ngày
         dates.forEach((date) => {
-            let total = data.reduce((cash, item) => {
+            let sumMoney = data.reduce((cash, item) => {
                 if (item.timeBooking.toJSON().startsWith(date)) {
                     return cash + +item.sumMoney;
                 } else {
                     return cash;
                 }
             }, 0);
+            let numOfTickets = data.reduce((ticket, item) => {
+                return ticket + item.Tickets.length;
+            }, 0);
             statistic.push({
                 date,
-                total,
+                sumMoney,
+                numOfTickets,
             });
         });
-        return res.json(statistic);
+        if (statistic.length) {
+            let totalMoney = statistic.reduce((total, item) => total + item.sumMoney, 0);
+            let totalTicket = statistic.reduce((total, item) => total + item.numOfTickets, 0);
+            return res.json({
+                totalMoney,
+                totalTicket,
+                details: statistic,
+            });
+        } else {
+			return res.json({
+                totalMoney: 0,
+                totalTicket: 0,
+                details: [],
+            });
+        }
     }
 }
 module.exports = new StatisticController();
