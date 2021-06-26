@@ -11,9 +11,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
     return (
         <Slider {...settings} className={cx(styles.listFilm,className)}>
             {
-                dataSource?.map(film => {
+                dataSource?.map((film,index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>
@@ -22,9 +22,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
                 })
             }
             {
-                dataSource?.map(film => {
+                dataSource?.map((film, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>
@@ -33,9 +33,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
                 })
             }
             {
-                dataSource?.map(film => {
+                dataSource?.map((film,index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>
@@ -44,9 +44,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
                 })
             }
             {
-                dataSource?.map(film => {
+                dataSource?.map((film, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>
@@ -55,9 +55,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
                 })
             }
             {
-                dataSource?.map(film => {
+                dataSource?.map((film, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>
@@ -66,9 +66,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
                 })
             }
             {
-                dataSource?.map(film => {
+                dataSource?.map((film, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>
@@ -77,9 +77,9 @@ const FilmSlider = ({settings, dataSource,className }) => {
                 })
             }
             {
-                dataSource?.map(film => {
+                dataSource?.map((film, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
                                 <FilmItem info={film} />
                             </div>

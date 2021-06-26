@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './style.module.scss'
 
@@ -9,9 +9,9 @@ const FilmSchedule = ({ schedules}) => {
     console.log('schedules', schedules);
     return (
         <div className={styles.film_schedule_box}>
-            {schedules.map(item => {
+            {schedules.map((item, index) => {
                 return (
-                    <Link to={`/dat-ve/chon-ghe/${item.id}`}>
+                    <Link key={index} to={`/dat-ve/chon-ghe/${item.id}`}>
                         <div title={`Rạp:`} className={styles.item}>{item.time}</div>
                     </Link>)
             })}

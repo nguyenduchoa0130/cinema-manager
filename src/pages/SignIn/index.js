@@ -11,6 +11,7 @@ import { USERLOGIN } from "../../util/constants/settingSystem";
 import { dangNhapAction, dangNhapFBAction, dangNhapGGAction } from "../../redux/actions/NguoiDungAction";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
+import logo from "../../assets/images/logo.svg"
 
 
 export default function SingIn() {
@@ -64,7 +65,7 @@ export default function SingIn() {
                             <MDBCol md="6">
                                 <MDBContainer>
                                     <div className={styles.wrapper_header}>
-                                        <img className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" alt="logo" />
+                                        <img className={styles.wrapper_header_logo} src={logo} alt="logo" />
                                         <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Đăng nhập</h2>
                                     </div>
                                     <div className={styles.wrapper_form}>

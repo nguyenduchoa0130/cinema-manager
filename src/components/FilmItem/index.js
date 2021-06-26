@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import styles from './style.module.scss'
 import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBBtn } from 'mdbreact';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { layLichChieu } from '../../redux/actions/ChiTietPhimAction/ChiTietPhimAction';
 
@@ -11,7 +11,7 @@ const FilmItem = ({ info },props) => {
     const dispatch = useDispatch()
     return (
         <Fragment>
-            <Link path={info.path}>
+            <Link to={info.path}>
                 <MDBCard className={styles.cart}>
                     <div className={styles.cart_img}>
                         <MDBCardImage className="img-fluid" src={info.thumbnail}

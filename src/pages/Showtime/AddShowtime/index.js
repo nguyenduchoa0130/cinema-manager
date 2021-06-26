@@ -27,10 +27,17 @@ const AddShowtime = () => {
   useEffect(() => {
     dispatch(layDanhSachPhimDangCongChieu());
     dispatch(layHeThongRap());
-  }, [])
+  }, [dispatch])
 
-  const [values, setValues] = useState([]);
+  // eslint-disable-next-line
+  const [timeStarts, setTimeStarts] = useState([]);
 
+  const onChangeTimeStarts = (dates)=>{
+      setTimeStarts(dates)
+      formik.values.timeStart = dates?.map(item => {
+        return item.format("YYYY-MM-DD HH:mm")
+      })
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -64,13 +71,13 @@ const AddShowtime = () => {
     if (rap_Formik.values.systemId !== '') {
       dispatch(layCumRapTheoHethong(rap_Formik.values.systemId))
     }
-  }, [rap_Formik.values.systemId])
+  }, [dispatch,rap_Formik.values.systemId])
 
   useEffect(() => {
     if (rap_Formik.values.clusterId !== '') {
       dispatch(layRapTheoCumRap(rap_Formik.values.clusterId))
     }
-  }, [rap_Formik.values.clusterId])
+  }, [dispatch,rap_Formik.values.clusterId])
 
 
   const renderPhim = () => {
@@ -170,10 +177,8 @@ const AddShowtime = () => {
                     format="YYYY-MM-DD HH:mm"
                     containerClassName={styles.dateTime_Picker}
                     inputClass="custom-input"
-                    value={formik.values.timeStart = values?.map(item => {
-                      return item.format("YYYY-MM-DD HH:mm")
-                    })}
-                    onChange={setValues}
+                    value={timeStarts}
+                    onChange={onChangeTimeStarts}
                     multiple
                     plugins={[
                       <TimePicker position="bottom" hideSeconds />,

@@ -1,0 +1,40 @@
+footer {
+    width: 100%;
+    color: #fff;
+    background: #202e3a;
+    .info {
+        color: #fff;
+        li {
+            border: 0!important;
+            border-radius: 0!important;
+            background-color: transparent;
+            font-size: 14px;
+            padding-left: 0!important;
+            padding-right: 0!important;
+            padding: 5px 0;
+            a {
+                color: #fff;
+            }
+        }
+        .name_company {
+            color: rgb(245, 200, 0);
+            font-weight: 500;
+        }
+        @media only screen and (max-width: 768px) {
+            margin-top: 10px;
+            text-align: center;
+        }
+    }
+    .logo {
+        max-width: 200px;
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+    }
+    .bottom_footer {
+        background: #8a8989b3;
+        padding: 3px;
+        font-size: 14px;
+        text-align: center;
+    }
+}

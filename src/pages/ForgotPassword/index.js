@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { quenMatKhau } from "../../redux/actions/NguoiDungAction";
 import { useDispatch } from "react-redux";
+import logo from "../../assets/images/logo.svg"
 
 export default function ForgotPassword() {
     const dispatch = useDispatch()
@@ -48,7 +49,7 @@ export default function ForgotPassword() {
                                         </Link>
 
                                     </div>
-                                    <img alt="logo"  className={styles.wrapper_header_logo} src="https://www.bhdstar.vn/wp-content/themes/bhd/assets/images/logo.png" />
+                                    <img alt="logo"  className={styles.wrapper_header_logo} src={logo} />
                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Quên mật khẩu</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>

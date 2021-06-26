@@ -1,14 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBRow, MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon, MDBCol, MDBAlert } from "mdbreact";
 import TitleBox from "../../../components/TittleBox";
-import useModal from "../../../util/useModal";
 import { useFormik } from 'formik';
-import * as Yup from 'yup'
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import TableShowtime from "../../../components/Table/TableShowTime";
 import { useDispatch, useSelector } from "react-redux";
-import { layChiTietLichChieu, layLichChieu } from "../../../redux/actions/QuanLyLichChieuAction";
+import { layLichChieu } from "../../../redux/actions/QuanLyLichChieuAction";
 import { layHeThongRap } from "../../../redux/actions/QuanLyHeThongRapAction";
 import { layCumRapTheoHethong } from "../../../redux/actions/QuanLyCumRapAction";
 
@@ -22,18 +20,14 @@ const ShowtimeManager = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(layHeThongRap())
-  }, [])
+  }, [dispatch])
 
-  const { isShowing, toggle } = useModal();
   const [isShowingDetails, setToggle] = useState(false);
 
   function toggleDetails() {
     setToggle(!isShowingDetails);
   }
-  const removeToggle = (film) => {
-    toggle();
-    setFilm(film);
-  }
+
 
   const detailToggle = (clusterId, filmId) => {
     setFilm({
@@ -70,7 +64,7 @@ const ShowtimeManager = () => {
     if (rap_formik.values.systemId !== '') {
       dispatch(layCumRapTheoHethong(rap_formik.values.systemId))
     }
-  }, [rap_formik.values.systemId])
+  }, [dispatch,rap_formik.values.systemId])
 
 
 

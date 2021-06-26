@@ -10,31 +10,31 @@ import cx from 'classnames';
 import { Collapse, List } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
+import { datVe, layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
+import Footer from '../../../components/Footer';
 const { Panel } = Collapse;
 
 const ChooseSeat = (props) => {
     const { detailBookingRoom } = useSelector(state => state.PhongVeReducer)
     const { userId, taiKhoan } = useSelector(state => state.NguoiDungReducer)
-    // console.log('userId', userId)
     const [selectedSeats, setSelectedSeats] = useState([])
-    // console.log('detailBookingRoom', detailBookingRoom);
     const dispatch = useDispatch()
-    const maLichChieu = props.match.params.maLichChieu
-    const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === false)
+    const maLichChieu = props.match.params.maLichChieu;
+
+    const seats = detailBookingRoom?.showtimes?.Seats;
+    const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === true)
+    console.log('detailBookingRoom',detailBookingRoom);
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
-    }, [])
-    // console.log('seatOccupied', seatOccupied);
+    }, [dispatch, maLichChieu])
 
     const price = detailBookingRoom?.showtimes?.priceTicket;
-    // console.log('selectedSeats.length :>> ', selectedSeats.length);
 
 
     return (
         <>
             <Header />
-            <MDBContainer className="mt-5">
+            <MDBContainer className="my-5">
                 <MDBRow className={cx(styles.info_showtime, "mb-3")}>
                     <MDBCol md="4" xs="12">
                         <img src={detailBookingRoom.showtimes?.Film?.thumbnail}
@@ -50,15 +50,14 @@ const ChooseSeat = (props) => {
                         </div>
                     </MDBCol>
                 </MDBRow>
-
                 <Title text={"Chọn ghế"} />
-
                 <MDBRow className="mt-4">
                     <MDBCol md="8" xs="12">
                         <ShowCaseSeat className="mx-auto" />
                         <SeatMatrix
                             numCol={detailBookingRoom.showtimes?.Cinema?.col}
                             numRow={detailBookingRoom.showtimes?.Cinema?.row}
+                            seats={seats}
                             seatOccupied={seatOccupied}
                             selectedSeats={selectedSeats}
                             onSelectedSeatsChange={selectedSeats => setSelectedSeats(selectedSeats)}
@@ -87,7 +86,7 @@ const ChooseSeat = (props) => {
                                             <List.Item>
                                                 <MDBRow className="align-items-center">
                                                     <MDBCol>
-                                                        <span className={styles.seat}>{item}</span>
+                                                        <span className={styles.seat}>{item.symbol}</span>
                                                     </MDBCol>
                                                     <MDBCol>
                                                         {`${price}đ`}
@@ -114,10 +113,11 @@ const ChooseSeat = (props) => {
                         {taiKhoan !== '' ? selectedSeats.length !== 0 ? <MDBBtn onClick={() => {
                             let object = {
                                 userId: userId,
-                                showtimesId: maLichChieu,
+                                showtimesId: +maLichChieu,
                                 sumMoney: selectedSeats.length * price,
-                                seats: selectedSeats
+                                seats: selectedSeats.map(seat => seat.id)
                             }
+                            dispatch(datVe(object))
                             console.log('object', object);
                         }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {
@@ -132,6 +132,7 @@ const ChooseSeat = (props) => {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
+            <Footer />
         </>
     )
 }

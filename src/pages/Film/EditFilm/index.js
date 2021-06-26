@@ -24,7 +24,7 @@ const EditFilm = () => {
 
   useEffect(() => {
     dispatch(layTheLoaiPhim());
-  },[])
+  },[dispatch])
 
   const formik = useFormik({
     enableReinitialize: true,

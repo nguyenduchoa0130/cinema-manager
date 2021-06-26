@@ -20,3 +20,24 @@ export const layChiTietPhongVe = (id) => {
         }
     }
 }
+export const datVe = (thongTin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/booking/add`,
+                method: 'POST',
+                data: thongTin
+                // headers: {
+                //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                // }
+            })
+            alert(result.data.msg)
+            window.location.reload()
+            
+        } catch (error) {
+            // alert(error.response.data.msg);
+            console.log('error', error.message);
+        }
+    }
+}
+

@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { MDBTableBody, MDBBtn, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { layChiTietLichChieu, xoaLichChieu } from "../../../redux/actions/QuanLyLichChieuAction";
 
@@ -12,11 +11,8 @@ const TableShowtime = (props) => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layChiTietLichChieu(props.clusterId, props.filmId))
-  }, [])
+  }, [dispatch, props.clusterId, props.filmId])
 
-  function toLocalStringUTC(date) {
-    return date.toLocaleString('en-US', { timezone: 'UTC' });
-  }
   const { listDetailShowTime } = useSelector(state => state.QuanLyLichChieuReducer)
   console.log('listDetailShowTime', listDetailShowTime);
   const { isShowing, toggle } = useModal();
