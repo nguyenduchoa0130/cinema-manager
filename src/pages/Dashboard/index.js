@@ -9,102 +9,85 @@ import { Button, Select, Tabs } from "antd";
 import { DatePicker } from 'antd';
 import { Option } from "antd/lib/mentions";
 import StatsBox from "../../components/StatsBox";
+import { numberWithCommas } from "../../util";
 
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 
 
+
 const dataFilm = [
     {
         date: "20/6",
-        total: 400000,
+        sumMoney: 400000,
+        numOfTickets:2000
 
     },
     {
         date: "21/6",
-        total: 53000000,
+        sumMoney: 53000000,
+        numOfTickets:3000
     },
     {
         date: "22/6",
-        total: 12000000,
+        sumMoney: 12000000,
+        numOfTickets:4263
     },
     {
         date: "23/6",
-        total: 10000000,
+        sumMoney: 10000000,
+        numOfTickets:1204
     },
     {
         date: "24/6",
-        total: 23000000,
+        sumMoney: 23000000,
+        numOfTickets:1452
     }, {
         date: "20/6",
-        total: 7000000,
+        sumMoney: 7000000,
+        numOfTickets:2025
 
-    },
-    {
-        date: "21/6",
-        total: 56000000,
-    },
-    {
-        date: "22/6",
-        total: 33000000,
-    },
-    {
-        date: "23/6",
-        total: 0,
-    },
-    {
-        date: "24/6",
-        total: 15000000,
-    }, {
-        date: "20/6",
-        total: 96000000,
-
-    },
-    {
-        date: "21/6",
-        total: 12000000,
-    },
-    {
-        date: "22/6",
-        total: 26000000,
-    },
-    {
-        date: "23/6",
-        total: 30000000,
-    },
-    {
-        date: "24/6",
-        total: 50000000,
     }
 ];
 
-const dataCluster = [
-    {
-        date: "20/6",
-        total: 400000,
+const dataChart = {
+    totalMoney:993300000,
+    totalTicket:1032,
+    details : [
+        {
+            date: "20/6",
+            sumMoney: 400000,
+            numOfTickets:2000
+    
+        },
+        {
+            date: "21/6",
+            sumMoney: 53000000,
+            numOfTickets:3000
+        },
+        {
+            date: "22/6",
+            sumMoney: 12000000,
+            numOfTickets:4263
+        },
+        {
+            date: "23/6",
+            sumMoney: 10000000,
+            numOfTickets:1204
+        },
+        {
+            date: "24/6",
+            sumMoney: 23000000,
+            numOfTickets:1452
+        }, {
+            date: "20/6",
+            sumMoney: 7000000,
+            numOfTickets:2025
+    
+        }
+    ]
+}
 
-    },
-    {
-        date: "21/6",
-        total: 53000000,
-    },
-    {
-        date: "22/6",
-        total: 12000000,
-    },
-    {
-        date: "23/6",
-        total: 10000000,
-    },
-    {
-        date: "24/6",
-        total: 23000000,
-    }, {
-        date: "20/6",
-        total: 7000000,
-
-    }
-];
 
 
 
@@ -184,17 +167,17 @@ const Dashboard = () => {
                                         </MDBRow>
                                     </form>
 
-                                    {dataCluster.length!==0 ? (
+                                    {dataChart?.details.length!==0 ? (
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
                                                 <MDBCol md="3" xs="12" className="mt-3">
-                                                    <StatsBox title="Tổng số vé" value="5" />
+                                                    <StatsBox title="Tổng số vé" value={numberWithCommas(dataChart.totalTicket)} />
                                                 </MDBCol>
                                                 <MDBCol md="3" xs="12" className="mt-3">
-                                                    <StatsBox title="Doanh Thu" value="35.000.000đ" color="success" />
+                                                    <StatsBox title="Doanh Thu" value={`${numberWithCommas(dataChart.totalMoney)}đ`} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
-                                            <Chart data={dataCluster} />
+                                            <Chart data={dataChart.details} />
                                         </>
                                     ) : null}
 

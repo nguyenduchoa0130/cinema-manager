@@ -6,6 +6,7 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
+    Legend,
     ResponsiveContainer
 } from "recharts";
 
@@ -49,10 +50,19 @@ const Chart = ({ data }) => {
                     <XAxis dataKey="date" height={60} tick={<CustomizedAxisTick />}/>
                     <YAxis />
                     <Tooltip />
+                    <Legend />
                     <Line
+                        displayName="Doanh thu"
                         type="monotone"
-                        dataKey="total"
-                        stroke="#8884d8"
+                        dataKey="sumMoney"
+                        stroke="blue"
+                        activeDot={{ r: 8 }}
+                    />
+                    <Line
+                        displayName="Số vé"
+                        type="monotone"
+                        dataKey="numOfTickets"
+                        stroke="red"
                         activeDot={{ r: 8 }}
                     />
                 </LineChart>
