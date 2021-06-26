@@ -15,7 +15,7 @@ const { Panel } = Collapse;
 
 const ChooseSeat = (props) => {
     const { detailBookingRoom } = useSelector(state => state.PhongVeReducer)
-    const { userId } = useSelector(state => state.NguoiDungReducer)
+    const { userId, taiKhoan } = useSelector(state => state.NguoiDungReducer)
     // console.log('userId', userId)
     const [selectedSeats, setSelectedSeats] = useState([])
     // console.log('detailBookingRoom', detailBookingRoom);
@@ -111,7 +111,7 @@ const ChooseSeat = (props) => {
 
                         </div>
 
-                        <MDBBtn onClick={() => {
+                        {taiKhoan !== '' ? selectedSeats.length !== 0 ? <MDBBtn onClick={() => {
                             let object = {
                                 userId: userId,
                                 showtimesId: maLichChieu,
@@ -120,7 +120,16 @@ const ChooseSeat = (props) => {
                                 seats: selectedSeats
                             }
                             console.log('object', object);
-                        }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn>
+                        }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
+                            <MDBBtn onClick={() => {
+                                alert('Vui lòng chọn ghế!')
+
+                            }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
+                            <MDBBtn onClick={() => {
+                                alert('Bạn chưa đăng nhập!')
+                            }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn>
+                        }
+
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>

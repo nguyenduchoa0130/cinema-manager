@@ -37,6 +37,7 @@ export default function Header() {
               dispatch(dangXuatAction())
               localStorage.removeItem(USERLOGIN);
               localStorage.removeItem(TOKEN);
+              window.location.reload()
             }}>Đăng xuất</button>
           </MDBNavItem>
 
