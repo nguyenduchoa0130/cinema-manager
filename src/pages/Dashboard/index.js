@@ -113,6 +113,14 @@ const Dashboard = () => {
             })
         )
     }
+    const renderListSystem = (listSystem) => {
+        return (
+            listSystem.map((system, index) => {
+                return <Option key={index} value={system.id}>{system.name}</Option>
+            })
+        )
+    }
+    
 
     return (
         <>
@@ -147,7 +155,15 @@ const Dashboard = () => {
                                 <TabPane tab="Theo cụm rạp" key="1">
                                     <form>
                                         <MDBRow className="justify-content-center align-items-end mb-5">
-                                            <MDBCol md="4" className="mt-3" >
+                                            <MDBCol md="3" className="mt-3" >
+                                                <label className="grey-text">
+                                                    Hệ thống
+                                                </label>
+                                                <Select size="large" className="w-100"  >
+                                                    {renderListSystem}
+                                                </Select>
+                                            </MDBCol>
+                                            <MDBCol md="3" className="mt-3" >
                                                 <label className="grey-text">
                                                     Cụm rạp
                                                 </label>
@@ -155,7 +171,7 @@ const Dashboard = () => {
                                                     {renderListCluster}
                                                 </Select>
                                             </MDBCol>
-                                            <MDBCol md="5" className="mt-3">
+                                            <MDBCol md="4" className="mt-3">
                                                 <label className="grey-text">
                                                     Thời gian
                                                 </label>
@@ -170,10 +186,10 @@ const Dashboard = () => {
                                     {dataChart?.details.length!==0 ? (
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
-                                                <MDBCol md="3" xs="12" className="mt-3">
+                                                <MDBCol md="5" xs="12" className="mt-3">
                                                     <StatsBox title="Tổng số vé" value={numberWithCommas(dataChart.totalTicket)} />
                                                 </MDBCol>
-                                                <MDBCol md="3" xs="12" className="mt-3">
+                                                <MDBCol md="5" xs="12" className="mt-3">
                                                     <StatsBox title="Doanh Thu" value={`${numberWithCommas(dataChart.totalMoney)}đ`} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
@@ -207,10 +223,10 @@ const Dashboard = () => {
                                     {dataFilm.length!==0 ? (
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
-                                                <MDBCol md="3" xs="12" className="mt-3">
+                                                <MDBCol md="5" xs="12" className="mt-3">
                                                     <StatsBox title="Tổng số vé" value="5" />
                                                 </MDBCol>
-                                                <MDBCol md="3" xs="12" className="mt-3">
+                                                <MDBCol md="5" xs="12" className="mt-3">
                                                     <StatsBox title="Doanh Thu" value="50.000.000đ" color="success" />
                                                 </MDBCol>
                                             </MDBRow>

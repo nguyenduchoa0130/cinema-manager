@@ -42,35 +42,13 @@ export default function Header() {
           </MDBNavItem>
 
           <MDBNavItem>
-            <MDBNavLink to="/dang-ky">Đăng ký</MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
             <MDBNavLink to="/trang-ca-nhan">Thông tin cá nhân</MDBNavLink>
           </MDBNavItem>
-
           <MDBNavItem>
-            <MDBNavLink to="/quen-mat-khau">Quên mật khẩu</MDBNavLink>
+            <MDBNavLink to="/lich-su">Lịch sử</MDBNavLink>
           </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/doi-mat-khau">Đổi mật khẩu</MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/thong-tin-ban-dau">Tạo thông tin ban đầu</MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/kich-hoat">OTP</MDBNavLink>
-          </MDBNavItem>
-
           <MDBNavItem>
             <MDBNavLink to="/admin">Admin</MDBNavLink>
-          </MDBNavItem>
-
-          <MDBNavItem>
-            <MDBNavLink to="/chi-tiet-phim">Chi tiết phim</MDBNavLink>
           </MDBNavItem>
         </MDBNavbarNav>
         <MDBNavbarNav right>

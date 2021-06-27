@@ -34,7 +34,7 @@ export default function ForgotPassword() {
             <div className={styles.wrapper_content}>
                 <MDBContainer>
                     <MDBRow className={styles.row_full_screen}>
-                        <MDBCol md="6">
+                        <MDBCol md="6" className={styles.bg_left}>
                             <div className={styles.shape}></div>
                             <div className={styles.bg_img}>
                             </div>
@@ -50,7 +50,7 @@ export default function ForgotPassword() {
 
                                     </div>
                                     <img alt="logo"  className={styles.wrapper_header_logo} src={logo} />
-                                    <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Quên mật khẩu</h2>
+                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Quên mật khẩu</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>
                                     <form onSubmit={formik.handleSubmit}>
