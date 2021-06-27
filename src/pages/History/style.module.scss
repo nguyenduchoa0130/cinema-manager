@@ -1,0 +1,41 @@
+.wrapper {
+    min-height: 80vh;
+    .history_table {
+        width: 90%;
+        div {
+            background: #081b27;
+        }
+        table {
+            background: #081b27!important;
+            color: #fff;
+            th {
+                background: #081b27!important;
+                color: #fff;
+            }
+            tr {
+                &:hover {
+                    >td {
+                        background: #0a2638!important;
+                    }
+                }
+            }
+            td {
+                display: table-cell;
+                button {
+                    color: #e2c72e!important;
+                    background: #0a2638!important;
+                }
+            }
+            .transaction {
+                td {
+                    background: #0a2638;
+                    .transaction_description {
+                        background: #0a2638;
+                        width: 80%;
+                        margin: 0 auto;
+                    }
+                }
+            }
+        }
+    }
+}
