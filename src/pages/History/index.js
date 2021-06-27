@@ -125,12 +125,6 @@ const data = [
 
 const History = () => {
 
-<<<<<<< HEAD
-    
-    return (
-        <>
-            sadsd
-=======
     const renderDescriptionTransaction = (transaction) =>{
         return (
             <div className={styles.transaction_description}>
@@ -162,7 +156,6 @@ const History = () => {
                     />
                 </MDBRow>
             </MDBContainer>
->>>>>>> origin/styles
         </>
     )
 }
