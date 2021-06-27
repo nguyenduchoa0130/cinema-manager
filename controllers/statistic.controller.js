@@ -131,6 +131,10 @@ class StatisticController {
                         },
                     },
                     include: [
+						{
+                            model: models.Ticket,
+                            attributes: ['id'],
+                        },
                         {
                             model: models.Showtimes,
                             attributes: ['id'],
@@ -149,8 +153,12 @@ class StatisticController {
                     attributes: {
                         exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                     },
-                    order: [[['timeBooking', 'DESC']]],
+                    order: [['timeBooking', 'DESC']],
                     include: [
+						{
+                            model: models.Ticket,
+                            attributes: ['id'],
+                        },
                         {
                             model: models.Showtimes,
                             attributes: [],
@@ -175,7 +183,7 @@ class StatisticController {
                 }
             }, 0);
             let numOfTickets = data.reduce((ticket, item) => {
-                return ticket + item.Tickets.length;
+                return ticket + item.Tickets?.length;
             }, 0);
             statistic.push({
                 date,

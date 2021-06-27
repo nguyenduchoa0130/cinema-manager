@@ -162,7 +162,6 @@ class ShowtimesController {
                 attributes: {
                     exclude: helper.ignoreColumns('filmId', 'systemId', 'clusterId', 'cinemaId', 'createdAt', 'updatedAt'),
                 },
-                order: [['Seats.id', 'ASC']],
                 include: [
                     {
                         model: models.Film,
