@@ -19,6 +19,7 @@ class BookingController {
                 where: {
                     userId,
                 },
+                order: [['timeBooking', 'DESC']],
                 include: [
                     {
                         model: models.Showtimes,
@@ -49,6 +50,9 @@ class BookingController {
             if (!bookings) {
                 return next(apiError.notFound('Không tìm thấy lịch sử đặt vé'));
             }
+            bookings.forEach((item, index) => {
+                item.key = index;
+            });
             return res.json({ bookings });
         } catch (err) {
             next(err);
