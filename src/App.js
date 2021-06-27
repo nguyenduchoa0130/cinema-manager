@@ -17,7 +17,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import ChangePassword from './pages/ChangePassword';
 import MainAdmin from "./layouts/Admin";
 import FilmManager from "./pages/Film/FilmManager";
-import NonAuth from "./layouts/NonAuth";
+import Auth from "./layouts/Auth";
 import AddFilm from "./pages/Film/AddFilm";
 import EditFilm from "./pages/Film/EditFilm";
 import CustomerManager from "./pages/Customers/CustomerManager";
@@ -40,6 +40,8 @@ import SignUpBySocial from "./pages/SignUpBySocial";
 import SignInGoogle from "./pages/SignInGoogle";
 import ChooseSeat from "./pages/Booking/ChooseSeat";
 import Dashboard from "./pages/Dashboard";
+import NonAuth from "./layouts/NonAuth";
+import History from "./pages/History";
 
 
 export const history = createBrowserHistory();
@@ -51,16 +53,20 @@ const App = () => {
     <Router history={history}>
       <Switch>
         <Route exact path="/">
-          <NonAuth children={<Home />} />
+          <Auth children={<Home />} />
         </Route>
+        <Route path="/trang-ca-nhan">
+          <Auth children={<Profile />} />
+        </Route>
+        <Route path="/lich-su">
+          <Auth children={<History />} />
+        </Route>
+        
         <Route path="/dang-nhap">
           <NonAuth children={<SignIn />} />
         </Route>
         <Route path="/dang-ky">
           <NonAuth children={<SignUp />} />
-        </Route>
-        <Route path="/trang-ca-nhan">
-          <NonAuth children={<Profile />} />
         </Route>
         <Route path="/quen-mat-khau">
           <NonAuth children={<ForgotPassword />} />
@@ -78,8 +84,9 @@ const App = () => {
         <Route path="/kich-hoat">
           <NonAuth children={<Activated />} />
         </Route>
+        
         <Route path="/chi-tiet-phim/:id" component={FilmDetail}>
-          {/* <NonAuth children={<FilmDetail />}/>       */}
+          {/* <Auth children={<FilmDetail />}/>       */}
         </Route>
         <Route path="/dat-ve/chon-ghe/:maLichChieu" component={ChooseSeat}></Route>
         {/* <Route path="/dat-ve/:path?" exact>

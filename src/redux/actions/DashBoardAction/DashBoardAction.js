@@ -26,7 +26,9 @@ export const layThongTinThongKeTheoCumRap = (clusterId, dateStart_End) => {
         }
     }
 }
-export const layThongTinThongKeTheoPhim = (filmId, dateStart, dateEnd) => {
+export const layThongTinThongKeTheoPhim = (filmId, dateStart_End) => {
+    let dateStart = dateStart_End[0];
+    let dateEnd = dateStart_End[1]
     let api =
         `https://cinejunsv.herokuapp.com/api/v1/statistic?filmId=${filmId}` +
         (dateStart ? `&dateStart=${dateStart}` : '') +

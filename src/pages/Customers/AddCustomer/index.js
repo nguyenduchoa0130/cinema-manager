@@ -30,7 +30,7 @@ const AddCustomer = () => {
       roleId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      console.log('values', values);
+      // console.log('values', values);
       dispatch(themNguoiDung(values));
     },
   });
@@ -157,7 +157,7 @@ const AddCustomer = () => {
               <hr />
               <MDBRow className="justify-content-center">
                 <MDBBtn onClick={() => {
-                  dispatch(themNguoiDung(formik.values));
+                  // dispatch(themNguoiDung(formik.values));
                 }} color="primary" type="submit" >
                   Submit Form
               </MDBBtn>

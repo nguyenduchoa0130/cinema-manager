@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { useDispatch, useSelector } from "react-redux";
 import { layThongTinNguoiDung } from "../../redux/actions/NguoiDungAction";
 import { USERLOGIN } from "../../util/constants/settingSystem";
+import Title from '../../components/Title'
 
 export default function Profile() {
     let userId = 0;
@@ -24,7 +25,7 @@ export default function Profile() {
     return (
         <div className={styles.wrapper_template}>
             <div className={styles.wrapper_content}>
-                <h1 className="my-5">Thông tin cá nhân</h1>
+                <Title text={'Thông tin cá nhân'} className="my-5"/>
                 <div className={cx(styles.avatar_box, "position-relative")}>
                     <img id="profileImg" src="https://banner2.cleanpng.com/20190702/tl/kisspng-computer-icons-portable-network-graphics-avatar-tr-clip-directory-professional-transparent-amp-png-5d1bfa95e508d4.2980489715621147099381.jpg" className={cx(styles.avatar_img, "img-sm rounded-circle border")} alt="avatar-img"  />
                     <label htmlFor="file-input">

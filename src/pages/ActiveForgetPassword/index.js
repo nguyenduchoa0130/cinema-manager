@@ -40,7 +40,7 @@ export default function Activated() {
             <div className={styles.wrapper_content}>
                 <MDBContainer>
                     <MDBRow className={styles.row_full_screen}>
-                        <MDBCol md="6" >
+                         <MDBCol md="6" className={styles.bg_left}>
                             <div className={styles.shape}></div>
                             <div className={styles.bg_img}>
                             </div>
@@ -55,7 +55,7 @@ export default function Activated() {
 
                                     </div>
                                     <img className={styles.wrapper_header_logo} src={logo}  alt="logo"/>
-                                    <h2 className={cx(styles.wrapper_title, "my-3 text-center")}>Xác nhận OTP</h2>
+                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Xác nhận OTP</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>
                                     <form onSubmit={formik.handleSubmit}>

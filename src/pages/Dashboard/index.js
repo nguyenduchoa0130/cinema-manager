@@ -25,13 +25,13 @@ const Dashboard = () => {
     const { listCumRap } = useSelector(state => state.QuanLyCumRapReducer)
     const { listFilmDangCongChieu, listFilmSapCongChieu } = useSelector(state => state.TrangChuReducer)
     const { listThongKeCumRap, listThongKePhim } = useSelector(state => state.DashBoardReducer)
-    
+
     console.log(listThongKeCumRap);
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layCumRap())
         dispatch(layDanhSachPhimDangCongChieu())
-        dispatch(layDanhSachPhimSapCongChieu()) 
+        dispatch(layDanhSachPhimSapCongChieu())
     }, [])
 
 
@@ -60,44 +60,6 @@ const Dashboard = () => {
         }
     })
 
-    const dataFilm = [
-        {
-            date: "20/6",
-            sumMoney: 400000,
-            numOfTickets: 2000
-
-        },
-        {
-            date: "21/6",
-            sumMoney: 53000000,
-            numOfTickets: 3000
-        },
-        {
-            date: "22/6",
-            sumMoney: 12000000,
-            numOfTickets: 4263
-        },
-        {
-            date: "23/6",
-            sumMoney: 10000000,
-            numOfTickets: 1204
-        },
-        {
-            date: "24/6",
-            sumMoney: 23000000,
-            numOfTickets: 1452
-        }, {
-            date: "20/6",
-            sumMoney: 7000000,
-            numOfTickets: 2025
-
-        }
-    ];
-
-
-    const onChangePicker = (dates) => {
-        console.log('dates :>> ', dates);
-    }
 
     const renderListFilm = () => {
         return (
@@ -114,6 +76,14 @@ const Dashboard = () => {
             })
         )
     }
+    const renderListSystem = (listSystem) => {
+        return (
+            listSystem.map((system, index) => {
+                return <option key={index} value={system.id}>{system.name}</option>
+            })
+        )
+    }
+
 
     return (
         <>
@@ -146,7 +116,15 @@ const Dashboard = () => {
                                 <TabPane tab="Theo cụm rạp" key="1">
                                     <form onSubmit={formik_cluster.handleSubmit}>
                                         <MDBRow className="justify-content-center align-items-end mb-5">
-                                            <MDBCol md="4" className="mt-3" >
+                                            <MDBCol md="3" className="mt-3" >
+                                                <label className="grey-text">
+                                                    Hệ thống
+                                                </label>
+                                                <Select size="large" className="w-100"  >
+                                                    {renderListSystem}
+                                                </Select>
+                                            </MDBCol>
+                                            <MDBCol md="3" className="mt-3" >
                                                 <label className="grey-text">
                                                     Cụm rạp
                                                 </label>
@@ -154,7 +132,7 @@ const Dashboard = () => {
                                                     {renderListCluster()}
                                                 </select>
                                             </MDBCol>
-                                            <MDBCol md="5" className="mt-3">
+                                            <MDBCol md="4" className="mt-3">
                                                 <label className="grey-text">
                                                     Thời gian
                                                 </label>
@@ -193,9 +171,9 @@ const Dashboard = () => {
                                                 <label className="grey-text">
                                                     Phim
                                                 </label>
-                                                <Select name="filmId" size="large" className="w-100" onChange={formik_film.handleChange} >
+                                                <select name="filmId" size="large" className="w-100" onChange={formik_film.handleChange} value={formik_film.values['filmId']} >
                                                     {renderListFilm()}
-                                                </Select>
+                                                </select>
                                             </MDBCol>
                                             <MDBCol md="5" className="mt-3">
                                                 <label className="grey-text">
@@ -203,25 +181,27 @@ const Dashboard = () => {
                                                 </label>
                                                 <RangePicker name="dateStart_End" size="large" className="w-100" onChange={(value, dateString) => {
                                                     // console.log('dateString',dateString);
-                                                    formik_cluster.values.dateStart_End = dateString
+                                                    formik_film.values.dateStart_End = dateString
                                                 }} />
                                             </MDBCol>
                                             <MDBCol md="2" className="mt-3">
-                                                <Button size="large" className="text-white bg-success w-100">Thống kê</Button>
+                                                <Button onClick={() => {
+                                                    dispatch(layThongTinThongKeTheoPhim(formik_film.values.filmId, formik_film.values.dateStart_End))
+                                                }} size="large" className="text-white bg-success w-100">Thống kê</Button>
                                             </MDBCol>
                                         </MDBRow>
                                     </form>
-                                    {dataFilm.length !== 0 ? (
+                                    {listThongKePhim.length !== 0 ? (
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
-                                                <MDBCol md="3" xs="12" className="mt-3">
-                                                    <StatsBox title="Tổng số vé" value="5" />
+                                                <MDBCol md="5" xs="12" className="mt-3">
+                                                    <StatsBox title="Tổng số vé" value={listThongKePhim.totalTicket} />
                                                 </MDBCol>
-                                                <MDBCol md="3" xs="12" className="mt-3">
-                                                    <StatsBox title="Doanh Thu" value="50.000.000đ" color="success" />
+                                                <MDBCol md="5" xs="12" className="mt-3">
+                                                    <StatsBox title="Doanh Thu" value={listThongKePhim.totalMoney} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
-                                            <Chart data={dataFilm} />
+                                            <Chart data={listThongKePhim.details} />
                                         </>
                                     ) : null}
                                 </TabPane>

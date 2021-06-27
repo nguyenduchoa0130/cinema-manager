@@ -5,7 +5,7 @@
 .wrapper_content {
     min-height: 100vh;
     position: relative;
-    background-color: #ffff;
+    color: white;
     .wrapper_header {
         max-width: 100%;
         width: 390px;
@@ -13,7 +13,7 @@
         .wrapper_header_logo {
             margin: 0 auto;
             display: block;
-            height: 60px;
+            height: 100px;
         }
     }
     .wrapper_form {
@@ -29,6 +29,11 @@
     right: 0;
     bottom: 0;
     position: absolute;
+    .bg_left {
+        @media only screen and (max-width: 768px) {
+            display: none!important;
+        }
+    }
 }
 
 .shape {
