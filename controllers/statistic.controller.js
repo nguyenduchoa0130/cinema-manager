@@ -108,6 +108,8 @@ class StatisticController {
     }
     async byFilmId(req, res, next) {
         let filmId = req.query.filmId;
+		let data;
+		let statistic = [];
         if (!filmId) {
             return next();
         }
@@ -190,7 +192,7 @@ class StatisticController {
                 details: statistic,
             });
         } else {
-			return res.json({
+            return res.json({
                 totalMoney: 0,
                 totalTicket: 0,
                 details: [],
