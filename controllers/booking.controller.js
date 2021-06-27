@@ -25,6 +25,10 @@ class BookingController {
                         attributes: ['id', 'timeStart', 'timeEnd'],
                         include: [
                             {
+                                model: models.CinemaCluster,
+                                attributes: ['id', ['clusterName', 'name'], 'address'],
+                            },
+                            {
                                 model: models.Film,
                                 attributes: ['id', 'thumbnail', ['filmName', 'name']],
                             },
@@ -42,7 +46,7 @@ class BookingController {
                     },
                 ],
             });
-            if (bookings.length) {
+            if (!bookings) {
                 return next(apiError.notFound('Không tìm thấy lịch sử đặt vé'));
             }
             return res.json({ bookings });
