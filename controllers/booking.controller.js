@@ -47,12 +47,12 @@ class BookingController {
                     },
                 ],
             });
-            if (!bookings) {
+            if (!bookings.length) {
                 return next(apiError.notFound('Không tìm thấy lịch sử đặt vé'));
             }
-            bookings.forEach((item, index) => {
-                item.key = index;
-            });
+            for (let i = 0; i < bookings.length; i++) {
+                bookings[i].key = i + 1;
+            }
             return res.json({ bookings });
         } catch (err) {
             next(err);
