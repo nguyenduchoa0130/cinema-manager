@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import { quenMatKhau } from "../../redux/actions/NguoiDungAction";
 import { useDispatch } from "react-redux";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 
 export default function ForgotPassword() {
     const dispatch = useDispatch()

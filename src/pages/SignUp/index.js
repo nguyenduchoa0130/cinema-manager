@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import { dangKyAction } from "../../redux/actions/NguoiDungAction";
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 
 export default function SignUp() {
     const dispatch = useDispatch();

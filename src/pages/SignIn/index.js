@@ -11,7 +11,7 @@ import { USERLOGIN } from "../../util/constants/settingSystem";
 import { dangNhapAction, dangNhapFBAction, dangNhapGGAction } from "../../redux/actions/NguoiDungAction";
 import GoogleLogin from "react-google-login";
 import FacebookLogin from 'react-facebook-login';
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 
 
 export default function SingIn() {

@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { USERLOGIN } from "../../util/constants/settingSystem";
 import { xacNhanOtp } from "../../redux/actions/NguoiDungAction";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 // import OtpInput from "react-otp-input";
 
 export default function Activated() {

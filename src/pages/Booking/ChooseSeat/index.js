@@ -10,7 +10,7 @@ import cx from 'classnames';
 import { Collapse, List } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
+import { datVe, layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
 import Footer from '../../../components/Footer';
 const { Panel } = Collapse;
 
@@ -23,10 +23,10 @@ const ChooseSeat = (props) => {
 
     const seats = detailBookingRoom?.showtimes?.Seats;
     const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === true)
-
+    console.log('detailBookingRoom',detailBookingRoom);
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
-    }, [dispatch,maLichChieu])
+    }, [dispatch, maLichChieu])
 
     const price = detailBookingRoom?.showtimes?.priceTicket;
 
@@ -57,7 +57,7 @@ const ChooseSeat = (props) => {
                         <SeatMatrix
                             numCol={detailBookingRoom.showtimes?.Cinema?.col}
                             numRow={detailBookingRoom.showtimes?.Cinema?.row}
-                            seats = {seats}
+                            seats={seats}
                             seatOccupied={seatOccupied}
                             selectedSeats={selectedSeats}
                             onSelectedSeatsChange={selectedSeats => setSelectedSeats(selectedSeats)}
@@ -113,11 +113,11 @@ const ChooseSeat = (props) => {
                         {taiKhoan !== '' ? selectedSeats.length !== 0 ? <MDBBtn onClick={() => {
                             let object = {
                                 userId: userId,
-                                showtimesId: maLichChieu,
-                                timebooking: new Date(),
-                                sumany: selectedSeats.length * price,
+                                showtimesId: +maLichChieu,
+                                sumMoney: selectedSeats.length * price,
                                 seats: selectedSeats.map(seat => seat.id)
                             }
+                            dispatch(datVe(object))
                             console.log('object', object);
                         }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {
@@ -132,7 +132,7 @@ const ChooseSeat = (props) => {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
-            <Footer/>
+            <Footer />
         </>
     )
 }

@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import {  hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Fragment } from "react";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 
 export default function SignUpFacbook() {
     const { userLogin } = useSelector(state => state.NguoiDungReducer)

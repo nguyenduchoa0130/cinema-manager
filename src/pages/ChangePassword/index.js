@@ -9,7 +9,7 @@ import * as Yup from 'yup'
 import { useDispatch } from "react-redux";
 import { matKhauMoi } from "../../redux/actions/NguoiDungAction";
 import { USERLOGIN } from "../../util/constants/settingSystem";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 
 export default function ChangePassword() {
     const dispatch = useDispatch()

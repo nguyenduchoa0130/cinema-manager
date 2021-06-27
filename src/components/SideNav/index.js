@@ -1,6 +1,6 @@
 import { MDBListGroup, MDBListGroupItem, MDBNavLink, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 import { useDispatch } from "react-redux";
 import { dangXuatAction } from "../../redux/actions/NguoiDungAction";
 import { TOKEN, USERLOGIN } from "../../util/constants/settingSystem";

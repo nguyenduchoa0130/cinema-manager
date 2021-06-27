@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup'
 import {  hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "~/assets/images/logo.svg"
+import logo from "../../assets/images/logo.svg"
 
 export default function SignUpBySocial() {
     const { userLogin } = useSelector(state => state.NguoiDungReducer)

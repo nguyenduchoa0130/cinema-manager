@@ -10,6 +10,7 @@ import QuanLyLichChieuReducer from '../redux/reducers/QuanLyLichChieuReducer'
 import TrangChuReducer from '../redux/reducers/TrangChuReducer/TrangChuReducer'
 import PhongVeReducer from '../redux/reducers/PhongVeReducer/PhongVeReducer'
 import ChiTietPhimReducer from '../redux/reducers/ChiTietPhimReducer/ChiTietPhimReducer'
+import DashBoardReducer from '../redux/reducers/DashBoardReducer/DashBoardReducer'
 
 
 
@@ -25,7 +26,9 @@ const rootReducer = combineReducers({
     TrangChuReducer,
     ChiTietPhimReducer,
     PhongVeReducer,
-}) 
+    DashBoardReducer
+
+})
 // tách rootReducer ra ngoài
 
 
