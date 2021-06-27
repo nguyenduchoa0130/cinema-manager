@@ -12,7 +12,7 @@ class BookingController {
             return next(apiError.badRequest('ID người dùng không hợp lệ'));
         }
         try {
-            let bookings = await models.Booking.findOne({
+            let bookings = await models.Booking.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
