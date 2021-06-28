@@ -1,4 +1,6 @@
 import axios from "axios";
+import Swal from "sweetalert2";
+import { Notification } from '~/components/Notification';
 
 export const layChiTietPhongVe = (id) => {
     return async dispatch => {
@@ -31,11 +33,20 @@ export const datVe = (thongTin) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg)
-            window.location.reload()
-            
+
+            if (result.status === 200) {
+                Swal.fire(
+                    {
+                        title: 'Thông báo!',
+                        text: result.data.msg,
+                        icon: 'success'
+                    }
+                ).then(res => {
+                    if (res.value) window.location.reload();
+                })
+
+            }
         } catch (error) {
-            // alert(error.response.data.msg);
             console.log('error', error.message);
         }
     }

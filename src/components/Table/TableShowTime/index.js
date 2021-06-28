@@ -87,7 +87,7 @@ const TableShowtime = (props) => {
       </MDBTable>
 
 
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
+      <MDBModal className="text-dark" size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
           Bạn có muốn xóa suất chiếu <strong> {showTime.id}</strong> phim <strong> {showTime.filmName}</strong> vào lúc

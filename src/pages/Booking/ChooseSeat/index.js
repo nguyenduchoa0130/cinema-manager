@@ -1,20 +1,26 @@
 import { MDBBtn, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { history } from "~/App"
 import SeatMatrix from '../../../components/Seat/SeatMatrix';
 import ShowCaseSeat from '../../../components/Seat/ShowCaseSeat';
 import styles from './style.module.scss';
 import Title from '../../../components/Title';
 import Header from '../../../components/Header';
 import cx from 'classnames';
-import { Collapse, List } from 'antd';
+import { Collapse, List} from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { datVe, layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
 import Footer from '../../../components/Footer';
+import {Notification} from '~/components/Notification';
+
 const { Panel } = Collapse;
 
+
 const ChooseSeat = (props) => {
+
+   
     const { detailBookingRoom } = useSelector(state => state.PhongVeReducer)
     const { userId, taiKhoan } = useSelector(state => state.NguoiDungReducer)
     const [selectedSeats, setSelectedSeats] = useState([])
@@ -121,11 +127,11 @@ const ChooseSeat = (props) => {
                             console.log('object', object);
                         }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {
-                                alert('Vui lòng chọn ghế!')
+                                Notification('Thông báo','Vui lòng chọn ghế!')
 
                             }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {
-                                alert('Bạn chưa đăng nhập!')
+                                history.push('/dang-nhap')
                             }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn>
                         }
 

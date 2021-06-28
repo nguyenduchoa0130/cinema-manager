@@ -26,7 +26,8 @@ const Dashboard = () => {
     const { listFilmDangCongChieu, listFilmSapCongChieu } = useSelector(state => state.TrangChuReducer)
     const { listThongKeCumRap, listThongKePhim } = useSelector(state => state.DashBoardReducer)
 
-    console.log(listThongKeCumRap);
+    const [state,setState]= useState({});
+    
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layCumRap())
@@ -63,8 +64,8 @@ const Dashboard = () => {
 
     const renderListFilm = () => {
         return (
-            listFilmDangCongChieu.films?.map((film, index) => {
-                return <option key={index} value={film.id}>{film.filmName}</option>
+            listFilmDangCongChieu.films?.map(film => {
+                return <Option key={film.id} value={film.id}>{film.filmName}</Option>
             })
         )
     }
@@ -72,17 +73,32 @@ const Dashboard = () => {
     const renderListCluster = () => {
         return (
             listCumRap.clusters?.map((cluster, index) => {
-                return <option key={index} value={cluster.id}>{cluster.clusterName}</option>
+                return <Option key={index} value={cluster.id}>{cluster.clusterName}</Option>
             })
         )
     }
     const renderListSystem = (listSystem) => {
         return (
             listSystem.map((system, index) => {
-                return <option key={index} value={system.id}>{system.name}</option>
+                return <Option key={index} value={system.id}>{system.name}</Option>
             })
         )
     }
+    const onChangeCluster = (value) => {
+        setState(prevState =>{
+            return {...prevState, clusterId:value}
+        })
+        formik_cluster.values['clusterId'] = value;
+    }
+    const onChangeFilm = (value) => {
+        setState(prevState =>{
+            return {...prevState, filmId:value}
+        })
+        
+        formik_film.values['filmId'] = value;
+    }
+
+    
 
 
     return (
@@ -120,17 +136,17 @@ const Dashboard = () => {
                                                 <label className="grey-text">
                                                     Hệ thống
                                                 </label>
-                                                <Select size="large" className="w-100"  >
-                                                    {renderListSystem}
+                                                <Select size="large" className="w-100" >
+                                                    {/* {renderListSystem()} */}
                                                 </Select>
                                             </MDBCol>
                                             <MDBCol md="3" className="mt-3" >
                                                 <label className="grey-text">
                                                     Cụm rạp
                                                 </label>
-                                                <select name="clusterId" value={formik_cluster.values['clusterId']} size="large" className="w-100" onChange={formik_cluster.handleChange} >
+                                                <Select name="clusterId" value={state.clusterId} size="large" className="w-100" onChange={onChangeCluster} >
                                                     {renderListCluster()}
-                                                </select>
+                                                </Select>
                                             </MDBCol>
                                             <MDBCol md="4" className="mt-3">
                                                 <label className="grey-text">
@@ -148,15 +164,14 @@ const Dashboard = () => {
                                             </MDBCol>
                                         </MDBRow>
                                     </form>
-
-                                    {listThongKeCumRap.details?.length !== 0 ? (
+                                    {Object.keys(listThongKeCumRap).length !== 0 ? (
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
-                                                <MDBCol md="3" xs="12" className="mt-3">
-                                                    <StatsBox title="Tổng số vé" value={(listThongKeCumRap.totalTicket)} />
+                                                <MDBCol md="5" xs="12" className="mt-3">
+                                                    <StatsBox title="Tổng số vé" value={listThongKeCumRap.totalTicket||0} />
                                                 </MDBCol>
-                                                <MDBCol md="3" xs="12" className="mt-3">
-                                                    <StatsBox title="Doanh Thu" value={`${listThongKeCumRap.totalMoney}đ`} color="success" />
+                                                <MDBCol md="5" xs="12" className="mt-3">
+                                                    <StatsBox title="Doanh Thu" value={listThongKeCumRap.totalMoney||0} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
                                             <Chart data={listThongKeCumRap.details} />
@@ -171,9 +186,9 @@ const Dashboard = () => {
                                                 <label className="grey-text">
                                                     Phim
                                                 </label>
-                                                <select name="filmId" size="large" className="w-100" onChange={formik_film.handleChange} value={formik_film.values['filmId']} >
+                                                <Select name="filmId" size="large" className="w-100" onChange={onChangeFilm} value={state.filmId} >
                                                     {renderListFilm()}
-                                                </select>
+                                                </Select>
                                             </MDBCol>
                                             <MDBCol md="5" className="mt-3">
                                                 <label className="grey-text">
@@ -191,14 +206,14 @@ const Dashboard = () => {
                                             </MDBCol>
                                         </MDBRow>
                                     </form>
-                                    {listThongKePhim.length !== 0 ? (
+                                    {Object.keys(listThongKePhim).length !== 0 ? (
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
                                                 <MDBCol md="5" xs="12" className="mt-3">
-                                                    <StatsBox title="Tổng số vé" value={listThongKePhim.totalTicket} />
+                                                    <StatsBox title="Tổng số vé" value={listThongKePhim.totalTicket||0} />
                                                 </MDBCol>
                                                 <MDBCol md="5" xs="12" className="mt-3">
-                                                    <StatsBox title="Doanh Thu" value={listThongKePhim.totalMoney} color="success" />
+                                                    <StatsBox title="Doanh Thu" value={listThongKePhim.totalMoney||0} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
                                             <Chart data={listThongKePhim.details} />

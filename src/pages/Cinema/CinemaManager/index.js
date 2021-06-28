@@ -6,6 +6,7 @@ import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { layRap, xoaRap } from "../../../redux/actions/QuanLyRapAction";
+import cx from 'classnames';
 
 const CinemaManager = () => {
   const { listRap } = useSelector(state => state.QuanLyRapReducer)
@@ -93,7 +94,7 @@ const CinemaManager = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
+      <MDBModal className={cx(styles.modal,styles.removeModal)} size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
           Bạn có muốn xóa hệ thống này  <strong>{cinema.cinemaName}</strong> có mã số là <strong>{cinema.id}</strong>?

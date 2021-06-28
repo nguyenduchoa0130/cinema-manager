@@ -295,6 +295,7 @@ const AddFilm = () => {
                         className="custom-file-input"
                         onChange={(event) => {
                           formik.setFieldValue("thumbnail", event.currentTarget.files[0]);
+                          
                         }}
                         name="thumbnail"
                       />
@@ -303,6 +304,7 @@ const AddFilm = () => {
                       </label>
                     </div>
                   </div>
+                 {/* {console.log('formik.values.thumbnail :>> ', formik.values.thumbnail)} */}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">

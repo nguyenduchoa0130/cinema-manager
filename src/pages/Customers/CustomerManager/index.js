@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import {  MDBTableBody, MDBBtn, MDBCardBody, MDBCard,  MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
+import { MDBTableBody, MDBBtn, MDBCardBody, MDBCard, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import TitleBox from "../../../components/TittleBox";
 import useModal from "../../../util/useModal";
 import styles from "./style.module.scss";
@@ -16,7 +16,7 @@ const CustomerManager = () => {
 
   useEffect(() => {
     dispatch(layDanhSachNguoiDung())
-  }, )
+  })
 
   const { isShowing, toggle } = useModal();
   const [customer, setCustomer] = useState({
@@ -32,7 +32,7 @@ const CustomerManager = () => {
   }
 
   const renderRowData = () => {
-   
+
     return listUser.users?.map((user, index) => {
       return (
         <tr key={index}>
@@ -97,7 +97,7 @@ const CustomerManager = () => {
 
         </MDBCardBody>
       </MDBCard>
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
+      <MDBModal className="text-dark" size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
           Bạn có muốn xóa khách hàng  <strong>{customer.fullName}</strong> có mã số là <strong>{customer.id}</strong>?

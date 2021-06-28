@@ -14,7 +14,7 @@ const ClusterManager = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  },[dispatch])
+  }, [dispatch])
 
   const [cluster, setCluster] = useState({
     clusterName: "",
@@ -97,7 +97,8 @@ const ClusterManager = () => {
           </MDBCard>
         </MDBCol>
       </MDBRow>
-      <MDBModal className={styles.removeModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
+     
+      <MDBModal className="text-dark" size="lg" isOpen={isShowing} toggle={toggle} centered>
         <MDBModalHeader toggle={toggle}>Xác nhận</MDBModalHeader>
         <MDBModalBody>
           Bạn có muốn xóa hệ thống này  <strong>{cluster.clusterName}</strong> có mã số là <strong>{cluster.id}</strong>?

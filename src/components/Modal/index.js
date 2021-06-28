@@ -1,6 +1,7 @@
 import { MDBBtn, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow } from 'mdbreact';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import styles from './style.module.scss';
 
 const Modal = ({ isShowing, hide,title,children }) => {
 
@@ -8,7 +9,7 @@ const Modal = ({ isShowing, hide,title,children }) => {
     <React.Fragment>
       <MDBModal size="lg" isOpen={isShowing} toggle={hide}>
         <MDBModalHeader toggle={hide}>{title}</MDBModalHeader>
-        <MDBModalBody>
+        <MDBModalBody className={styles.children}>
           {children}
         </MDBModalBody>
         <MDBModalFooter>
