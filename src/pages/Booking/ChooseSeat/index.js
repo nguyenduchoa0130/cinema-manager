@@ -1,7 +1,6 @@
 import { MDBBtn, MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { history } from "~/App"
 import SeatMatrix from '../../../components/Seat/SeatMatrix';
 import ShowCaseSeat from '../../../components/Seat/ShowCaseSeat';
 import styles from './style.module.scss';
@@ -13,7 +12,8 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { datVe, layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
 import Footer from '../../../components/Footer';
-import {Notification} from '~/components/Notification';
+import {Notification} from '../../../components/Notification';
+import { history } from '../../../App';
 
 const { Panel } = Collapse;
 
@@ -29,7 +29,7 @@ const ChooseSeat = (props) => {
 
     const seats = detailBookingRoom?.showtimes?.Seats;
     const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === true)
-    console.log('detailBookingRoom',detailBookingRoom);
+    // console.log('detailBookingRoom',detailBookingRoom);
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
     }, [dispatch, maLichChieu])

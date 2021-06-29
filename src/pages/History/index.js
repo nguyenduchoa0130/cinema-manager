@@ -18,9 +18,9 @@ const columns = [
 
 const History = () => {
     const { historyBooking } = useSelector(state => state.HistoryReducer)
-    console.log('historyBooking', historyBooking);
+    // console.log('historyBooking', historyBooking);
     const { userId } = useSelector(state => state.NguoiDungReducer)
-    console.log('userId', userId);
+    // console.log('userId', userId);
 
     const dispatch = useDispatch()
     useEffect(() => {
