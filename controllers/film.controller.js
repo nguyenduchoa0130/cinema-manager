@@ -10,9 +10,24 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-                group: ['Film.id', 'Showtimes.id', 'Showtimes.Bookings.id', 'Showtimes.Bookings.Tickets.id'],
+                group: [
+                    'Film.id',
+                    'Showtimes.id',
+                    'Showtimes.Bookings.id',
+                    'Showtimes.Bookings.Tickets.id',
+                    'Category.id',
+                    'StatusFilm.id',
+                ],
                 order: [['count', 'ASC']],
                 include: [
+                    {
+                        model: models.Category,
+                        attributes: ['id', 'categoryName'],
+                    },
+                    {
+                        model: models.StatusFilm,
+                        attributes: ['id', 'statusName'],
+                    },
                     {
                         model: models.Showtimes,
                         attributes: ['id'],
@@ -63,12 +78,14 @@ class FilmController {
                     desc: film.desc,
                     categoryId: film.categoryId,
                     statusId: film.statusId,
+                    'Category.name': film.Category.categoryName,
+                    'StatusFilm.name': film.StatusFilm.statusName,
                     numberOfTickets: item.numberOfTickets,
                 });
             });
-			films = films.filter((item) => {
-				return item.numberOfTickets > 0;
-			})
+            films = films.filter((item) => {
+                return item.numberOfTickets > 0;
+            });
             films.sort((a, b) => {
                 return b.numberOfTickets - a.numberOfTickets;
             });
