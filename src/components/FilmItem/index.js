@@ -34,7 +34,6 @@ const FilmItem = ({ info },props) => {
                             <MDBCardTitle>{info.filmName}</MDBCardTitle>
                         </Link>
                         <MDBCardText>
-                            {console.log('info >> ', info)}
                             <p>{info["Category.name"]}</p>
                             {info.numberOfTickets?(
                                 <p><strong>Lượt đặt: </strong>{info.numberOfTickets}</p>

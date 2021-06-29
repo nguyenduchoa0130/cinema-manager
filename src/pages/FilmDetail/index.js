@@ -98,12 +98,6 @@ const FilmDetail = (props) => {
         return listFilm;
     }
 
-    const formatTime = (times) => {
-        return times.map(time => {
-            return time.time.substr(0, 5);
-        })
-    }
-
     const renderFilmTabPane = (film) => {
         return (
             <div className={styles.film_tab_pane}>
