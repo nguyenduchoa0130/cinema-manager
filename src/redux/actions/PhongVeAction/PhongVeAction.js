@@ -1,6 +1,5 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Notification } from '~/components/Notification';
 
 export const layChiTietPhongVe = (id) => {
     return async dispatch => {

@@ -10,9 +10,10 @@ import { layLichChieu } from '../../redux/actions/ChiTietPhimAction/ChiTietPhimA
 const FilmItem = ({ info },props) => {
     const dispatch = useDispatch()
     return (
-        <Fragment>
+        <>
             <Link to={info.path}>
                 <MDBCard className={styles.cart}>
+                   {info.numberOfTickets?( <div className={styles.badge}>HOT</div>):null}
                     <div className={styles.cart_img}>
                         <MDBCardImage className="img-fluid" src={info.thumbnail}
                             waves />
@@ -33,12 +34,17 @@ const FilmItem = ({ info },props) => {
                             <MDBCardTitle>{info.filmName}</MDBCardTitle>
                         </Link>
                         <MDBCardText>
-                            {info.categoryName}
+                            {console.log('info >> ', info)}
+                            <p>{info["Category.name"]}</p>
+                            {info.numberOfTickets?(
+                                <p><strong>Lượt đặt: </strong>{info.numberOfTickets}</p>
+                            ):null}
+                            
                         </MDBCardText>
                     </MDBCardBody>
                 </MDBCard>
             </Link>
-        </Fragment>
+        </>
     );
 }
 
