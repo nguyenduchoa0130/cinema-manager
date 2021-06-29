@@ -255,7 +255,7 @@ class FilmController {
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
-                order: [['id', 'ASC']],
+                order: [['premiere', 'DESC']],
                 limit,
                 offset,
                 include: [
