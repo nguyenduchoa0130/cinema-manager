@@ -38,7 +38,7 @@ app.use(ejsLayouts);
 
 appMid.index(app); // Mount Middlewares
 routes(app); // Mount Routes
-// app.use(errorHandler); // Mount Error Handlers
+app.use(errorHandler); // Mount Error Handlers
 
 app.listen(PORT, () => {
     console.log('Server is running at ' + PORT);

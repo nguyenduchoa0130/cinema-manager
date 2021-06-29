@@ -5,12 +5,13 @@ const helper = require('../config/helper');
 const apiError = require('../errors/apiError');
 class FilmController {
     async fetchFilmHot(req, res, next) {
-		console.log(1);
         try {
-            let films = await models.Film.findAll({
+            let data = await models.Film.findAll({
                 attributes: {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt'),
                 },
+                group: ['Film.id', 'Showtimes.id', 'Showtimes.Bookings.id', 'Showtimes.Bookings.Tickets.id'],
+                order: [['count', 'ASC']],
                 include: [
                     {
                         model: models.Showtimes,
@@ -18,12 +19,60 @@ class FilmController {
                         include: [
                             {
                                 model: models.Booking,
+                                attributes: ['id'],
+                                include: [
+                                    {
+                                        model: models.Ticket,
+                                        group: ['Bookings.id'],
+                                        attributes: ['id'],
+                                    },
+                                ],
                             },
                         ],
                     },
                 ],
             });
-            return res.json(films);
+            let extract = data.map((film) => {
+                let numberOfTickets = film.Showtimes.reduce((total1, showtimes) => {
+                    let total2 = showtimes.Bookings.reduce((total3, booking) => {
+                        return total3 + booking.Tickets.length;
+                    }, 0);
+                    return total1 + total2;
+                }, 0);
+                return {
+                    id: film.id,
+                    numberOfTickets,
+                };
+            });
+            let films = [];
+            extract.forEach((item) => {
+                let film = data.find((i) => {
+                    return i.id == item.id;
+                });
+                films.push({
+                    id: film.id,
+                    filmName: film.filmName,
+                    country: film.country,
+                    releaseYear: film.releaseYear,
+                    duration: film.duration,
+                    director: film.director,
+                    actors: film.actors,
+                    thumbnail: film.thumbnail,
+                    poster: film.poster,
+                    premiere: film.premiere,
+                    desc: film.desc,
+                    categoryId: film.categoryId,
+                    statusId: film.statusId,
+                    numberOfTickets: item.numberOfTickets,
+                });
+            });
+			films = films.filter((item) => {
+				return item.numberOfTickets > 0;
+			})
+            films.sort((a, b) => {
+                return b.numberOfTickets - a.numberOfTickets;
+            });
+            return res.json({ films });
         } catch (err) {
             next(err);
         }

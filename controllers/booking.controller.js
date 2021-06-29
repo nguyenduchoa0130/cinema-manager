@@ -50,9 +50,6 @@ class BookingController {
             if (!bookings.length) {
                 return next(apiError.notFound('Không tìm thấy lịch sử đặt vé'));
             }
-            for (let i = 0; i < bookings.length; i++) {
-                bookings[i].key = i + 1;
-            }
             return res.json({ bookings });
         } catch (err) {
             next(err);
@@ -136,7 +133,8 @@ class BookingController {
                     `Bạn đã đặt thành vé thành công.
 Chi tiết giao dịch: 
 Mã giao dịch: ${result.id}
-Chi tiết các vé: ${tickets.join(', ')}
+Chi tiết các vé: 
+${tickets.join('\n')}
 Cụm rạp: ${details[1].CinemaCluster.clusterName}
 Rạp: ${details[1].Cinema.cinemaName}
 Địa chỉ: ${details[1].CinemaCluster.address}
