@@ -40,10 +40,10 @@ export default function SingIn() {
     }
 
     const responseGoogle = (response) => {
-        console.log(response);
+        // console.log(response);
     }
     const responseFacebook = (response) => {
-        console.log(response);
+        // console.log(response);z
         setstate({
             facebookId: response.id,
             email: response.email,
@@ -106,9 +106,9 @@ export default function SingIn() {
                                                             cssClass={cx(styles.btn_facebook, styles.btn_social)}
                                                             scope='email,public_profile'
                                                             icon="fa-facebook"
-                                                            onClick={() => {
-                                                                dispatch(dangNhapFBAction(state))
-                                                            }}
+                                                            // onClick={() => {
+                                                            //     dispatch(dangNhapFBAction(state))
+                                                            // }}
                                                         />
                                                     </div>
                                                 </MDBListGroupItem>
@@ -117,7 +117,7 @@ export default function SingIn() {
                                                         {/* <MDBBtn color="red" >Đăng nhập với Google</MDBBtn> */}
                                                         <GoogleLogin
                                                             className={styles.btn_social}
-                                                            clientId="258306785106-ev7k3sdcdq51ce1ipu911ekrhe834v0b.apps.googleusercontent.com"
+                                                            clientId="258306785106-416oj70ahcnbvlt09pk1vt3hdlf3honv.apps.googleusercontent.com"
                                                             buttonText="Đăng nhập với Google"
                                                             onSuccess={response => {
                                                                 dispatch(dangNhapGGAction({

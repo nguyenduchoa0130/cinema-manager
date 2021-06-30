@@ -14,6 +14,7 @@ import moment from "moment";
 import Title from "../../components/Title";
 const FilmDetail = (props) => {
     const { dataFilmDetail, listShowtimesOfFilm } = useSelector(state => state.ChiTietPhimReducer)
+    // console.log('dataFilmDetail',dataFilmDetail);
     const dispatch = useDispatch()
     const maPhim = props.match.params.id;
     
@@ -25,7 +26,6 @@ const FilmDetail = (props) => {
     const [isOpen, setOpen] = useState(false);
     const { TabPane } = Tabs;
 
-
     function convertUTCDateToLocalDate(date) {
         var newDate = new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
 
@@ -35,8 +35,7 @@ const FilmDetail = (props) => {
         newDate.setHours(hours - offset);
 
         return newDate;
-    }
-   
+    } 
     function getStartAndEndFromTimeStart(timestart) {
         let start = new Date(timestart);
         let yearMonthDate = timestart.split('T')[0].split('-');
@@ -114,7 +113,7 @@ const FilmDetail = (props) => {
         )
     }
     const renderTabSystem = () => {
-        console.log('listShowtimesOfFilm :>> ', listShowtimesOfFilm);
+        // console.log('listShowtimesOfFilm :>> ', listShowtimesOfFilm);
 
         return (
             //Tab System  
@@ -155,29 +154,7 @@ const FilmDetail = (props) => {
                                                                     })
                                                                 }
                                                             </Tabs>
-                                                        </TabPane>
-
-
-
-                                                        // <MDBListGroup key={index + 1} className={styles.seat_plan}>
-                                                        //     <MDBListGroupItem>
-                                                        //         <MDBRow className="w-100 align-items-center">
-                                                        //             <MDBCol lg="5" md="12">
-                                                        //                 <strong className={styles.name} >
-                                                        //                     {showTime.name}
-                                                        //                 </strong>
-                                                        //             </MDBCol>
-                                                        //             <MDBCol lg="7" md="12">
-                                                        //                 {
-                                                        //                     showTime.shedule.map((scheduleItem,index) =>{
-                                                        //                     {console.log('schedule :>> ', scheduleItem);}
-                                                        //                     return <FilmSchedule schedules={scheduleItem.times} />
-                                                        //                 })}
-
-                                                        //             </MDBCol>
-                                                        //         </MDBRow>
-                                                        //     </MDBListGroupItem>
-                                                        // </MDBListGroup>
+                                                        </TabPane>                                                     
                                                     )
                                                 })
                                                 }
@@ -255,9 +232,7 @@ const FilmDetail = (props) => {
                                                 <MDBBtn color="primary" onClick={() => setOpen(true)}>Trailer</MDBBtn>
                                                 <MDBBtn color="danger">Đặt vé</MDBBtn>
                                             </div>
-
                                         </div>
-
                                     </MDBCol>
                                 </MDBRow>
                             </div>
@@ -287,7 +262,8 @@ const FilmDetail = (props) => {
                         </MDBAnimation>
                     </MDBCol>
                 </MDBRow>
-                <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="DDWFjTqnHbM" onClose={() => setOpen(false)} />
+                <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={`${dataFilmDetail.trailer?.split('/')[3]}`} onClose={() => setOpen(false)} />
+                
             </MDBContainer>
         </>
 
@@ -295,3 +271,5 @@ const FilmDetail = (props) => {
     );
 };
 export default FilmDetail;
+
+// https://youtu.be/w2cEVsySsNI
