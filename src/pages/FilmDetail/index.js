@@ -7,17 +7,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { layChiTietPhim, layLichChieu } from "../../redux/actions/ChiTietPhimAction/ChiTietPhimAction";
 import Header from "../../components/Header";
 import ModalVideo from 'react-modal-video'
-import '../../../node_modules/react-modal-video/scss/modal-video.scss';
 import { Tabs } from "antd";
 import FilmSchedule from "../../components/FilmSchedule";
 import moment from "moment";
 import Title from "../../components/Title";
+import { getIdVideo } from "../../util";
+import Footer from "../../components/Footer";
 const FilmDetail = (props) => {
     const { dataFilmDetail, listShowtimesOfFilm } = useSelector(state => state.ChiTietPhimReducer)
     // console.log('dataFilmDetail',dataFilmDetail);
     const dispatch = useDispatch()
     const maPhim = props.match.params.id;
-    
+
     useEffect(() => {
         dispatch(layChiTietPhim(maPhim))
         dispatch(layLichChieu(maPhim))
@@ -35,7 +36,7 @@ const FilmDetail = (props) => {
         newDate.setHours(hours - offset);
 
         return newDate;
-    } 
+    }
     function getStartAndEndFromTimeStart(timestart) {
         let start = new Date(timestart);
         let yearMonthDate = timestart.split('T')[0].split('-');
@@ -139,7 +140,7 @@ const FilmDetail = (props) => {
                                                                     showTime.schedule?.map((scheduleItem, index) => {
                                                                         console.log('scheduleItem :>> ', scheduleItem);
                                                                         return (
-                                                                            <TabPane  tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
+                                                                            <TabPane tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>
                                                                                     <FilmSchedule schedules={scheduleItem.times} />
                                                                                 </div>
@@ -148,7 +149,7 @@ const FilmDetail = (props) => {
                                                                     })
                                                                 }
                                                             </Tabs>
-                                                        </TabPane>                                                     
+                                                        </TabPane>
                                                     )
                                                 })
                                                 }
@@ -224,7 +225,7 @@ const FilmDetail = (props) => {
                                             </div>
                                             <div className={styles.header_btn_group}>
                                                 <MDBBtn color="primary" onClick={() => setOpen(true)}>Trailer</MDBBtn>
-                                                <MDBBtn color="danger">Đặt vé</MDBBtn>
+                                                <MDBBtn color="danger" href="#schedules">Đặt vé</MDBBtn>
                                             </div>
                                         </div>
                                     </MDBCol>
@@ -245,7 +246,7 @@ const FilmDetail = (props) => {
             {/* <MDBModal className={styles.detailModal} size="lg" isOpen={isShowing} toggle={toggle} centered>
                 <iframe width="100%" height="500px" src={dataFilmDetail.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
             </MDBModal> */}
-            <MDBContainer>
+            <MDBContainer id="schedules">
                 <MDBRow className="mb-5">
                     <MDBCol>
                         <MDBAnimation type="fadeInRight">
@@ -256,9 +257,9 @@ const FilmDetail = (props) => {
                         </MDBAnimation>
                     </MDBCol>
                 </MDBRow>
-                <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={`${dataFilmDetail.trailer?.split('/')[3]}`} onClose={() => setOpen(false)} />
-                
             </MDBContainer>
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={`${getIdVideo(dataFilmDetail.trailer)}`} onClose={() => setOpen(false)} />
+            <Footer />
         </>
 
 

@@ -6,8 +6,8 @@ import Slider from "react-slick";
 import cx from 'classnames';
 import styles from "./style.module.scss";
 
-const FilmSlider = ({settings, dataSource,className }) => {
-    // console.log(-settings);
+const FilmSlider = (props) => {
+    const {settings, dataSource, className,toggle,setModalContent} = props;
     return (
         <Slider {...settings} className={cx(styles.listFilm,className)}>
             {
@@ -15,7 +15,7 @@ const FilmSlider = ({settings, dataSource,className }) => {
                     return (
                         <div key={index}>
                             <div className={cx(styles.filmItem, "text-center")}>
-                                <FilmItem info={film} />
+                                <FilmItem toggle={toggle} setModalContent ={setModalContent} info={film} />
                             </div>
                         </div>
                     )

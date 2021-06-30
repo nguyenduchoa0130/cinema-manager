@@ -16,7 +16,7 @@ export const layDanhSachPhimDangCongChieu = () => {
             })
         } catch (error) {
             // alert(error.response.data.msg);
-            console.log('error', error.response.data.msg);
+            console.log('error', error);
         }
     }
 }

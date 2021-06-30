@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import React from "react";
 
-const useModal = () => {
-  const [isShowing, setIsShowing] = useState(false);
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [modalContent, setModalContent] = React.useState("");
 
-  function toggle() {
-    setIsShowing(!isShowing);
-  }
+  const toggle = () => {
+    setIsOpen(!isOpen);
+  };
 
-  return {
-    isShowing,
-    toggle,
-  }
+  return { isOpen, toggle, modalContent ,setModalContent};
 };
-
-export default useModal;

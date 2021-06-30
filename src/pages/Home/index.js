@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAnimation} from 'mdbreact';
+import React, { useEffect, useState } from "react";
+import { MDBContainer, MDBRow, MDBCol, MDBAnimation } from 'mdbreact';
 import styles from "./style.module.scss";
 import ListPoster from "../../components/ListPoster";
 import Title from "../../components/Title";
@@ -7,16 +7,24 @@ import FilmSlider from "../../components/FilmSlider";
 import { useDispatch, useSelector } from "react-redux";
 import { laydanhSachLichChieu, layDanhSachPhimDangCongChieu, layDanhSachPhimHot, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
 import { Tabs } from 'antd';
+import ModalVideo from 'react-modal-video'
 import FilmSchedule from "../../components/FilmSchedule";
 import moment from 'moment';
 
 const { TabPane } = Tabs;
 
 const Home = () => {
+    // const { isOpen, toggle, modalContent ,setModalContent} = useModal();
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalContent, setModalContent] = useState('');
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    }
+
+    
+
     const { listFilmDangCongChieu, listFilmSapCongChieu, listFilmHot, listShowtimes } = useSelector(state => state.TrangChuReducer)
-    console.log(listFilmHot);
-    // console.log(listFilmSapCongChieu);
-    // console.log(listShowtimes);
+
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layDanhSachPhimDangCongChieu())
@@ -135,7 +143,7 @@ const Home = () => {
         });
         return listFilm;
     }
-    
+
     const renderFilmTabPane = (film) => {
         return (
             <div className={styles.film_tab_pane}>
@@ -235,7 +243,7 @@ const Home = () => {
                         <MDBAnimation type="fadeInLeft" delay="onScroll" data-mdb-animation-start="onScroll">
                             <Tabs defaultActiveKey="1" centered className="mt-4 text-white">
                                 <TabPane tab="Sắp chiếu" key="1">
-                                    <FilmSlider settings={settings} dataSource={listFilmDangCongChieu?.films} className={styles.listFilm} />
+                                    <FilmSlider toggle={toggle} setModalContent={setModalContent} settings={settings} dataSource={listFilmDangCongChieu?.films} className={styles.listFilm} />
                                 </TabPane>
                                 <TabPane tab="Đang chiếu" key="2">
                                     <FilmSlider settings={settings} dataSource={listFilmSapCongChieu?.films} className={styles.listFilm} />
@@ -259,7 +267,7 @@ const Home = () => {
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
-
+            <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={modalContent} onClose={toggle} />
         </div>
     );
 };

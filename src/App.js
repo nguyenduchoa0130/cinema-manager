@@ -7,6 +7,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import 'antd/dist/antd.css';
 import 'sweetalert2/dist/sweetalert2.css';
+import '../node_modules/react-modal-video/scss/modal-video.scss';
 
 import Activated from './pages/Activated';
 import ActiveForgetPassword from './pages/ActiveForgetPassword';
