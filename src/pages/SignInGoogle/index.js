@@ -42,7 +42,7 @@ export default function SignUpFacbook() {
             fullName: Yup.string().min(2, "Mininum 2 characters")
                 .max(15, "Maximum 15 characters")
                 .required("Required!"),
-            phone: Yup.string().min(10, "Mininum  characters")
+            phone: Yup.string().min(10, "Mininum 10 characters")
                 .max(11, "Maximum 11 characters")
                 .required("Required!"),
             passwordConfirm: Yup.string()
