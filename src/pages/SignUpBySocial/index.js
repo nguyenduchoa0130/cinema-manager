@@ -3,16 +3,16 @@ import React, { Fragment, useEffect, useState } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBInput, MDBIcon } from 'mdbreact';
 import styles from "./style.module.scss";
 import cx from 'classnames';
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
-import {  hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
+import { hoanTatPost, hoanTatPut } from "../../redux/actions/NguoiDungAction";
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../assets/images/logo.svg"
 
 export default function SignUpBySocial() {
     const { userLogin } = useSelector(state => state.NguoiDungReducer)
-    console.log('userLogin', userLogin);
+    // console.log('userLogin', userLogin);
     const [dataUser, setDataUser] = useState()
     console.log('dataUser', dataUser);
     useEffect(() => {
@@ -24,11 +24,11 @@ export default function SignUpBySocial() {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
-            fullName: userLogin.fullName,
+            fullName: userLogin?.fullName,
             userId: userLogin?.userId,
-            facebookId: userLogin.facebookId,
+            facebookId: userLogin?.facebookId,
             password: '',
-            email: userLogin.email,
+            email: userLogin?.email,
             phone: '',
         },
         validationSchema: Yup.object().shape({
@@ -60,6 +60,12 @@ export default function SignUpBySocial() {
         }
     });
 
+    useEffect(() => {
+        setDataUser({
+            dataUser: formik.values
+        })
+    }, [formik.values])
+
 
     return (
         <div className={styles.wrapper_template}>
@@ -82,7 +88,7 @@ export default function SignUpBySocial() {
 
                                     </div>
                                     <img className={styles.wrapper_header_logo} src={logo} alt="logo" />
-                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Hoàn tất đăng ký</h2>
+                                    <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Hoàn tất đăng ký</h2>
                                 </div>
                                 <div className={styles.wrapper_form}>
                                     <form onSubmit={formik.handleSubmit}>
@@ -92,7 +98,7 @@ export default function SignUpBySocial() {
                                             {formik.errors.fullName && formik.touched.fullName && (
                                                 <p className="text-danger">{formik.errors.fullName} </p>
                                             )}
-                                            <MDBInput value={dataUser?.dataUser.email} name="email" id="email" label="Email" icon="envelope" group type="email" validate error="wrong"
+                                            <MDBInput readOnly={true} value={dataUser?.dataUser.email} name="email" id="email" label="Email" icon="envelope" group type="email" validate error="wrong"
                                                 success="right" onChange={formik.handleChange} />
                                             {formik.errors.email && formik.touched.email && (
                                                 <p className="text-danger">{formik.errors.email} </p>
