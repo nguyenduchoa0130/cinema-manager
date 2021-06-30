@@ -36,7 +36,5 @@ const rootReducer = combineReducers({
 
 // cấu hình devTool redux, để hiện thị store
 
-
-
 const store = createStore(rootReducer, applyMiddleware(reduxThunk)); // redux thunk
 export default store;

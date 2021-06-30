@@ -49,6 +49,11 @@ export default function SingIn() {
             email: response.email,
             fullName: response.name
         })
+        dispatch(dangNhapFBAction({
+            facebookId: response.id,
+            email: response.email,
+            fullName: response.name
+        }))
     }
 
     return (
@@ -66,7 +71,7 @@ export default function SingIn() {
                                 <MDBContainer>
                                     <div className={styles.wrapper_header}>
                                         <img className={styles.wrapper_header_logo} src={logo} alt="logo" />
-                                         <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Đăng nhập</h2>
+                                        <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Đăng nhập</h2>
                                     </div>
                                     <div className={styles.wrapper_form}>
                                         <form onSubmit={formik.handleSubmit}>
@@ -100,15 +105,16 @@ export default function SingIn() {
                                                     <div className="text-center">
                                                         {/* <MDBBtn color="indigo" >Đăng nhập với Facebook</MDBBtn> */}
                                                         <FacebookLogin
-                                                            appId="1817896348372359"                                                       
+                                                            appId="1817896348372359"
                                                             fields="id,email,name"
                                                             callback={responseFacebook}
                                                             cssClass={cx(styles.btn_facebook, styles.btn_social)}
                                                             scope='email,public_profile'
                                                             icon="fa-facebook"
-                                                            // onClick={() => {
-                                                            //     dispatch(dangNhapFBAction(state))
-                                                            // }}
+                                                        // onClick={() => {
+                                                        //     console.log('state :>> ', state);
+                                                        //     dispatch(dangNhapFBAction(state))
+                                                        // }}
                                                         />
                                                     </div>
                                                 </MDBListGroupItem>

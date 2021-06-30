@@ -60,6 +60,12 @@ export default function SignUpFacbook() {
 
         }
     });
+
+    useEffect(() => {
+        setDataUser({
+            dataUser: formik.values
+        })
+    }, [formik.values])
     return (
         <div className={styles.wrapper_template}>
             <div className={styles.wrapper_content}>
@@ -91,7 +97,7 @@ export default function SignUpFacbook() {
                                             {formik.errors.fullName && formik.touched.fullName && (
                                                 <p className="text-danger">{formik.errors.fullName} </p>
                                             )}
-                                            <MDBInput value={dataUser?.dataUser.email} name="email" id="email" label="Email" icon="envelope" group type="email" validate error="wrong"
+                                            <MDBInput readOnly={true} value={dataUser?.dataUser.email} name="email" id="email" label="Email" icon="envelope" group type="email" validate error="wrong"
                                                 success="right" onChange={formik.handleChange} />
                                             {formik.errors.email && formik.touched.email && (
                                                 <p className="text-danger">{formik.errors.email} </p>

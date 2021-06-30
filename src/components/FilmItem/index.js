@@ -11,9 +11,10 @@ const FilmItem = ({ info },props) => {
     const dispatch = useDispatch()
     const [isOpen, setOpen] = useState(false);
     return (
-        <Fragment>
+        <>
             <Link to={info.path}>
                 <MDBCard className={styles.cart}>
+                   {info.numberOfTickets?( <div className={styles.badge}>HOT</div>):null}
                     <div className={styles.cart_img}>
                         <MDBCardImage className="img-fluid" src={info.thumbnail}
                             waves />
@@ -34,13 +35,17 @@ const FilmItem = ({ info },props) => {
                             <MDBCardTitle>{info.filmName}</MDBCardTitle>
                         </Link>
                         <MDBCardText>
-                            {info.categoryName}
+                            <p>{info["Category.name"]}</p>
+                            {info.numberOfTickets?(
+                                <p><strong>Lượt đặt: </strong>{info.numberOfTickets}</p>
+                            ):null}
+                            
                         </MDBCardText>
                     </MDBCardBody>
                 </MDBCard>
                 <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={`${info.trailer?.split('/')[3]}`} onClose={() => setOpen(false)} />
             </Link>
-        </Fragment>
+        </>
     );
 }
 

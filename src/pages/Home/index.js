@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAnimation, MDBListGroup, MDBListGroupItem } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol, MDBAnimation} from 'mdbreact';
 import styles from "./style.module.scss";
 import ListPoster from "../../components/ListPoster";
 import Title from "../../components/Title";
@@ -135,11 +135,7 @@ const Home = () => {
         });
         return listFilm;
     }
-    const formatTime = (times) => {
-        return times.map(time => {
-            return time.time.substr(0, 5);
-        })
-    }
+    
     const renderFilmTabPane = (film) => {
         return (
             <div className={styles.film_tab_pane}>
