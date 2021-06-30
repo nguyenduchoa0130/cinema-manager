@@ -1,14 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import styles from './style.module.scss'
 import { MDBCard, MDBCardBody, MDBCardImage, MDBCardTitle, MDBCardText, MDBBtn } from 'mdbreact';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { layLichChieu } from '../../redux/actions/ChiTietPhimAction/ChiTietPhimAction';
-
-// ok
+import ModalVideo from 'react-modal-video'
+import '../../../node_modules/react-modal-video/scss/modal-video.scss';
 
 const FilmItem = ({ info },props) => {
     const dispatch = useDispatch()
+    const [isOpen, setOpen] = useState(false);
     return (
         <>
             <Link to={info.path}>
@@ -18,7 +19,7 @@ const FilmItem = ({ info },props) => {
                         <MDBCardImage className="img-fluid" src={info.thumbnail}
                             waves />
                         <div className={styles.layout_active}>
-                            <MDBBtn className="btn-success btn Ripple-parent w-75" >
+                            <MDBBtn onClick={() => setOpen(true)} className="btn-success btn Ripple-parent w-75" >
                                 Trailer
                             </MDBBtn>
                             <Link to={`/chi-tiet-phim/${info.id}`} className="btn-danger btn Ripple-parent w-75" onClick={()=>{
@@ -42,6 +43,7 @@ const FilmItem = ({ info },props) => {
                         </MDBCardText>
                     </MDBCardBody>
                 </MDBCard>
+                <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId={`${info.trailer?.split('/')[3]}`} onClose={() => setOpen(false)} />
             </Link>
         </>
     );

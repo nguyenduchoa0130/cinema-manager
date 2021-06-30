@@ -40,10 +40,10 @@ export default function SingIn() {
     }
 
     const responseGoogle = (response) => {
-        console.log(response);
+        // console.log(response);
     }
     const responseFacebook = (response) => {
-        console.log(response);
+        // console.log(response);z
         setstate({
             facebookId: response.id,
             email: response.email,
