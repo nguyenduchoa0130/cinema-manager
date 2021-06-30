@@ -39,11 +39,10 @@ export default function SignUpFacbook() {
             email: Yup.string()
                 .email("Invalid email format")
                 .required("Required!"),
-            fullName: Yup.string().min(2, "Mininum 2 characters")
-                .max(15, "Maximum 15 characters")
+            fullName: Yup.string()
                 .required("Required!"),
             phone: Yup.string().min(10, "Mininum 10 characters")
-                .max(11, "Maximum 11 characters")
+            .max(10, "Maximum 10 characters")
                 .required("Required!"),
             passwordConfirm: Yup.string()
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
