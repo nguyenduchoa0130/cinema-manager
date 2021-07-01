@@ -29,7 +29,6 @@ const AddCinema = () => {
       clusterId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      console.log(values);
       dispatch(themRap(values))
     }
   })

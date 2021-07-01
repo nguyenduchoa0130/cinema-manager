@@ -15,7 +15,6 @@ import { getIdVideo } from "../../util";
 import Footer from "../../components/Footer";
 const FilmDetail = (props) => {
     const { dataFilmDetail, listShowtimesOfFilm } = useSelector(state => state.ChiTietPhimReducer)
-    // console.log('dataFilmDetail',dataFilmDetail);
     const dispatch = useDispatch()
     const maPhim = props.match.params.id;
 
@@ -108,7 +107,6 @@ const FilmDetail = (props) => {
         )
     }
     const renderTabSystem = () => {
-        // console.log('listShowtimesOfFilm :>> ', listShowtimesOfFilm);
 
         return (
             //Tab System  
@@ -129,7 +127,6 @@ const FilmDetail = (props) => {
 
                                             {/*  Tab Film */}
                                             <Tabs tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
-                                                {console.log('getDetailFilm', getDetailFilm(cluster.Showtimes))}
                                                 {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
 
                                                     //Render item Film     
@@ -138,7 +135,6 @@ const FilmDetail = (props) => {
                                                             <Tabs tabPosition="top" defaultActiveKey="1" centered className="mt-4 text-white">
                                                                 {
                                                                     showTime.schedule?.map((scheduleItem, index) => {
-                                                                        console.log('scheduleItem :>> ', scheduleItem);
                                                                         return (
                                                                             <TabPane tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>

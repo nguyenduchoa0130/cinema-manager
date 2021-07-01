@@ -14,7 +14,6 @@ import { layTheLoaiPhim, themPhim } from '../../../redux/actions/QuanLyPhimActio
 const AddFilm = () => {
 
   const { listCategory } = useSelector(state => state.QuanLyPhimReducer)
-  // console.log('listCategory', listCategory);
   useEffect(() => {
     dispatch(layTheLoaiPhim());
   })
@@ -51,7 +50,6 @@ const AddFilm = () => {
       for (var key in values) {
         form_data.append(key, values[key])
       }
-      console.log('value', values);
 
       dispatch(themPhim(form_data))
 
@@ -304,7 +302,6 @@ const AddFilm = () => {
                       </label>
                     </div>
                   </div>
-                 {/* {console.log('formik.values.thumbnail :>> ', formik.values.thumbnail)} */}
                 </MDBCol>
               </MDBRow>
               <MDBRow className="mb-3">

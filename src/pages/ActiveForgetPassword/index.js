@@ -23,7 +23,6 @@ export default function Activated() {
         }),
         onSubmit: values => {
             dispatch(xacNhanOtp(values, userId));
-            // console.log('value', values)
         }
 
     });
@@ -32,7 +31,6 @@ export default function Activated() {
         let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
         userId = userLogin.userId;
     }
-    // console.log('userId', userId);
 
 
     return (

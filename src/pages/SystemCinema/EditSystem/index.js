@@ -10,8 +10,6 @@ import { suaHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 const EditSystem = () => {
   const { dataSystemEdit } = useSelector(state => state.QuanLyHeThongRapReducer)
   const [systemEdit, setSystemEdit] = useState()
-  // console.log('dataSystemEdit',dataSystemEdit);
-  // console.log('systemEdit',systemEdit);
   useEffect(() => {
     setSystemEdit({
       ...dataSystemEdit,
@@ -32,7 +30,6 @@ const EditSystem = () => {
       for (var key in values) {
         form_data.append(key, values[key])
       }
-      console.log('value', values);
       dispatch(suaHeThongRap(form_data, dataSystemEdit.id))
     }
   })

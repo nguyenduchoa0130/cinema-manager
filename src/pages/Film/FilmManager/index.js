@@ -11,7 +11,6 @@ import { layDanhSachPhim, xoaPhim } from "../../../redux/actions/QuanLyPhimActio
 const FilmManager = () => {
 
   const { listFilm } = useSelector(state => state.QuanLyPhimReducer)
-  // console.log('listFilm', listFilm);
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layDanhSachPhim())

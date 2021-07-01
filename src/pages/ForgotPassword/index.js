@@ -23,7 +23,6 @@ export default function ForgotPassword() {
         }),
         onSubmit: values => {
             dispatch(quenMatKhau(values));
-            // console.log('value', values)
         }
 
     });

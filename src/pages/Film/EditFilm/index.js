@@ -13,7 +13,6 @@ const EditFilm = () => {
   const { listCategory, dataFilmEdit } = useSelector(state => state.QuanLyPhimReducer)
   const dispatch = useDispatch();
   const [dataFilm, setDataFilm] = useState()
-  console.log('dataFilm', dataFilm);
 
   useEffect(() => {
     setDataFilm({
@@ -58,7 +57,6 @@ const EditFilm = () => {
       for (var key in values) {
         form_data.append(key, values[key])
       }
-      console.log(values);
       dispatch(suaPhim(form_data, dataFilmEdit.id))
 
     },

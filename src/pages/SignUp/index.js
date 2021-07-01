@@ -37,7 +37,6 @@ export default function SignUp() {
         }),
         onSubmit: values => {
             dispatch(dangKyAction(values))
-            // console.log('value', values);
         }
     });
 

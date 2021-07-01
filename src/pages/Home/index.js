@@ -155,7 +155,6 @@ const Home = () => {
         )
     }
     const renderTabSystem = () => {
-        console.log('listShowtimes :>> ', listShowtimes);
 
         return (
             //Tab System  
@@ -180,18 +179,15 @@ const Home = () => {
                                                 defaultActiveKey="1"
                                                 centered
                                                 className={cx(styles.tab_Clusters, "mt-2 text-white")}
-                                                tabBarStyle={{ maxWidth: "30%",textAlign: "center"}}
+                                                tabBarStyle={{ maxWidth: "30%", textAlign: "center" }}
                                             >
-                                                {console.log('getDetailFilm', getDetailFilm(cluster.Showtimes))}
                                                 {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
-
                                                     //Render item Film     
                                                     return (
                                                         <TabPane className={styles.tab_schedule} tab={renderFilmTabPane(showTime)} key={index + 1}>
                                                             <Tabs tabPosition="top" defaultActiveKey="1" centered className="mt-4 text-white">
                                                                 {
                                                                     showTime.schedule?.map((scheduleItem, index) => {
-                                                                        console.log('scheduleItem :>> ', scheduleItem);
                                                                         return (
                                                                             <TabPane tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
                                                                                 <div className={styles.schedule_item}>
@@ -249,10 +245,10 @@ const Home = () => {
                         </MDBAnimation>
                         <MDBAnimation type="fadeInLeft" delay="onScroll" data-mdb-animation-start="onScroll">
                             <Tabs defaultActiveKey="1" centered className="mt-4 text-white">
-                                <TabPane tab="Sắp chiếu" key="1">
+                                <TabPane tab="Đang chiếu" key="1">
                                     <FilmSlider toggle={toggle} setModalContent={setModalContent} settings={settings} dataSource={listFilmDangCongChieu?.films} className={styles.listFilm} />
                                 </TabPane>
-                                <TabPane tab="Đang chiếu" key="2">
+                                <TabPane tab="Sắp chiếu" key="2">
                                     <FilmSlider settings={settings} dataSource={listFilmSapCongChieu?.films} className={styles.listFilm} />
                                 </TabPane>
                                 <TabPane tab="Phim hot" key="3">

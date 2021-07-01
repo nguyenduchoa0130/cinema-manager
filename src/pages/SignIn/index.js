@@ -15,6 +15,7 @@ import logo from "../../assets/images/logo.svg"
 
 
 export default function SingIn() {
+    // eslint-disable-next-line no-unused-vars
     const [state, setstate] = useState({
         facebookId: '',
         email: '',
@@ -40,10 +41,8 @@ export default function SingIn() {
     }
 
     const responseGoogle = (response) => {
-        // console.log(response);
     }
     const responseFacebook = (response) => {
-        // console.log(response);z
         setstate({
             facebookId: response.id,
             email: response.email,

@@ -9,7 +9,6 @@ import { Button, Select, Tabs } from "antd";
 import { DatePicker } from 'antd';
 import { Option } from "antd/lib/mentions";
 import StatsBox from "../../components/StatsBox";
-import { numberWithCommas } from "../../util";
 import { useDispatch, useSelector } from "react-redux";
 import { layCumRap } from "../../redux/actions/QuanLyCumRapAction";
 import { layDanhSachPhimDangCongChieu, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
@@ -33,7 +32,7 @@ const Dashboard = () => {
         dispatch(layCumRap())
         dispatch(layDanhSachPhimDangCongChieu())
         dispatch(layDanhSachPhimSapCongChieu())
-    }, [])
+    }, [dispatch])
 
 
     const formik_cluster = useFormik({
@@ -77,6 +76,7 @@ const Dashboard = () => {
             })
         )
     }
+    // eslint-disable-next-line no-unused-vars
     const renderListSystem = (listSystem) => {
         return (
             listSystem.map((system, index) => {
@@ -153,7 +153,6 @@ const Dashboard = () => {
                                                     Thời gian
                                                 </label>
                                                 <RangePicker size="large" className="w-100" onChange={(value, dateString) => {
-                                                    // console.log('dateString',dateString);
                                                     formik_cluster.values.dateStart_End = dateString
                                                 }} />
                                             </MDBCol>
@@ -195,7 +194,6 @@ const Dashboard = () => {
                                                     Thời gian
                                                 </label>
                                                 <RangePicker name="dateStart_End" size="large" className="w-100" onChange={(value, dateString) => {
-                                                    // console.log('dateString',dateString);
                                                     formik_film.values.dateStart_End = dateString
                                                 }} />
                                             </MDBCol>

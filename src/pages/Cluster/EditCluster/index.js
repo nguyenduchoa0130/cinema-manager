@@ -11,9 +11,7 @@ import { layHeThongRap } from '../../../redux/actions/QuanLyHeThongRapAction';
 const EditCluster = () => {
   const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
   const { dataClusterEdit } = useSelector(state => state.QuanLyCumRapReducer)
-  console.log('dataClusterEdit', dataClusterEdit);
   const [cluster, setCluster] = useState()
-  console.log('cluster', cluster);
 
   const dispatch = useDispatch()
   useEffect(() => {

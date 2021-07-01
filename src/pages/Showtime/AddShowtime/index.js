@@ -52,7 +52,6 @@ const AddShowtime = () => {
       priceTicket: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      console.log('values', values);
       dispatch(themLichChieu(values))
     }
   })

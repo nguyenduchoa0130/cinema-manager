@@ -9,7 +9,6 @@ import { layHeThongRap, xoaHeThongRap } from "../../../redux/actions/QuanLyHeTho
 
 const SystemManager = () => {
   const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
-  console.log('listHeThongRap', listHeThongRap);
   const dispatch = useDispatch()
 
   useEffect(() => {

@@ -1,7 +1,6 @@
 
 import React, { useEffect } from "react";
 import styles from "./style.module.scss";
-import cx from 'classnames';
 import { MDBContainer, MDBRow } from "mdbreact";
 import { Table } from 'antd';
 import Title from "../../components/Title";
@@ -18,14 +17,12 @@ const columns = [
 
 const History = () => {
     const { historyBooking } = useSelector(state => state.HistoryReducer)
-    // console.log('historyBooking', historyBooking);
     const { userId } = useSelector(state => state.NguoiDungReducer)
-    // console.log('userId', userId);
 
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(layLichSuDatVe(userId))
-    }, [])
+    }, [dispatch, userId])
 
     const renderDescriptionTransaction = (transaction) => {
         return (

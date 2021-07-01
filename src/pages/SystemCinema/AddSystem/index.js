@@ -22,7 +22,6 @@ const AddSystem = () => {
       for (var key in values) {
         form_data.append(key, values[key])
       }
-      console.log('value', values);
 
       dispatch(themHeThongRap(form_data))
     }

@@ -29,7 +29,6 @@ const ChooseSeat = (props) => {
 
     const seats = detailBookingRoom?.showtimes?.Seats;
     const seatOccupied = detailBookingRoom?.showtimes?.Seats?.filter(item => item.isOrder === true)
-    // console.log('detailBookingRoom',detailBookingRoom);
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
     }, [dispatch, maLichChieu])
@@ -124,7 +123,6 @@ const ChooseSeat = (props) => {
                                 seats: selectedSeats.map(seat => seat.id)
                             }
                             dispatch(datVe(object))
-                            console.log('object', object);
                         }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {
                                 Notification('Thông báo','Vui lòng chọn ghế!')

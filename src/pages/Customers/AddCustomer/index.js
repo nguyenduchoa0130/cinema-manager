@@ -30,7 +30,6 @@ const AddCustomer = () => {
       roleId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      // console.log('values', values);
       dispatch(themNguoiDung(values));
     },
   });

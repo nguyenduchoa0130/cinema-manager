@@ -16,7 +16,6 @@ const ShowtimeManager = () => {
   const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
   const { listCumRapTheoHeThong } = useSelector(state => state.QuanLyCumRapReducer)
 
-  console.log('listShowTime', listShowTime);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(layHeThongRap())
@@ -48,7 +47,6 @@ const ShowtimeManager = () => {
       clusterId: '',
     },
     onSubmit: values => {
-      // console.log('values', values);
       dispatch(layLichChieu(values.clusterId))
     }
   })

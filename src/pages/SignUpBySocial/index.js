@@ -12,9 +12,7 @@ import logo from "../../assets/images/logo.svg"
 
 export default function SignUpBySocial() {
     const { userLogin } = useSelector(state => state.NguoiDungReducer)
-    // console.log('userLogin', userLogin);
     const [dataUser, setDataUser] = useState()
-    console.log('dataUser', dataUser);
     useEffect(() => {
         setDataUser({
             dataUser: userLogin
@@ -47,7 +45,6 @@ export default function SignUpBySocial() {
                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
         }),
         onSubmit: values => {
-            console.log('values', values);
             if (values.userId) {
                 let { password, ...userData } = values
                 dispatch(hoanTatPut(userData))

@@ -37,7 +37,6 @@ const EditCinema = () => {
       clusterId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      console.log(values);
       dispatch(suaRap(values, dataRapEdit.id))
     }
   })

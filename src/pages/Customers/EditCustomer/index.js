@@ -10,10 +10,8 @@ import { suaNguoiDung } from '../../../redux/actions/QuanLyNguoiDungAction';
 const EditCustomer = () => {
 
   const { dataUserEdit } = useSelector(state => state.QuanLyNguoiDungReducer)
-  // console.log('dataUserEdit', dataUserEdit);
   const dispatch = useDispatch();
   const [dataUser, setDataUser] = useState()
-  // console.log('dataUser', dataUser);
 
   useEffect(() => {
     setDataUser({
@@ -37,7 +35,6 @@ const EditCustomer = () => {
       roleId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      console.log('values', values);
       dispatch(suaNguoiDung(values, dataUserEdit.id));
     },
   });

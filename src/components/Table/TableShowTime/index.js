@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { MDBTableBody, MDBBtn, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBTable, MDBTableHead, MDBIcon } from "mdbreact";
 import useModal from "../../../util/useModal";
-import styles from "./style.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { layChiTietLichChieu, xoaLichChieu } from "../../../redux/actions/QuanLyLichChieuAction";
 
@@ -14,7 +13,6 @@ const TableShowtime = (props) => {
   }, [dispatch, props.clusterId, props.filmId])
 
   const { listDetailShowTime } = useSelector(state => state.QuanLyLichChieuReducer)
-  console.log('listDetailShowTime', listDetailShowTime);
   const { isShowing, toggle } = useModal();
 
   const [showTime, setshowTime] = useState({

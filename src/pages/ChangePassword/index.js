@@ -25,7 +25,6 @@ export default function ChangePassword() {
                 .oneOf([Yup.ref('new_password'), null], 'Passwords must match')
         }),
         onSubmit: values => {
-            console.log('value', values)
             dispatch(matKhauMoi(values, userId));
             
         }
