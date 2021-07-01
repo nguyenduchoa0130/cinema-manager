@@ -10,8 +10,9 @@ import { Tabs } from 'antd';
 import ModalVideo from 'react-modal-video'
 import FilmSchedule from "../../components/FilmSchedule";
 import moment from 'moment';
-
+import cx from 'classnames';
 const { TabPane } = Tabs;
+
 
 const Home = () => {
     // const { isOpen, toggle, modalContent ,setModalContent} = useModal();
@@ -21,7 +22,7 @@ const Home = () => {
         setIsOpen(!isOpen);
     }
 
-    
+
 
     const { listFilmDangCongChieu, listFilmSapCongChieu, listFilmHot, listShowtimes } = useSelector(state => state.TrangChuReducer)
 
@@ -146,7 +147,7 @@ const Home = () => {
 
     const renderFilmTabPane = (film) => {
         return (
-            <div className={styles.film_tab_pane}>
+            <div className={styles.film_item}>
                 <div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${film.thumbnail})` }}></div>
                 <p>{film.name}</p>
             </div>
@@ -167,14 +168,20 @@ const Home = () => {
                             key={index + 1}
                         >
                             {/*  Tab Clusters */}
-                            <Tabs tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
+                            <Tabs tabPosition="left" defaultActiveKey="1" centered className={cx(styles.tab_Clusters, "mt-2 text-white")} tabBarStyle={{ maxWidth: "30%" }}>
                                 {item.CinemaClusters?.map((cluster, index) => {
                                     //Render item Cluster     
                                     return (
                                         <TabPane tab={renderClusterTabItem({ name: `${cluster.name}`, address: `${cluster.address}` })} key={index + 1}>
 
                                             {/*  Tab Film */}
-                                            <Tabs tabPosition="left" defaultActiveKey="1" centered className="mt-4 text-white">
+                                            <Tabs
+                                                tabPosition="left"
+                                                defaultActiveKey="1"
+                                                centered
+                                                className={cx(styles.tab_Clusters, "mt-2 text-white")}
+                                                tabBarStyle={{ maxWidth: "30%",textAlign: "center"}}
+                                            >
                                                 {console.log('getDetailFilm', getDetailFilm(cluster.Showtimes))}
                                                 {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
 
@@ -215,11 +222,11 @@ const Home = () => {
     }
     const renderClusterTabItem = (cluster) => {
         return (
-            <div className="d-flex ">
+            <div className={cx(styles.cluster_item)}>
                 {/* <MDBBtn size="sm" rounded color="secondary" className="rounded-circle px-3 mr-3">
                     <MDBIcon icon="map-marker-alt" />
                 </MDBBtn> */}
-                <div className="info_cluster">
+                <div className={styles.info_cluster}>
                     <strong className={styles.cluster_name}>
                         {cluster.name}
                     </strong>

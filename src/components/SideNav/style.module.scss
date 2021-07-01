@@ -41,6 +41,11 @@
                 font-weight: 400;
                 padding: 1rem 1rem 1rem 1.25rem;
                 display: block;
+                cursor: pointer;
+                &:hover {
+                    color: #fff;
+                    background-color: #007bff !important;
+                }
             }
             a {
                 color: rgb(99, 95, 95);

@@ -30,7 +30,7 @@ const Footer = () => {
         </MDBRow>
       </MDBContainer>
       <div className={styles.bottom_footer}>
-        Copyright © 2021 Fullphim.net. All Rights reserved.
+        Copyright © 2021 CINEJUN. All Rights reserved.
       </div>
     </footer>
   );
