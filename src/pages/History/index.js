@@ -24,6 +24,7 @@ const History = () => {
         dispatch(layLichSuDatVe(userId))
     }, [dispatch, userId])
 
+
     const renderDescriptionTransaction = (transaction) => {
         return (
             <div className={styles.transaction_description}>
@@ -40,6 +41,7 @@ const History = () => {
         )
     }
 
+    console.log('historyBooking :>> ', historyBooking);
     return (
         <>
             <MDBContainer className={styles.wrapper}>

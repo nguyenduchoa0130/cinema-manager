@@ -1,5 +1,6 @@
 import axios from "axios";
 import { history } from "../../App";
+import { Notification } from "../../components/Notification";
 
 export const layCumRap = () => {
     return async dispatch => {
@@ -54,7 +55,7 @@ export const themCumRap = (thongTinCumRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layCumRap())
             history.push('/admin/quan-ly-cum-rap')
         } catch (error) {
@@ -74,7 +75,7 @@ export const xoaCumRap = (maCumRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layCumRap())
         } catch (error) {
             alert(error.response.data.msg);
@@ -94,7 +95,7 @@ export const suaCumRap = (thongTinCumRap, maCumRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layCumRap())
             history.push('/admin/quan-ly-cum-rap')
         } catch (error) {

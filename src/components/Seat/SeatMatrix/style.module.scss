@@ -78,8 +78,7 @@
                 }
             }
             &:not(.occupied) {
-                &:hover,
-                &:focus {
+                &:hover {
                     cursor: pointer;
                     background: #eae4c1;
                     transform: scale(1.1);

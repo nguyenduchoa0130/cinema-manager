@@ -1,5 +1,6 @@
 import axios from "axios";
 import { history } from "../../App";
+import { Notification } from "../../components/Notification";
 
 export const layRap = () => {
     return async dispatch => {
@@ -54,7 +55,7 @@ export const themRap = (thongTinRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layRap())
             history.push('/admin/quan-ly-rap')
         } catch (error) {
@@ -75,7 +76,7 @@ export const xoaRap = (maRap) => {
                 // }
             })
             dispatch(layRap());
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -94,7 +95,7 @@ export const suaRap = (thongTinRap, maRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layRap())
             history.push('/admin/quan-ly-rap')
         } catch (error) {

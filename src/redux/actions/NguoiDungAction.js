@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { history } from "../../App"
+import { Notification } from "../../components/Notification";
 import { TOKEN, USERLOGIN } from "../../util/constants/settingSystem";
 
 export const dangNhapAction = (userLogin) => {
@@ -18,7 +19,8 @@ export const dangNhapAction = (userLogin) => {
             // console.log('data',result.data);
             localStorage.setItem(TOKEN, result.data.accessToken);
             localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
-            alert('Đăng nhập thành công')
+            Notification('Thông báo','Đăng nhập thành công');
+            
             history.push('/');
 
         } catch (error) {
@@ -142,7 +144,8 @@ export const dangXuatAction = () => {
             })
             
             history.push('/');
-            alert('Đăng xuất thành công')
+            Notification('Thông báo','Đăng xuất thành công')
+            
         } catch (error) {
             alert(error.response.data.msg)
             console.log('error', error.response.data.msg);
@@ -158,7 +161,7 @@ export const dangKyAction = (userRegister) => {
                 method: 'POST',
                 data: userRegister
             })
-            alert('Đăng kí thành công!');
+            Notification('Thông báo','Đăng kí thành công!');
             // localStorage.setItem(TOKEN, result.data.accessToken);
             localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
             // console.log(result.data.userId);
@@ -178,7 +181,7 @@ export const kichHoatAction = (code, userId) => {
                 method: 'PUT',
                 data: code
             })
-            alert('Kích hoạt thành công!');
+            Notification('Thông báo','Kích hoạt thành công!');
             localStorage.removeItem(USERLOGIN);
             localStorage.removeItem(TOKEN);
             history.push('/dang-nhap');
@@ -237,7 +240,7 @@ export const xacNhanOtp = (code, userId) => {
                 method: 'PUT',
                 data: code
             })
-            alert('Xác nhận OTP thành công!');
+            Notification('Thông báo','Xác nhận OTP thành công!');
             history.push('/doi-mat-khau');
         } catch (error) {
             alert(error.response.data.msg)
@@ -258,7 +261,7 @@ export const matKhauMoi = (new_password, userId) => {
                 }
             })
 
-            alert('Đổi mật khẩu thành công!');
+            Notification('Thông báo','Đổi mật khẩu thành công!');
             localStorage.removeItem(USERLOGIN);
             localStorage.removeItem(TOKEN);
             history.push('/dang-nhap');

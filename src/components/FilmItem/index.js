@@ -19,7 +19,7 @@ const FilmItem = (props) => {
     return (
         <>
             <MDBCard className={styles.cart}>
-                {info.numberOfTickets ? (<div className={styles.badge}>HOT</div>) : null}
+                {info.numberOfTickets ? (<div className={styles.badge}>HOT</div>) : ''}
                 <div className={styles.cart_img}>
                     <MDBCardImage className="img-fluid" src={info.thumbnail}
                         waves />
@@ -42,7 +42,7 @@ const FilmItem = (props) => {
                             <p>{info["Category.name"]}</p>
                             {info.numberOfTickets ? (
                                 <p><strong>Lượt đặt: </strong>{info.numberOfTickets}</p>
-                            ) : null}
+                            ) : ''}
                         </MDBCardText>
                     </Link>
                 </MDBCardBody>

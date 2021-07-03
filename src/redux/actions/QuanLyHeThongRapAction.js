@@ -1,5 +1,6 @@
 import axios from "axios"
 import { history } from "../../App";
+import { Notification } from "../../components/Notification";
 
 export const layHeThongRap = () => {
     return async dispatch => {
@@ -33,7 +34,7 @@ export const themHeThongRap = (thongTinRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layHeThongRap())
             history.push('/admin/quan-ly-he-thong-rap')
         } catch (error) {
@@ -54,7 +55,7 @@ export const xoaHeThongRap = (maHeThongRap) => {
                 // }
             })
             dispatch(layHeThongRap())
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
@@ -73,7 +74,7 @@ export const suaHeThongRap = (thongTinRap, maHeThongRap) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            alert(result.data.msg);
+            Notification('Thông báo',result.data.msg);
             dispatch(layHeThongRap())
             history.push('/admin/quan-ly-he-thong-rap')
         } catch (error) {

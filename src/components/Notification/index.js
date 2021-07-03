@@ -5,6 +5,6 @@ export const Notification = (title,description) => {
     notification.open({
       message: title,
       description:description,
-      className: styles.notification,
+      className: styles.notification
     });
 }

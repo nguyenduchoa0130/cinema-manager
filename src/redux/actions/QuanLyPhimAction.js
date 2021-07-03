@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { history } from "../../App";
+import { Notification } from "../../components/Notification";
 
 export const themPhim = (thongTinPhim) => {
     return async dispatch => {
@@ -11,7 +12,7 @@ export const themPhim = (thongTinPhim) => {
                 data: thongTinPhim
             })
             dispatch(layDanhSachPhim())
-            alert(result.data.msg)
+            Notification('Thông báo',result.data.msg);
             history.push('/admin/danh-sach-phim')
 
         } catch (error) {
@@ -112,7 +113,7 @@ export const xoaPhim = (id) => {
                 method: 'DELETE',
             })
             dispatch(layDanhSachPhim())
-            alert('Xóa thành công!')
+            Notification('Thông báo','Xóa thành công!');
             history.push('/admin/danh-sach-phim')
         } catch (error) {
             alert(error.response.data.msg);
@@ -130,7 +131,7 @@ export const suaPhim = (thongTinPhim, id) => {
                 data: thongTinPhim
             })
             dispatch(layDanhSachPhim())
-            alert('Sửa thành công!')
+            Notification('Thông báo','Sửa thành công!');           
             history.push('/admin/danh-sach-phim')
         } catch (error) {
             alert(error.response.data.msg);

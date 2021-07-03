@@ -57,7 +57,7 @@ const App = () => {
         <Route exact path="/">
           <Auth children={<Home />} />
         </Route>
-        <Route path="/trang-ca-nhan">
+        <Route path="/thong-tin-ca-nhan">
           <Auth children={<Profile />} />
         </Route>
         <Route path="/lich-su">

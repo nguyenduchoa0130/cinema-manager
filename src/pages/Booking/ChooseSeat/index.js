@@ -7,20 +7,21 @@ import styles from './style.module.scss';
 import Title from '../../../components/Title';
 import Header from '../../../components/Header';
 import cx from 'classnames';
-import { Collapse, List} from 'antd';
+import { Collapse, List } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { datVe, layChiTietPhongVe } from '../../../redux/actions/PhongVeAction/PhongVeAction';
 import Footer from '../../../components/Footer';
-import {Notification} from '../../../components/Notification';
+import { Notification } from '../../../components/Notification';
 import { history } from '../../../App';
+import Swal from 'sweetalert2';
 
 const { Panel } = Collapse;
 
 
 const ChooseSeat = (props) => {
 
-   
+
     const { detailBookingRoom } = useSelector(state => state.PhongVeReducer)
     const { userId, taiKhoan } = useSelector(state => state.NguoiDungReducer)
     const [selectedSeats, setSelectedSeats] = useState([])
@@ -35,6 +36,30 @@ const ChooseSeat = (props) => {
 
     const price = detailBookingRoom?.showtimes?.priceTicket;
 
+    const ConfirmPay = ()=>{
+        Swal.fire({
+        title: 'Xác nhận',
+        text: "Bạn có đồng ý tiến hành thanh toán?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Hủy',
+        confirmButtonText: 'Đồng ý'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let object = {
+                userId: userId,
+                showtimesId: +maLichChieu,
+                sumMoney: selectedSeats.length * price,
+                seats: selectedSeats.map(seat => seat.id)
+            }
+            dispatch(datVe(object))
+        }
+    })
+    }
+    
+    
 
     return (
         <>
@@ -116,16 +141,10 @@ const ChooseSeat = (props) => {
                         </div>
 
                         {taiKhoan !== '' ? selectedSeats.length !== 0 ? <MDBBtn onClick={() => {
-                            let object = {
-                                userId: userId,
-                                showtimesId: +maLichChieu,
-                                sumMoney: selectedSeats.length * price,
-                                seats: selectedSeats.map(seat => seat.id)
-                            }
-                            dispatch(datVe(object))
+                            ConfirmPay();
                         }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {
-                                Notification('Thông báo','Vui lòng chọn ghế!')
+                                Notification('Thông báo', 'Vui lòng chọn ghế!')
 
                             }} color='warning' className='w-100 mx-0 my-3'>{`Thanh toán`}</MDBBtn> :
                             <MDBBtn onClick={() => {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { history } from "../../App";
+import { Notification } from "../../components/Notification";
 import { TOKEN } from "../../util/constants/settingSystem";
 
 export const layDanhSachNguoiDung = () => {
@@ -38,10 +39,10 @@ export const themNguoiDung = (thongTinNguoiDung) => {
                 }
             })
             dispatch(layDanhSachNguoiDung())
-            alert(result.data.msg)
+            Notification('Thông báo',result.data.msg);
             history.push('/admin/quan-ly-khach-hang')
         } catch (error) {
-            alert(error.response.data.msg);
+            Notification('Thông báo',error.response.data.msg);
             console.log('error', error.response.data.msg);
         }
     }
@@ -59,7 +60,7 @@ export const suaNguoiDung = (dataUserEdit, id) => {
                 }
             })
             dispatch(layDanhSachNguoiDung())
-            alert(result.data.msg)
+            Notification('Thông báo',result.data.msg);
             history.push('/admin/quan-ly-khach-hang')
         } catch (error) {
             alert(error.response.data.msg);
@@ -78,8 +79,8 @@ export const xoaNguoiDung = (id) => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
-            dispatch(layDanhSachNguoiDung())
-            alert(result.data.msg)
+            dispatch(layDanhSachNguoiDung());
+            Notification('Thông báo',result.data.msg);
         } catch (error) {
             alert(error.response.data.msg);
             console.log('error', error.response.data.msg);

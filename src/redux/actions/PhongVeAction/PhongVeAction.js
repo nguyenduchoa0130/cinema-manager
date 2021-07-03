@@ -43,8 +43,8 @@ export const datVe = (thongTin) => {
                 ).then(res => {
                     if (res.value) window.location.reload();
                 })
-
             }
+            console.log('result :>> ', result);
         } catch (error) {
             console.log('error', error.message);
         }
