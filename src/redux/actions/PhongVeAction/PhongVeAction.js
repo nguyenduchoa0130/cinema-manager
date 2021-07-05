@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import { history } from "../../../App";
 
 export const layChiTietPhongVe = (id) => {
     return async dispatch => {
@@ -41,7 +42,7 @@ export const datVe = (thongTin) => {
                         icon: 'success'
                     }
                 ).then(res => {
-                    if (res.value) window.location.reload();
+                    history.push('/lich-su')
                 })
             }
             console.log('result :>> ', result);

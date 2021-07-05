@@ -33,33 +33,35 @@ const ChooseSeat = (props) => {
     useEffect(() => {
         dispatch(layChiTietPhongVe(maLichChieu))
     }, [dispatch, maLichChieu])
-
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
     const price = detailBookingRoom?.showtimes?.priceTicket;
 
-    const ConfirmPay = ()=>{
+    const ConfirmPay = () => {
         Swal.fire({
-        title: 'Xác nhận',
-        text: "Bạn có đồng ý tiến hành thanh toán?",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Hủy',
-        confirmButtonText: 'Đồng ý'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            let object = {
-                userId: userId,
-                showtimesId: +maLichChieu,
-                sumMoney: selectedSeats.length * price,
-                seats: selectedSeats.map(seat => seat.id)
+            title: 'Xác nhận',
+            text: "Bạn có đồng ý tiến hành thanh toán?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Hủy',
+            confirmButtonText: 'Đồng ý'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let object = {
+                    userId: userId,
+                    showtimesId: +maLichChieu,
+                    sumMoney: selectedSeats.length * price,
+                    seats: selectedSeats.map(seat => seat.id)
+                }
+                dispatch(datVe(object))
             }
-            dispatch(datVe(object))
-        }
-    })
+        })
     }
-    
-    
+
+
 
     return (
         <>
