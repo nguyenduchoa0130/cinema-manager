@@ -82,7 +82,11 @@ class StatisticController {
                 }
             }, 0);
             let numOfTickets = data.reduce((ticket, item) => {
-                return ticket + item.Tickets.length;
+				if (item.timeBooking.toJSON().startsWith(date)) {
+                    return ticket + item.Tickets?.length;
+                } else {
+                    return ticket;
+                }
             }, 0);
             statistic.push({
                 date,
@@ -183,7 +187,12 @@ class StatisticController {
                 }
             }, 0);
             let numOfTickets = data.reduce((ticket, item) => {
-                return ticket + item.Tickets?.length;
+				if (item.timeBooking.toJSON().startsWith(date)) {
+                    return ticket + item.Tickets?.length;
+                } else {
+                    return ticket;
+                }
+                
             }, 0);
             statistic.push({
                 date,
@@ -191,6 +200,7 @@ class StatisticController {
                 numOfTickets,
             });
         });
+		// return res.json(data);
         if (statistic.length) {
             let totalMoney = statistic.reduce((total, item) => total + item.sumMoney, 0);
             let totalTicket = statistic.reduce((total, item) => total + item.numOfTickets, 0);
