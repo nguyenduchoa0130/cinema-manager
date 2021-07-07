@@ -1,9 +1,14 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import { history } from "../../../App";
+import { timeout } from "../../Constants/SetTimeOut";
 
 export const layChiTietPhongVe = (id) => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(1500);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/showtimes?id=${id}`,
@@ -20,10 +25,17 @@ export const layChiTietPhongVe = (id) => {
             // alert(error.response.data.msg);
             console.log('error', error);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
 export const datVe = (thongTin) => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(1500);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/booking/add`,
@@ -49,6 +61,9 @@ export const datVe = (thongTin) => {
         } catch (error) {
             console.log('error', error.message);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
 

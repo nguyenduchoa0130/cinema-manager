@@ -10,29 +10,43 @@ import { DatePicker } from 'antd';
 import { Option } from "antd/lib/mentions";
 import StatsBox from "../../components/StatsBox";
 import { useDispatch, useSelector } from "react-redux";
-import { layCumRap } from "../../redux/actions/QuanLyCumRapAction";
+import { layCumRap, layCumRapTheoHethong } from "../../redux/actions/QuanLyCumRapAction";
 import { layDanhSachPhimDangCongChieu, layDanhSachPhimSapCongChieu } from "../../redux/actions/TrangChuAction/TrangChuAction";
 import { layThongTinThongKeTheoCumRap, layThongTinThongKeTheoPhim } from "../../redux/actions/DashBoardAction/DashBoardAction";
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import { USERLOGIN } from "../../util/constants/settingSystem";
+import { history } from "../../App";
+import { layHeThongRap } from "../../redux/actions/QuanLyHeThongRapAction";
 
 const { RangePicker } = DatePicker;
 const { TabPane } = Tabs;
 
 const Dashboard = () => {
-
-    const { listCumRap } = useSelector(state => state.QuanLyCumRapReducer)
+    let taiKhoanNguoiDung = '';
+    let isAdmin = false;
+    if (localStorage.getItem(USERLOGIN)) {
+        let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
+        taiKhoanNguoiDung = userLogin.email;
+        isAdmin = userLogin.isAdmin;
+    }
+    const { listHeThongRap } = useSelector(state => state.QuanLyHeThongRapReducer)
+    const { listCumRapTheoHeThong } = useSelector(state => state.QuanLyCumRapReducer)
     const { listFilmDangCongChieu, listFilmSapCongChieu } = useSelector(state => state.TrangChuReducer)
     const { listThongKeCumRap, listThongKePhim } = useSelector(state => state.DashBoardReducer)
 
-    const [state,setState]= useState({});
-    
+    const [state, setState] = useState({});
+
     const dispatch = useDispatch()
     useEffect(() => {
+        if (isAdmin === false || taiKhoanNguoiDung.trim() === '') {
+            history.push('/not-admin')
+        }
+        dispatch(layHeThongRap())
         dispatch(layCumRap())
         dispatch(layDanhSachPhimDangCongChieu())
         dispatch(layDanhSachPhimSapCongChieu())
-    }, [dispatch])
+    }, [])
 
 
     const formik_cluster = useFormik({
@@ -59,7 +73,18 @@ const Dashboard = () => {
             dispatch(layThongTinThongKeTheoPhim(values.filmId, values.dateStart_End))
         }
     })
+    const rap_Formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            systemId: '',
+        },
 
+    })
+    useEffect(() => {
+        if (rap_Formik.values.systemId !== '') {
+            dispatch(layCumRapTheoHethong(rap_Formik.values.systemId))
+        }
+    }, [dispatch, rap_Formik.values.systemId])
 
     const renderListFilm = () => {
         return (
@@ -71,34 +96,40 @@ const Dashboard = () => {
 
     const renderListCluster = () => {
         return (
-            listCumRap.clusters?.map((cluster, index) => {
+            listCumRapTheoHeThong.clusters?.map((cluster, index) => {
                 return <Option key={index} value={cluster.id}>{cluster.clusterName}</Option>
             })
         )
     }
     // eslint-disable-next-line no-unused-vars
-    const renderListSystem = (listSystem) => {
+    const renderListSystem = () => {
         return (
-            listSystem.map((system, index) => {
-                return <Option key={index} value={system.id}>{system.name}</Option>
+            listHeThongRap.systems?.map((system, index) => {
+                return <Option key={index} value={system.id}>{system.systemName}</Option>
             })
         )
     }
     const onChangeCluster = (value) => {
-        setState(prevState =>{
-            return {...prevState, clusterId:value}
+        setState(prevState => {
+            return { ...prevState, clusterId: value }
         })
         formik_cluster.values['clusterId'] = value;
     }
-    const onChangeFilm = (value) => {
-        setState(prevState =>{
-            return {...prevState, filmId:value}
+    const onChangeSystem = (value) => {
+        setState(prevState => {
+            return { ...prevState, systemId: value }
         })
-        
+        rap_Formik.values['systemId'] = value;
+    }
+    const onChangeFilm = (value) => {
+        setState(prevState => {
+            return { ...prevState, filmId: value }
+        })
+
         formik_film.values['filmId'] = value;
     }
 
-    
+
 
 
     return (
@@ -136,8 +167,8 @@ const Dashboard = () => {
                                                 <label className="grey-text">
                                                     Hệ thống
                                                 </label>
-                                                <Select size="large" className="w-100" >
-                                                    {/* {renderListSystem()} */}
+                                                <Select name="systemId" size="large" className="w-100" value={rap_Formik.values.systemId} onChange={onChangeSystem} >
+                                                    {renderListSystem()}
                                                 </Select>
                                             </MDBCol>
                                             <MDBCol md="3" className="mt-3" >
@@ -167,10 +198,10 @@ const Dashboard = () => {
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
                                                 <MDBCol md="5" xs="12" className="mt-3">
-                                                    <StatsBox title="Tổng số vé" value={listThongKeCumRap.totalTicket||0} />
+                                                    <StatsBox title="Tổng số vé" value={listThongKeCumRap.totalTicket || 0} />
                                                 </MDBCol>
                                                 <MDBCol md="5" xs="12" className="mt-3">
-                                                    <StatsBox title="Doanh Thu" value={listThongKeCumRap.totalMoney||0} color="success" />
+                                                    <StatsBox title="Doanh Thu" value={listThongKeCumRap.totalMoney || 0} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
                                             <Chart data={listThongKeCumRap.details} />
@@ -208,10 +239,10 @@ const Dashboard = () => {
                                         <>
                                             <MDBRow className="justify-content-center mb-5">
                                                 <MDBCol md="5" xs="12" className="mt-3">
-                                                    <StatsBox title="Tổng số vé" value={listThongKePhim.totalTicket||0} />
+                                                    <StatsBox title="Tổng số vé" value={listThongKePhim.totalTicket || 0} />
                                                 </MDBCol>
                                                 <MDBCol md="5" xs="12" className="mt-3">
-                                                    <StatsBox title="Doanh Thu" value={listThongKePhim.totalMoney||0} color="success" />
+                                                    <StatsBox title="Doanh Thu" value={listThongKePhim.totalMoney || 0} color="success" />
                                                 </MDBCol>
                                             </MDBRow>
                                             <Chart data={listThongKePhim.details} />

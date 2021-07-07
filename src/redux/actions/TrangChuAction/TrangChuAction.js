@@ -1,7 +1,12 @@
 import axios from "axios";
+import { timeout } from "../../Constants/SetTimeOut";
 
 export const layDanhSachPhimDangCongChieu = () => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film?status=DANG_CONG_CHIEU`,
@@ -18,10 +23,17 @@ export const layDanhSachPhimDangCongChieu = () => {
             // alert(error.response.data.msg);
             console.log('error', error);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
 export const layDanhSachPhimSapCongChieu = () => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film?status=SAP_CONG_CHIEU`,
@@ -38,10 +50,17 @@ export const layDanhSachPhimSapCongChieu = () => {
             // alert(error.response.data.msg);
             // console.log('error', error.response.data.msg);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
 export const layDanhSachPhimHot= () => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film/hot`,
@@ -58,10 +77,17 @@ export const layDanhSachPhimHot= () => {
             // alert(error.response.data.msg);
             // console.log('error', error.response.data.msg);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
 export const laydanhSachLichChieu = () => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/showtimes`,
@@ -78,5 +104,8 @@ export const laydanhSachLichChieu = () => {
             // alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }

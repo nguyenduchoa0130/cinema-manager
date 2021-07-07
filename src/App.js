@@ -44,6 +44,9 @@ import ChooseSeat from "./pages/Booking/ChooseSeat";
 import Dashboard from "./pages/Dashboard";
 import NonAuth from "./layouts/NonAuth";
 import History from "./pages/History";
+import Loading from "./components/Loading/Loading";
+import PageNotFound from "./util/constants/PageNotFound";
+import PageNotAuthorization from "./util/constants/PageNotAuthorization";
 
 
 export const history = createBrowserHistory();
@@ -53,6 +56,7 @@ export const history = createBrowserHistory();
 const App = () => {
   return (
     <Router history={history}>
+      <Loading />
       <Switch>
         <Route exact path="/">
           <Auth children={<Home />} />
@@ -63,7 +67,7 @@ const App = () => {
         <Route path="/lich-su">
           <Auth children={<History />} />
         </Route>
-        
+
         <Route path="/dang-nhap">
           <NonAuth children={<SignIn />} />
         </Route>
@@ -86,7 +90,7 @@ const App = () => {
         <Route path="/kich-hoat">
           <NonAuth children={<Activated />} />
         </Route>
-        
+
         <Route path="/chi-tiet-phim/:id" component={FilmDetail}>
           {/* <Auth children={<FilmDetail />}/>       */}
         </Route>
@@ -135,6 +139,8 @@ const App = () => {
         <Route path="/xac-nhan-otp">
           <ActiveForgetPassword />
         </Route>
+        <Route path='/not-admin' component={PageNotAuthorization} />
+        <Route path='*' component={PageNotFound} />
       </Switch>
     </Router>
   );

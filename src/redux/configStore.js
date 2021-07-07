@@ -12,6 +12,7 @@ import PhongVeReducer from '../redux/reducers/PhongVeReducer/PhongVeReducer'
 import ChiTietPhimReducer from '../redux/reducers/ChiTietPhimReducer/ChiTietPhimReducer'
 import DashBoardReducer from '../redux/reducers/DashBoardReducer/DashBoardReducer'
 import HistoryReducer from '../redux/reducers/HistoryReducer/HistoryReducer'
+import LoadingReducer from '../redux/reducers/LoadingReducer/LoadingReducer'
 
 
 
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
     ChiTietPhimReducer,
     PhongVeReducer,
     DashBoardReducer,
-    HistoryReducer
+    HistoryReducer,
+    LoadingReducer
 
 })
 // tách rootReducer ra ngoài

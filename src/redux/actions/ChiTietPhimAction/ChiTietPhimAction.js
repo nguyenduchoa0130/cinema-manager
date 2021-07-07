@@ -1,7 +1,12 @@
 import axios from "axios";
+import { timeout } from "../../Constants/SetTimeOut";
 
 export const layChiTietPhim = (maPhim) => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(1200);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film/${maPhim}`,
@@ -18,11 +23,18 @@ export const layChiTietPhim = (maPhim) => {
             // alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
 
 export const layLichChieu = (filmId) => {
     return async dispatch => {
+        dispatch({
+            type: 'DISPLAY_LOADING'
+        })
+        await timeout(1200);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/showtimes?filmId=${filmId}`,
@@ -39,5 +51,8 @@ export const layLichChieu = (filmId) => {
             // alert(error.response.data.msg);
             console.log('error', error.response.data.msg);
         }
+        dispatch({
+            type: 'HIDE_LOADING'
+        })
     }
 }
