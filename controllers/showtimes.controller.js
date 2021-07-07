@@ -19,6 +19,11 @@ class ShowtimesController {
                             {
                                 model: models.Showtimes,
                                 attributes: ['id', 'timeStart', 'priceTicket'],
+								where: {
+									timeStart: {
+										[Op.gte]: helper.convertUTCDateToLocalDate(new Date()),
+									},
+								},
                                 include: [
                                     {
                                         model: models.Cinema,
