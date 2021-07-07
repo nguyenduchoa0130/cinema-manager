@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarToggler, MDBCollapse, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBContainer } from 'mdbreact';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { dangXuatAction } from "../../redux/actions/NguoiDungAction";
 import { TOKEN, USERLOGIN } from "../../util/constants/settingSystem";
 import styles from "./style.module.scss";
 import { Button, Dropdown, Menu } from "antd";
 import { HistoryOutlined, PieChartOutlined, PoweroffOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 export default function Header() {
@@ -30,10 +31,25 @@ export default function Header() {
   }
 
   const logOut = () => {
-    dispatch(dangXuatAction())
-    localStorage.removeItem(USERLOGIN);
-    localStorage.removeItem(TOKEN);
-    window.location.reload()
+
+    Swal.fire({
+      title: 'Xác nhận',
+      text: "Bạn có muốn đăng xuất?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Đăng xuất'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(dangXuatAction())
+        localStorage.removeItem(USERLOGIN);
+        localStorage.removeItem(TOKEN);
+        window.location.reload();
+      }
+    })
+
   }
 
   const dropdownProfile = (
@@ -59,7 +75,7 @@ export default function Header() {
         </Link>
       </Menu.Item>
       <Menu.Item className={styles.item_information}>
-        <Link to='lich-su' >
+        <Link to='/lich-su' >
           <HistoryOutlined />
           Lịch sử giao dịch
         </Link>
@@ -91,7 +107,7 @@ export default function Header() {
                     {tenNguoiDung}
                   </Button>
                 </Dropdown> :
-                <Link to='dang-nhap'>
+                <Link to='/dang-nhap'>
                   <Button className={styles.dropdown} type="default"
                     size="large">
                     Đăng nhập

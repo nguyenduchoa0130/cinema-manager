@@ -1,4 +1,14 @@
 .cluster_thumbnail {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    background-position: center;
+    background-size: cover;
+}
+
+.film_thumbnail {
+    border-radius: 2%;
     width: 60px;
     height: 60px;
     margin: 0 auto;
@@ -8,6 +18,17 @@
 
 .tab_Clusters {
     // background-color: yellow!important;
+    .date {
+        font-size: 1.2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 0;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        &:not(:first-child) {
+            border-top: 1px solid #e2c72e;
+        }
+    }
     >div {
         &:first-child {
             >div {
@@ -36,7 +57,7 @@
 
 .film_item {
     white-space: break-spaces;
-    padding-right: 20px;
+    text-align: center;
     @media (max-width: 992px) {
         padding-right: 5px;
         p {

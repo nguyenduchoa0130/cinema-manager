@@ -33,6 +33,8 @@
         position: relative;
         border-top-left-radius: 5px 5px !important;
         img {
+            max-height: 270px;
+            width: 100%;
             transform: scale(1.05);
             transition: all 0.3s ease-in-out;
         }

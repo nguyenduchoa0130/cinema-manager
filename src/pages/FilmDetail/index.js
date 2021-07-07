@@ -93,7 +93,7 @@ const FilmDetail = (props) => {
                             <Title text={'Lịch chiếu'} className="mt-5 mb-4" />
                         </MDBAnimation>
                         <MDBAnimation type="fadeInLeft" delay="onScroll" data-mdb-animation-start="onScroll">
-                            <Showtime dataShowtime={listShowtimesOfFilm} />
+                            <Showtime dataShowtime={listShowtimesOfFilm} hiddenFilm={true}/>
                         </MDBAnimation>
                     </MDBCol>
                 </MDBRow>

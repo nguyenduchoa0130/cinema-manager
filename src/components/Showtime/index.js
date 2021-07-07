@@ -6,8 +6,8 @@ import moment from 'moment';
 import FilmSchedule from '../FilmSchedule';
 const { TabPane } = Tabs;
 
-const Showtime = (props) =>{
-    const {dataShowtime,className} = props;
+const Showtime = (props) => {
+    const { dataShowtime, className, hiddenFilm } = props;
     const listShowtimes = dataShowtime;
 
     function convertUTCDateToLocalDate(date) {
@@ -88,7 +88,7 @@ const Showtime = (props) =>{
     const renderFilmTabPane = (film) => {
         return (
             <div className={styles.film_item}>
-                <div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${film.thumbnail})` }}></div>
+                <div className={styles.film_thumbnail} style={{ backgroundImage: `url(${film.thumbnail})` }}></div>
                 <p>{film.name}</p>
             </div>
 
@@ -114,63 +114,76 @@ const Showtime = (props) =>{
         );
     }
 
-    return(
-        <Tabs defaultActiveKey="1" centered className={cx(className,"mt-4 text-white")}>
-        {listShowtimes.map((item, index) => {
-            return (
-                //Render item System         
-                <TabPane
-                    tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${item.logoSrc})` }}> </div>}
-                    key={index + 1}
-                >
-                    {/*  Tab Clusters */}
-                    <Tabs tabPosition="left" defaultActiveKey="1" centered className={cx(styles.tab_Clusters, "mt-2 text-white")} tabBarStyle={{ maxWidth: "30%" }}>
-                        {item.CinemaClusters?.map((cluster, index) => {
-                            //Render item Cluster     
-                            return (
-                                <TabPane tab={renderClusterTabItem({ name: `${cluster.name}`, address: `${cluster.address}` })} key={index + 1}>
-
-                                    {/*  Tab Film */}
-                                    <Tabs
-                                        tabPosition="left"
-                                        defaultActiveKey="1"
-                                        centered
-                                        className={cx(styles.tab_Clusters, "mt-2 text-white")}
-                                        tabBarStyle={{ maxWidth: "30%", textAlign: "center" }}
-                                    >
-                                        {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
-                                            //Render item Film     
-                                            return (
-                                                <TabPane className={styles.tab_schedule} tab={renderFilmTabPane(showTime)} key={index + 1}>
-                                                    <Tabs tabPosition="top" defaultActiveKey="1" centered className="mt-4 text-white">
+    return (
+        <Tabs defaultActiveKey="1" centered className={cx(className, "mt-4 text-white")}>
+            {listShowtimes.map((item, index) => {
+                return (
+                    //Render item System         
+                    <TabPane
+                        tab={<div className={styles.cluster_thumbnail} style={{ backgroundImage: `url(${item.logoSrc})` }}> </div>}
+                        key={index + 1}
+                    >
+                        {/*  Tab Clusters */}
+                        <Tabs tabPosition="left" defaultActiveKey="1" centered className={cx(styles.tab_Clusters, "mt-2 text-white")} tabBarStyle={{ maxWidth: "30%" }}>
+                            {item.CinemaClusters?.map((cluster, index) => {
+                                //Render item Cluster     
+                                return (
+                                    <TabPane tab={renderClusterTabItem({ name: `${cluster.name}`, address: `${cluster.address}` })} key={index + 1}>
+                                        {hiddenFilm ?
+                                            getDetailFilm(cluster.Showtimes).map((showTime, index) => {
+                                                //Render item Film     
+                                                return (
+                                                    showTime.schedule?.map((scheduleItem, index) => {
+                                                        return (
+                                                            <>
+                                                                <p className={styles.date}>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>
+                                                                <div className={styles.schedule_item}>
+                                                                    <FilmSchedule schedules={scheduleItem.times} />
+                                                                </div>
+                                                            </>
+                                                        )
+                                                    })
+                                                )
+                                            }
+                                        ): (
+                                        <Tabs
+                                            defaultActiveKey="1"
+                                            centered
+                                            className={cx(styles.tab_Clusters, "mt-2 text-white")}
+                                        >
+                                            {getDetailFilm(cluster.Showtimes).map((showTime, index) => {
+                                                //Render item Film     
+                                                return (
+                                                    <TabPane className={styles.tab_schedule} tab={renderFilmTabPane(showTime)} key={index + 1}>
                                                         {
                                                             showTime.schedule?.map((scheduleItem, index) => {
                                                                 return (
-                                                                    <TabPane tab={<p>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>} key={index + 1} defaultActiveKey="1">
+                                                                    <>
+                                                                        <p className={styles.date}>{moment(scheduleItem.date).format('DD/MM/YYYY')}</p>
                                                                         <div className={styles.schedule_item}>
                                                                             <FilmSchedule schedules={scheduleItem.times} />
                                                                         </div>
-                                                                    </TabPane>
+                                                                    </>
                                                                 )
                                                             })
                                                         }
-                                                    </Tabs>
-                                                </TabPane>
-                                            )
-                                        })
-                                        }
-                                    </Tabs>
+                                                    </TabPane>
+                                                )
+                                            })
+                                            }
+                                        </Tabs>
 
-                                </TabPane>
-                            )
-                        })
-                        }
-                    </Tabs>
-                </TabPane>
-            )
-        })
-        }
-    </Tabs >
+                                        )}
+                                    </TabPane>
+                                )
+                            })
+                            }
+                        </Tabs>
+                    </TabPane>
+                )
+            })
+            }
+        </Tabs >
 
     )
 }
