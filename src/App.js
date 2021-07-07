@@ -47,6 +47,7 @@ import History from "./pages/History";
 import Loading from "./components/Loading/Loading";
 import PageNotFound from "./util/constants/PageNotFound";
 import PageNotAuthorization from "./util/constants/PageNotAuthorization";
+import EditProfile from "./pages/EditProfile";
 
 
 export const history = createBrowserHistory();
@@ -90,17 +91,16 @@ const App = () => {
         <Route path="/kich-hoat">
           <NonAuth children={<Activated />} />
         </Route>
+        <Route path="/cap-nhat-thong-tin">
+          <NonAuth children={<EditProfile />} />
+        </Route>
 
         <Route path="/chi-tiet-phim/:id" component={FilmDetail}>
           {/* <Auth children={<FilmDetail />}/>       */}
         </Route>
         <Route path="/dat-ve/chon-ghe/:maLichChieu" component={ChooseSeat}></Route>
-        {/* <Route path="/dat-ve/:path?" exact>
-          <Switch>
-            <Route path="/dat-ve/chon-ghe/:maLichChieu" component={ChooseSeat}>
-            </Route>
-          </Switch>
-        </Route> */}
+
+
 
 
         <Route path='/admin/:path?' exact>

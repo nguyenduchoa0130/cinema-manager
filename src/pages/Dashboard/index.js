@@ -46,7 +46,7 @@ const Dashboard = () => {
         dispatch(layCumRap())
         dispatch(layDanhSachPhimDangCongChieu())
         dispatch(layDanhSachPhimSapCongChieu())
-    }, [])
+    }, [dispatch, isAdmin, taiKhoanNguoiDung])
 
 
     const formik_cluster = useFormik({
@@ -120,6 +120,7 @@ const Dashboard = () => {
             return { ...prevState, systemId: value }
         })
         rap_Formik.values['systemId'] = value;
+
     }
     const onChangeFilm = (value) => {
         setState(prevState => {
@@ -167,7 +168,7 @@ const Dashboard = () => {
                                                 <label className="grey-text">
                                                     Hệ thống
                                                 </label>
-                                                <Select name="systemId" size="large" className="w-100" value={rap_Formik.values.systemId} onChange={onChangeSystem} >
+                                                <Select name="systemId" size="large" className="w-100" value={state.systemId} onChange={onChangeSystem} >
                                                     {renderListSystem()}
                                                 </Select>
                                             </MDBCol>

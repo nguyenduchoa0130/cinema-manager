@@ -6,7 +6,6 @@ export const layDanhSachPhimDangCongChieu = () => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film?status=DANG_CONG_CHIEU`,
@@ -33,7 +32,6 @@ export const layDanhSachPhimSapCongChieu = () => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film?status=SAP_CONG_CHIEU`,
@@ -60,7 +58,6 @@ export const layDanhSachPhimHot= () => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film/hot`,
@@ -87,7 +84,6 @@ export const laydanhSachLichChieu = () => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(3000);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/showtimes`,

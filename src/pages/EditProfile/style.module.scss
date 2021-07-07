@@ -1,0 +1,48 @@
+.wrapper_template {
+    min-height: 100vh;
+}
+
+.wrapper_content {
+    color: white;
+    position: relative;
+    min-height: 80vh;
+    text-align: center;
+    .avatar_box {
+        margin: 0 auto;
+        max-width: 150px;
+        max-height: 150px;
+        .avatar_img {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: cover;
+        }
+        .inputAvatar_icon {
+            font-size: 28px;
+            padding: 10px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0%;
+            left: 55%;
+            color: white;
+            background: grey;
+        }
+    }
+    .info {
+        min-width: 300px;
+        width: 40%;
+        margin: 0 auto;
+        .info_list {
+            padding: 1rem;
+            & .info_item {
+                list-style: none;
+                .value {
+                    margin-left: auto;
+                }
+                .key {
+                    display: flex;
+                    justify-content: space-between;
+                }
+            }
+        }
+    }
+}

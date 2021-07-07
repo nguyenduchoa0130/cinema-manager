@@ -6,6 +6,9 @@
 .dropdown {
     color: #dbe2fb!important;
     background: #081b27!important;
+    overflow: hidden;
+    width: 100%;
+    max-width: 160px;
 }
 
 .dropdownProfile {

@@ -95,7 +95,7 @@ const Home = () => {
                     </MDBCol>
                 </MDBRow>
 
-                <MDBRow className="mb-5">
+                <MDBRow className="mb-5" id="schedule">
                     <MDBCol>
                         <MDBAnimation type="fadeInRight">
                             <Title text={'Lịch chiếu'} className="mt-5 mb-4" />

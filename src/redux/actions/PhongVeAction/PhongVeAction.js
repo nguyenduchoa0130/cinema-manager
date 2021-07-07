@@ -8,7 +8,6 @@ export const layChiTietPhongVe = (id) => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(1500);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/showtimes?id=${id}`,
@@ -35,7 +34,6 @@ export const datVe = (thongTin) => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(1500);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/booking/add`,

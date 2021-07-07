@@ -6,21 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { layThongTinNguoiDung } from "../../redux/actions/NguoiDungAction";
 import { USERLOGIN } from "../../util/constants/settingSystem";
 import Title from '../../components/Title'
-import { MDBBtn, MDBRow } from "mdbreact";
+import { MDBBtn, MDBInput, MDBRow } from "mdbreact";
 import { Link } from "react-router-dom";
 
-export default function Profile() {
-    let userId = 0;
-    if (localStorage.getItem(USERLOGIN)) {
-        let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
-        userId = userLogin.userId;
-    }
-    const { thongTinNguoiDung } = useSelector(state => state.NguoiDungReducer)
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(layThongTinNguoiDung(userId))
-    })
-
+export default function EditProfile() {
+  
 
     return (
         <div className={styles.wrapper_template}>
@@ -36,20 +26,19 @@ export default function Profile() {
                 <div className={styles.info}>
                     <ul className={styles.info_list}>
                         <li className={styles.info_item}>
-                            <span className={styles.key}>Fullname: <strong className={styles.value}>{thongTinNguoiDung.user?.fullName}</strong></span>
+                            <MDBInput className={styles.value} name="fullName" label="Họ và tên"/>
                         </li>
                         <li className={styles.info_item}>
-                            <span className={styles.key}>Email: <strong className={styles.value}>{thongTinNguoiDung.user?.email}</strong></span>
+                            <MDBInput className={styles.value} name="email" label="Email"/>
                         </li>
                         <li className={styles.info_item}>
-                            <span className={styles.key}>Phone: <strong className={styles.value}>{thongTinNguoiDung.user?.phone}</strong></span>
+                           <MDBInput className={styles.value} name="phone" label="Số điện thoại"/>
                         </li>
                     </ul>
                 </div>
                 <MDBRow className="justify-content-center">
-                    <Link to="/cap-nhat-thong-tin">
-                        <MDBBtn color='success' className="text-border">Cập nhật thông tin</MDBBtn>
-                    </Link>
+                        <MDBBtn color='danger' className="text-border">Hủy</MDBBtn>
+                        <MDBBtn color='success' className="text-bold">Cập nhật</MDBBtn>
                 </MDBRow>
 
             </div>

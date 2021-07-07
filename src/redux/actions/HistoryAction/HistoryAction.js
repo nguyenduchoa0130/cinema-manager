@@ -6,7 +6,6 @@ export const layLichSuDatVe = (userId) => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(1500);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/booking?userId=${userId}`,

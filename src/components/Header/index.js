@@ -95,9 +95,7 @@ export default function Header() {
             <strong className={styles.brand}>CineJun</strong>
           </MDBNavLink>
         </MDBNavbarBrand>
-        <MDBNavbarToggler onClick={toggleCollapse} />
-        <MDBCollapse id="navbarCollapse3" isOpen={state.isOpen} navbar>
-          <MDBNavbarNav right>
+        <MDBNavbarNav right>
             <MDBNavItem>
               {taiKhoanNguoiDung !== '' ?
                 <Dropdown overlay={dropdownProfile} trigger={['click']} placement="bottomRight" className={styles.dropdown}>
@@ -116,7 +114,7 @@ export default function Header() {
               }
             </MDBNavItem>
           </MDBNavbarNav>
-        </MDBCollapse>
+        
       </MDBContainer>
     </MDBNavbar>
   );

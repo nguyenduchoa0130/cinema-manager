@@ -6,7 +6,6 @@ export const layChiTietPhim = (maPhim) => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(1200);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/film/${maPhim}`,
@@ -34,7 +33,6 @@ export const layLichChieu = (filmId) => {
         dispatch({
             type: 'DISPLAY_LOADING'
         })
-        await timeout(1200);
         try {
             const result = await axios({
                 url: `https://cinejunsv.herokuapp.com/api/v1/showtimes?filmId=${filmId}`,
