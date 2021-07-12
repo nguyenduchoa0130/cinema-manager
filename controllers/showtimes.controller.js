@@ -6,6 +6,7 @@ const apiError = require('../errors/apiError');
 class ShowtimesController {
     async fetchAll(req, res, next) {
 		let currentNow = helper.convertUTCDateToLocalDate(new Date());
+		console.log();
         try {
             let showtimes = await models.CinemaSystem.findAll({
                 attributes: {
@@ -21,7 +22,7 @@ class ShowtimesController {
                                 attributes: ['id', 'timeStart', 'priceTicket'],
 								where: {
 									timeStart: {
-										[Op.gte]: currentNow,
+										[Op.gte]: new Date(currentNow),
 									},
 								},
                                 include: [
