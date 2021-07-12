@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const apiError = require('../errors/apiError');
 class ShowtimesController {
     async fetchAll(req, res, next) {
+		let currentNow = helper.convertUTCDateToLocalDate(new Date());
         try {
             let showtimes = await models.CinemaSystem.findAll({
                 attributes: {
@@ -14,14 +15,13 @@ class ShowtimesController {
                     {
                         model: models.CinemaCluster,
                         attributes: ['id', ['clusterName', 'name'], 'address'],
-                        require: false,
                         include: [
                             {
                                 model: models.Showtimes,
                                 attributes: ['id', 'timeStart', 'priceTicket'],
 								where: {
 									timeStart: {
-										[Op.gt]: helper.convertUTCDateToLocalDate(new Date()),
+										[Op.gte]: currentNow,
 									},
 								},
                                 include: [
@@ -456,7 +456,7 @@ class ShowtimesController {
                 return next(apiError.notFound('Không tìm thấy ca chiếu'));
             }
             let { clusterId, filmId } = showtimes;
-            await showtimes.destroy();
+            await showtimes.destroy();	
             return res.json({ msg: 'Xóa ca chiếu thành công', clusterId, filmId });
         } catch (err) {
             next(err);
