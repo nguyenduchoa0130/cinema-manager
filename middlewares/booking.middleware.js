@@ -99,8 +99,8 @@ class BookingMiddleware {
                     },
                 ],
             });
+			return res.json(data);
             if (data.length) {
-				return res.json(data);
                 return next(apiError.badRequest('Không thể xóa suất chiếu. Vì suất chiếu đang có khách hàng đặt vé'));
             } else {
                 return next();
