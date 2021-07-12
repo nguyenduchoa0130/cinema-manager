@@ -15,15 +15,20 @@ import Footer from '../../../components/Footer';
 import { Notification } from '../../../components/Notification';
 import { history } from '../../../App';
 import Swal from 'sweetalert2';
+import { USERLOGIN } from '../../../util/constants/settingSystem';
 
 const { Panel } = Collapse;
 
 
 const ChooseSeat = (props) => {
-
+    let userid = '';
+    if (localStorage.getItem(USERLOGIN)) {
+        let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
+        userid = userLogin.userId
+    }
 
     const { detailBookingRoom } = useSelector(state => state.PhongVeReducer)
-    const { userId, taiKhoan } = useSelector(state => state.NguoiDungReducer)
+    const { taiKhoan } = useSelector(state => state.NguoiDungReducer)
     const [selectedSeats, setSelectedSeats] = useState([])
     const dispatch = useDispatch()
     const maLichChieu = props.match.params.maLichChieu;
@@ -51,7 +56,7 @@ const ChooseSeat = (props) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 let object = {
-                    userId: userId,
+                    userId: userid,
                     showtimesId: +maLichChieu,
                     sumMoney: selectedSeats.length * price,
                     seats: selectedSeats.map(seat => seat.id)

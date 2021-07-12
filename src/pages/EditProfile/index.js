@@ -13,14 +13,13 @@ import { history } from "../../App";
 
 export default function EditProfile() {
     let userid = '';
-
     if (localStorage.getItem(USERLOGIN)) {
         let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
         userid = userLogin.userId
     }
     const { thongTinNguoiDung } = useSelector(state => state.NguoiDungReducer)
     const dispatch = useDispatch()
-    console.log('thongTinNguoiDung', thongTinNguoiDung);
+    // console.log('thongTinNguoiDung', thongTinNguoiDung);
     const [state, setstate] = useState(thongTinNguoiDung)
     console.log('state', state);
     useEffect(() => {
