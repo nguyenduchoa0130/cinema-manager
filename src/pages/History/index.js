@@ -6,6 +6,7 @@ import { Table } from 'antd';
 import Title from "../../components/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { layLichSuDatVe } from "../../redux/actions/HistoryAction/HistoryAction";
+import { USERLOGIN } from "../../util/constants/settingSystem";
 
 const columns = [
     { title: 'Mã GD', dataIndex: 'id', key: 'id' },
@@ -16,13 +17,19 @@ const columns = [
 
 
 const History = () => {
+    let userid = '';
+    if (localStorage.getItem(USERLOGIN)) {
+        let userLogin = JSON.parse(localStorage.getItem(USERLOGIN));
+        userid = userLogin.userId
+    }
+
     const { historyBooking } = useSelector(state => state.HistoryReducer)
-    const { userId } = useSelector(state => state.NguoiDungReducer)
+   
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(layLichSuDatVe(userId))
-    }, [dispatch, userId])
+        dispatch(layLichSuDatVe(userid))
+    }, [])
 
 
     const renderDescriptionTransaction = (transaction) => {

@@ -54,25 +54,25 @@ export default function EditProfile() {
                     <label htmlFor="file-input">
                         <i className={cx(styles.inputAvatar_icon, "fas fa-camera")}></i>
                     </label>
-                    <input id="file-input" name="avatar" className="d-none" type="file" />
+                    <input id="file-input" name="avatar" className="d-none" type="file"  />
                 </div>
                 <form onSubmit={formik.handleSubmit}>
                     <div className={styles.info}>
                         <ul className={styles.info_list}>
                             <li className={styles.info_item}>
-                                <MDBInput className={styles.value} name="fullName" label="Họ và tên" onChange={formik.handleChange} value={state?.user?.fullName} />
+                                <MDBInput className={styles.value} name="fullName" label="Họ và tên" onChange={formik.handleChange} value={state?.user?.fullName} required />
                             </li>
                             {formik.errors.fullName && formik.touched.fullName && (
                                 <p className="text-danger">{formik.errors.fullName} </p>
                             )}
                             <li className={styles.info_item}>
-                                <MDBInput className={styles.value} name="password" type="password" label="Mật khẩu" onChange={formik.handleChange} />
+                                <MDBInput className={styles.value} name="password" type="password" label="Mật khẩu" onChange={formik.handleChange} required/>
                             </li>
                             {formik.errors.password && formik.touched.password && (
                                 <p className="text-danger">{formik.errors.password} </p>
                             )}
                             <li className={styles.info_item}>
-                                <MDBInput className={styles.value} name="phone" label="Số điện thoại" onChange={formik.handleChange} value={state?.user?.phone} />
+                                <MDBInput className={styles.value} name="phone" label="Số điện thoại" onChange={formik.handleChange} value={state?.user?.phone} required />
                             </li>
                             {formik.errors.phone && formik.touched.phone && (
                                 <p className="text-danger">{formik.errors.phone} </p>

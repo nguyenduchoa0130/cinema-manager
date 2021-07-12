@@ -1,9 +1,6 @@
-.wrapper_template {
-    min-height: 100vh;
-}
+.wrapper_template {}
 
 .wrapper_content {
-    min-height: 100vh;
     position: relative;
     color: #ffff;
     .wrapper_header {
@@ -54,11 +51,6 @@
 }
 
 .row_full_screen {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
     .bg_left {
         @media only screen and (max-width: 768px) {
             display: none!important;
