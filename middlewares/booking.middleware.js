@@ -6,11 +6,6 @@ class BookingMiddleware {
     async checkBookingBySystemId(req, res, next) {
         try {
             let data = await models.Booking.findAll({
-                where: {
-                    timeBooking: {
-                        [Op.gte]: new Date(),
-                    },
-                },
                 include: [
                     {
                         model: models.Showtimes,
@@ -32,11 +27,6 @@ class BookingMiddleware {
     async checkBookingByClusterId(req, res, next) {
         try {
             let data = await models.Booking.findAll({
-                where: {
-                    timeBooking: {
-                        [Op.gte]: new Date(),
-                    },
-                },
                 include: [
                     {
                         model: models.Showtimes,
@@ -58,11 +48,6 @@ class BookingMiddleware {
     async checkBookingByCinemaId(req, res, next) {
         try {
             let data = await models.Booking.findAll({
-                where: {
-                    timeBooking: {
-                        [Op.gte]: new Date(),
-                    },
-                },
                 include: [
                     {
                         model: models.Showtimes,
@@ -84,11 +69,6 @@ class BookingMiddleware {
     async checkBookingByfilmId(req, res, next) {
         try {
             let data = await models.Booking.findAll({
-                where: {
-                    timeBooking: {
-                        [Op.gte]: new Date(),
-                    },
-                },
                 include: [
                     {
                         model: models.Showtimes,
@@ -110,11 +90,6 @@ class BookingMiddleware {
     async checkBookingByShowtimesId(req, res, next) {
         try {
             let data = await models.Booking.findAll({
-                where: {
-                    timeBooking: {
-                        [Op.gte]: new Date(),
-                    },
-                },
                 include: [
                     {
                         model: models.Showtimes,
