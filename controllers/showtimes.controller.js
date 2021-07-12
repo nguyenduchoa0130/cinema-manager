@@ -21,7 +21,7 @@ class ShowtimesController {
                                 attributes: ['id', 'timeStart', 'priceTicket'],
 								where: {
 									timeStart: {
-										[Op.gte]: helper.convertUTCDateToLocalDate(new Date()),
+										[Op.gt]: helper.convertUTCDateToLocalDate(new Date()),
 									},
 								},
                                 include: [
@@ -32,7 +32,7 @@ class ShowtimesController {
                                     {
                                         model: models.Film,
                                         attributes: ['id', ['filmName', 'name'], 'thumbnail'],
-                                    },
+                                    },	
                                 ],
                             },
                         ],
