@@ -64,7 +64,7 @@ class UserController {
     }
     async fetchByRole(req, res, next) {
         let roleId = req.query.roleId;
-		let page = req.query.page ? parseInt(req.query.page) : null;
+        let page = req.query.page ? parseInt(req.query.page) : null;
         let limit = req.query.limit ? parseInt(req.query.limit) : 8;
         let offset = page ? (page - 1) * limit : null;
         if (!roleId) {
@@ -79,8 +79,8 @@ class UserController {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
                 order: [['id', 'ASC']],
-				limit,
-				offset,
+                limit,
+                offset,
                 include: [
                     {
                         model: models.Role,
@@ -101,7 +101,7 @@ class UserController {
     }
     async fetchByKey(req, res, next) {
         let key = req.query.key;
-		let page = req.query.page ? parseInt(req.query.page) : null;
+        let page = req.query.page ? parseInt(req.query.page) : null;
         let limit = req.query.limit ? parseInt(req.query.limit) : 8;
         let offset = page ? (page - 1) * limit : null;
         if (!key) {
@@ -116,8 +116,8 @@ class UserController {
                     exclude: helper.ignoreColumns('createdAt', 'updatedAt', 'password'),
                 },
                 order: [['id', 'ASC']],
-				limit,
-				offset,
+                limit,
+                offset,
                 include: [
                     {
                         model: models.Role,
@@ -166,7 +166,7 @@ class UserController {
         let data = req.body;
         try {
             let user = await models.User.findByPk(id);
-            if (!user) return next(apiError('Không tìm thấy người dùng'));
+            if (!user) return next(apiError.notFound('Không tìm thấy người dùng'));
             if ('password' in data) {
                 user.password = await bcrypt.hash(data.password, 10);
                 delete data.password;
@@ -175,7 +175,18 @@ class UserController {
                 user[prop] = data[prop];
             }
             await user.save();
-            return res.json({ msg: 'Cập nhật thành công' });
+
+            return res.json({
+                msg: 'Cập nhật thành công',
+                userLogin: {
+                    userId: user.id,
+                    email: user.email,
+                    fullName: user.fullName,
+                    phone: user.phone,
+                    isAdmin: user.roleId == 1 ? true : false,
+                    isActive: user.isActive ? true : false,
+                },
+            });
         } catch (err) {
             next(err);
         }
