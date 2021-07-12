@@ -19,8 +19,8 @@ export const dangNhapAction = (userLogin) => {
             // console.log('data',result.data);
             localStorage.setItem(TOKEN, result.data.accessToken);
             localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
-            Notification('Thông báo','Đăng nhập thành công');
-            
+            Notification('Thông báo', 'Đăng nhập thành công');
+
             history.push('/');
 
         } catch (error) {
@@ -142,10 +142,10 @@ export const dangXuatAction = () => {
                     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 }
             })
-            
+
             history.push('/');
-            Notification('Thông báo','Đăng xuất thành công')
-            
+            Notification('Thông báo', 'Đăng xuất thành công')
+
         } catch (error) {
             alert(error.response.data.msg)
             console.log('error', error.response.data.msg);
@@ -161,7 +161,7 @@ export const dangKyAction = (userRegister) => {
                 method: 'POST',
                 data: userRegister
             })
-            Notification('Thông báo','Đăng kí thành công!');
+            Notification('Thông báo', 'Đăng kí thành công!');
             // localStorage.setItem(TOKEN, result.data.accessToken);
             localStorage.setItem(USERLOGIN, JSON.stringify(result.data))
             // console.log(result.data.userId);
@@ -181,7 +181,7 @@ export const kichHoatAction = (code, userId) => {
                 method: 'PUT',
                 data: code
             })
-            Notification('Thông báo','Kích hoạt thành công!');
+            Notification('Thông báo', 'Kích hoạt thành công!');
             localStorage.removeItem(USERLOGIN);
             localStorage.removeItem(TOKEN);
             history.push('/dang-nhap');
@@ -240,7 +240,7 @@ export const xacNhanOtp = (code, userId) => {
                 method: 'PUT',
                 data: code
             })
-            Notification('Thông báo','Xác nhận OTP thành công!');
+            Notification('Thông báo', 'Xác nhận OTP thành công!');
             history.push('/doi-mat-khau');
         } catch (error) {
             alert(error.response.data.msg)
@@ -261,13 +261,36 @@ export const matKhauMoi = (new_password, userId) => {
                 }
             })
 
-            Notification('Thông báo','Đổi mật khẩu thành công!');
+            Notification('Thông báo', 'Đổi mật khẩu thành công!');
             localStorage.removeItem(USERLOGIN);
             localStorage.removeItem(TOKEN);
             history.push('/dang-nhap');
         } catch (error) {
             alert(error.response.data.msg)
             console.log('error', error.response.data.msg);
+        }
+    }
+}
+
+export const editProfile = (id, userLogin) => {
+    return async dispatch => {
+        try {
+            const result = await axios({
+                url: `https://cinejunsv.herokuapp.com/api/v1/user/${id}`,
+                method: 'PUT',
+                data: userLogin,
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
+                }
+            })
+            console.log(result.data);
+            localStorage.removeItem(USERLOGIN);
+            localStorage.setItem(USERLOGIN, JSON.stringify(result.data.userLogin))
+            alert(result.data.msg)
+            history.goBack();
+        } catch (error) {
+            alert(error.response.data.msg);
+            // console.log('error', error.response.data.msg);
         }
     }
 }
