@@ -90,16 +90,10 @@ class BookingMiddleware {
     async checkBookingByShowtimesId(req, res, next) {
         try {
             let data = await models.Booking.findAll({
-                include: [
-                    {
-                        model: models.Showtimes,
-                        where: {
-                            id: req.params.id,
-                        },
-                    },
-                ],
+                where: {
+					showtimesId: req.params.id,
+				}
             });
-			return res.json(data);
             if (data.length) {
                 return next(apiError.badRequest('Không thể xóa suất chiếu. Vì suất chiếu đang có khách hàng đặt vé'));
             } else {
