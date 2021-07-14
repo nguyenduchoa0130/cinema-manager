@@ -96,8 +96,8 @@ export const xoaLichChieu = (id) => {
                 //     'Authorization': `Bearer ${localStorage.getItem(TOKEN)}`
                 // }
             })
-            // dispatch(layChiTietLichChieu(result.data.clusterId,result.data.filmId))
-            // dispatch(layLichChieu(result.data.clusterId))
+            dispatch(layChiTietLichChieu(result.data.clusterId,result.data.filmId))
+            dispatch(layLichChieu(result.data.clusterId))
             console.log('result.data :>> ', result.data);
             Notification('Thông báo',result.data.msg);
         } catch (error) {
