@@ -13,10 +13,10 @@ class CinemaMiddleware {
     async isClusterIdValid(req, res, next) {
         let id = req.params.id;
         if (helper.isValidID(id)) {
-            let cluster = await models.CinemaCluster.findByPk(id);
-            if (!cluster) {
-                return next(apiError.badRequest('Cụm rạp không tồn tại'));
-            }
+            // let cluster = await models.CinemaCluster.findByPk(id);
+            // if (!cluster) {
+            //     return next(apiError.badRequest('Cụm rạp không tồn tại'));
+            // }
             return next();
         } else {
             return next(apiError.badRequest('ID cụm rạp không hợp lệ'));
