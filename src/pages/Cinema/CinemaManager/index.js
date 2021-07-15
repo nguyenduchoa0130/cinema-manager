@@ -14,6 +14,7 @@ const CinemaManager = () => {
   useEffect(() => {
     dispatch(layRap())
   },[dispatch])
+  
   const { isShowing, toggle } = useModal();
   const [cinema, setCinema] = useState({
     id: "",

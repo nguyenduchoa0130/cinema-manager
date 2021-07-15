@@ -21,7 +21,7 @@ const EditCinema = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(layCumRap())
-  },)
+  },[]);
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +37,7 @@ const EditCinema = () => {
       clusterId: Yup.string().required("Required!"),
     }),
     onSubmit: values => {
-      dispatch(suaRap(values, dataRapEdit.id))
+       dispatch(suaRap(values, dataRapEdit.id))
     }
   })
   useEffect(() => {
