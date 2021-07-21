@@ -35,7 +35,6 @@ export default function Activated() {
     return (
         <div className={styles.wrapper_template}>
             <div className={styles.wrapper_content}>
-                <MDBContainer>
                     <MDBRow className={styles.row_full_screen}>
                          <MDBCol md="6" className={styles.bg_left}>
                             <div className={styles.shape}></div>
@@ -71,7 +70,6 @@ export default function Activated() {
                             </MDBContainer>
                         </MDBCol>
                     </MDBRow>
-                </MDBContainer>
             </div>
         </div>
     );

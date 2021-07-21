@@ -31,7 +31,6 @@ export default function SignUpBySocial() {
         },
         validationSchema: Yup.object().shape({
             password: Yup.string().min(6, "Minimum 6 characters")
-                .max(15, "Maximum 15 characters")
                 .required("Required!"),
             email: Yup.string()
                 .email("Invalid email format")
@@ -66,7 +65,6 @@ export default function SignUpBySocial() {
     return (
         <div className={styles.wrapper_template}>
             <div className={styles.wrapper_content}>
-                <MDBContainer>
                     <MDBRow className={styles.row_full_screen}>
                         <MDBCol md="6" className={styles.bg_left}>
                             <div className={styles.shape}></div>
@@ -123,7 +121,6 @@ export default function SignUpBySocial() {
                             </MDBContainer>
                         </MDBCol>
                     </MDBRow>
-                </MDBContainer>
             </div>
         </div>
     );

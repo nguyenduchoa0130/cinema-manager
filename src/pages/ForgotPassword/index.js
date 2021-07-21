@@ -31,41 +31,39 @@ export default function ForgotPassword() {
     return (
         <div className={styles.wrapper_template}>
             <div className={styles.wrapper_content}>
-                <MDBContainer>
-                    <MDBRow className={styles.row_full_screen}>
-                        <MDBCol md="6" className={styles.bg_left}>
-                            <div className={styles.shape}></div>
-                            <div className={styles.bg_img}>
+                <MDBRow className={styles.row_full_screen}>
+                    <MDBCol md="6" className={styles.bg_left}>
+                        <div className={styles.shape}></div>
+                        <div className={styles.bg_img}>
+                        </div>
+                    </MDBCol>
+                    <MDBCol md="6">
+                        <MDBContainer>
+
+                            <div className={styles.wrapper_header}>
+                                <div >
+                                    <Link to="/dang-nhap">
+                                        <MDBIcon icon="long-arrow-alt-left" size="2x" />
+                                    </Link>
+
+                                </div>
+                                <img alt="logo" className={styles.wrapper_header_logo} src={logo} />
+                                <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Quên mật khẩu</h2>
                             </div>
-                        </MDBCol>
-                        <MDBCol md="6">
-                            <MDBContainer>
-
-                                <div className={styles.wrapper_header}>
-                                    <div >
-                                        <Link to="/dang-nhap">
-                                            <MDBIcon icon="long-arrow-alt-left" size="2x" />
-                                        </Link>
-
+                            <div className={styles.wrapper_form}>
+                                <form onSubmit={formik.handleSubmit}>
+                                    <div className="grey-text">
+                                        <MDBInput name="email" label="Email" icon="envelope" group type="email" validate error="wrong"
+                                            success="right" onChange={formik.handleChange} />
                                     </div>
-                                    <img alt="logo"  className={styles.wrapper_header_logo} src={logo} />
-                                     <h2 className={cx(styles.wrapper_title, "my-3 text-center text-white")}>Quên mật khẩu</h2>
-                                </div>
-                                <div className={styles.wrapper_form}>
-                                    <form onSubmit={formik.handleSubmit}>
-                                        <div className="grey-text">
-                                            <MDBInput name="email" label="Email" icon="envelope" group type="email" validate error="wrong"
-                                                success="right" onChange={formik.handleChange} />
-                                        </div>
-                                        <div className="text-center">
-                                            <MDBBtn type="submit" color="primary" className="w-100">Nhận mã xác nhận</MDBBtn>
-                                        </div>
-                                    </form>
-                                </div>
-                            </MDBContainer>
-                        </MDBCol>
-                    </MDBRow>
-                </MDBContainer>
+                                    <div className="text-center">
+                                        <MDBBtn type="submit" color="primary" className="w-100">Nhận mã xác nhận</MDBBtn>
+                                    </div>
+                                </form>
+                            </div>
+                        </MDBContainer>
+                    </MDBCol>
+                </MDBRow>
             </div>
         </div>
     );
